@@ -1,0 +1,28 @@
+{
+  "scripts": {
+    "format": "prettier --write \"src/**/*.{tsx,ts,scss,json}\"",
+    "lint": "yarn lint:types && yarn lint:style && yarn lint:format",
+    "lint:types": "tsc --noEmit",
+    "lint:style": "eslint app/javascript/**/*.ts --max-warnings 0",
+    "lint:format": "prettier --list-different \"app/**/*.{ts,scss,json}\"",
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "bundle-size": "npx source-map-explorer app/assets/builds/application.js app/assets/builds/application.js.map --no-border-checks",
+    "start": "yarn build --watch"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.0.1",
+    "@hotwired/turbo-rails": "^7.1.0",
+    "@nerdgeschoss/shimmer": "^0.0.7",
+    "esbuild": "^0.14.8",
+    "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1"
+  }
+}

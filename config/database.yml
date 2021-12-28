@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: 127.0.0.1
+  port: 54312
+  pool: <%= ENV["DB_POOL"] || ENV["RAILS_MAX_THREADS"] || 5 %>
+  username: <%= ENV["PG_USER"] || "postgres" %>
+  variables:
+    statement_timeout: <%= ENV["STATEMENT_TIMEOUT"] || 60000 %>
+
+development:
+  <<: *default
+  database: nerdgeschoss_app_development
+
+test:
+  <<: *default
+  database: nerdgeschoss_app_test
+
+production:
+  <<: *default
