@@ -3,6 +3,5 @@
 class ApplicationController < ActionController::Base
   include Shimmer::Localizable
   include Shimmer::RemoteNavigation
-
-  before_action :check_locale
+  include Pundit
 end

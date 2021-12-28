@@ -32,6 +32,7 @@ gem "slim-rails"
 gem "pundit"
 gem "yael"
 gem "translate_client"
+gem "devise"
 
 # Assets
 gem "jsbundling-rails"
@@ -40,7 +41,6 @@ gem "sassc-rails"
 gem "autoprefixer-rails"
 gem "turbo-rails"
 gem "serviceworker-rails"
-
 
 group :development, :test do
   gem "rspec-rails"

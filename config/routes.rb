@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :files, only: :show, controller: "shimmer/files"
 
   scope "/(:locale)", locale: /en/ do
+    devise_for :users
+    resources :payslips
     root "pages#home"
   end
 end

@@ -26,7 +26,16 @@ module TestApp
 
     config.middleware.use Shimmer::CloudflareProxy
 
-    config.action_mailer.default_url_options = {host: ENV["HOST"]} if ENV["HOST"].present?
+    host = if ENV["HOST"].present?
+      ENV["HOST"]
+    elsif ENV["HEROKU_APP_NAME"].present?
+      "https://#{ENV["HEROKU_APP_NAME"]}.herokuapp.com"
+    else
+      "http://localhost:3000"
+    end
+
+    config.action_mailer.default_url_options = {host: host}
+    Rails.application.routes.default_url_options[:host] = host
     config.active_job.queue_adapter = :sidekiq
 
     config.assets.paths << Rails.root.join("node_modules")

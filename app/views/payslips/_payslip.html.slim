@@ -1,0 +1,4 @@
+.payslip
+  = l payslip.month, format: :short
+  = payslip.user.email
+  a href=image_file_url(payslip.pdf) target="_blank" = t ".download"

@@ -1,0 +1,5 @@
+.container
+  h1 = t ".payslips"
+  = render @payslips
+  - if policy(Payslip).create?
+    a href=modal_path(new_payslip_path) = t ".add"
