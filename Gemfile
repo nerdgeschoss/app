@@ -41,6 +41,7 @@ gem "sassc-rails"
 gem "autoprefixer-rails"
 gem "turbo-rails"
 gem "serviceworker-rails"
+gem "sprockets"
 
 group :development, :test do
   gem "rspec-rails"

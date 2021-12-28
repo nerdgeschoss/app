@@ -480,6 +480,7 @@ DEPENDENCIES
   sitemap_generator
   slim-rails
   solargraph-standardrb
+  sprockets
   standard
   stimulus-rails
   translate_client
