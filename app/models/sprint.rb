@@ -32,7 +32,7 @@ class Sprint < ApplicationRecord
   end
 
   def daily_nerd_percentage
-    sprint_feedbacks.sum(&:daily_nerd_percentage) / sprint_feedbacks.size
+    sprint_feedbacks.sum(&:daily_nerd_percentage) / [sprint_feedbacks.size, 1].max
   end
 
   def tracked_hours
