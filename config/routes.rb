@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     devise_for :users
     resources :payslips
     resources :leaves
+    resources :sprints
+    resources :sprint_feedbacks
     namespace :feed do
       resources :leaves, only: :index
     end

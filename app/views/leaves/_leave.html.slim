@@ -5,3 +5,5 @@
   div
     = date_range leave.leave_during.min, leave.leave_during.max, format: :long
     span = " (#{leave.days.count} days)"
+  - if policy(leave).destroy?
+    = button_to t(".delete"), leave, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }

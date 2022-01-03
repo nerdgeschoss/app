@@ -1,0 +1,4 @@
+.container: .stack
+  h1.headline = t ".sprints"
+  = render @sprints
+  a href=modal_path(new_sprint_path) = t(".add")

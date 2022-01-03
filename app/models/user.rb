@@ -20,6 +20,7 @@ class User < ApplicationRecord
 
   has_many :payslips, dependent: :destroy
   has_many :leaves, dependent: :destroy, class_name: "Leave"
+  has_many :sprint_feedbacks, dependent: :destroy
 
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)

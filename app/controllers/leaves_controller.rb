@@ -18,9 +18,9 @@ class LeavesController < ApplicationController
   end
 
   def destroy
-    @payslip = authorize Payslip.find(params[:id])
-    @payslip.destroy!
-    redirect_to payslips_path
+    @leave = authorize Leave.find(params[:id])
+    @leave.destroy!
+    redirect_to leaves_path
   end
 
   private
