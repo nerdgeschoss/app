@@ -3,6 +3,10 @@ class PayslipPolicy < ApplicationPolicy
     hr?
   end
 
+  def destroy?
+    hr?
+  end
+
   class Scope < Scope
     def resolve
       if hr?

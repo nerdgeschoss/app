@@ -20,4 +20,8 @@ class User < ApplicationRecord
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
     "https://www.gravatar.com/avatar/#{hash}?d=mm&s=#{size}"
   end
+
+  def display_name
+    first_name.presence || email
+  end
 end

@@ -1,5 +1,6 @@
-.container
-  h1 = t ".payslips"
-  = render @payslips
+.container: .stack
+  h1.headline = t ".payslips"
+  .columns = render @payslips
+  = paginate @payslips
   - if policy(Payslip).create?
     a href=modal_path(new_payslip_path) = t ".add"

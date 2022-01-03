@@ -17,6 +17,12 @@ class PayslipsController < ApplicationController
     ui.navigate_to payslips_path
   end
 
+  def destroy
+    @payslip = authorize Payslip.find(params[:id])
+    @payslip.destroy!
+    redirect_to payslips_path
+  end
+
   private
 
   def payslip_attributes

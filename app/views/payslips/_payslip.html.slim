@@ -1,4 +1,5 @@
 .payslip
-  .payslip__month = l payslip.month, format: :short
-  .payslip__name = payslip.user.first_name
+  .payslip__month = l payslip.month, format: :month_year
+  .payslip__name = payslip.user.display_name
   a.payslip__actions href=image_file_url(payslip.pdf) target="_blank" = t ".download"
+  = button_to t(".delete"), payslip, method: :delete, form: { data: { turbo_confirm: t(".really_delete_payslip") } }
