@@ -4,7 +4,7 @@ class PayslipsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @payslips = policy_scope Payslip.all
+    @payslips = policy_scope(Payslip.all).page(params[:page]).per(10)
   end
 
   def new

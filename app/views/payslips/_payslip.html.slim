@@ -1,4 +1,4 @@
 .payslip
-  = l payslip.month, format: :short
-  = payslip.user.email
-  a href=image_file_url(payslip.pdf) target="_blank" = t ".download"
+  .payslip__month = l payslip.month, format: :short
+  .payslip__name = payslip.user.first_name
+  a.payslip__actions href=image_file_url(payslip.pdf) target="_blank" = t ".download"

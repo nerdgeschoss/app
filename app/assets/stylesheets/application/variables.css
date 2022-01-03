@@ -4,6 +4,7 @@
   --color-text-label: #a8aaad;
   --color-text-muted-dark-background: #686d72;
 
+  --color-nav: #ffffff;
   --color-warning: #ff5167;
   --color-error: #ff5167;
   --color-background: #ffffff;
@@ -23,10 +24,11 @@
   --size-safe-bottom: 0px;
   --size-safe-bottom: max(env(safe-area-inset-bottom), 0px);
   --size-tab-bar: calc(49px + var(--size-safe-bottom));
+  --size-sidebar: 250px;
 
-  --font-heading: 'Uni Sans', 'Open Sans', sans-serif;
-  --font-heading-alternate: 'Bebas Neue', 'Open Sans', sans-serif;
-  --font-text: 'Open Sans', sans-serif;
+  --font-text: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  --font-heading: var(--font-text);
 
   --z-nav: 900;
   --z-modal: 1000;

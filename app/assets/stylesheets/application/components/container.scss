@@ -1,0 +1,40 @@
+@mixin base-container {
+  --container-width: 1024px;
+  display: grid;
+  grid-template-columns:
+    minmax(8px, 1fr)
+    minmax(0, var(--container-width))
+    minmax(8px, 1fr);
+  width: 100%;
+  max-width: 100%;
+  padding: 0 var(--size-safe-inset);
+
+  > * {
+    grid-column: 2/2;
+  }
+
+  @media (min-width: $tablet) {
+    grid-template-columns:
+      minmax(24px, 1fr)
+      minmax(0, var(--container-width))
+      minmax(24px, 1fr);
+  }
+
+  &:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}
+
+.container {
+  @include base-container;
+
+  &--small {
+    --container-width: 800px;
+  }
+
+  &--article {
+    --container-width: 600px;
+  }
+}

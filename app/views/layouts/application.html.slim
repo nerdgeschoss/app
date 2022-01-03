@@ -3,6 +3,5 @@ html lang=I18n.locale
   = render "components/head"
   body class=Rails.env
     = render "components/flash"
-    nav
-      a href=payslips_path Payslips
-    = yield
+    = render "components/sidebar"
+    main.content = yield
