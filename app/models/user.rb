@@ -16,6 +16,8 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
+  has_many :payslips, dependent: :destroy
+
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
     "https://www.gravatar.com/avatar/#{hash}?d=mm&s=#{size}"

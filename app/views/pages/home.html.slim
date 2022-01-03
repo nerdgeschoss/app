@@ -1,1 +1,11 @@
-h1 nerdgeschoss_app
+.container: .stack
+  h1.headline = t ".hello", name: current_user.display_name
+  .columns
+    .card
+      h2.subheadline = t ".upcoming_holidays"
+    - if @payslips.any?
+      .card.stack.stack--small
+        h2.subheadline = t ".last_payments"
+        - @payslips.each do |payslip|
+          a href=image_file_url(payslip.pdf) target="_blank" = l payslip.month, format: :month_year
+        = link_to t(".archive"), payslips_path

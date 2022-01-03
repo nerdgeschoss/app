@@ -10,6 +10,8 @@
 #
 
 class Payslip < ApplicationRecord
+  scope :reverse_chronologic, -> { order(month: :desc) }
+
   belongs_to :user
 
   has_one_attached :pdf
