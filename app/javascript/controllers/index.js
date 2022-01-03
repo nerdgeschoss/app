@@ -3,3 +3,6 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+
+import CalendarController from "./calendar_controller.ts"
+application.register("calendar", CalendarController)

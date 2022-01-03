@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   scope "/(:locale)", locale: /en/ do
     devise_for :users
     resources :payslips
+    resources :leaves
+    namespace :feed do
+      resources :leaves, only: :index
+    end
     root "pages#home"
   end
 end

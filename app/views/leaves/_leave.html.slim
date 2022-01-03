@@ -1,0 +1,7 @@
+.card
+  div
+    span = leave.user.display_name
+    span< = leave.title
+  div
+    = date_range leave.leave_during.min, leave.leave_during.max, format: :long
+    span = " (#{leave.days.count} days)"

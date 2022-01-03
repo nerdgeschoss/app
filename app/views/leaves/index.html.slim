@@ -1,0 +1,5 @@
+.container: .stack
+  h1.headline = t ".leaves"
+  = link_to t(".subscribe"), feed_leaves_url(format: :ics, protocol: :webcal)
+  = render @leaves
+  a href=modal_path(new_leave_path) = t(".request_leave")

@@ -1,0 +1,4 @@
+= form_with model: @leave do |f|
+  = f.text_field :days, data: { controller: "calendar" }
+  = f.text_field :title, placeholder: "title"
+  = f.button t(".request_leave")

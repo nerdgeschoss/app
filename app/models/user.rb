@@ -11,12 +11,15 @@
 #  remember_created_at    :datetime
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  first_name             :string
+#  last_name              :string
 #
 
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   has_many :payslips, dependent: :destroy
+  has_many :leaves, dependent: :destroy, class_name: "Leave"
 
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)

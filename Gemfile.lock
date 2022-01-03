@@ -170,6 +170,9 @@ GEM
       terminal-table (>= 1.5.1)
     i18n_data (0.15.0)
       simple_po_parser (~> 1.1)
+    icalendar (2.7.1)
+      ice_cube (~> 0.16)
+    ice_cube (0.16.4)
     ice_nine (0.11.2)
     image_processing (1.12.1)
       mini_magick (>= 4.9.5, < 5)
@@ -405,6 +408,8 @@ GEM
     thwait (0.2.0)
       e2mmap
     tilt (2.0.10)
+    time_will_tell (0.1.0)
+      railties (>= 3.2)
     translate_client (0.0.1)
     turbo-rails (1.0.0)
       actionpack (>= 6.0.0)
@@ -455,6 +460,7 @@ DEPENDENCIES
   guard
   guard-rspec
   i18n-tasks (= 0.9.35)
+  icalendar (~> 2.4)
   image_processing
   jsbundling-rails
   kaminari
@@ -483,6 +489,7 @@ DEPENDENCIES
   sprockets
   standard
   stimulus-rails
+  time_will_tell
   translate_client
   turbo-rails
   web-console

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_03_103119) do
+ActiveRecord::Schema.define(version: 2022_01_03_124028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -45,6 +45,18 @@ ActiveRecord::Schema.define(version: 2022_01_03_103119) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "leaves", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.daterange "leave_during", null: false
+    t.string "title", null: false
+    t.string "type", default: "paid", null: false
+    t.string "status", default: "pending_approval", null: false
+    t.date "days", default: [], null: false, array: true
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_leaves_on_user_id"
+  end
+
   create_table "payslips", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.date "month"
     t.uuid "user_id", null: false
@@ -70,5 +82,6 @@ ActiveRecord::Schema.define(version: 2022_01_03_103119) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "leaves", "users"
   add_foreign_key "payslips", "users"
 end

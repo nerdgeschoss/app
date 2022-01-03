@@ -2,7 +2,7 @@ nav.sidebar
   a.sidebar__header href=root_path
     img.sidebar__logo src=asset_url("logo.svg")
   .sidebar__links
-    a.sidebar__link href="/" Leave Management
+    a.sidebar__link href=leaves_path Leave Management
     a.sidebar__link href=payslips_path = Payslip.model_name.human(count: 3)
   .sidebar__footer
     a.sidebar__avatar

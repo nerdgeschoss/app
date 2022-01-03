@@ -33,6 +33,8 @@ gem "pundit"
 gem "yael"
 gem "translate_client"
 gem "devise"
+gem "icalendar", "~> 2.4"
+gem "time_will_tell"
 
 # Assets
 gem "jsbundling-rails"
