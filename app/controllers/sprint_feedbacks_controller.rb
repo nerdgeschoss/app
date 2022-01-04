@@ -16,7 +16,7 @@ class SprintFeedbacksController < ApplicationController
   def update
     feedback = authorize SprintFeedback.find params[:id]
     feedback.update! feedback_update_attributes
-    ui.close_modal
+    ui.close_popover
     ui.replace feedback.sprint
   end
 
