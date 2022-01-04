@@ -1,11 +1,19 @@
 .container: .stack
   h1.headline = t ".hello", name: current_user.display_name
+  - if @sprint
+    = render @sprint
   .columns
-    .card
-      h2.subheadline = t ".upcoming_holidays"
+    - if @upcoming_leaves.any?
+      .card.stack.stack--small
+        h2.subheadline = t ".upcoming_holidays"
+        - @upcoming_leaves.each do |leave|
+          div = "#{date_range leave.leave_during.min, leave.leave_during.max}: #{leave.title}"
     - if @payslips.any?
       .card.stack.stack--small
         h2.subheadline = t ".last_payments"
         - @payslips.each do |payslip|
           a href=image_file_url(payslip.pdf) target="_blank" = l payslip.month, format: :month_year
         = link_to t(".archive"), payslips_path
+    .card
+      h2.subheadline = t ".remaining_holidays", year: Date.today.year
+      = current_user.remaining_holidays

@@ -16,6 +16,7 @@ class Sprint < ApplicationRecord
   has_many :sprint_feedbacks
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
+  scope :current, -> { where("NOW()::date <@ sprints.sprint_during") }
 
   range_accessor_methods :sprint
 

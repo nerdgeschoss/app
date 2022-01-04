@@ -1,4 +1,7 @@
 en:
+  pages:
+    home:
+      hello: "Hello %{name}"
   date:
     formats:
       month_year: "%B %Y"

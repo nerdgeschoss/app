@@ -5,7 +5,8 @@ nav.sidebar
     a.sidebar__link href=sprints_path = Sprint.model_name.human(count: 3)
     a.sidebar__link href=leaves_path = Leave.model_name.human(count: 3)
     a.sidebar__link href=payslips_path = Payslip.model_name.human(count: 3)
+    a.sidebar__link href=users_path = User.model_name.human(count: 3)
   .sidebar__footer
-    a.sidebar__avatar
+    a.sidebar__avatar href=user_path(current_user)
       .sidebar__avatar-name = current_user.display_name
       img src=current_user.avatar_image

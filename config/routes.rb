@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :leaves
     resources :sprints
     resources :sprint_feedbacks
+    resources :users
     namespace :feed do
       resources :leaves, only: :index
     end

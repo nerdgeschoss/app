@@ -14,15 +14,20 @@
 #
 
 class Leave < ApplicationRecord
+  include RangeAccessing
   self.inheritance_column = nil
 
   belongs_to :user
 
+  scope :chronologic, -> { order("UPPER(leaves.leave_during) ASC") }
   scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC") }
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
+  scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
 
   enum type: [:paid, :sick].index_with(&:to_s)
   enum status: [:pending_approval, :approved].index_with(&:to_s)
+
+  range_accessor_methods :leave
 
   before_validation do
     start_on, end_on = days.minmax
