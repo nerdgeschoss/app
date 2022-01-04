@@ -3,3 +3,4 @@
   = f.number_field :tracked_hours
   = f.number_field :billable_hours
   = f.submit
+= button_to "destroy", @feedback, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }

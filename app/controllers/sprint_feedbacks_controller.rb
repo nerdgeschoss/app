@@ -20,6 +20,13 @@ class SprintFeedbacksController < ApplicationController
     ui.replace feedback.sprint
   end
 
+  def destroy
+    feedback = authorize SprintFeedback.find params[:id]
+    feedback.destroy!
+    ui.close_popover
+    ui.replace feedback.sprint
+  end
+
   private
 
   def feedback_create_attributes
