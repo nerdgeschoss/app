@@ -8,7 +8,7 @@ class SprintsController < ApplicationController
   end
 
   def new
-    @sprint = authorize Sprint.new
+    @sprint = authorize Sprint.new working_days: 10, sprint_from: Date.today, sprint_until: 11.days.from_now
   end
 
   def create

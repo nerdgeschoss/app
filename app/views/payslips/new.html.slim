@@ -1,7 +1,7 @@
 = turbo_frame_tag :new_payslip
-  h2 = t ".add_payslip"
-  = form_with model: @payslip, class: "stack" do |f|
-    = f.collection_select :user_id, User.all, :id, :email
-    = f.date_field :month, required: true
-    = f.file_field :pdf, accept: "application/pdf", required: true
-    = f.submit
+  h2.subheadline = t ".add_payslip"
+  = form_with model: @payslip, class: "stack", builder: AwesomeForm do |f|
+    = f.input :user_id
+    = f.input :month, as: :date
+    = f.input :pdf
+    span = f.button class: "button"
