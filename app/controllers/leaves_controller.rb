@@ -26,6 +26,6 @@ class LeavesController < ApplicationController
   private
 
   def leave_attributes
-    params.require(:leave).permit(:title, :days)
+    params.require(:leave).permit(:title, :days, :type)
   end
 end

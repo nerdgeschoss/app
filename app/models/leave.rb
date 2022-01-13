@@ -42,7 +42,7 @@ class Leave < ApplicationRecord
     event = Icalendar::Event.new
     event.dtstart = Icalendar::Values::Date.new leave_during.min
     event.dtstart.ical_params = {"VALUE" => "DATE"}
-    event.dtend = Icalendar::Values::Date.new leave_during.max
+    event.dtend = Icalendar::Values::Date.new leave_during.max + 1.day
     event.dtend.ical_params = {"VALUE" => "DATE"}
     event.summary = "#{user.display_name}: #{title} #{emoji}"
     event.url = Rails.application.routes.url_helpers.leaves_url(id: id)
