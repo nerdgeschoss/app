@@ -1,5 +1,6 @@
 a.card href=user_path(user)
   .card__header
-    img.card__icon src=user.avatar_image(size: 80)
+    .card__icon: img src=user.avatar_image(size: 80)
     .card__header-content
       .card__title = user.display_name
+      .card__subtitle #{user.remaining_holidays} days of holidays remaining
