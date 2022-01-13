@@ -79,6 +79,8 @@
 }
 
 .content {
+  padding-bottom: 50px;
+
   @media (min-width: $tablet) {
     margin-left: var(--size-sidebar);
   }

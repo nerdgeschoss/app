@@ -1,6 +1,8 @@
 .container: .stack
-  h1.headline = t ".payslips"
+  h1.headline
+    = t ".payslips"
+    .headline__actions
+      - if policy(Payslip).create?
+        a href=modal_path(new_payslip_path) = t ".add"
   .columns = render @payslips
   = paginate @payslips
-  - if policy(Payslip).create?
-    a href=modal_path(new_payslip_path) = t ".add"

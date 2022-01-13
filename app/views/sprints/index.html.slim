@@ -1,4 +1,6 @@
 .container: .stack
-  h1.headline = t ".sprints"
+  h1.headline
+    = t ".sprints"
+    .headline__actions
+      a href=modal_path(new_sprint_path) = t(".add")
   = render @sprints
-  a href=modal_path(new_sprint_path) = t(".add")

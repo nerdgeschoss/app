@@ -1,9 +1,8 @@
 .card
-  div
-    span = leave.user.display_name
-    span< = leave.title
-  div
-    = date_range leave.leave_during.min, leave.leave_during.max, format: :long
-    span = " (#{leave.days.count} days)"
-  - if policy(leave).destroy?
-    = button_to t(".delete"), leave, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }
+  .card__header
+    .card__icon = leave.emoji
+    .card__header-content
+      .card__title = [leave.user.display_name, leave.title].map(&:presence).compact.join(" / ")
+      .card__subtitle #{date_range leave.leave_during.min, leave.leave_during.max, format: :long} (#{leave.days.count} days)
+    - if policy(leave).destroy?
+      .card__context = button_to "🗑", leave, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }

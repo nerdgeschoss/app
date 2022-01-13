@@ -4,16 +4,26 @@
     = render @sprint
   .columns
     - if @upcoming_leaves.any?
-      .card.stack.stack--small
-        h2.subheadline = t ".upcoming_holidays"
-        - @upcoming_leaves.each do |leave|
-          div = "#{date_range leave.leave_during.min, leave.leave_during.max}: #{leave.title}"
+      .card
+        .card__header
+          .card__icon 🏝
+          .card__header-content
+            .card__title = t ".upcoming_holidays"
+            - @upcoming_leaves.each do |leave|
+              .card__subtitle = "#{date_range leave.leave_during.min, leave.leave_during.max}: #{leave.title}"
     - if @payslips.any?
-      .card.stack.stack--small
-        h2.subheadline = t ".last_payments"
-        - @payslips.each do |payslip|
-          a href=image_file_url(payslip.pdf) target="_blank" = l payslip.month, format: :month_year
-        = link_to t(".archive"), payslips_path
+      .card
+        .card__header
+          .card__icon 💸
+          .card__header-content
+            .card__title = t ".last_payments"
+            - @payslips.each do |payslip|
+              a.card__subtitle href=image_file_url(payslip.pdf) target="_blank" = l payslip.month, format: :month_year
+          .card__context
+            = link_to t(".archive"), payslips_path
     .card
-      h2.subheadline = t ".remaining_holidays", year: Date.today.year
-      = current_user.remaining_holidays
+        .card__header
+          .card__icon ⏰
+          .card__header-content
+            .card__title = t ".remaining_holidays", year: Date.today.year
+            .card__subtitle = current_user.remaining_holidays

@@ -1,32 +1,35 @@
 - users = User.all.to_a
 - feedbacks = sprint.sprint_feedbacks.ordered.load
-.card.stack id=dom_id(sprint)
-  div
-    strong = sprint.title
-    span< = date_range sprint.sprint_from, sprint.sprint_until, format: :long
-  hr
-  table
-    tr
-      th
-      th Days
-      th Daily Nerd
-      th Tracked
-      th Billable
-    - feedbacks.each do |feedback|
-      - users.delete(feedback.user)
-      tr
-        th: a href=popover_path(edit_sprint_feedback_path(feedback)) = feedback.user.display_name
-        td = [feedback.working_day_count, feedback.holiday_count, feedback.sick_day_count].join(" / ")
-        td = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100} (#{feedback.daily_nerd_count})"
-        td = "#{feedback.tracked_hours} / #{feedback.tracked_hours.to_f / [feedback.working_day_count, 1].max}"
-        td = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours} / #{feedback.billable_per_day} (#{number_to_percentage feedback.billable_hours_percentage * 100})"
-    tr
-      th Total
-      th = [sprint.total_working_days, sprint.total_holidays, sprint.total_sick_days].join(" / ")
-      th = number_to_percentage sprint.daily_nerd_percentage * 100
-      th = "#{sprint.tracked_hours} / #{(sprint.tracked_hours / [sprint.total_working_days, 1].max).round(1)}"
-      th = "#{sprint.billable_hours} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
+.card id=dom_id(sprint)
+  .card__header
+    .card__icon 🏃
+    .card__header-content
+      .card__title = sprint.title
+      .card__subtitle = date_range sprint.sprint_from, sprint.sprint_until, format: :long
+  - if feedbacks.any?
+    .card__content
+      table.table
+        tr
+          th
+          th Days
+          th Daily Nerd
+          th Tracked
+          th Billable
+        - feedbacks.each do |feedback|
+          - users.delete(feedback.user)
+          tr
+            th: a href=popover_path(edit_sprint_feedback_path(feedback)) = feedback.user.display_name
+            td = [feedback.working_day_count, feedback.holiday_count, feedback.sick_day_count].join(" / ")
+            td = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100} (#{feedback.daily_nerd_count})"
+            td = "#{feedback.tracked_hours} / #{feedback.tracked_hours.to_f / [feedback.working_day_count, 1].max}"
+            td = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours} / #{feedback.billable_per_day} (#{number_to_percentage feedback.billable_hours_percentage * 100})"
+        tr
+          th Total
+          th = [sprint.total_working_days, sprint.total_holidays, sprint.total_sick_days].join(" / ")
+          th = number_to_percentage sprint.daily_nerd_percentage * 100
+          th = "#{sprint.tracked_hours} / #{(sprint.tracked_hours / [sprint.total_working_days, 1].max).round(1)}"
+          th = "#{sprint.billable_hours} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
   - if users.any?
-    div
+    .card__buttons
       - users.each do |user|
-        = button_to "+ #{user.display_name}", sprint_feedbacks_path(sprint_feedback: {sprint_id: sprint.id, user_id: user.id})
+        = button_to "+ #{user.display_name}", sprint_feedbacks_path(sprint_feedback: {sprint_id: sprint.id, user_id: user.id}), class: "button"

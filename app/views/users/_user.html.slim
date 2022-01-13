@@ -1,2 +1,5 @@
-a.card.stack href=user_path(user)
-  = user.display_name
+a.card href=user_path(user)
+  .card__header
+    .card__icon 😀
+    .card__header-content
+      .card__title = user.display_name

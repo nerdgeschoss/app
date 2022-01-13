@@ -34,13 +34,17 @@ class Leave < ApplicationRecord
     self.leave_during = start_on..end_on
   end
 
+  def emoji
+    paid? ? "\u{1F3D6}" : "\u{1F912}"
+  end
+
   def to_ics
     event = Icalendar::Event.new
     event.dtstart = Icalendar::Values::Date.new leave_during.min
     event.dtstart.ical_params = {"VALUE" => "DATE"}
     event.dtend = Icalendar::Values::Date.new leave_during.max
     event.dtend.ical_params = {"VALUE" => "DATE"}
-    event.summary = "#{user.display_name}: #{title} #{paid? ? "\u{1F3D6}" : "\u{1F912}"}"
+    event.summary = "#{user.display_name}: #{title} #{emoji}"
     event.url = Rails.application.routes.url_helpers.leaves_url(id: id)
     event
   end

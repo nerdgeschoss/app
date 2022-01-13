@@ -1,5 +1,9 @@
-.payslip
-  .payslip__month = l payslip.month, format: :month_year
-  .payslip__name = payslip.user.display_name
-  a.payslip__actions href=image_file_url(payslip.pdf) target="_blank" = t ".download"
-  = button_to t(".delete"), payslip, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }
+.card
+  .card__header
+    .card__icon 💸
+    .card__header-content
+      .card__title = payslip.user.display_name
+      .card__subtitle = l payslip.month, format: :month_year
+    .card__context
+      a.payslip__actions href=image_file_url(payslip.pdf) target="_blank" ⬇️
+      = button_to "🗑", payslip, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }
