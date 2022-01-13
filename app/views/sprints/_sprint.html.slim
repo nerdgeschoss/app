@@ -26,7 +26,7 @@
         tr
           th Total
           th = [sprint.total_working_days, sprint.total_holidays, sprint.total_sick_days].join(" / ")
-          th = number_to_percentage sprint.daily_nerd_percentage * 100
+          th = number_to_percentage sprint.daily_nerd_percentage * 100, precision: 0
           th = "#{sprint.tracked_hours} / #{(sprint.tracked_hours / [sprint.total_working_days, 1].max).round(1)}"
           th = "#{sprint.billable_hours} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
   - if users.any? && policy(SprintFeedback).create?
