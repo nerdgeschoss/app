@@ -11,6 +11,14 @@ class UserPolicy < ApplicationPolicy
     hr?
   end
 
+  def update?
+    hr? || user == record
+  end
+
+  def permitted_attributes
+    [:first_name, :last_name, :password, :password_confirmation]
+  end
+
   class Scope < Scope
     def resolve
       if hr?

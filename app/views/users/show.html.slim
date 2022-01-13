@@ -1,9 +1,12 @@
 .container: .stack
-  h1.headline = @user.full_name
+  h1.headline
+    = @user.full_name
+    .headline__actions
+      = link_to "edit profile", modal_path(edit_user_path(@user))
   .columns
     .card
       .card__header
         .card__icon ⏰
         .card__header-content
           .card__title = t ".remaining_holidays", year: Date.today.year
-          .card__subtitle = current_user.remaining_holidays
+          .card__subtitle = @user.remaining_holidays

@@ -26,6 +26,7 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
   def guess_type(method)
     return :select if method.to_s.end_with?("_id")
     return :pdf if method.to_s.end_with?("pdf")
+    return :password if method.to_s.include?("password")
     :string
   end
 
@@ -55,6 +56,8 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
     case type
     when :string
       text_field method, options
+    when :password
+      password_field method, options
     when :number
       number_field method, options
     when :date
