@@ -49,6 +49,10 @@ class User < ApplicationRecord
     leaves_this_year.flat_map(&:days).count
   end
 
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
   private
 
   def leaves_this_year
