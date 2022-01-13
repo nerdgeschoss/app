@@ -20,9 +20,9 @@
           tr
             th: a href=popover_path(edit_sprint_feedback_path(feedback)) = feedback.user.display_name
             td = [feedback.working_day_count, feedback.holiday_count, feedback.sick_day_count].join(" / ")
-            td = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100} (#{feedback.daily_nerd_count})"
-            td = "#{feedback.tracked_hours} / #{feedback.tracked_hours.to_f / [feedback.working_day_count, 1].max}"
-            td = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours} / #{feedback.billable_per_day} (#{number_to_percentage feedback.billable_hours_percentage * 100})"
+            td = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100, precision: 0} (#{feedback.daily_nerd_count})"
+            td = "#{feedback.tracked_hours} / #{number_with_precision(feedback.tracked_hours.to_f / [feedback.working_day_count, 1].max, precision: 1)}"
+            td = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours} / #{number_with_precision feedback.billable_per_day, precision: 1} (#{number_to_percentage feedback.billable_hours_percentage * 100, precision: 0})"
         tr
           th Total
           th = [sprint.total_working_days, sprint.total_holidays, sprint.total_sick_days].join(" / ")

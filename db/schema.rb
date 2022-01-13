@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 2022_01_03_222429) do
   end
 
   create_table "payslips", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.date "month"
+    t.date "month", null: false
     t.uuid "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
