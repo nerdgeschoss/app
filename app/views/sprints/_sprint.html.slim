@@ -29,7 +29,7 @@
           th = number_to_percentage sprint.daily_nerd_percentage * 100
           th = "#{sprint.tracked_hours} / #{(sprint.tracked_hours / [sprint.total_working_days, 1].max).round(1)}"
           th = "#{sprint.billable_hours} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
-  - if users.any?
+  - if users.any? && policy(SprintFeedback).create?
     .card__buttons
       - users.each do |user|
         = button_to "+ #{user.display_name}", sprint_feedbacks_path(sprint_feedback: {sprint_id: sprint.id, user_id: user.id}), class: "button"

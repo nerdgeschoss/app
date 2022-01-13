@@ -2,5 +2,6 @@
   h1.headline
     = t ".sprints"
     .headline__actions
-      a href=modal_path(new_sprint_path) = t(".add")
+      - if policy(Sprint).create?
+        a href=modal_path(new_sprint_path) = t(".add")
   = render @sprints

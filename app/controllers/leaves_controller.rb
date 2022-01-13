@@ -12,7 +12,7 @@ class LeavesController < ApplicationController
   end
 
   def create
-    leave = authorize current_user.leaves.build(leave_attributes.merge(days: leave_attributes[:days].split(", ")))
+    leave = authorize Leave.new(permitted_attributes(Leave).merge(days: permitted_attributes(Leave)[:days].split(", ")).reverse_merge(user_id: current_user.id))
     leave.save!
     ui.navigate_to leaves_path
   end
@@ -21,11 +21,5 @@ class LeavesController < ApplicationController
     @leave = authorize Leave.find(params[:id])
     @leave.destroy!
     redirect_to leaves_path
-  end
-
-  private
-
-  def leave_attributes
-    params.require(:leave).permit(:title, :days, :type)
   end
 end

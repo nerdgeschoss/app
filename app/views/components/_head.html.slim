@@ -14,7 +14,8 @@ head
   = csp_meta_tag
 
   / Assets
-  = stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload"
+  - css_path = Rails.env.development? ? "application?v=#{request.request_id}" : "application" # force refresh in safari
+  = stylesheet_link_tag css_path, media: "all", "data-turbo-track": "reload"
   = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
   = yield :additional_head_tags if content_for? :additional_head_tags
