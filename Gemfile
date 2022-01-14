@@ -2,7 +2,7 @@ source "https://rubygems.org"
 ruby File.read(".ruby-version").strip
 
 # Core
-gem "rails", "7.0.0"
+gem "rails", "7.0.1"
 gem "puma"
 
 # Database
@@ -14,7 +14,7 @@ gem "oj"
 gem "bootsnap", require: false
 
 # Extensions
-gem "shimmer"
+gem "shimmer", "0.0.9"
 gem "mini_magick"
 gem "dotenv-rails"
 gem "rails-i18n"
