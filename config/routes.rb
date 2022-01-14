@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
   mount Sidekiq::Web => "/sidekiq" # move to admin once there is authentication
   get "sitemaps/*path", to: "shimmer/sitemaps#show"
+  get "offline", to: "pages#offline"
   resources :files, only: :show, controller: "shimmer/files"
+  resource :manifest, only: :show
 
   scope "/(:locale)", locale: /en/ do
     devise_for :users

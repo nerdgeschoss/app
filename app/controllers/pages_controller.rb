@@ -8,4 +8,7 @@ class PagesController < ApplicationController
     @sprint = Sprint.current.take
     @upcoming_leaves = current_user.leaves.future.limit(3)
   end
+
+  def offline
+  end
 end

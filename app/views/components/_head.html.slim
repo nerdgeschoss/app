@@ -3,11 +3,11 @@ head
 
   / WebApp
   meta name="viewport" content="width=device-width, initial-scale = 1.0, viewport-fit=cover"
-  / link rel="manifest" href=manifest_path
-  / link rel="apple-touch-icon" href=asset_path("app-icon.png")
+  link rel="manifest" href=manifest_path
+  link rel="apple-touch-icon" href=asset_path("app-icon.png")
   meta name="theme-color" content="#ffffff"
   / SEO
-  /= favicon_link_tag asset_path('favicon.svg')
+  = favicon_link_tag asset_path('app-icon.png')
 
   / Security
   = csrf_meta_tags
