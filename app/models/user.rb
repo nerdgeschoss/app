@@ -19,6 +19,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }
+  scope :with_role, ->(role) { where("? = ANY(users.roles)", role) }
+  scope :sprinter, -> { with_role("sprinter") }
+  scope :hr, -> { with_role("hr") }
 
   has_many :payslips, dependent: :destroy
   has_many :leaves, dependent: :destroy, class_name: "Leave"
