@@ -6,4 +6,8 @@ class SprintPolicy < ApplicationPolicy
   def destroy?
     hr?
   end
+
+  def overview?
+    hr?
+  end
 end
