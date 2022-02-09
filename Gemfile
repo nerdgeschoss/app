@@ -46,6 +46,11 @@ gem "turbo-rails"
 gem "serviceworker-rails"
 gem "sprockets"
 
+# Services
+gem "newrelic_rpm"
+gem "aws-sdk-s3"
+gem "barnes" # enables detailed metrics within heroku
+
 group :development, :test do
   gem "rspec-rails"
   gem "standard"
