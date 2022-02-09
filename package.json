@@ -15,6 +15,8 @@
     "@hotwired/stimulus": "^3.0.1",
     "@hotwired/turbo-rails": "^7.1.0",
     "@nerdgeschoss/shimmer": "^0.0.9",
+    "chart.js": "^3.7.0",
+    "chartkick": "^4.1.1",
     "esbuild": "^0.14.8",
     "flatpickr": "^4.6.9",
     "typescript": "^4.5.4"

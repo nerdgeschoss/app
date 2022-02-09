@@ -1,0 +1,20 @@
+.pill {
+  font-size: 0.9em;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 600;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 10px;
+  background-color: var(--color-tint);
+  color: white;
+  border-radius: 16px;
+
+  &:hover {
+    color: #eee;
+  }
+
+  &.active {
+    background-color: var(--color-text);
+  }
+}

@@ -30,6 +30,10 @@ class SprintFeedback < ApplicationRecord
     billable_hours.to_f / working_day_count
   end
 
+  def tracked_per_day
+    tracked_hours.to_f / [working_day_count, 1].max
+  end
+
   def working_day_count
     sprint.working_days - holiday_count - sick_day_count
   end

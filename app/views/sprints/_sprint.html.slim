@@ -21,7 +21,7 @@
             th: a href=(policy(feedback).edit? ? popover_path(edit_sprint_feedback_path(feedback)) : "") = feedback.user.display_name
             td = [feedback.working_day_count, feedback.holiday_count, feedback.sick_day_count].join(" / ")
             td = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100, precision: 0} (#{feedback.daily_nerd_count})"
-            td = "#{feedback.tracked_hours} / #{number_with_precision(feedback.tracked_hours.to_f / [feedback.working_day_count, 1].max, precision: 1)}"
+            td = "#{feedback.tracked_hours} / #{number_with_precision(feedback.tracked_per_day, precision: 1)}"
             td = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours} / #{number_with_precision feedback.billable_per_day, precision: 1} (#{number_to_percentage feedback.billable_hours_percentage * 100, precision: 0})"
         - if policy(sprint).overview?
           tr

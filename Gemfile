@@ -35,6 +35,7 @@ gem "translate_client"
 gem "devise"
 gem "icalendar", "~> 2.4"
 gem "time_will_tell"
+gem "chartkick"
 
 # Assets
 gem "jsbundling-rails"

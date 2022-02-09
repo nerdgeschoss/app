@@ -11,6 +11,10 @@ class SprintFeedbackPolicy < ApplicationPolicy
     hr?
   end
 
+  def show_group?
+    hr?
+  end
+
   class Scope < Scope
     def resolve
       if hr?
