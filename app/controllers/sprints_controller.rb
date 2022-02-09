@@ -4,6 +4,7 @@ class SprintsController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @metric = SprintMetrics::METRICS.include?(params[:metric]&.to_sym) ? params[:metric].to_sym : :billable_per_day
     @sprints = policy_scope(Sprint.reverse_chronologic)
   end
 

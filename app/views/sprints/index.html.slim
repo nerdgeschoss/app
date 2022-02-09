@@ -4,4 +4,8 @@
     .headline__actions
       - if policy(Sprint).create?
         a href=modal_path(new_sprint_path) = t(".add")
+  .stack.stack--row.stack--small.stack--wrap
+    - SprintMetrics::METRICS.each do |metric|
+      a.pill class=("active" if metric.to_s == @metric.to_s) href=(url_for(metric: metric)) = t(".#{metric}")
+  = line_chart SprintMetrics.new(@sprints).metric(@metric, for_user: policy(SprintFeedback).show_group? ? nil : current_user)
   = render @sprints

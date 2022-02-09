@@ -1,6 +1,7 @@
 .stack {
-  display: grid;
+  display: flex;
   gap: 16px;
+  flex-direction: column;
 
   // Prevent grid overflowing its container
   & > * {
@@ -17,5 +18,13 @@
 
   &--large {
     gap: 32px;
+  }
+
+  &--row {
+    flex-direction: row;
+  }
+
+  &--wrap {
+    flex-wrap: wrap;
   }
 }
