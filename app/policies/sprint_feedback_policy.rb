@@ -15,6 +15,10 @@ class SprintFeedbackPolicy < ApplicationPolicy
     hr?
   end
 
+  def show_notes?
+    hr?
+  end
+
   class Scope < Scope
     def resolve
       if hr?

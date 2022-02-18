@@ -56,6 +56,8 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
     case type
     when :string
       text_field method, options
+    when :text
+      text_area method, options
     when :password
       password_field method, options
     when :number

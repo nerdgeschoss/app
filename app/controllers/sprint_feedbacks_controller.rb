@@ -34,6 +34,6 @@ class SprintFeedbacksController < ApplicationController
   end
 
   def feedback_update_attributes
-    params.require(:sprint_feedback).permit(:daily_nerd_count, :tracked_hours, :billable_hours)
+    params.require(:sprint_feedback).permit(:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes)
   end
 end

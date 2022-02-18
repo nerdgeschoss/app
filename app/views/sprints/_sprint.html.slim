@@ -18,7 +18,10 @@
         - feedbacks.each do |feedback|
           - users.delete(feedback.user)
           tr
-            th: a href=(policy(feedback).edit? ? popover_path(edit_sprint_feedback_path(feedback)) : "") = feedback.user.display_name
+            th: a href=(policy(feedback).edit? ? popover_path(edit_sprint_feedback_path(feedback)) : "")
+              = feedback.user.display_name
+              - if policy(feedback).show_notes? && feedback.review_notes.present?
+                span< title=feedback.review_notes 📝
             td = [feedback.working_day_count, feedback.holiday_count, feedback.sick_day_count].join(" / ")
             td = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100, precision: 0} (#{feedback.daily_nerd_count})"
             td = "#{feedback.tracked_hours} / #{number_with_precision(feedback.tracked_per_day, precision: 1)}"

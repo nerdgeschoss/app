@@ -10,6 +10,7 @@
 #  billable_hours   :decimal(, )
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  review_notes     :string
 #
 
 class SprintFeedback < ApplicationRecord
