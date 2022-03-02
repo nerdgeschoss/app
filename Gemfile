@@ -14,7 +14,7 @@ gem "oj"
 gem "bootsnap", require: false
 
 # Extensions
-gem "shimmer", "0.0.9"
+gem "shimmer"
 gem "mini_magick"
 gem "dotenv-rails"
 gem "rails-i18n"
