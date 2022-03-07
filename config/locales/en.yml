@@ -1,15 +1,51 @@
+---
 en:
-  pages:
-    home:
-      hello: "Hello %{name}"
   date:
     formats:
       month_year: "%B %Y"
+  errors:
+    messages:
+      not_saved: Not saved
+  leaves:
+    form:
+      request_leave: Request leave
+    index:
+      leaves: Leaves
+      request_leave: Request leave
+      subscribe: Subscribe
+    leave:
+      really_delete: Really delete
+  pages:
+    home:
+      archive: Archive
+      hello: Hello %{name}
+      last_payments: Last payments
+      remaining_holidays: Remaining holidays
+      upcoming_holidays: Upcoming holidays
+  payslips:
+    index:
+      add: Add
+      payslips: Payslips
+    new:
+      add_payslip: Add payslip
+    payslip:
+      really_delete: Really delete
+  sprint_feedbacks:
+    edit:
+      really_delete: Really delete
+  sprints:
+    index:
+      add: Add
+      sprints: Sprints
   time_will_tell:
     date_range:
       different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"
       different_years: "%{from_month} %{from_day}, %{from_year} %{sep} %{to_month} %{to_day}, %{to_year}"
-      same_month: "%{month} %{from_day} %{sep} %{to_day}"
       same_date: "%{month} %{from_day}"
+      same_month: "%{month} %{from_day} %{sep} %{to_day}"
       with_year: "%{date_range}, %{year}"
-
+  users:
+    index:
+      users: Users
+    show:
+      remaining_holidays: Remaining holidays
