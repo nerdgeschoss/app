@@ -13,7 +13,9 @@
     grid-column: 1 / -1;
   }
 
-  .sidebar + .main {
-    grid-column: 2 / 2;
+  @media (min-width: $tablet) {
+    .sidebar + .main {
+      grid-column: 2 / 2;
+    }
   }
 }
