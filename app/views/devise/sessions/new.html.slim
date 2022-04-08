@@ -1,11 +1,12 @@
 .container
-  .headline Log In
-  = form_for resource, as: resource_name, url: session_path(resource_name), builder: AwesomeForm do |f|
-    .stack
-      = f.input :email
-      = f.input :password
-      = f.check_box :remember_me
-      = f.label :remember_me
-      span = f.button "Log In", class: "button"
-
-  = render "devise/shared/links"
+  .card: .stack
+    .headline Log In
+    = form_for resource, as: resource_name, url: session_path(resource_name), builder: AwesomeForm do |f|
+      .stack.stack--sm
+        = f.input :email
+        = f.input :password
+        = f.check_box :remember_me
+        = f.label :remember_me
+        span = f.button "Log In", class: "button"
+    footer
+      = render "devise/shared/links"
