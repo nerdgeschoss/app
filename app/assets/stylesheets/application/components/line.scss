@@ -1,0 +1,23 @@
+.line {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+
+  &--align-right {
+    justify-content: flex-end;
+  }
+
+  @each $size-name, $size-value in $sizes {
+    &--#{$size-name} {
+      gap: $size-value;
+    }
+  }
+
+  @media (min-width: $desktop) {
+    @each $size-name, $size-value in $sizes {
+      &--desktop-#{$size-name} {
+        gap: $size-value;
+      }
+    }
+  }
+}
