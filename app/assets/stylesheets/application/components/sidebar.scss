@@ -45,7 +45,8 @@
   }
 
   @media (min-width: $tablet) {
-    position: fixed;
+    position: sticky;
+    top: 0;
     width: var(--size-sidebar);
     height: 100vh;
     flex-direction: column;
@@ -75,13 +76,5 @@
       flex: 1;
       order: 2;
     }
-  }
-}
-
-.content {
-  padding-bottom: 50px;
-
-  @media (min-width: $tablet) {
-    margin-left: var(--size-sidebar);
   }
 }

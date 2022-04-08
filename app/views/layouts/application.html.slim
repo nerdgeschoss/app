@@ -2,6 +2,7 @@ doctype html
 html lang=I18n.locale
   = render "components/head"
   body class=Rails.env
-    = render "components/flash"
-    = render "components/sidebar" if current_user
-    main.content = yield
+    .app
+      = render "components/flash"
+      = render "components/sidebar" if current_user
+      main.main = yield
