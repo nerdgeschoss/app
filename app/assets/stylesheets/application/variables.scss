@@ -1,4 +1,34 @@
+// breakpoints
+$phablet: 600px;
+$tablet: 740px;
+$desktop: 1000px;
+$widescreen: 1440px;
+$widescreen-large: 1800px;
+$widescreen-xlarge: 2200px;
+
+$sizes: (
+  'xxs': 4px,
+  'xs': 12px,
+  'sm': 16px,
+  'md': 24px,
+  'lg': 32px,
+  'xl': 48px,
+  'xxl': 64px,
+  'xxxl': 80px,
+);
+
 :root {
+  --phablet: $phablet;
+  --tablet: $tablet;
+  --desktop: $desktop;
+  --widescreen: $widescreen;
+  --widescreen-large: $widescreen-large;
+  --widescreen-xlarge: $widescreen-xlarge;
+
+  @each $size-name, $size-value in $sizes {
+    --spacing-#{$size-name}: #{$size-value};
+  }
+
   --color-text: #272d3b;
   --color-text-muted: #a8aaad;
   --color-text-label: #a8aaad;
@@ -7,7 +37,7 @@
   --color-nav: #ffffff;
   --color-warning: #ff5167;
   --color-error: #ff5167;
-  --color-background: #ffffff;
+  --color-background: #f0f0f0;
   --color-background-dark: #191d24;
   --color-background-dark-alternate: #17191d;
   --color-tint: #6750a4;
