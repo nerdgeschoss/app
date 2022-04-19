@@ -1,0 +1,25 @@
+base_locale: en
+
+data:
+  yaml:
+    write:
+      line_width: -1
+
+search:
+  exclude:
+    - app/assets/images
+    - app/assets/fonts
+    - app/assets/videos
+    - app/assets/builds
+    - app/javascript/lib
+
+ignore_unused:
+  - errors.*
+  - time.formats.*
+  - date.formats.*
+  - active_admin.*
+  - number.currency.format.unit
+  - helpers.*
+  - activerecord.models.*
+  - '*_mailer.*.subject'
+  - time_will_tell.*

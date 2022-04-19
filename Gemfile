@@ -14,7 +14,7 @@ gem "oj"
 gem "bootsnap", require: false
 
 # Extensions
-gem "shimmer", "0.0.9"
+gem "shimmer"
 gem "mini_magick"
 gem "dotenv-rails"
 gem "rails-i18n"
@@ -56,7 +56,7 @@ group :development, :test do
   gem "standard"
   gem "capybara"
   gem "cuprite"
-  gem "i18n-tasks", "0.9.35"
+  gem "i18n-tasks"
   gem "rack_session_access"
 end
 
