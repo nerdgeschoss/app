@@ -47,7 +47,6 @@ class SprintFeedback < ApplicationRecord
     @sick_day_count ||= count_days :sick
   end
 
-
   private
 
   def leaves

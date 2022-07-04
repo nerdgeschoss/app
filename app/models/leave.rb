@@ -35,7 +35,13 @@ class Leave < ApplicationRecord
   end
 
   def emoji
-    paid? ? "\u{1F3D6}" : unpaid? ? "\u{1F3D5}" : "\u{1F912}"
+    if paid?
+      "\u{1F3D6}"
+    elsif unpaid?
+      "\u{1F3D5}"
+    else
+      "\u{1F912}"
+    end
   end
 
   def to_ics
