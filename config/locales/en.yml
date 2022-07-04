@@ -3,6 +3,7 @@ en:
   date:
     formats:
       month_year: "%B %Y"
+      month_long: "%B"
   errors:
     messages:
       not_saved: Not saved

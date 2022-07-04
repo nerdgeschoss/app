@@ -24,7 +24,7 @@ class Leave < ApplicationRecord
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
 
-  enum type: [:paid, :sick].index_with(&:to_s)
+  enum type: [:paid, :unpaid, :sick].index_with(&:to_s)
   enum status: [:pending_approval, :approved].index_with(&:to_s)
 
   range_accessor_methods :leave
@@ -35,7 +35,7 @@ class Leave < ApplicationRecord
   end
 
   def emoji
-    paid? ? "\u{1F3D6}" : "\u{1F912}"
+    paid? ? "\u{1F3D6}" : unpaid? ? "\u{1F3D5}" : "\u{1F912}"
   end
 
   def to_ics
