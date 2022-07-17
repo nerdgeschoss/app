@@ -50,3 +50,6 @@ en:
       users: Users
     show:
       remaining_holidays: Remaining holidays
+    user:
+      days_of_holidays_remaining: "%{days} Days of holidays remaining"
+      days_of_unpaid_holiday: "%{days} Days of unpaid holidays"

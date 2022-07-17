@@ -15,6 +15,10 @@ class UserPolicy < ApplicationPolicy
     hr? || user == record
   end
 
+  def unpaid_vacation?
+    hr? || user == record
+  end
+
   def permitted_attributes
     [:first_name, :last_name, :password, :password_confirmation]
   end

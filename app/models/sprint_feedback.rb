@@ -40,7 +40,7 @@ class SprintFeedback < ApplicationRecord
   end
 
   def holiday_count
-    @holiday_count ||= ((count_days :paid) + (count_days :unpaid))
+    @holiday_count ||= count_days(:paid) + count_days(:unpaid)
   end
 
   def sick_day_count

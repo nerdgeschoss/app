@@ -22,6 +22,9 @@ class UsersController < ApplicationController
     end
   end
 
+  def unpaid_vacation
+  end
+
   private
 
   def assign_user
