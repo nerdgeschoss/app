@@ -49,7 +49,11 @@ class User < ApplicationRecord
   end
 
   def unpaid_holidays_this_year
-    leaves_this_year.select(&:unpaid?).map(&:days).flatten.group_by(&:month)
+    leaves_this_year.select(&:unpaid?).map(&:days).flatten.sort_by(&:month).group_by(&:month).map { |month| [month.first, month.last] }
+  end
+
+  def unpaid_holidays_this_year_total
+    unpaid_holidays_this_year.sum { |_, days| days.size }
   end
 
   def used_holidays
@@ -66,13 +70,6 @@ class User < ApplicationRecord
     @leaves_this_year ||= begin
       date = Date.today
       leaves.during(date.beginning_of_year..date.end_of_year)
-    end
-  end
-
-  def leaves_last_month
-    @leaves_last_month ||= begin
-      date = Date.today
-      leaves.during(date.last_month.beginning_of_month..date.last_month.end_of_month)
     end
   end
 end

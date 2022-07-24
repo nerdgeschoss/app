@@ -1,8 +1,8 @@
 .columns
   table.table
     tr
-      - @user.unpaid_holidays_this_year.each do |month|
-        th = Date::MONTHNAMES[month.first]
+      - @unpaid_vacation.each do |month,_|
+        th = l(Date.today.beginning_of_year+month.months, format: :month_long)
     tr
-      - @user.unpaid_holidays_this_year.each do |month|
-        td = month.last.size
+      - @unpaid_vacation.each do |_,unpaid_days|
+        td = t(".days_in_month", count: unpaid_days.size)
