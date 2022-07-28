@@ -2,6 +2,7 @@
 en:
   date:
     formats:
+      month_long: "%B"
       month_year: "%B %Y"
   errors:
     messages:
@@ -49,3 +50,10 @@ en:
       users: Users
     show:
       remaining_holidays: Remaining holidays
+    unpaid_vacation:
+      days_in_month:
+        one: "%{count} Day"
+        other: "%{count} Days"
+    user:
+      days_of_holidays_remaining: "%{days} days of holidays remaining"
+      days_of_unpaid_holiday: "%{days} days of unpaid holidays"

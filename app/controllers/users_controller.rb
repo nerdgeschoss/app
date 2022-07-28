@@ -22,6 +22,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def unpaid_vacation
+    @unpaid_vacation = @user.unpaid_holidays_this_year
+  end
+
   private
 
   def assign_user
