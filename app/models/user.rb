@@ -48,6 +48,14 @@ class User < ApplicationRecord
     yearly_holidays - used_holidays
   end
 
+  def unpaid_holidays_this_year
+    leaves_this_year.select(&:unpaid?).map(&:days).flatten.sort_by(&:month).group_by(&:month).map { |month| [month.first, month.last] }
+  end
+
+  def unpaid_holidays_this_year_total
+    unpaid_holidays_this_year.sum { |_, days| days.size }
+  end
+
   def used_holidays
     leaves_this_year.select(&:paid?).flat_map(&:days).count
   end

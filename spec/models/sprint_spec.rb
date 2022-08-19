@@ -12,6 +12,5 @@
 
 require "rails_helper"
 
-RSpec.describe Sprint, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe Sprint do
 end
