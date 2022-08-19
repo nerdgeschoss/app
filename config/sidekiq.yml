@@ -3,3 +3,8 @@
   - dispatch
   - default
   - mailers
+  - import
+:schedule:
+  harvest_import:
+    every: '30m'
+    class: HarvestImportJob

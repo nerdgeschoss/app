@@ -519,7 +519,7 @@ DEPENDENCIES
   guard
   guard-rspec
   httparty
-  i18n-tasks (= 0.9.35)
+  i18n-tasks
   icalendar (~> 2.4)
   image_processing
   jsbundling-rails

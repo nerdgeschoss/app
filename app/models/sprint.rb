@@ -18,6 +18,7 @@ class Sprint < ApplicationRecord
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :current, -> { where("NOW()::date <@ sprints.sprint_during") }
+  scope :within, ->(time) { where("LOWER(sprints.sprint_during) > ?", time.ago) }
 
   range_accessor_methods :sprint
 
