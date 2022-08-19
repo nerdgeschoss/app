@@ -37,6 +37,7 @@ en:
   sprints:
     index:
       add: Add
+      all_users: All Users
       sprints: Sprints
   time_will_tell:
     date_range:
