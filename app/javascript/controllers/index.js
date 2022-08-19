@@ -4,5 +4,8 @@
 
 import { application } from "./application"
 
+import AutosubmittingController from "./autosubmitting_controller.ts"
+application.register("autosubmitting", AutosubmittingController)
+
 import CalendarController from "./calendar_controller.ts"
 application.register("calendar", CalendarController)
