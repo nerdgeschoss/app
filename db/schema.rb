@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_124159) do
+ActiveRecord::Schema.define(version: 2022_08_19_135055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -87,6 +87,26 @@ ActiveRecord::Schema.define(version: 2022_02_18_124159) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "time_entries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "external_id"
+    t.decimal "hours", null: false
+    t.decimal "rounded_hours", null: false
+    t.string "billable", null: false
+    t.string "project_name", null: false
+    t.string "client_name", null: false
+    t.string "task", null: false
+    t.decimal "billable_rate"
+    t.decimal "cost_rate"
+    t.string "notes"
+    t.uuid "user_id", null: false
+    t.uuid "sprint_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["external_id"], name: "index_time_entries_on_external_id", unique: true
+    t.index ["sprint_id"], name: "index_time_entries_on_sprint_id"
+    t.index ["user_id"], name: "index_time_entries_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "roles", default: [], null: false, array: true
@@ -108,4 +128,6 @@ ActiveRecord::Schema.define(version: 2022_02_18_124159) do
   add_foreign_key "payslips", "users"
   add_foreign_key "sprint_feedbacks", "sprints"
   add_foreign_key "sprint_feedbacks", "users"
+  add_foreign_key "time_entries", "sprints"
+  add_foreign_key "time_entries", "users"
 end

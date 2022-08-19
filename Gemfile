@@ -14,7 +14,7 @@ gem "oj"
 gem "bootsnap", require: false
 
 # Extensions
-gem "shimmer", "0.0.9"
+gem "shimmer"
 gem "mini_magick"
 gem "dotenv-rails"
 gem "rails-i18n"
@@ -36,6 +36,7 @@ gem "devise"
 gem "icalendar", "~> 2.4"
 gem "time_will_tell"
 gem "chartkick"
+gem "httparty"
 
 # Assets
 gem "jsbundling-rails"
