@@ -2,7 +2,7 @@
   h1.headline
     = t ".sprints"
     .headline__actions
-      - unless policy(SprintFeedback).show_group?
+      - if policy(SprintFeedback).show_group?
         = form_with method: :get do |f|
           = f.hidden_field :metric, value: @metric
           = f.collection_select :user, User.sprinter, :id, :display_name, {selected: @user&.id, include_blank: t(".all_users")}, data: { controller: "autosubmitting" }
