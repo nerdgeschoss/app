@@ -1,0 +1,13 @@
+.notification {
+  background-color: var(--color-tint);
+  padding: var(--spacing-xs);
+  color: white;
+
+  @media (min-width: $desktop) {
+    position: fixed;
+    top: var(--spacing-xs);
+    right: var(--spacing-xs);
+    max-width: 300px;
+    border-radius: var(--border-radius-card);
+  }
+}

@@ -4,9 +4,13 @@
   display: flex;
   align-items: center;
   padding: 0 8px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 
   &__header {
     flex: 1;
+    display: none;
   }
 
   &__logo {
@@ -14,14 +18,11 @@
   }
 
   &__links {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    right: 0;
     height: 44px;
     background-color: inherit;
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   &__link {
@@ -33,7 +34,7 @@
   }
 
   &__avatar {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 8px;
     font-weight: 600;
@@ -45,7 +46,7 @@
   }
 
   @media (min-width: $tablet) {
-    position: fixed;
+    top: 0;
     width: var(--size-sidebar);
     height: 100vh;
     flex-direction: column;
@@ -54,6 +55,7 @@
     border-right: 1px solid var(--color-border);
 
     &__header {
+      display: block;
       flex: 0 0 44px;
       margin-bottom: 80px;
     }
@@ -71,17 +73,13 @@
       font-weight: 700;
     }
 
+    &__avatar {
+      display: flex;
+    }
+
     &__avatar-name {
       flex: 1;
       order: 2;
     }
-  }
-}
-
-.content {
-  padding-bottom: 50px;
-
-  @media (min-width: $tablet) {
-    margin-left: var(--size-sidebar);
   }
 }

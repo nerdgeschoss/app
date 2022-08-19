@@ -28,7 +28,7 @@
   &__content {
     position: relative;
     background-color: white;
-    border-radius: 5px 5px 0 0;
+    border-radius: var(--border-radius-card);
     transition: opacity 0.5s, transform 0.5s;
     opacity: 0;
     transform: translate(0, 80px);
@@ -40,7 +40,6 @@
     max-width: 600px;
 
     @media (min-width: $tablet) {
-      border-radius: 5px;
       height: auto;
       max-height: 60vh;
       margin-top: 20vh;
