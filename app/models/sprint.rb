@@ -75,7 +75,7 @@ class Sprint < ApplicationRecord
       time_entries.upsert_all(entries, unique_by: :external_id)
       sprint_feedbacks.each do |feedback|
         feedback_entries = time_entries.where(user_id: feedback.user_id)
-        feedback.update! tracked_hours: feedback_entries.sum(:hours).round(2), billable_hours: feedback_entries.billable.sum(:hours).round(2)
+        feedback.update! tracked_hours: feedback_entries.sum(:hours), billable_hours: feedback_entries.billable.sum(:hours)
       end
     end
   end
