@@ -55,6 +55,7 @@ class Sprint < ApplicationRecord
     harvest_entries = HarvestApi.instance.time_entries(from: sprint_from, to: sprint_until)
     deleted_ids = time_entries.pluck(:external_id) - harvest_entries.map(&:id)
     entries = harvest_entries.map do |e|
+      next if user_ids_by_email[e.user].nil?
       {
         external_id: e.id,
         created_at: e.date,
