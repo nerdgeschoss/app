@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :files, only: :show, controller: "shimmer/files"
   resource :manifest, only: :show
 
-  scope "/(:locale)", locale: /en/ do
+  scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     devise_for :users
     resources :payslips
     resources :leaves
