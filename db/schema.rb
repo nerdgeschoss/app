@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_19_135055) do
+ActiveRecord::Schema.define(version: 2022_09_16_143348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2022_08_19_135055) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "review_notes"
+    t.datetime "daily_nerd_entry_dates", precision: 6, default: [], null: false, array: true
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
     t.index ["sprint_id"], name: "index_sprint_feedbacks_on_sprint_id"
     t.index ["user_id"], name: "index_sprint_feedbacks_on_user_id"
