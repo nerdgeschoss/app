@@ -29,6 +29,8 @@ class Leave < ApplicationRecord
 
   range_accessor_methods :leave
 
+  validates :title, :days, presence: true
+
   before_validation do
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on

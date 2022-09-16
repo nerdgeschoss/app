@@ -1,5 +1,6 @@
 = form_with model: @leave, class: :stack, builder: AwesomeForm do |f|
   = f.text_field :days, data: { controller: "calendar" }, style: "display: none"
+  = @leave.errors[:days].to_sentence
   - if policy(@leave).permitted_attributes.include?(:user_id)
     = f.input :user_id
   = f.input :title
