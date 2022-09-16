@@ -20,9 +20,12 @@ class SprintsController < ApplicationController
   end
 
   def create
-    sprint = authorize Sprint.new(sprint_attributes)
-    sprint.save!
-    ui.navigate_to sprints_path
+    @sprint = authorize Sprint.new(sprint_attributes)
+    if @sprint.save
+      ui.navigate_to sprints_path
+    else
+      render "new", status: :unprocessable_entity
+    end
   end
 
   private

@@ -21,6 +21,8 @@ class Sprint < ApplicationRecord
   scope :current, -> { active_at(DateTime.current) }
   scope :within, ->(time) { where("LOWER(sprints.sprint_during) > ?", time.ago) }
 
+  validates :title, presence: true
+
   range_accessor_methods :sprint
 
   def total_working_days
