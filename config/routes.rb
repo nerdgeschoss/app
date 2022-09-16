@@ -25,4 +25,8 @@ Rails.application.routes.draw do
     end
     root "pages#home"
   end
+
+  namespace :integration do
+    post "flink", to: "flink#webhook"
+  end
 end
