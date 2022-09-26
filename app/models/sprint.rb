@@ -76,7 +76,7 @@ class Sprint < ApplicationRecord
     end
     transaction do
       time_entries.where(id: deleted_ids).delete_all if deleted_ids.any?
-      time_entries.upsert_all(entries, unique_by: :external_id)
+      time_entries.upsert_all(entries, unique_by: :external_id) if entries.any?
       sprint_feedbacks.each do |feedback|
         feedback_entries = time_entries.where(user_id: feedback.user_id)
         feedback.update! tracked_hours: feedback_entries.sum(:hours), billable_hours: feedback_entries.billable.sum(:hours)
