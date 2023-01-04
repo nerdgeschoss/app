@@ -20,13 +20,13 @@ module Sprint::Notifying
   end
 
   def sprint_start_content
-    "*Sprint #{title} starts today!*\nDuration: #{sprint_during}\nWorking days: #{working_days}\n*On leave:*\n#{leaves}"
+    "*Sprint #{title} starts today!*\nDuration: #{ApplicationController.helpers.date_range sprint_during.min, sprint_during.max, format: :long}\nWorking days: #{working_days}\n*On leave:*\n#{leaves}"
   end
 
   def leaves
     text = ""
     Leave.during(sprint_during).each do |leave|
-      text << "\n- #{leave.user.first_name} (#{leave.leave_during}), #{leave.type}, #{leave.title}"
+      text << "\n- #{leave.user.first_name} (#{ApplicationController.helpers.date_range leave.leave_during.min, leave.leave_during.max, format: :long}), #{leave.type}, #{leave.title}"
     end
     text
   end

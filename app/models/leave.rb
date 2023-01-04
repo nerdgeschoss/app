@@ -72,7 +72,7 @@ class Leave < ApplicationRecord
   end
 
   def sick_leave_content
-    "*#{user.first_name} is on sick leave today!*\nDuration: #{leave_during}"
+    "*#{user.first_name} is on sick leave today!*\nDuration: #{ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long}"
   end
 
   def channel
