@@ -8,7 +8,7 @@ module Sprint::Notifying
   private
 
   def sprint_start_body
-    {channel: sprint_announcement_channel, text: sprint_start_text}
+    {channel: sprint_announcement_channel, text: sprint_start_content}
   end
 
   def sprint_announcement_channel
@@ -19,11 +19,11 @@ module Sprint::Notifying
     "C04H4PPG52A"
   end
 
-  def sprint_start_text
-    "*Sprint #{title} starts today!*\nDuration: #{sprint_during}\nWorking days: #{working_days}\n*On leave:*\n#{leaves_text}"
+  def sprint_start_content
+    "*Sprint #{title} starts today!*\nDuration: #{sprint_during}\nWorking days: #{working_days}\n*On leave:*\n#{leaves}"
   end
 
-  def leaves_text
+  def leaves
     text = ""
     Leave.during(sprint_during).each do |leave|
       text << "\n- #{leave.user.first_name} (#{leave.leave_during}), #{leave.type}, #{leave.title}"

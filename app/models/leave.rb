@@ -36,6 +36,10 @@ class Leave < ApplicationRecord
     self.leave_during = start_on..end_on
   end
 
+  after_create do
+    notify_slack if sick?
+  end
+
   def emoji
     if paid?
       "\u{1F3D6}"
@@ -55,5 +59,23 @@ class Leave < ApplicationRecord
     event.summary = "#{user.display_name}: #{title} #{emoji}"
     event.url = Rails.application.routes.url_helpers.leaves_url(id: id)
     event
+  end
+
+  private
+
+  def notify_slack
+    Slack.new(sick_leave_body).notify
+  end
+
+  def sick_leave_body
+    {channel: channel, text: sick_leave_content}
+  end
+
+  def sick_leave_content
+    "*#{user.first_name} is on sick leave today!*\nDuration: #{leave_during}"
+  end
+
+  def channel
+    "C04HE5KDLCT"
   end
 end
