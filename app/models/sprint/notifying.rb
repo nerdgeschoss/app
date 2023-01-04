@@ -8,15 +8,16 @@ module Sprint::Notifying
   private
 
   def sprint_start_body
-    {channel: sprint_announcement_channel, text: sprint_start_content}
+    use_channel = Rails.env.production? ? sprint_announcement_channel : test_channel
+    {channel: use_channel, text: sprint_start_content}
   end
 
   def sprint_announcement_channel
-    "C04HE5KDLCT"
+    Config.slack_announcement_channel_id
   end
 
   def test_channel
-    "C04H4PPG52A"
+    Config.slack_test_channel_id
   end
 
   def sprint_start_content

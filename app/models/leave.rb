@@ -68,14 +68,19 @@ class Leave < ApplicationRecord
   end
 
   def sick_leave_body
-    {channel: channel, text: sick_leave_content}
+    use_channel = Rails.env.production? ? announcement_channel : test_channel
+    {channel: use_channel, text: sick_leave_content}
   end
 
   def sick_leave_content
     "*#{user.first_name} is on sick leave today!*\nDuration: #{ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long}"
   end
 
-  def channel
-    "C04HE5KDLCT"
+  def announcement_channel
+    Config.slack_announcement_channel_id
+  end
+
+  def test_channel
+    Config.slack_test_channel_id
   end
 end
