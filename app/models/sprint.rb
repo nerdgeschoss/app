@@ -12,6 +12,7 @@
 
 class Sprint < ApplicationRecord
   include RangeAccessing
+  include Notifying
 
   has_many :sprint_feedbacks
   has_many :time_entries
