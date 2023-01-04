@@ -8,7 +8,7 @@ module Sprint::Notifying
   private
 
   def sprint_start_body
-    body = {"channel": sprint_announcement_channel, "text": sprint_start_text}
+    {channel: sprint_announcement_channel, text: sprint_start_text}
   end
 
   def sprint_announcement_channel
