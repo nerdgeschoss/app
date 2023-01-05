@@ -1,10 +1,8 @@
 class SlackNotificationJob < ApplicationJob
-  queue_as :import
+  queue_as :notification
   sidekiq_options retry: 0
 
   def perform
-    Sprint.start_at(Date.current).each do |sprint|
-      sprint.notify_slack
-    end
+    Sprint.start_on(Date.current).each(&:send_sprint_start_notification)
   end
 end

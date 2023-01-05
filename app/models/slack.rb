@@ -1,12 +1,8 @@
 class Slack
-  attr_accessor :body
+  include Singleton
 
-  def initialize(body)
-    @body = body
-  end
-
-  def notify
-    HTTParty.post(url, body: body.to_json, headers: headers)
+  def notify(channel:, text:)
+    HTTParty.post(url, body: {channel: channel, text: text}.to_json, headers: headers)
   end
 
   private

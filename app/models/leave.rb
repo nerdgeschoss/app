@@ -36,10 +36,6 @@ class Leave < ApplicationRecord
     self.leave_during = start_on..end_on
   end
 
-  after_create do
-    notify_slack if sick?
-  end
-
   def emoji
     if paid?
       "\u{1F3D6}"
@@ -61,26 +57,13 @@ class Leave < ApplicationRecord
     event
   end
 
+  def notify_slack_about_sick_leave
+    Slack.instance.notify(channel: slack_channel, text: I18n.t("leaves.notifications.sick_leave_content", user: user.first_name, leave_during: (ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long)))
+  end
+
   private
 
-  def notify_slack
-    Slack.new(sick_leave_body).notify
-  end
-
-  def sick_leave_body
-    use_channel = Rails.env.production? ? announcement_channel : test_channel
-    {channel: use_channel, text: sick_leave_content}
-  end
-
-  def sick_leave_content
-    "*#{user.first_name} is on sick leave today!*\nDuration: #{ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long}"
-  end
-
-  def announcement_channel
-    Config.slack_announcement_channel_id
-  end
-
-  def test_channel
-    Config.slack_test_channel_id
+  def slack_channel
+    Rails.env.production? ? Config.slack_announcement_channel_id! : Config.slack_test_channel_id!
   end
 end
