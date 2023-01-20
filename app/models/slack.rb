@@ -2,7 +2,8 @@ class Slack
   include Singleton
 
   def notify(channel:, text:)
-    HTTParty.post(url, body: {channel: channel, text: text}.to_json, headers: headers)
+    response = HTTParty.post(url, body: {channel: channel, text: text}.to_json, headers: headers)
+    raise StandardError, "Slack notification failed: #{response.body}" unless response.ok?
   end
 
   private
