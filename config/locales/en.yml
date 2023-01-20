@@ -17,9 +17,11 @@ en:
     leave:
       really_delete: Really delete
     notifications:
-      sick_leave_content: |-
-        *%{user} is on sick leave today*
-        Duration: %{leave_during}
+      sick_leave_content:
+        one: "*%{user} is on sick leave today*"
+        other: |-
+          *%{user} is on sick leave*
+          Duration: %{leave_during}
   pages:
     home:
       archive: Archive
@@ -44,12 +46,17 @@ en:
       all_users: All Users
       sprints: Sprints
     notifications:
-      sprint_start_content: |-
-        *Sprint %{title} starts today!*
-        Duration: %{sprint_during}
-        Working days: %{working_days}
-        *On leave:*
-        %{leaves}
+      sprint_start_content:
+        other: |-
+          *Sprint %{title} starts today!*
+          Duration: %{sprint_during}
+          Working days: %{working_days}
+          *On leave:*
+          %{leaves}
+        zero: |-
+          *Sprint %{title} starts today!*
+          Duration: %{sprint_during}
+          Working days: %{working_days}
   time_will_tell:
     date_range:
       different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"
