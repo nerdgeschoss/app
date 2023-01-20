@@ -47,6 +47,12 @@ en:
       sprints: Sprints
     notifications:
       sprint_start_content:
+        one: |-
+          *Sprint %{title} starts today!*
+          Duration: %{sprint_during}
+          Working days: %{working_days}
+          *On leave:*
+          %{leaves}
         other: |-
           *Sprint %{title} starts today!*
           Duration: %{sprint_during}
