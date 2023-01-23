@@ -18,6 +18,7 @@ class Sprint < ApplicationRecord
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
+  scope :start_on, ->(date) { where("?::date = LOWER(sprints.sprint_during)", date) }
   scope :current, -> { active_at(DateTime.current) }
   scope :within, ->(time) { where("LOWER(sprints.sprint_during) > ?", time.ago) }
 
@@ -82,5 +83,15 @@ class Sprint < ApplicationRecord
         feedback.update! tracked_hours: feedback_entries.sum(:hours), billable_hours: feedback_entries.billable.sum(:hours)
       end
     end
+  end
+
+  def send_sprint_start_notification
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("sprints.notifications.sprint_start_content", title: title, sprint_during: ApplicationController.helpers.date_range(sprint_during.min, sprint_during.max, format: :long), working_days: working_days, leaves: leaves_text_lines, count: leaves_text_lines.size))
+  end
+
+  def leaves_text_lines
+    Leave.during(sprint_during).map do |leave|
+      "\n- #{leave.user.first_name} (#{ApplicationController.helpers.date_range leave.leave_during.min, leave.leave_during.max, format: :long}), #{leave.type}, #{leave.title}"
+    end.join
   end
 end
