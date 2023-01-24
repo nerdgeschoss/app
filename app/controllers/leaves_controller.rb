@@ -2,14 +2,13 @@
 
 class LeavesController < ApplicationController
   before_action :authenticate_user!
+  before_action :assign_leave, only: [:update, :destroy]
 
   def index
     @leaves = policy_scope(Leave.reverse_chronologic)
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
     @user = if params[:user].present?
       User.find(params[:user])
-    elsif policy(SprintFeedback).show_group?
-      nil
     else
       current_user
     end
@@ -31,15 +30,20 @@ class LeavesController < ApplicationController
 
   def update
     if @leave.update(permitted_attributes(Leave).merge(status: permitted_attributes(Leave)[:status]))
-      redirect_to root_path
+      ui.navigate_to leaves_path
     else
       render :index, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @leave = authorize Leave.find(params[:id])
     @leave.destroy!
     redirect_to leaves_path
+  end
+
+  private
+
+  def assign_leave
+    @leave = Leave.find(params[:id])
   end
 end
