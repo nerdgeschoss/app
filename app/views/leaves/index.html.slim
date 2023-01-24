@@ -4,4 +4,7 @@
     .headline__actions
       a href=modal_path(new_leave_path) = t(".request_leave")
       = link_to t(".subscribe"), feed_leaves_url(format: :ics, protocol: :webcal)
-  = render @leaves
+  .stack.stack--row.stack--small.stack--wrap
+    - Leave.statuses.merge(all: nil).sort.each do |key, value|
+      a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: value, user: @user&.id)) = t(".#{key}")
+  = render @leaves.with_status(@status)
