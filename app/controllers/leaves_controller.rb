@@ -21,7 +21,7 @@ class LeavesController < ApplicationController
   def create
     @leave = authorize Leave.new(permitted_attributes(Leave).merge(days: permitted_attributes(Leave)[:days].split(", ")).reverse_merge(user_id: current_user.id))
     if @leave.save
-      @leave.notify_slack_about_sick_leave if @leave.sick?
+      @leave.sick? ? @leave.notify_slack_about_sick_leave : @leave.notify_hr_on_slack_about_new_request
       ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
@@ -30,7 +30,7 @@ class LeavesController < ApplicationController
 
   def update
     if @leave.update(permitted_attributes(Leave).merge(status: permitted_attributes(Leave)[:status]))
-      ui.navigate_to leaves_path
+      redirect_to leaves_path
     else
       render :index, status: :unprocessable_entity
     end
