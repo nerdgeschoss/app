@@ -23,9 +23,16 @@ class Leave < ApplicationRecord
   scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC") }
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
+  scope :with_status, ->(status) {
+    if status == :all
+      all
+    else
+      where(status: status)
+    end
+  }
 
   enum type: [:paid, :unpaid, :sick].index_with(&:to_s)
-  enum status: [:pending_approval, :approved].index_with(&:to_s)
+  enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)
 
   range_accessor_methods :leave
 
@@ -52,7 +59,7 @@ class Leave < ApplicationRecord
     event.dtstart.ical_params = {"VALUE" => "DATE"}
     event.dtend = Icalendar::Values::Date.new leave_during.max + 1.day
     event.dtend.ical_params = {"VALUE" => "DATE"}
-    event.summary = "#{user.display_name}: #{title} #{emoji}"
+    event.summary = "#{user.display_name}: #{title} #{emoji} (#{status})"
     event.url = Rails.application.routes.url_helpers.leaves_url(id: id)
     event
   end
