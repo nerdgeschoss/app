@@ -5,6 +5,14 @@ class LeavesController < ApplicationController
 
   def index
     @leaves = policy_scope(Leave.reverse_chronologic)
+    @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
+    @user = if params[:user].present?
+      User.find(params[:user])
+    elsif policy(SprintFeedback).show_group?
+      nil
+    else
+      current_user
+    end
   end
 
   def new
@@ -18,6 +26,14 @@ class LeavesController < ApplicationController
       ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @leave.update(permitted_attributes(Leave).merge(status: permitted_attributes(Leave)[:status]))
+      redirect_to root_path
+    else
+      render :index, status: :unprocessable_entity
     end
   end
 
