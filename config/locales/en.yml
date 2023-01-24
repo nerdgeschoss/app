@@ -16,6 +16,7 @@ en:
       subscribe: Subscribe
     leave:
       really_delete: Really delete
+      really_reject: Sure to reject the leave?
     notifications:
       sick_leave_content:
         one: "*%{user} is on sick leave today*"
