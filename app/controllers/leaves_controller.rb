@@ -30,6 +30,7 @@ class LeavesController < ApplicationController
 
   def update
     if @leave.update(permitted_attributes(Leave).merge(status: permitted_attributes(Leave)[:status]))
+      @leave.notify_user_on_slack_about_status_change
       redirect_to leaves_path
     else
       render :index, status: :unprocessable_entity

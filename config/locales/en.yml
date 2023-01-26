@@ -18,6 +18,7 @@ en:
       really_delete: Really delete
       really_reject: Sure to reject the leave?
     notifications:
+      here: here
       new_request_content: |-
         *%{user}* requested a new %{type} leave for %{leave_during}
         You can approve or reject this request %{link}
@@ -26,7 +27,9 @@ en:
         other: |-
           *%{user} is on sick leave*
           Duration: %{leave_during}
-      here: here
+      status_change_content: |-
+        Hi, *%{user}*!
+        Your %{type} leave request for %{leave_during} has been %{status}.
   pages:
     home:
       archive: Archive

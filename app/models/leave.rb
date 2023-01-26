@@ -24,6 +24,7 @@ class Leave < ApplicationRecord
   scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC") }
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
+  scope :not_rejected, -> { where.not(status: :rejected) }
   scope :with_status, ->(status) {
     if status == :all
       all
@@ -55,6 +56,8 @@ class Leave < ApplicationRecord
   end
 
   def to_ics
+    return if rejected?
+
     event = Icalendar::Event.new
     event.dtstart = Icalendar::Values::Date.new leave_during.min
     event.dtstart.ical_params = {"VALUE" => "DATE"}
@@ -66,20 +69,20 @@ class Leave < ApplicationRecord
   end
 
   def notify_slack_about_sick_leave
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("leaves.notifications.sick_leave_content", user: user.first_name, leave_during: formatted_leave_during, count: days.size))
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("leaves.notifications.sick_leave_content", user: user.display_name, leave_during: formatted_leave_during, count: days.size))
   end
 
   def notify_hr_on_slack_about_new_request
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("leaves.notifications.new_request_content", user: user.first_name, leave_during: formatted_leave_during, link: user_request_link_markdown, type: type))
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("leaves.notifications.new_request_content", user: user.display_name, leave_during: formatted_leave_during, link: user_request_link_markdown, type: type))
   end
 
   def notify_user_on_slack_about_status_change
-    Slack.instance.notify(channel: user.slack_id!, text: I18n.t("leaves.notifications.status_change_content", user: user.first_name, leave_during: formatted_leave_during, status: status, link: user_request_link_markdown))
+    Slack.instance.notify(channel: "U01PPR64LP5", text: I18n.t("leaves.notifications.status_change_content", user: user.display_name, leave_during: formatted_leave_during, status: status, type: type))
   end
 
   private
 
-  def url_for_users_pending_leaves
+  def url_for_pending_leaves
     url_for(controller: "leaves",
       action: "index",
       user: user.id,
@@ -88,7 +91,7 @@ class Leave < ApplicationRecord
   end
 
   def user_request_link_markdown
-    "<#{url_for_users_pending_leaves}|#{I18n.t("leaves.notifications.here")}>"
+    "<#{url_for_pending_leaves}|#{I18n.t("leaves.notifications.here")}>"
   end
 
   def formatted_leave_during

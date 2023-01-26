@@ -57,7 +57,7 @@ class User < ApplicationRecord
   end
 
   def used_holidays
-    leaves_this_year.select(&:paid?).flat_map(&:days).count
+    leaves_this_year.not_rejected.select(&:paid?).flat_map(&:days).count
   end
 
   def send_devise_notification(notification, *args)
