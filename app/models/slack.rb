@@ -4,7 +4,6 @@ class Slack
   def notify(channel:, text:)
     response = HTTParty.post(notification_url, body: {channel: channel, text: text}.to_json, headers: headers)
     raise StandardError, "Slack notification failed: #{response.body}" unless response.ok?
-    binding.pry
   end
 
   def get_user_by_email(email)
