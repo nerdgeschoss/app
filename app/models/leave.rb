@@ -73,11 +73,11 @@ class Leave < ApplicationRecord
   end
 
   def notify_hr_on_slack_about_new_request
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("leaves.notifications.new_request_content", user: user.display_name, leave_during: formatted_leave_during, link: user_request_link_markdown, type: type))
+    Slack.instance.notify(channel: Config.slack_hr_channel_id!, text: I18n.t("leaves.notifications.new_request_content", user: user.display_name, leave_during: formatted_leave_during, link: user_request_link_markdown, type: type))
   end
 
   def notify_user_on_slack_about_status_change
-    Slack.instance.notify(channel: "U01PPR64LP5", text: I18n.t("leaves.notifications.status_change_content", user: user.display_name, leave_during: formatted_leave_during, status: status, type: type))
+    Slack.instance.notify(channel: user.get_slack_address, text: I18n.t("leaves.notifications.status_change_content", user: user.display_name, leave_during: formatted_leave_during, status: status, type: type))
   end
 
   private

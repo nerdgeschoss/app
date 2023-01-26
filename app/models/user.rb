@@ -13,6 +13,7 @@
 #  updated_at             :datetime         not null
 #  first_name             :string
 #  last_name              :string
+#  slack_address          :string
 #
 
 class User < ApplicationRecord
@@ -62,6 +63,18 @@ class User < ApplicationRecord
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def get_slack_address
+    return slack_address if slack_address.present?
+
+    address = Slack.instance.get_user_by_email(email)&.dig("id")
+    if address.present?
+      update! slack_address: address
+    else
+      raise StandardError, "Could not find slack address for #{email}"
+    end
+    address
   end
 
   private
