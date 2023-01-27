@@ -46,6 +46,8 @@ en:
       all_users: All Users
       sprints: Sprints
     notifications:
+      anniversary_line: "\n%{user} celebrates their nerdgeschoss anniversary on %{date}!"
+      birthday_line: "\n%{user} celebrates their birthday on %{date}!"
       sprint_start_content:
         one: |-
           *Sprint %{title} starts today!*
@@ -73,6 +75,9 @@ en:
   users:
     index:
       users: Users
+    messages:
+      congrats: Congratulations %{user} on being a part of nerdgeschoss for %{employment_duration} now!
+      happy_birthday: "*HAPPY BIRTHDAY %{user}!!*"
     show:
       remaining_holidays: Remaining holidays
     unpaid_vacation:
