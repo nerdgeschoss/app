@@ -13,9 +13,13 @@
 #  updated_at             :datetime         not null
 #  first_name             :string
 #  last_name              :string
+#  slack_address          :string
+#  born_on                :date
+#  hired_on               :date
 #
 
 class User < ApplicationRecord
+  include ActionView::Helpers::DateHelper
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }
@@ -62,6 +66,15 @@ class User < ApplicationRecord
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def congratulate_on_birthday
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.happy_birthday", user: first_name.upcase))
+  end
+
+  def congratulate_on_hiring_anniversary
+    employment_duration_text = time_ago_in_words(hired_on).remove("about").strip
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.congrats", user: first_name, employment_duration: employment_duration_text))
   end
 
   private
