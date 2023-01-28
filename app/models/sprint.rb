@@ -104,13 +104,13 @@ class Sprint < ApplicationRecord
   end
 
   def birthdays_text_lines
-    all_users.select { |user| sprint_during.cover?(user.birthday_in_actual_year) if user.born_on.present? }.map do |user|
+    all_users.select { |user| sprint_during.cover?(user.birthday_in_actual_year) || sprint_during.cover?(user.birthday_in_next_year) if user.born_on.present? }.map do |user|
       I18n.t("sprints.notifications.birthday_line", user: user.slack_mention_display_name, date: user.born_on&.strftime("%d.%m."))
     end.join
   end
 
   def anniversaries_text_lines
-    all_users.select { |user| sprint_during.cover?(user.hiring_date_in_actual_year) if user.hired_on.present? }.map do |user|
+    all_users.select { |user| sprint_during.cover?(user.hiring_date_in_actual_year) || sprint_during.cover?(user.hiring_date_in_next_year) if user.hired_on.present? }.map do |user|
       I18n.t("sprints.notifications.anniversary_line", user: user.slack_mention_display_name, date: user.hired_on.strftime("%d.%m."))
     end.join
   end

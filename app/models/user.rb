@@ -82,11 +82,19 @@ class User < ApplicationRecord
   end
 
   def birthday_in_actual_year
-    born_on + (Date.today - born_on)
+    born_on.change year: Date.current.year
   end
 
   def hiring_date_in_actual_year
-    hired_on + (Date.today - hired_on)
+    hired_on.change year: Date.current.year
+  end
+
+  def birthday_in_next_year
+    born_on.change year: Date.current.year + 1
+  end
+
+  def hiring_date_in_next_year
+    hired_on.change year: Date.current.year + 1
   end
 
   private
