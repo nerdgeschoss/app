@@ -86,12 +86,36 @@ class Sprint < ApplicationRecord
   end
 
   def send_sprint_start_notification
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("sprints.notifications.sprint_start_content", title: title, sprint_during: ApplicationController.helpers.date_range(sprint_during.min, sprint_during.max, format: :long), working_days: working_days, leaves: leaves_text_lines, count: leaves_text_lines.size))
+    lines = leaves_text_lines
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text:
+        I18n.t("sprints.notifications.sprint_start_content",
+          title: title,
+          sprint_during: ApplicationController.helpers.date_range(sprint_during.min, sprint_during.max, format: :long),
+          working_days: working_days,
+          leaves: lines,
+          count: lines.size)
+              .concat("\n", birthdays_text_lines, anniversaries_text_lines))
   end
 
   def leaves_text_lines
-    Leave.during(sprint_during).map do |leave|
-      "\n- #{leave.user.first_name} (#{ApplicationController.helpers.date_range leave.leave_during.min, leave.leave_during.max, format: :long}), #{leave.type}, #{leave.title}"
+    Leave.includes(:user).during(sprint_during).map do |leave|
+      "\n- #{leave.user.slack_mention_display_name} (#{ApplicationController.helpers.date_range leave.leave_during.min, leave.leave_during.max, format: :long}): #{leave.title} (#{leave.type})"
     end.join
+  end
+
+  def birthdays_text_lines
+    all_users.select { |user| sprint_during.cover?(user.birthday_in_actual_year) if user.born_on.present? }.map do |user|
+      I18n.t("sprints.notifications.birthday_line", user: user.slack_mention_display_name, date: user.born_on&.strftime("%d.%m."))
+    end.join
+  end
+
+  def anniversaries_text_lines
+    all_users.select { |user| sprint_during.cover?(user.hiring_date_in_actual_year) if user.hired_on.present? }.map do |user|
+      I18n.t("sprints.notifications.anniversary_line", user: user.slack_mention_display_name, date: user.hired_on.strftime("%d.%m."))
+    end.join
+  end
+
+  def all_users
+    User.all
   end
 end
