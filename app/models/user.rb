@@ -40,6 +40,10 @@ class User < ApplicationRecord
     first_name.presence || email
   end
 
+  def slack_mention_display_name
+    slack_address.present? ? "<@#{slack_address}>" : display_name
+  end
+
   def full_name
     [first_name, last_name].map(&:presence).compact.join(" ").presence || email
   end
@@ -69,12 +73,20 @@ class User < ApplicationRecord
   end
 
   def congratulate_on_birthday
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.happy_birthday", user: first_name.upcase))
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.happy_birthday", user: slack_mention_display_name))
   end
 
   def congratulate_on_hiring_anniversary
     employment_duration_text = time_ago_in_words(hired_on).remove("about").strip
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.congrats", user: first_name, employment_duration: employment_duration_text))
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.congrats", user: slack_mention_display_name, employment_duration: employment_duration_text))
+  end
+
+  def birthday_in_actual_year
+    born_on + (Date.today - born_on)
+  end
+
+  def hiring_date_in_actual_year
+    hired_on + (Date.today - hired_on)
   end
 
   private
