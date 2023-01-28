@@ -18,9 +18,9 @@ en:
       really_delete: Really delete
     notifications:
       sick_leave_content:
-        one: "*%{user} is on sick leave today*"
+        one: "🤒 *%{user} is on sick leave today*"
         other: |-
-          *%{user} is on sick leave*
+          🤒 *%{user} is on sick leave*
           Duration: %{leave_during}
   pages:
     home:
@@ -48,25 +48,27 @@ en:
     notifications:
       anniversary_line: |2-
 
-        %{user} celebrates their nerdgeschoss anniversary on %{date}!
+        🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*
       birthday_line: |2-
 
-        %{user} celebrates their birthday on %{date}!
+        🎂 *%{user} celebrates their birthday on %{date}!*
       sprint_start_content:
         one: |-
-          *Sprint %{title} starts today!*
+          🏃 *Sprint %{title} starts today!*
           Duration: %{sprint_during}
           Working days: %{working_days}
-          *On leave:*
+
+          🏖️ *On leave:*
           %{leaves}
         other: |-
-          *Sprint %{title} starts today!*
+          🏃 *Sprint %{title} starts today!*
           Duration: %{sprint_during}
           Working days: %{working_days}
-          *On leave:*
+
+          🏖️ *On leave:*
           %{leaves}
         zero: |-
-          *Sprint %{title} starts today!*
+          🏃 *Sprint %{title} starts today!*
           Duration: %{sprint_during}
           Working days: %{working_days}
   time_will_tell:
@@ -80,8 +82,8 @@ en:
     index:
       users: Users
     messages:
-      congrats: Congratulations %{user} on being a part of nerdgeschoss for %{employment_duration} now!
-      happy_birthday: "*HAPPY BIRTHDAY %{user}!!*"
+      congrats: 🎉 Congratulations %{user} on being a part of nerdgeschoss for %{employment_duration} now!
+      happy_birthday: "🥳 *HAPPY BIRTHDAY %{user}!!*"
     show:
       remaining_holidays: Remaining holidays
     unpaid_vacation:
