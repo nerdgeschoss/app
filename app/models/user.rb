@@ -37,6 +37,10 @@ class User < ApplicationRecord
     first_name.presence || email
   end
 
+  def slack_mention_display_name
+    slack_address.present? ? "<@#{slack_address}>" : display_name
+  end
+
   def full_name
     [first_name, last_name].map(&:presence).compact.join(" ").presence || email
   end
@@ -65,16 +69,16 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def get_slack_address
-    return slack_address if slack_address.present?
-
-    address = Slack.instance.get_user_by_email(email)&.dig("id")
-    if address.present?
-      update! slack_address: address
+  def notify(message)
+    if slack_address.present?
+      Slack.instance.notify(channel: slack_address, text: message)
     else
-      raise StandardError, "Could not find slack address for #{email}"
+      slack_id = Slack.instance.retrieve_users_slack_id_by_email(email)
+      raise StandardError, "Could not find slack address for #{email}" unless slack_id.present?
+
+      update! slack_address: slack_id
+      Slack.instance.notify(channel: slack_id, text: message)
     end
-    address
   end
 
   private
