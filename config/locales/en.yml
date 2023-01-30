@@ -7,6 +7,11 @@ en:
   errors:
     messages:
       not_saved: Not saved
+  leave:
+    status:
+      approved: Approved
+      pending_approval: Pending approval
+      rejected: Rejected
   leaves:
     form:
       request_leave: Request leave
