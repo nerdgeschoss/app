@@ -81,22 +81,6 @@ class User < ApplicationRecord
     Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.congrats", user: slack_mention_display_name, employment_duration: employment_duration_text))
   end
 
-  def birthday_in_actual_year
-    born_on.change year: Date.current.year
-  end
-
-  def hiring_date_in_actual_year
-    hired_on.change year: Date.current.year
-  end
-
-  def birthday_in_next_year
-    born_on.change year: Date.current.year + 1
-  end
-
-  def hiring_date_in_next_year
-    hired_on.change year: Date.current.year + 1
-  end
-
   private
 
   def leaves_this_year
