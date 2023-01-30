@@ -29,8 +29,8 @@ class LeavesController < ApplicationController
   end
 
   def update
-    if @leave.update(permitted_attributes(Leave))
-      @leave.notify_user_on_slack_about_status_change if @leave.status_changed?
+    if @leave.update(leave_attributes)
+      @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
       redirect_to leaves_path
     else
       render :index, status: :unprocessable_entity
@@ -48,7 +48,7 @@ class LeavesController < ApplicationController
     @leave = authorize Leave.find(params[:id])
   end
 
-  def leave_params
-    params.require(:leave).permit(:user_id, :status, :days, :notes)
+  def leave_attributes
+    permitted_attributes(Leave)
   end
 end
