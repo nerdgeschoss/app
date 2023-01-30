@@ -6,5 +6,5 @@
       = link_to t(".subscribe"), feed_leaves_url(format: :ics, protocol: :webcal)
   .stack.stack--row.stack--small.stack--wrap
     - (Leave.statuses.keys + ["all"]).sort.each do |key|
-      a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: value, user: @user&.id)) = t(".#{key}")
+      a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: key, user: @user&.id)) = t(".#{key}")
   = render @leaves.with_status(@status)
