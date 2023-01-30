@@ -6,10 +6,10 @@ class Slack
     raise StandardError, "Slack notification failed: #{response.body}" unless response.ok?
   end
 
-  def get_user_by_email(email)
+  def retrieve_users_slack_id_by_email(email)
     response = HTTParty.get(get_user_by_email_url, headers: headers, query: {email: email})
     raise StandardError, response.body unless response.ok?
-    response["user"]
+    response["user"]["id"] if response["user"].present?
   end
 
   private
