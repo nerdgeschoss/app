@@ -24,7 +24,6 @@ class Leave < ApplicationRecord
   scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC") }
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
-  scope :not_rejected, -> { where.not(status: :rejected) }
   scope :with_status, ->(status) {
     if status == :all
       all
@@ -56,8 +55,6 @@ class Leave < ApplicationRecord
   end
 
   def to_ics
-    return if rejected?
-
     event = Icalendar::Event.new
     event.dtstart = Icalendar::Values::Date.new leave_during.min
     event.dtstart.ical_params = {"VALUE" => "DATE"}
