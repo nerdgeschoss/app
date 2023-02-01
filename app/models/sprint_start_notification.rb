@@ -6,21 +6,19 @@ class SprintStartNotification
   end
 
   def message
-    memoized_leaves_text_lines = leaves_text_lines
-    memoized_users = currently_employed_users
     I18n.t("sprints.notifications.sprint_start_content",
       title: @sprint.title,
       sprint_during: ApplicationController.helpers.date_range(@sprint.sprint_during.min, @sprint.sprint_during.max, format: :long),
       working_days: @sprint.working_days,
-      leaves: memoized_leaves_text_lines,
-      count: memoized_leaves_text_lines.size)
-      .concat("\n", birthdays_text_lines(memoized_users), anniversaries_text_lines(memoized_users))
+      leaves: leaves_text_lines,
+      count: leaves_text_lines.size)
+      .concat("\n", birthdays_text_lines(currently_employed_users), anniversaries_text_lines(currently_employed_users))
   end
 
   private
 
   def leaves_text_lines
-    Leave.includes(:user).during(@sprint.sprint_during).map do |leave|
+    @leaves_text_lines ||= Leave.includes(:user).during(@sprint.sprint_during).map do |leave|
       "\n- #{leave.user.display_name} (#{ApplicationController.helpers.date_range leave.leave_during.min, leave.leave_during.max, format: :long}): #{leave.title} (#{leave.type})"
     end.join
   end
@@ -38,7 +36,7 @@ class SprintStartNotification
   end
 
   def currently_employed_users
-    User.sprinter
+    @currently_employed_users ||= User.sprinter
   end
 
   def date_in_actual_year(date)
