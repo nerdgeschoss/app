@@ -2,24 +2,31 @@ class Slack
   include Singleton
 
   def notify(channel:, text:)
-    response = HTTParty.post(notification_url, body: {channel: channel, text: text}.to_json, headers: headers)
-    raise StandardError, "Slack notification failed: #{response.body}" unless response.ok?
+    response = post method: "chat.postMessage", channel: channel, text: text
+    response.ok?
   end
 
   def retrieve_users_slack_id_by_email(email)
-    response = HTTParty.get(get_user_by_email_url, headers: headers, query: {email: email})
-    raise StandardError, response.body unless response.ok?
+    response = get method: "users.lookupByEmail", query: {email: email}
     response["user"]["id"] if response["user"].present?
+  end
+
+  def get(method:, query:)
+    response = HTTParty.get(client_url(method), headers: headers, query: query)
+    raise StandardError, response["error"].humanize unless response["ok"] == true
+    response
+  end
+
+  def post(method:, channel:, text:)
+    response = HTTParty.post(client_url(method), headers: headers, body: {channel: channel, text: text}.to_json)
+    raise StandardError, response["error"].humanize unless response["ok"] == true
+    response
   end
 
   private
 
-  def notification_url
-    "https://slack.com/api/chat.postMessage"
-  end
-
-  def get_user_by_email_url
-    "https://slack.com/api/users.lookupByEmail"
+  def client_url(method)
+    "https://slack.com/api/#{method}"
   end
 
   def token

@@ -7,11 +7,7 @@ class LeavesController < ApplicationController
   def index
     @leaves = policy_scope(Leave.reverse_chronologic)
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
-    @user = if params[:user].present?
-      User.find(params[:user])
-    else
-      current_user
-    end
+    @user = params[:user_id].presence&.then { |id| User.find(id) } || current_user
   end
 
   def new
