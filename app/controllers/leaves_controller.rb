@@ -14,7 +14,7 @@ class LeavesController < ApplicationController
   def create
     @leave = authorize Leave.new(permitted_attributes(Leave).merge(days: permitted_attributes(Leave)[:days].split(", ")).reverse_merge(user_id: current_user.id))
     if @leave.save
-      @leave.notify_slack_about_sick_leave if @leave.sick?
+      @leave.notify_slack_about_sick_leave if @leave.sick? && @leave.days.include?(Date.today)
       ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
