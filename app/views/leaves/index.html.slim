@@ -4,7 +4,11 @@
     .headline__actions
       a href=modal_path(new_leave_path) = t(".request_leave")
       = link_to t(".subscribe"), feed_leaves_url(format: :ics, protocol: :webcal)
-  .stack.stack--row.stack--small.stack--wrap
-    - (Leave.statuses.keys + ["all"]).sort.each do |key|
-      a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: key, user: @user&.id)) = t(".#{key}")
+  .line.line--space-between
+    .stack.stack--row.stack--small.stack--wrap
+      - (Leave.statuses.keys + ["all"]).sort.each do |key|
+        a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: key, user_id: @user&.id)) = t(".#{key}")
+    - if policy(Leave).show_all_users?
+      = form_with method: :get do |f|
+        = f.collection_select :user_id, User.currently_employed, :id, :display_name, {prompt: t("select user"), selected: @user&.id, include_blank: t(".all_users")}, {class: "input input__input", data: { controller: "autosubmitting" }}
   = render @leaves.with_status(@status)

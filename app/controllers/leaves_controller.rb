@@ -5,9 +5,15 @@ class LeavesController < ApplicationController
   before_action :assign_leave, only: [:update, :destroy]
 
   def index
-    @leaves = policy_scope(Leave.reverse_chronologic)
+    @leaves = params[:user_id].present? ? Leave.where(user_id: params[:user_id]) : policy_scope(Leave.reverse_chronologic)
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
-    @user = params[:user_id].presence&.then { |id| User.find(id) } || current_user
+    @user = if params[:user_id].present?
+      User.find(params[:user_id])
+    elsif policy(Leave).show_all_users?
+      nil
+    else
+      current_user
+    end
   end
 
   def new
@@ -25,7 +31,7 @@ class LeavesController < ApplicationController
   end
 
   def update
-    @leave.update!(leave_attributes)
+    @leave.update!(permitted_attributes(Leave))
     @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
     redirect_to leaves_path
   end
@@ -39,9 +45,5 @@ class LeavesController < ApplicationController
 
   def assign_leave
     @leave = authorize Leave.find(params[:id])
-  end
-
-  def leave_attributes
-    permitted_attributes(Leave)
   end
 end
