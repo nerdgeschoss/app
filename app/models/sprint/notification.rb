@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SprintStartNotification
+class Sprint::Notification
   def initialize(sprint)
     @sprint = sprint
   end
@@ -24,26 +24,21 @@ class SprintStartNotification
   end
 
   def birthdays_text_lines(users)
-    users.select { |user| @sprint.sprint_during.cover?(date_in_actual_year(user.born_on)) || @sprint.sprint_during.cover?(date_in_next_year(user.born_on)) if user.born_on.present? }.map do |user|
-      I18n.t("sprints.notifications.birthday_line", user: user.display_name, date: user.born_on&.strftime("%d.%m."))
-    end.join
+    users.select { |user| range_covers_repeating_date?(range: @sprint.sprint_during, date: user.born_on) if user.born_on.present? }.map do |user|
+      I18n.t("sprints.notifications.birthday_line", user: user.display_name, date: I18n.l(user.hired_on, format: :short))
   end
 
   def anniversaries_text_lines(users)
-    users.select { |user| @sprint.sprint_during.cover?(date_in_actual_year(user.hired_on)) || @sprint.sprint_during.cover?(date_in_next_year(user.hired_on)) if user.hired_on.present? }.map do |user|
-      I18n.t("sprints.notifications.anniversary_line", user: user.display_name, date: user.hired_on.strftime("%d.%m."))
+    users.select { |user| range_covers_repeating_date?(range: @sprint.sprint_during, date: user.hired_on) if user.hired_on.present? }.map do |user|
+      I18n.t("sprints.notifications.anniversary_line", user: user.display_name, date: I18n.l(user.hired_on, format: :short))
     end.join
   end
 
   def currently_employed_users
-    @currently_employed_users ||= User.sprinter
+    @currently_employed_users ||= User.currently_employed
   end
 
-  def date_in_actual_year(date)
-    date.change year: Date.current.year
-  end
-
-  def date_in_next_year(date)
-    date.change year: Date.current.year + 1
+  def range_covers_repeating_date?(range:, date:)
+    range.cover?(date.change year: Date.current.year) || range.cover?(date.change(year: Date.current.year + 1))
   end
 end

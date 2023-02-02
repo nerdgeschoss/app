@@ -86,6 +86,6 @@ class Sprint < ApplicationRecord
   end
 
   def send_sprint_start_notification
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: SprintStartNotification.new(self).message)
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Sprint::Notification.new(self).message)
   end
 end
