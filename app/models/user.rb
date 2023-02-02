@@ -13,7 +13,7 @@
 #  updated_at             :datetime         not null
 #  first_name             :string
 #  last_name              :string
-#  slack_address          :string
+#  slack_id               :string
 #
 
 class User < ApplicationRecord
@@ -92,10 +92,10 @@ class User < ApplicationRecord
   end
 
   def ensure_slack_id
-    return slack_address if slack_address.present?
+    return slack_id if slack_id.present?
 
     slack_id = Slack.instance.retrieve_users_slack_id_by_email(email)
-    update! slack_address: slack_id if slack_id.present?
+    update! slack_id: slack_id if slack_id.present?
     slack_id
   end
 end
