@@ -5,7 +5,7 @@ class LeavesController < ApplicationController
   before_action :assign_leave, only: [:update, :destroy]
 
   def index
-    @leaves = params[:user_id].present? ? Leave.where(user_id: params[:user_id]) : policy_scope(Leave.reverse_chronologic)
+    @leaves = params[:user_id].present? ? Leave.where(user_id: params[:user_id]).reverse_chronologic : policy_scope(Leave.reverse_chronologic)
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
     @user = if params[:user_id].present?
       User.find(params[:user_id])
