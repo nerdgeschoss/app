@@ -25,6 +25,7 @@ class User < ApplicationRecord
   scope :with_role, ->(role) { where("? = ANY(users.roles)", role) }
   scope :sprinter, -> { with_role("sprinter") }
   scope :hr, -> { with_role("hr") }
+  scope :currently_employed, -> { where.not(roles: []) }
 
   has_many :payslips, dependent: :destroy
   has_many :leaves, dependent: :destroy, class_name: "Leave"
@@ -68,7 +69,7 @@ class User < ApplicationRecord
   end
 
   def congratulate_on_birthday
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.happy_birthday", user: display_name))
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("users.messages.happy_birthday", user: display_name.upcase))
   end
 
   def congratulate_on_hiring_anniversary
