@@ -25,12 +25,9 @@ class LeavesController < ApplicationController
   end
 
   def update
-    if @leave.update(leave_attributes)
-      @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
-      redirect_to leaves_path
-    else
-      render :index, status: :unprocessable_entity
-    end
+    @leave.update!(leave_attributes)
+    @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
+    redirect_to leaves_path
   end
 
   def destroy
