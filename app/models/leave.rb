@@ -14,8 +14,8 @@
 #
 
 class Leave < ApplicationRecord
-  include RangeAccessing
   include Rails.application.routes.url_helpers
+  include RangeAccessing
 
   self.inheritance_column = nil
 
@@ -61,32 +61,15 @@ class Leave < ApplicationRecord
   end
 
   def notify_slack_about_sick_leave
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("leaves.notifications.sick_leave_content", user: user.slack_mention_display_name, leave_during: formatted_leave_during, count: days.size))
+    return unless days.include?(Date.today)
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Leave::Notification.new(user: user, leave: self).slack_sick_leave_message)
   end
 
   def notify_hr_on_slack_about_new_request
-    Slack.instance.notify(channel: Config.slack_hr_channel_id!, text: I18n.t("leaves.notifications.new_request_content", user: user.slack_mention_display_name, leave_during: formatted_leave_during, link: user_request_link_markdown, type: type))
+    Slack.instance.notify(channel: Config.slack_hr_channel_id!, text: Leave::Notification.new(user: user, leave: self).hr_sick_leave_message)
   end
 
   def notify_user_on_slack_about_status_change
-    user.notify(I18n.t("leaves.notifications.status_change_content", user: user.display_name, leave_during: formatted_leave_during, status: status, type: type))
-  end
-
-  private
-
-  def url_for_pending_leaves
-    url_for(controller: "leaves",
-      action: "index",
-      user: user.id,
-      status: "pending_approval",
-      host: Rails.application.routes.default_url_options[:host])
-  end
-
-  def user_request_link_markdown
-    "<#{url_for_pending_leaves}|#{I18n.t("leaves.notifications.here")}>"
-  end
-
-  def formatted_leave_during
-    ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long
+    user.notify!(Leave::Notification.new(user: user, leave: self).status_change_message)
   end
 end
