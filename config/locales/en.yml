@@ -16,8 +16,10 @@ en:
     form:
       request_leave: Request leave
     index:
+      all_users: All users
       leaves: Leaves
       request_leave: Request leave
+      select_user: Select user
       subscribe: Subscribe
     leave:
       really_delete: Really delete
