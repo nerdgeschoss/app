@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Sprint::Notification
-  attribute_reader :sprint
+  attr_reader :sprint
 
   def initialize(sprint)
     @sprint = sprint
