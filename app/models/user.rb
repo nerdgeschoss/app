@@ -17,12 +17,14 @@
 #
 
 class User < ApplicationRecord
+  class NotificationError < StandardError; end
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }
   scope :with_role, ->(role) { where("? = ANY(users.roles)", role) }
   scope :sprinter, -> { with_role("sprinter") }
   scope :hr, -> { with_role("hr") }
+  scope :currently_employed, -> { where.not(roles: []) }
 
   has_many :payslips, dependent: :destroy
   has_many :leaves, dependent: :destroy, class_name: "Leave"
@@ -38,7 +40,8 @@ class User < ApplicationRecord
   end
 
   def slack_mention_display_name
-    slack_address.present? ? "<@#{slack_address}>" : display_name
+    id = ensure_slack_id
+    id.present? ? "<@#{id}>" : display_name
   end
 
   def full_name
@@ -69,16 +72,8 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def notify(message)
-    if slack_address.present?
-      Slack.instance.notify(channel: slack_address, text: message)
-    else
-      slack_id = Slack.instance.retrieve_users_slack_id_by_email(email)
-      raise StandardError, "Could not find slack address for #{email}" unless slack_id.present?
-
-      update! slack_address: slack_id
-      Slack.instance.notify(channel: slack_id, text: message)
-    end
+  def notify!(message)
+    Slack.instance.notify(channel: ensure_slack_id!, text: message)
   end
 
   private
@@ -88,5 +83,19 @@ class User < ApplicationRecord
       date = Date.today
       leaves.during(date.beginning_of_year..date.end_of_year)
     end
+  end
+
+  def ensure_slack_id!
+    id = ensure_slack_id
+    raise NotificationError, "Could not find slack address for #{email}" unless id.present?
+    id
+  end
+
+  def ensure_slack_id
+    return slack_address if slack_address.present?
+
+    slack_id = Slack.instance.retrieve_users_slack_id_by_email(email)
+    update! slack_address: slack_id if slack_id.present?
+    slack_id
   end
 end
