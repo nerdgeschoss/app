@@ -10,5 +10,6 @@
         a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: key, user_id: @user&.id)) = t(".#{key}")
     - if policy(Leave).show_all_users?
       = form_with method: :get do |f|
-        = f.collection_select :user_id, User.currently_employed, :id, :display_name, {prompt: t("select user"), selected: @user&.id, include_blank: t(".all_users")}, {class: "input input__input", data: { controller: "autosubmitting" }}
-  = render @leaves.with_status(@status)
+        = f.hidden_field :status, value: @status
+        = f.collection_select :user_id, User.currently_employed, :id, :display_name, {prompt: t(".select_user"), selected: @user&.id, include_blank: t(".all_users")}, {class: "input input__input", data: { controller: "autosubmitting" }}
+  = render @status == :all ? @leaves : @leaves.select { |leave| leave.status == @status.to_s }
