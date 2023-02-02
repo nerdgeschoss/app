@@ -8,7 +8,7 @@ class Slack
 
   def retrieve_users_slack_id_by_email(email)
     response = get method: "users.lookupByEmail", query: {email: email}
-    response["user"]["id"] if response["user"].present?
+    response.dig("user", "id")
   end
 
   def get(method:, query:)
