@@ -1,9 +1,11 @@
 class Slack
+  class NetworkResponseError < StandardError; end
+
+  class NotificationError < StandardError; end
   include Singleton
 
   def notify(channel:, text:)
-    response = post method: "chat.postMessage", channel: channel, text: text
-    response.ok?
+    post method: "chat.postMessage", channel: channel, text: text
   end
 
   def retrieve_users_slack_id_by_email(email)
@@ -13,13 +15,15 @@ class Slack
 
   def get(method:, query:)
     response = HTTParty.get(client_url(method), headers: headers, query: query)
-    raise StandardError, response["error"].humanize unless response["ok"] == true
+    raise NetworkResponseError, response["error"].humanize unless response.ok? # doesn't catch the error if the email is not found to allow nil, only catches bad network requests
+
     response
   end
 
   def post(method:, channel:, text:)
     response = HTTParty.post(client_url(method), headers: headers, body: {channel: channel, text: text}.to_json)
-    raise StandardError, response["error"].humanize unless response["ok"] == true
+    raise NotificationError, response["error"].humanize unless response["ok"] == true
+
     response
   end
 
