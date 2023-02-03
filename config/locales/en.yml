@@ -18,10 +18,8 @@ en:
       really_delete: Really delete
     notifications:
       sick_leave_content:
-        one: "*%{user} is on sick leave today*"
-        other: |-
-          *%{user} is on sick leave*
-          Duration: %{leave_during}
+        one: "\U0001F912 *%{user} is on sick leave today*"
+        other: "\U0001F912 *%{user} is on sick leave*\nDuration: %{leave_during}"
   pages:
     home:
       archive: Archive
@@ -46,23 +44,12 @@ en:
       all_users: All Users
       sprints: Sprints
     notifications:
+      anniversary_line: "\n\U0001F388 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"
+      birthday_line: "\n\U0001F382 *%{user} celebrates their birthday on %{date}!*"
       sprint_start_content:
-        one: |-
-          *Sprint %{title} starts today!*
-          Duration: %{sprint_during}
-          Working days: %{working_days}
-          *On leave:*
-          %{leaves}
-        other: |-
-          *Sprint %{title} starts today!*
-          Duration: %{sprint_during}
-          Working days: %{working_days}
-          *On leave:*
-          %{leaves}
-        zero: |-
-          *Sprint %{title} starts today!*
-          Duration: %{sprint_during}
-          Working days: %{working_days}
+        one: "\U0001F3C3 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n\U0001F3D6️ *On leave:*\n%{leaves}"
+        other: "\U0001F3C3 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n\U0001F3D6️ *On leave:*\n%{leaves}"
+        zero: "\U0001F3C3 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}"
   time_will_tell:
     date_range:
       different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"
@@ -73,6 +60,9 @@ en:
   users:
     index:
       users: Users
+    messages:
+      congrats: "\U0001F389 Congratulations %{user} on being a part of nerdgeschoss for %{employment_duration} now!"
+      happy_birthday: "\U0001F973 *HAPPY BIRTHDAY %{user}!!*"
     show:
       remaining_holidays: Remaining holidays
     unpaid_vacation:

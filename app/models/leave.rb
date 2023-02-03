@@ -58,6 +58,10 @@ class Leave < ApplicationRecord
   end
 
   def notify_slack_about_sick_leave
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("leaves.notifications.sick_leave_content", user: user.first_name, leave_during: (ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long), count: days.size))
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!,
+      text: I18n.t("leaves.notifications.sick_leave_content",
+        user: user.display_name,
+        leave_during: (ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long),
+        count: days.size))
   end
 end
