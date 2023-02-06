@@ -20,19 +20,22 @@ class Sprint::Notification
   private
 
   def leaves_text_lines
-    @leaves_text_lines ||= Leave.includes(:user).during(@sprint.sprint_during).map do |leave|
-      "\n- #{leave.user.display_name} (#{ApplicationController.helpers.date_range leave.leave_during.min, leave.leave_during.max, format: :long}): #{leave.title} (#{leave.type})"
+    @leaves_text_lines ||= Leave.includes(:user).during(@sprint.sprint_during).group_by(&:user).map do |user, leaves|
+      if user.leaves.any?
+        dates = leaves.sort_by { |l| l.days.first }.map { |leave| ApplicationController.helpers.date_range(leave.leave_during.min, leave.leave_during.max, format: :short, show_year: false).to_s }.join(", ")
+        "\n- #{user.display_name} is away for #{leaves.map(&:days).flatten.size} days: (#{dates})"
+      end
     end.join
   end
 
   def birthdays_text_lines(users)
-    users.select { |user| range_covers_repeating_date?(range: @sprint.sprint_during, date: user.born_on) if user.born_on.present? }.map do |user|
+    users.select { |user| range_covers_repeating_date?(range: @sprint.sprint_during, date: user.born_on) if user.born_on.present? }.sort_by { |user| date_in_current_year user.born_on }.map do |user|
       I18n.t("sprints.notifications.birthday_line", user: user.display_name, date: I18n.l(user.hired_on, format: :short))
     end.join
   end
 
   def anniversaries_text_lines(users)
-    users.select { |user| range_covers_repeating_date?(range: @sprint.sprint_during, date: user.hired_on) if user.hired_on.present? }.map do |user|
+    users.select { |user| range_covers_repeating_date?(range: @sprint.sprint_during, date: user.hired_on) if user.hired_on.present? }.sort_by { |user| date_in_current_year user.hired_on }.map do |user|
       I18n.t("sprints.notifications.anniversary_line", user: user.display_name, date: I18n.l(user.hired_on, format: :short))
     end.join
   end
@@ -42,6 +45,10 @@ class Sprint::Notification
   end
 
   def range_covers_repeating_date?(range:, date:)
-    range.cover?(date.change(year: Date.current.year)) || range.cover?(date.change(year: Date.current.year + 1))
+    range.cover?(date_in_current_year(date)) || range.cover?(date_in_current_year(date) + 1)
+  end
+
+  def date_in_current_year(date)
+    date.change(year: Date.current.year)
   end
 end
