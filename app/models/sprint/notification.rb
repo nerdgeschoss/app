@@ -21,10 +21,8 @@ class Sprint::Notification
 
   def leaves_text_lines
     @leaves_text_lines ||= Leave.includes(:user).during(@sprint.sprint_during).group_by(&:user).map do |user, leaves|
-      if user.leaves.any?
-        dates = leaves.sort_by { |l| l.days.first }.map { |leave| ApplicationController.helpers.date_range(leave.leave_during.min, leave.leave_during.max, format: :short, show_year: false).to_s }.join(", ")
-        "\n- #{user.display_name} is away for #{leaves.map(&:days).flatten.size} days: (#{dates})"
-      end
+      dates = leaves.sort_by { |l| l.leave_during.min }.map { |leave| ApplicationController.helpers.date_range(leave.leave_during.min, leave.leave_during.max, format: :short, show_year: false).to_s }.to_sentence
+      I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: leaves.map(&:days).flatten.size, dates: dates)
     end.join
   end
 

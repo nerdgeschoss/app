@@ -46,6 +46,7 @@ en:
     notifications:
       anniversary_line: "\n\U0001F388 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"
       birthday_line: "\n\U0001F382 *%{user} celebrates their birthday on %{date}!*"
+      leave_line: "\n- %{user} is away for %{days_count} days: (%{dates})"
       sprint_start_content:
         one: "\U0001F3C3 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n\U0001F3D6️ *On leave:*\n%{leaves}"
         other: "\U0001F3C3 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n\U0001F3D6️ *On leave:*\n%{leaves}"
