@@ -7,7 +7,7 @@
 #  title        :string           not null
 #  type         :string           default("paid"), not null
 #  status       :string           default("pending_approval"), not null
-#  days         :date             default("{}"), not null, is an Array
+#  days         :date             default([]), not null, is an Array
 #  user_id      :uuid             not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

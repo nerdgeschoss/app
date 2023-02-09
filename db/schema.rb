@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_27_155357) do
+ActiveRecord::Schema.define(version: 2023_02_09_171636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2023_01_27_155357) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "review_notes"
     t.datetime "daily_nerd_entry_dates", precision: 6, default: [], null: false, array: true
+    t.integer "finished_storypoints", default: 0, null: false
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
     t.index ["sprint_id"], name: "index_sprint_feedbacks_on_sprint_id"
     t.index ["user_id"], name: "index_sprint_feedbacks_on_user_id"
@@ -86,6 +87,25 @@ ActiveRecord::Schema.define(version: 2023_01_27_155357) do
     t.integer "working_days", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "task_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "task_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_task_users_on_task_id"
+    t.index ["user_id"], name: "index_task_users_on_user_id"
+  end
+
+  create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "sprint_id", null: false
+    t.string "title", null: false
+    t.string "status", null: false
+    t.integer "story_points"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sprint_id"], name: "index_tasks_on_sprint_id"
   end
 
   create_table "time_entries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -131,6 +151,9 @@ ActiveRecord::Schema.define(version: 2023_01_27_155357) do
   add_foreign_key "payslips", "users"
   add_foreign_key "sprint_feedbacks", "sprints"
   add_foreign_key "sprint_feedbacks", "users"
+  add_foreign_key "task_users", "tasks"
+  add_foreign_key "task_users", "users"
+  add_foreign_key "tasks", "sprints"
   add_foreign_key "time_entries", "sprints"
   add_foreign_key "time_entries", "users"
 end

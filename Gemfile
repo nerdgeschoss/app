@@ -2,7 +2,7 @@ source "https://rubygems.org"
 ruby File.read(".ruby-version").strip
 
 # Core
-gem "rails", "7.0.1"
+gem "rails", "~> 7.0.4"
 gem "puma"
 
 # Database
@@ -37,6 +37,8 @@ gem "icalendar", "~> 2.4"
 gem "time_will_tell"
 gem "chartkick"
 gem "httparty"
+gem "graphql-client"
+gem "awesome_print"
 
 # Assets
 gem "jsbundling-rails"

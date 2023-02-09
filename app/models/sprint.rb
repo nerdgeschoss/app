@@ -15,6 +15,7 @@ class Sprint < ApplicationRecord
 
   has_many :sprint_feedbacks
   has_many :time_entries
+  has_many :tasks
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }

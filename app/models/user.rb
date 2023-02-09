@@ -4,7 +4,7 @@
 #
 #  id                     :uuid             not null, primary key
 #  email                  :string           default(""), not null
-#  roles                  :string           default("{}"), not null, is an Array
+#  roles                  :string           default([]), not null, is an Array
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
@@ -30,6 +30,8 @@ class User < ApplicationRecord
   has_many :payslips, dependent: :destroy
   has_many :leaves, dependent: :destroy, class_name: "Leave"
   has_many :sprint_feedbacks, dependent: :destroy
+  has_many :task_user, dependent: :delete_all
+  has_many :task, through: :task_user, dependent: false
 
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
