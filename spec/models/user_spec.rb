@@ -14,6 +14,8 @@
 #  first_name             :string
 #  last_name              :string
 #  slack_id               :string
+#  born_on                :date
+#  hired_on               :date
 #
 
 require "rails_helper"

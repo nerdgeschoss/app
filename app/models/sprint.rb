@@ -86,12 +86,6 @@ class Sprint < ApplicationRecord
   end
 
   def send_sprint_start_notification
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: I18n.t("sprints.notifications.sprint_start_content", title: title, sprint_during: ApplicationController.helpers.date_range(sprint_during.min, sprint_during.max, format: :long), working_days: working_days, leaves: leaves_text_lines, count: leaves_text_lines.size))
-  end
-
-  def leaves_text_lines
-    Leave.during(sprint_during).map do |leave|
-      "\n- #{leave.user.first_name} (#{ApplicationController.helpers.date_range leave.leave_during.min, leave.leave_during.max, format: :long}), #{leave.type}, #{leave.title}"
-    end.join
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Sprint::Notification.new(self).message)
   end
 end
