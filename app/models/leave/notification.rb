@@ -34,7 +34,7 @@ class Leave::Notification
   private
 
   def url_for_pending_leaves
-    url_for(controller: "leaves",
+    leaves_url(user_id: user, status: :pending_approval)
       action: "index",
       user_id: user.id,
       status: "pending_approval",
