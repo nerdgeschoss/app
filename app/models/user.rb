@@ -13,12 +13,12 @@
 #  updated_at             :datetime         not null
 #  first_name             :string
 #  last_name              :string
+#  slack_id               :string
 #  born_on                :date
 #  hired_on               :date
 #
 
 class User < ApplicationRecord
-  include ActionView::Helpers::DateHelper
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }
@@ -38,6 +38,10 @@ class User < ApplicationRecord
 
   def display_name
     first_name.presence || email
+  end
+
+  def slack_mention_display_name
+    User::SlackNotification.new(self).slack_mention_display_name
   end
 
   def full_name
@@ -61,11 +65,15 @@ class User < ApplicationRecord
   end
 
   def used_holidays
-    leaves_this_year.select(&:paid?).flat_map(&:days).count
+    leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count
   end
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def notify!(message)
+    User::SlackNotification.new(self).send_message message
   end
 
   def congratulate_on_birthday

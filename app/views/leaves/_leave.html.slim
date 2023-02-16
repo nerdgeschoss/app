@@ -4,5 +4,12 @@
     .card__header-content
       .card__title = [leave.user.display_name, leave.title].map(&:presence).compact.join(" / ")
       .card__subtitle #{date_range leave.leave_during.min, leave.leave_during.max, format: :long} (#{leave.days.count} days)
+      / i18n-tasks-use t('leave.status.approved')
+      / i18n-tasks-use t('leave.status.rejected')
+      / i18n-tasks-use t('leave.status.pending_approval')
+      strong.card__context = t ".#{leave.status}"
+    - if policy(leave).update? && leave.pending_approval?
+      .card__context = button_to "👍", leave, method: :patch, params: { leave: { status: :approved } }
+      .card__context = button_to "👎", leave, method: :patch, params: { leave: { status: :rejected } }, form: { data: { turbo_confirm: t(".really_reject") } }
     - if policy(leave).destroy?
       .card__context = button_to "🗑", leave, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }

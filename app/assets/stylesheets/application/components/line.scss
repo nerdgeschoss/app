@@ -1,0 +1,8 @@
+.line {
+  display: flex;
+
+  &--space-between {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

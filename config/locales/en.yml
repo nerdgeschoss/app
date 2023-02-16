@@ -7,17 +7,36 @@ en:
   errors:
     messages:
       not_saved: Not saved
+  leave:
+    status:
+      approved: Approved
+      pending_approval: Pending approval
+      rejected: Rejected
   leaves:
     form:
       request_leave: Request leave
     index:
+      all_users: All users
       leaves: Leaves
       request_leave: Request leave
+      select_user: Select user
       subscribe: Subscribe
     leave:
       really_delete: Really delete
+      really_reject: Sure to reject the leave?
     notifications:
+      here: here
+      new_request_content: |-
+        *%{user}* requested a new %{type} leave for %{leave_during}
+        You can approve or reject this request %{link}
       sick_leave_content:
+        one: "*%{user} is on sick leave today*"
+        other: |-
+          *%{user} is on sick leave*
+          Duration: %{leave_during}
+      status_change_content: |-
+        Hi, *%{user}*!
+        Your %{type} leave request for %{leave_during} has been %{status}.
         one: "\U0001F912 *%{user} is on sick leave today*"
         other: "\U0001F912 *%{user} is on sick leave*\nDuration: %{leave_during}"
   pages:
