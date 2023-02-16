@@ -8,7 +8,7 @@ class Leave::Notification
     @leave = leave
   end
 
-  def hr_sick_leave_message
+  def hr_leave_request_message
     I18n.t("leaves.notifications.new_request_content",
       user: user.slack_mention_display_name,
       leave_during: formatted_leave_during,
