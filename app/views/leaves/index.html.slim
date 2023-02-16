@@ -7,7 +7,7 @@
   .line.line--space-between
     .stack.stack--row.stack--small.stack--wrap
       - (Leave.statuses.keys + ["all"]).sort.each do |key|
-        a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: key, user_id: @user&.id)) = t(".#{key}")
+        a.pill class=("active" if key&.to_s == @status.to_s) href=(url_for(status: key, user_id: @user&.id)) = t("leave.status.#{key}")
     - if policy(Leave).show_all_users?
       = form_with method: :get do |f|
         = f.hidden_field :status, value: @status
