@@ -39,7 +39,6 @@ en:
         Your %{type} leave request for %{leave_during} has been %{status}.
         one: "\U0001F912 *%{user} is on sick leave today*"
         other: "\U0001F912 *%{user} is on sick leave*\nDuration: %{leave_during}"
-
   pages:
     home:
       archive: Archive
