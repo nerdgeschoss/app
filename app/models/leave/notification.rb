@@ -3,8 +3,8 @@ class Leave::Notification
 
   attr_reader :user, :leave
 
-  def initialize(user:, leave:)
-    @user = user
+  def initialize(leave:)
+    @user = leave.user
     @leave = leave
   end
 

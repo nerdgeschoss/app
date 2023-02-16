@@ -62,14 +62,14 @@ class Leave < ApplicationRecord
 
   def notify_slack_about_sick_leave
     return unless days.include?(Date.today)
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Leave::Notification.new(user: user, leave: self).slack_sick_leave_message)
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Leave::Notification.new(leave: self).slack_sick_leave_message)
   end
 
   def notify_hr_on_slack_about_new_request
-    Slack.instance.notify(channel: Config.slack_hr_channel_id!, text: Leave::Notification.new(user: user, leave: self).hr_sick_leave_message)
+    Slack.instance.notify(channel: Config.slack_hr_channel_id!, text: Leave::Notification.new(leave: self).hr_sick_leave_message)
   end
 
   def notify_user_on_slack_about_status_change
-    user.notify!(Leave::Notification.new(user: user, leave: self).status_change_message)
+    user.notify!(Leave::Notification.new(leave: self).status_change_message)
   end
 end
