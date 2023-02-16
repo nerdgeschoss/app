@@ -31,8 +31,6 @@ class User < ApplicationRecord
   has_many :leaves, dependent: :destroy, class_name: "Leave"
   has_many :sprint_feedbacks, dependent: :destroy
 
-  delegate :slack_mention_display_name, to: :slack_notification
-
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
     "https://www.gravatar.com/avatar/#{hash}?d=mm&s=#{size}"
@@ -40,6 +38,10 @@ class User < ApplicationRecord
 
   def display_name
     first_name.presence || email
+  end
+
+  def slack_mention_display_name
+    User::SlackNotification.new(self).slack_mention_display_name
   end
 
   def full_name
