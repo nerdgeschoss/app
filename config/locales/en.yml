@@ -29,7 +29,6 @@ en:
       new_request_content: |-
         *%{user}* requested a new %{type} leave for %{leave_during}
         You can approve or reject this request %{link}
-      pending: pending
       sick_leave_content:
         one: "*%{user} is on sick leave today*"
         other: |-
