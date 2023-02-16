@@ -18,6 +18,9 @@
 #  hired_on               :date
 #
 
+class User < ApplicationRecord
+  class NotificationError < StandardError; end
+
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }
