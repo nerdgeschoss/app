@@ -7,7 +7,7 @@ class User::SlackNotification
 
   def initialize(user)
     @user = user
-    @slack_id = user.slack_id
+    @slack_id = ensure_slack_id!
     @email = user.email
   end
 
@@ -17,7 +17,7 @@ class User::SlackNotification
   end
 
   def send_message(message)
-    Slack.instance.notify(channel: ensure_slack_id!, text: message)
+    Slack.instance.notify(channel: slack_id, text: message)
   end
 
   private
@@ -29,10 +29,10 @@ class User::SlackNotification
   end
 
   def ensure_slack_id
-    return slack_id if slack_id.present?
+    return user.slack_id if user.slack_id.present?
 
-    slack_id = Slack.instance.retrieve_users_slack_id_by_email(email)
-    user.update! slack_id: slack_id if slack_id.present?
-    slack_id
+    id = Slack.instance.retrieve_users_slack_id_by_email(email)
+    user.update! slack_id: id if id.present?
+    id
   end
 end
