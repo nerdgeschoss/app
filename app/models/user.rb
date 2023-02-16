@@ -71,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def notify!(message)
-    User::SlackNotification.new(user: self).send_message message
+    User::SlackNotification.new(self).send_message message
   end
 
   def congratulate_on_birthday
