@@ -35,10 +35,6 @@ class Leave::Notification
 
   def url_for_pending_leaves
     leaves_url(user_id: user, status: :pending_approval)
-      action: "index",
-      user_id: user.id,
-      status: "pending_approval",
-      host: Rails.application.routes.default_url_options[:host])
   end
 
   def user_request_link_markdown
