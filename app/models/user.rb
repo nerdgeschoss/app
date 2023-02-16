@@ -19,8 +19,6 @@
 #
 
 class User < ApplicationRecord
-  class NotificationError < StandardError; end
-
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }
@@ -33,6 +31,8 @@ class User < ApplicationRecord
   has_many :leaves, dependent: :destroy, class_name: "Leave"
   has_many :sprint_feedbacks, dependent: :destroy
 
+  delegate :slack_mention_display_name, to: :slack_notification
+
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
     "https://www.gravatar.com/avatar/#{hash}?d=mm&s=#{size}"
@@ -40,11 +40,6 @@ class User < ApplicationRecord
 
   def display_name
     first_name.presence || email
-  end
-
-  def slack_mention_display_name
-    id = ensure_slack_id
-    id.present? ? "<@#{id}>" : display_name
   end
 
   def full_name
@@ -76,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def notify!(message)
-    Slack.instance.notify(channel: ensure_slack_id!, text: message)
+    User::SlackNotification.new(user: self).send_message message
   end
 
   def congratulate_on_birthday
@@ -95,19 +90,5 @@ class User < ApplicationRecord
       date = Date.today
       leaves.during(date.beginning_of_year..date.end_of_year)
     end
-  end
-
-  def ensure_slack_id!
-    id = ensure_slack_id
-    raise NotificationError, "Could not find slack address for #{email}" unless id.present?
-    id
-  end
-
-  def ensure_slack_id
-    return slack_id if slack_id.present?
-
-    slack_id = Slack.instance.retrieve_users_slack_id_by_email(email)
-    update! slack_id: slack_id if slack_id.present?
-    slack_id
   end
 end
