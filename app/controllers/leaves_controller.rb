@@ -5,15 +5,14 @@ class LeavesController < ApplicationController
   before_action :assign_leave, only: [:update, :destroy]
 
   def index
-    @leaves = params[:user_id].present? ? (authorize Leave.where(user_id: params[:user_id]).reverse_chronologic) : policy_scope(Leave.reverse_chronologic)
-    @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
-    @user = if params[:user_id].present?
-      User.find(params[:user_id])
-    elsif policy(Leave).show_all_users?
-      nil
+    @user = if policy(Leave).show_all_users?
+      params[:user_id].present? ? User.find(params[:user_id]) : nil
     else
       current_user
     end
+    @leaves = policy_scope(@user.present? ? ( Leave.where(user_id: @user)) : Leave.all).reverse_chronologic
+    @leaves = @leaves.with_status(params[:status]&.to_sym) if params[:status].present?
+    @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
   end
 
   def new
