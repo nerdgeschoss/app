@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: leaves
@@ -25,7 +27,7 @@ class Leave < ApplicationRecord
   scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC") }
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
-  scope :with_status, ->(status) { status == :all ? all : where(status: status) }
+  scope :with_status, ->(status) { (status == :all) ? all : where(status:) }
 
   enum type: [:paid, :unpaid, :sick].index_with(&:to_s)
   enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)
@@ -55,19 +57,22 @@ class Leave < ApplicationRecord
     event.dtstart.ical_params = {"VALUE" => "DATE"}
     event.dtend = Icalendar::Values::Date.new leave_during.max + 1.day
     event.dtend.ical_params = {"VALUE" => "DATE"}
-    display_status = status == "pending_approval" ? "(#{I18n.t(leaves.pending)})" : ""
+    display_status = (status == "pending_approval") ? "(#{I18n.t(leaves.pending)})" : ""
     event.summary = "#{user.display_name}: #{title} #{emoji} #{display_status}"
-    event.url = Rails.application.routes.url_helpers.leaves_url(id: id)
+    event.url = Rails.application.routes.url_helpers.leaves_url(id:)
     event
   end
 
   def notify_slack_about_sick_leave
-    return unless days.include?(Date.today)
-    Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Leave::Notification.new(leave: self).slack_sick_leave_message)
+    return unless days.include?(Time.zone.today)
+
+    Slack.instance.notify(channel: Config.slack_announcement_channel_id!,
+      text: Leave::Notification.new(leave: self).slack_sick_leave_message)
   end
 
   def notify_hr_on_slack_about_new_request
-    Slack.instance.notify(channel: Config.slack_hr_channel_id!, text: Leave::Notification.new(leave: self).hr_leave_request_message)
+    Slack.instance.notify(channel: Config.slack_hr_channel_id!,
+      text: Leave::Notification.new(leave: self).hr_leave_request_message)
   end
 
   def notify_user_on_slack_about_status_change

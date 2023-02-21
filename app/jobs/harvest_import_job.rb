@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HarvestImportJob < ApplicationJob
   queue_as :import
   sidekiq_options retry: 0

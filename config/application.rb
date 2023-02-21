@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails"
@@ -34,7 +36,7 @@ module TestApp
       "http://localhost:3000"
     end
 
-    config.action_mailer.default_url_options = {host: host}
+    config.action_mailer.default_url_options({host:})
     Rails.application.routes.default_url_options[:host] = host
     config.active_job.queue_adapter = :sidekiq
 

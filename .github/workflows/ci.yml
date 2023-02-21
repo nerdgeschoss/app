@@ -38,6 +38,11 @@ jobs:
         run: bundle exec standardrb
       - name: Translations Lint
         run: bundle exec i18n-tasks health
+      - name: Check Model Annotations
+        run: bundle exec annotate --models && bin/git_tracked_are_unmodified
+        env:
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/app
+          RAILS_ENV: test
       - name: JS Lint
         run: yarn lint
       - name: Build Assets
@@ -53,3 +58,10 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/app
           REDIS_URL: redis://127.0.0.1:6379
           RAILS_ENV: test
+          RSPEC_RETRY_RETRY_COUNT: 3
+          SCREENSHOTS: '1'
+      - name: Upload Screenshots
+        if: always()
+        run: |
+          (cd doc/screenshots; zip -r ../../screenshots.zip .)
+          curl -X POST "https://screamshot.nerdgeschoss.de/projects/r4qn4uHa5R84AoZQpDsgCSbe/versions" -F "name=\"$GITHUB_REF\"" -F "file=@screenshots.zip" -F "iteration=\"$GITHUB_SHA\""

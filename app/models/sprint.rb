@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: sprints
@@ -13,8 +15,8 @@
 class Sprint < ApplicationRecord
   include RangeAccessing
 
-  has_many :sprint_feedbacks
-  has_many :time_entries
+  has_many :sprint_feedbacks, dependent: :delete
+  has_many :time_entries, dependent: :delete
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
@@ -60,6 +62,7 @@ class Sprint < ApplicationRecord
     deleted_ids = time_entries.pluck(:external_id) - harvest_entries.map(&:id)
     entries = harvest_entries.map do |e|
       next if user_ids_by_email[e.user].nil?
+
       {
         external_id: e.id,
         created_at: e.date,
@@ -80,7 +83,8 @@ class Sprint < ApplicationRecord
       time_entries.upsert_all(entries, unique_by: :external_id) if entries.any?
       sprint_feedbacks.each do |feedback|
         feedback_entries = time_entries.where(user_id: feedback.user_id)
-        feedback.update! tracked_hours: feedback_entries.sum(:hours), billable_hours: feedback_entries.billable.sum(:hours)
+        feedback.update! tracked_hours: feedback_entries.sum(:hours),
+          billable_hours: feedback_entries.billable.sum(:hours)
       end
     end
   end

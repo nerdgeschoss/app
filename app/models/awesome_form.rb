@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class AwesomeForm < ActionView::Helpers::FormBuilder
-  def input(method, as: nil, placeholder: nil, required: nil, collection: nil, id_method: nil, name_method: nil, min: nil, step: nil)
+  def input(method, as: nil, placeholder: nil, required: nil, collection: nil, id_method: nil, name_method: nil,
+    min: nil, step: nil)
     as ||= guess_type(method)
     options = {class: "input__input"}
     collection_based = !collection.nil? || as == :select
@@ -13,8 +14,9 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
     options[:required] = true if required == true || (required.nil? && required_attributes.include?(method))
     options[:min] = min if min
     options[:step] = step if step
-    input = render_input method: method, type: as, options: options, id_method: id_method, collection: collection, name_method: name_method
-    wrap method: method, content: input, classes: classes + ["input--#{as}"], label: nil
+    input = render_input(method:, type: as, options:, id_method:, collection:,
+      name_method:)
+    wrap method:, content: input, classes: classes + ["input--#{as}"], label: nil
   end
 
   private
@@ -27,6 +29,7 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
     return :select if method.to_s.end_with?("_id")
     return :pdf if method.to_s.end_with?("pdf")
     return :password if method.to_s.include?("password")
+
     :string
   end
 
@@ -76,7 +79,7 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
       classes << "input--error"
       errors = safe_join(object.errors[method].map { |e| content_tag :div, e, class: "input__error" })
     end
-    label = label == false ? nil : self.label(method, label, class: "input__label")
+    label = (label == false) ? nil : self.label(method, label, class: "input__label")
     content_tag(:div, safe_join([label, content, errors].compact), class: ["input"] + classes)
   end
 
