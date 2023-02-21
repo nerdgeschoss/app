@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Leave
+class Leave
   class Notification
     include Rails.application.routes.url_helpers
 

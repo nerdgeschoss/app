@@ -6,7 +6,7 @@
 #
 #  id                     :uuid             not null, primary key
 #  email                  :string           default(""), not null
-#  roles                  :string           default("{}"), not null, is an Array
+#  roles                  :string           default([]), not null, is an Array
 #  encrypted_password     :string           default(""), not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
