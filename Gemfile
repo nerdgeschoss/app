@@ -68,6 +68,7 @@ group :development, :test do
   gem "rubocop-performance"
   gem "rubocop-rspec"
   gem "rubocop-rake"
+  gem "webmock", require: false
 end
 
 group :development do

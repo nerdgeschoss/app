@@ -133,6 +133,8 @@ GEM
     connection_pool (2.3.0)
     countries (5.3.1)
       unaccent (~> 0.3)
+    crack (0.4.5)
+      rexml
     crass (1.0.6)
     cuprite (0.14.3)
       capybara (~> 3.0)
@@ -192,6 +194,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    hashdiff (1.0.1)
     highline (2.1.0)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
@@ -505,6 +508,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webmock (3.18.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.7.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -583,6 +590,7 @@ DEPENDENCIES
   translate_client
   turbo-rails
   web-console
+  webmock
   yael
 
 RUBY VERSION

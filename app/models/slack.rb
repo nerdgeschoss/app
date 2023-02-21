@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class Slack
-  class NetworkResponseError < StandardError; end
-
-  class SlackError < StandardError; end
+  class NetworkError < StandardError; end
   include Singleton
 
   def notify(channel:, text:)
@@ -15,15 +13,15 @@ class Slack
     response.dig("user", "id")
   end
 
+  private
+
   def request(http_method:, slack_method:, query: nil, body: nil)
     response = HTTParty.public_send(http_method, "https://slack.com/api/#{slack_method}", headers:,
       query:, body:)
-    raise NetworkResponseError, response["error"].humanize unless response.ok?
+    raise NetworkError, response["error"].humanize unless response.ok?
 
     response
   end
-
-  private
 
   def token
     Config.slack_token!
