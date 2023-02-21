@@ -9,14 +9,18 @@ class Sprint
     end
 
     def message
-      I18n.t("sprints.notifications.sprint_start_content",
+      base = I18n.t("sprints.notifications.sprint_start_content",
         title: sprint.title,
         sprint_during: ApplicationController.helpers.date_range(sprint.sprint_during.min, sprint.sprint_during.max,
           format: :long),
         working_days: sprint.working_days,
-        leaves: leaves_text_lines,
+        leaves: leaves_text_lines.join("\n"),
         count: leaves_text_lines.size)
-        .concat("\n", birthdays_text_lines(currently_employed_users), anniversaries_text_lines(currently_employed_users))
+      [
+        base,
+        birthdays_text_lines(currently_employed_users),
+        anniversaries_text_lines(currently_employed_users)
+      ].flatten.compact.join("\n")
     end
 
     private
@@ -31,7 +35,7 @@ class Sprint
         end.to_sentence
         I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: leaves.map(&:days).flatten.size,
           dates:)
-      end.join
+      end
     end
 
     def birthdays_text_lines(users)
@@ -40,7 +44,7 @@ class Sprint
       end.sort_by { |user| date_in_current_year user.born_on }.map do |user|
         I18n.t("sprints.notifications.birthday_line", user: user.display_name,
           date: I18n.l(user.hired_on, format: :short))
-      end.join
+      end
     end
 
     def anniversaries_text_lines(users)
@@ -49,7 +53,7 @@ class Sprint
       end.sort_by { |user| date_in_current_year user.hired_on }.map do |user|
         I18n.t("sprints.notifications.anniversary_line", user: user.display_name,
           date: I18n.l(user.hired_on, format: :short))
-      end.join
+      end
     end
 
     def currently_employed_users

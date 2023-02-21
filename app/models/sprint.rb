@@ -15,8 +15,8 @@
 class Sprint < ApplicationRecord
   include RangeAccessing
 
-  has_many :sprint_feedbacks, dependent: :delete
-  has_many :time_entries, dependent: :delete
+  has_many :sprint_feedbacks, dependent: :delete_all
+  has_many :time_entries, dependent: :delete_all
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }

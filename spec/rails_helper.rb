@@ -30,6 +30,7 @@ RSpec.configure do |config|
   end
 
   config.around do |example|
+    Slack.instance.debug = true
     example.run
     WebMock.reset!
     Rails.cache.clear

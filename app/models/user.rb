@@ -87,7 +87,7 @@ class User < ApplicationRecord
   end
 
   def congratulate_on_hiring_anniversary
-    employment_duration_text = time_ago_in_words(hired_on).remove("about").strip
+    employment_duration_text = ApplicationController.helpers.time_ago_in_words(hired_on).remove("about").strip
     Slack.instance.notify(channel: Config.slack_announcement_channel_id!,
       text: I18n.t("users.messages.congrats", user: display_name,
         employment_duration: employment_duration_text))
