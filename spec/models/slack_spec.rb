@@ -5,6 +5,10 @@ require "rails_helper"
 RSpec.describe Slack do
   let(:slack) { Slack.instance }
 
+  before do
+    slack.debug = false
+  end
+
   it "retrieves a slack id by email" do
     stub_request(:get, "https://slack.com/api/users.lookupByEmail?email=jon@nerdgeschoss.de")
       .to_return(status: 200, body: {user: {id: "15"}}.to_json, headers: {"Content-Type": "application/json"})
