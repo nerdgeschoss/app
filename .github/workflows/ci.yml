@@ -35,7 +35,7 @@ jobs:
         with:
           bundler-cache: true
       - name: Lint
-        run: bundle exec standardrb
+        run: bundle exec rubocop
       - name: Translations Lint
         run: bundle exec i18n-tasks health
       - name: Check Model Annotations
