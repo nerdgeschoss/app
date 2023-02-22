@@ -63,6 +63,7 @@ group :development, :test do
   gem "i18n-tasks"
   gem "rack_session_access"
   gem "rspec-rails"
+  gem "rspec-retry"
   gem "standard"
   gem "rubocop-rails"
   gem "rubocop-performance"

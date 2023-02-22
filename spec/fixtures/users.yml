@@ -24,3 +24,10 @@ john:
   last_name: Doe
   born_on: 1989-09-30
   hired_on: 2020-01-01
+  slack_id: slack-john
+
+admin:
+  email: admin@example.com
+  roles: ['hr']
+  first_name: Admin
+  last_name: User

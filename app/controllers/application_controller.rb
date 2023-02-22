@@ -3,5 +3,5 @@
 class ApplicationController < ActionController::Base
   include Shimmer::Localizable
   include Shimmer::RemoteNavigation
-  include Pundit
+  include Pundit::Authorization
 end

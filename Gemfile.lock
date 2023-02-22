@@ -379,6 +379,8 @@ GEM
       rspec-expectations (~> 3.11)
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
+    rspec-retry (0.6.2)
+      rspec-core (> 3.3)
     rspec-support (3.12.0)
     rubocop (1.44.1)
       json (~> 2.3)
@@ -569,6 +571,7 @@ DEPENDENCIES
   rb-fsevent
   redis
   rspec-rails
+  rspec-retry
   rubocop-performance
   rubocop-rails
   rubocop-rake
@@ -597,4 +600,4 @@ RUBY VERSION
    ruby 3.1.3p185
 
 BUNDLED WITH
-   2.2.32
+   2.4.7

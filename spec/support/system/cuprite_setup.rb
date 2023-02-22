@@ -4,7 +4,7 @@ require "capybara/cuprite"
 
 # Then, we need to register our driver to be able to use it later
 # with #driven_by method.
-Capybara.register_driver(:cuprite) do |app|
+Capybara.register_driver(:chrome) do |app|
   Capybara::Cuprite::Driver.new(
     app,
     window_size: [1200, 1400],
@@ -16,9 +16,9 @@ Capybara.register_driver(:cuprite) do |app|
     inspector: true,
     # Allow running Chrome in a headful mode by setting HEADLESS env
     # var to a falsey value
-    headless: !ENV["HEADLESS"].in?(%w[n 0 no false])
+    headless: Config.headless?
   )
 end
 
-# Configure Capybara to use :cuprite driver by default
-Capybara.default_driver = Capybara.javascript_driver = :cuprite
+# Configure Capybara to use :chrome driver by default
+Capybara.default_driver = Capybara.javascript_driver = :chrome

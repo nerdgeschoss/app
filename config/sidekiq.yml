@@ -5,7 +5,7 @@
   - mailers
   - import
   - notification
-:schedule:
+:scheduler:
   harvest_import:
     every: '30m'
     class: HarvestImportJob
@@ -15,4 +15,3 @@
   slack_congratulation:
     cron: '0 9 * * * Europe/Berlin' # every day at 9:00, Berlin time
     class: SlackCongratulationJob
-
