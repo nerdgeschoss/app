@@ -5,8 +5,7 @@ class Slack
   Message = Struct.new(:channel, :text, keyword_init: true)
   include Singleton
 
-  attr_accessor :debug
-  attr_reader :last_message
+  attr_accessor :debug, :last_message
 
   def notify(channel:, text:)
     return @last_message = Message.new(channel:, text:) if debug

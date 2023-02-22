@@ -17,7 +17,7 @@
 #  born_on                :date
 #  hired_on               :date
 #
-john:
+john: &john
   email: john@example.com
   roles: ['sprinter']
   first_name: John
@@ -25,6 +25,11 @@ john:
   born_on: 1989-09-30
   hired_on: 2020-01-01
   slack_id: slack-john
+
+john_no_slack:
+  <<: *john
+  email: john-no-slack@example.com
+  slack_id: null
 
 admin:
   email: admin@example.com
