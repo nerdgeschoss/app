@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SlackNotificationJob < ApplicationJob
   queue_as :notification
   sidekiq_options retry: 0

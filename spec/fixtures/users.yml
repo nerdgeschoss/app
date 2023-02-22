@@ -1,0 +1,38 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :uuid             not null, primary key
+#  email                  :string           default(""), not null
+#  roles                  :string           default([]), not null, is an Array
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  first_name             :string
+#  last_name              :string
+#  slack_id               :string
+#  born_on                :date
+#  hired_on               :date
+#
+john: &john
+  email: john@example.com
+  roles: ['sprinter']
+  first_name: John
+  last_name: Doe
+  born_on: 1989-09-30
+  hired_on: 2020-01-01
+  slack_id: slack-john
+
+john_no_slack:
+  <<: *john
+  email: john-no-slack@example.com
+  slack_id: null
+
+admin:
+  email: admin@example.com
+  roles: ['hr']
+  first_name: Admin
+  last_name: User

@@ -1,1 +1,3 @@
-Config = Shimmer::Config.instance
+# frozen_string_literal: true
+
+Config = Shimmer::Config.instance.freeze
