@@ -39,6 +39,7 @@ class Leave < ApplicationRecord
   before_validation do
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on
+    self.status = :approved if pending_approval? && type == "sick" && days.length == 1
   end
 
   def emoji

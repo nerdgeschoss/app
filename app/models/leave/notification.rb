@@ -2,8 +2,7 @@
 
 class Leave
   class Notification
-    include Rails.application.routes.url_helpers
-
+    include UrlGenerating
     attr_reader :user, :leave
 
     def initialize(leave:)
@@ -36,12 +35,9 @@ class Leave
 
     private
 
-    def url_for_pending_leaves
-      leaves_url(user_id: user, status: :pending_approval)
-    end
-
     def user_request_link_markdown
-      "<#{url_for_pending_leaves}|#{I18n.t("leaves.notifications.here")}>"
+      url = leaves_url(user_id: user, status: :pending_approval)
+      "<#{url}|#{I18n.t("leaves.notifications.here")}>"
     end
 
     def formatted_leave_during

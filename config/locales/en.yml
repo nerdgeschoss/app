@@ -37,8 +37,6 @@ en:
       status_change_content: |-
         Hi, *%{user}*!
         Your %{type} leave request for %{leave_during} has been %{status}.
-        one: "🤒 *%{user} is on sick leave today*"
-        other: "🤒 *%{user} is on sick leave*\nDuration: %{leave_during}"
   pages:
     home:
       archive: Archive
