@@ -1,0 +1,14 @@
+.card
+  .card__header
+    - if @icon
+      .card__icon = @icon
+    - if @title || subtitle
+      .card__header-content
+        - if @title
+          .card__title = @title
+        - if @subtitle
+          .card__subtitle = @subtitle
+      - if @context
+        .card__context = @context
+  - if content
+    .card__content = content

@@ -30,7 +30,22 @@ class ComponentRegistry
   end
 
   def register(name, component = nil, tag: "div", &block)
-    if component.nil? && block.nil?
+    if view_component?(name)
+      component = name
+      name = component.name.underscore.delete_suffix("_component")
+    end
+    if view_component?(component)
+      self.class.define_method name.to_s do |**locals, &block|
+        cap = SlotCapturer.new(context)
+        content = capture { block&.call(cap) }
+        locals.merge! cap.locals
+        locals[:content] = content if cap.locals.none?
+        content = locals.delete(:content)
+        instance = component.new(**locals)
+        instance = instance.with_content(content) if content.present?
+        capture { render(instance) }
+      end
+    elsif component.nil? && block.nil?
       self.class.define_method name.to_s do |variant = nil, &block|
         content = capture { block.call } if block
         classes = [name.to_s]
@@ -40,9 +55,9 @@ class ComponentRegistry
     elsif component.present? && component.is_a?(String)
       self.class.define_method name.to_s do |**locals, &block|
         cap = SlotCapturer.new(context)
-        children = capture { block&.call(cap) }
+        content = capture { block&.call(cap) }
         locals.merge! cap.locals
-        locals[:children] = children if cap.locals.none?
+        locals[:content] = content if cap.locals.none?
         capture { render(partial: component, locals: locals) }
       end
     end
@@ -53,4 +68,9 @@ class ComponentRegistry
   attr_reader :context
 
   delegate :content_tag, :capture, :render, to: :context
+
+  def view_component?(thing)
+    base_class = "ViewComponent::Base".safe_constantize
+    base_class && thing.is_a?(Class) && thing < base_class
+  end
 end

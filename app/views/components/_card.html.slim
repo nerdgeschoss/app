@@ -2,7 +2,7 @@
 - title ||= nil
 - subtitle ||= nil
 - context ||= nil
-- children ||= nil
+- content ||= nil
 .card
   .card__header
     - if icon
@@ -15,5 +15,5 @@
           .card__subtitle = subtitle
       - if context
         .card__context = context
-  - if children
-    .card__content = children
+  - if content
+    .card__content = content
