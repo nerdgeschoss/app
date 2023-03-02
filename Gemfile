@@ -39,6 +39,7 @@ gem "slim-rails"
 gem "time_will_tell"
 gem "translate_client"
 gem "yael"
+gem "view_component"
 
 # Assets
 gem "autoprefixer-rails"
