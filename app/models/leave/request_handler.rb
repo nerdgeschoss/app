@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Leave
   class RequestHandler
     attr_reader :user, :leave
