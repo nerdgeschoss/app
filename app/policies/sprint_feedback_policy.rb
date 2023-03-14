@@ -6,7 +6,7 @@ class SprintFeedbackPolicy < ApplicationPolicy
   end
 
   def update?
-    hr?
+    hr? || record.user == user
   end
 
   def destroy?
