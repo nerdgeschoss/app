@@ -31,6 +31,18 @@ john_no_slack:
   email: john-no-slack@example.com
   slack_id: null
 
+cigdem:
+  email: cigdem@example.com
+  roles: ['sprinter']
+  first_name: Cigdem
+  last_name: Doe
+
+yuki:
+  email: yuki@example.com
+  roles: ['sprinter']
+  first_name: Yuki
+  last_name: Doe
+
 admin:
   email: admin@example.com
   roles: ['hr']
