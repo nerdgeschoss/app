@@ -1,0 +1,18 @@
+.feedback {
+  margin-top: 24px;
+
+  &__heading {
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  &__content {
+    margin-top: 16px;
+  }
+
+  &__alert {
+    margin-top: 16px;
+    color: red;
+    font-weight: bold;
+  }
+}
