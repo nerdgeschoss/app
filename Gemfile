@@ -39,6 +39,7 @@ gem "slim-rails"
 gem "time_will_tell"
 gem "translate_client"
 gem "yael"
+gem "redcarpet"
 
 # Assets
 gem "autoprefixer-rails"
@@ -70,16 +71,16 @@ group :development, :test do
   gem "rubocop-rspec"
   gem "rubocop-rake"
   gem "webmock", require: false
+  gem "debug"
+  gem "pry-rails"
 end
 
 group :development do
   gem "annotate"
-  gem "debug"
   gem "guard"
   gem "guard-rspec"
   gem "letter_opener"
   gem "listen"
-  gem "pry-rails"
   gem "rb-fsevent"
   gem "solargraph-standardrb"
   gem "web-console"
