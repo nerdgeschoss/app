@@ -1,5 +1,9 @@
 ---
 en:
+  components:
+    reminder:
+      reminder: Reminder
+      reminder_text: Please fill out the missing sprint feedback
   date:
     formats:
       month_long: "%B"
@@ -55,6 +59,9 @@ en:
   sprint_feedbacks:
     edit:
       really_delete: Really delete
+    edit_retro:
+      rating: 'Rating:'
+      went_well: " What went well? What could be improved?"
   sprints:
     index:
       add: Add
@@ -70,6 +77,12 @@ en:
         one: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n🏖️ *On leave:*\n%{leaves}"
         other: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n🏖️ *On leave:*\n%{leaves}"
         zero: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}"
+    sprint:
+      feedback: 'Feedback:'
+      no_feedback_yet: No feedback yet
+      please_write_feedback: Please write your feedback!
+      rated: "Rating: Ø %{rating}"
+      user_feedback: "%{user} rated: %{rating}"
   time_will_tell:
     date_range:
       different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"
