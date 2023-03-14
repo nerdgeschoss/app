@@ -73,4 +73,8 @@ RSpec.describe Sprint do
       expect(Slack.instance.last_message.text).to eq text.strip
     end
   end
+
+  it "returns the correct sprint rating average" do
+    expect(sprints(:before).average_rating).to eq 4.0
+  end
 end
