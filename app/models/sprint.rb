@@ -21,6 +21,7 @@ class Sprint < ApplicationRecord
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
   scope :start_on, ->(date) { where("?::date = LOWER(sprints.sprint_during)", date) }
+  scope :before, ->(date) { where("?::date > LOWER(sprints.sprint_during)", date) }
   scope :current, -> { active_at(DateTime.current) }
   scope :within, ->(time) { where("LOWER(sprints.sprint_during) > ?", time.ago) }
 
@@ -91,5 +92,13 @@ class Sprint < ApplicationRecord
 
   def send_sprint_start_notification
     Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Sprint::Notification.new(self).message)
+  end
+
+  def average_rating
+    sprint_feedbacks.average(:retro_rating).to_f
+  end
+
+  def can_be_rated?
+    sprint_until.today? || completed?
   end
 end
