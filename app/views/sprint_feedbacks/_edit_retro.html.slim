@@ -1,0 +1,17 @@
+= form_with model: feedback do |f|
+  .stack
+    .line
+      .radio-button__label = t(".rating")
+      = f.radio_button :retro_rating, 1, class: "radio-button"
+      = f.label "1", class: "radio-button__label"
+      = f.radio_button :retro_rating, 2, class: "radio-button"
+      = f.label "2", class: "radio-button__label"
+      = f.radio_button :retro_rating, 3, class: "radio-button"
+      = f.label "3", class: "radio-button__label"
+      = f.radio_button :retro_rating, 4, class: "radio-button"
+      = f.label "4", class: "radio-button__label"
+      = f.radio_button :retro_rating, 5, class: "radio-button"
+      = f.label "5", class: "radio-button__label"
+    = f.text_area :retro_text, placeholder: t(".went_well"), class: "text-area", rows: 8, required: true
+    span = f.submit class: :button
+

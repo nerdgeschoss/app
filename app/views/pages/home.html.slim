@@ -2,6 +2,8 @@
   h1.headline = t ".hello", name: current_user.display_name
   - if @sprint
     = render @sprint
+  - if !@sprint.nil? && @needs_to_fill_out_retro
+    = render "components/reminder"
   .columns
     - if @upcoming_leaves.any?
       .card
