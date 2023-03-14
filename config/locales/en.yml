@@ -79,9 +79,8 @@ en:
         zero: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}"
     sprint:
       feedback: 'Feedback:'
-      no_feedback_yet: No feedback yet
       please_write_feedback: Please write your feedback!
-      rated: "Rating: Ø %{rating}"
+      rated: 'Rating: Ø %{rating}'
       user_feedback: "%{user} rated: %{rating}"
   time_will_tell:
     date_range:
