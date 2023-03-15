@@ -2,10 +2,9 @@
 
 class Leave
   class RequestHandler
-    attr_reader :user, :leave
+    attr_reader :leave
 
     def initialize(leave:)
-      @user = leave.user
       @leave = leave
     end
 
@@ -16,8 +15,7 @@ class Leave
     private
 
     def handle_sick_leave
-      leave.update status: :appoved if leave.days.one?
-      leave.notify_slack_about_sick_leave
+      leave.days.one? ? leave.update!(status: :appoved) : leave.notify_hr_on_slack_about_new_request
     end
 
     def handle_regular_leave
