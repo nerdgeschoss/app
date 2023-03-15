@@ -14,16 +14,15 @@ class SprintFeedbacksController < ApplicationController
   end
 
   def update
-    feedback = authorize SprintFeedback.find params[:id]
-    feedback.update! feedback_update_attributes
+    @feedback.update! feedback_update_attributes
     ui.close_popover
-    ui.replace feedback.sprint
+    ui.replace @feedback.sprint
   end
 
   def destroy
-    feedback.destroy!
+    @feedback.destroy!
     ui.close_popover
-    ui.replace feedback.sprint
+    ui.replace @feedback.sprint
   end
 
   private
