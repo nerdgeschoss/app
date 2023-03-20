@@ -59,6 +59,14 @@ class SprintFeedback < ApplicationRecord
     save!
   end
 
+  def retro_filled_out?
+    retro_rating.present? && retro_text.present?
+  end
+
+  def retro_missing?
+    !retro_filled_out?
+  end
+
   private
 
   def leaves
