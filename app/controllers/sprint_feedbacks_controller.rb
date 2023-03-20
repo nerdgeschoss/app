@@ -14,9 +14,12 @@ class SprintFeedbacksController < ApplicationController
   end
 
   def update
-    @feedback.update! feedback_update_attributes
-    ui.close_popover
-    ui.replace @feedback.sprint
+    if @feedback.update feedback_update_attributes
+      ui.close_popover
+      ui.replace @feedback.sprint
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -36,6 +39,6 @@ class SprintFeedbacksController < ApplicationController
   end
 
   def feedback_update_attributes
-    params.require(:sprint_feedback).permit(:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes, :retro_rating, :retro_text)
+    params.require(:sprint_feedback).permit(policy(@feedback).permitted_attributes)
   end
 end
