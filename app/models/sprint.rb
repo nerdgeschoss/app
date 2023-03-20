@@ -95,10 +95,11 @@ class Sprint < ApplicationRecord
   end
 
   def average_rating
-    sprint_feedbacks.average(:retro_rating).to_f
+    ratings = sprint_feedbacks.map(&:retro_rating).compact
+    ratings.sum(0.0) / ratings.size
   end
 
-  def can_be_rated?
+  def to_be_rated?
     sprint_until.today? || completed?
   end
 end

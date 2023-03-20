@@ -21,6 +21,14 @@ class SprintFeedbackPolicy < ApplicationPolicy
     hr?
   end
 
+  def permitted_attributes
+    if hr?
+      [:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes]
+    else
+      [:retro_rating, :retro_text]
+    end
+  end
+
   class Scope < Scope
     def resolve
       if hr?
