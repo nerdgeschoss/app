@@ -2,10 +2,10 @@
 
 require "system_helper"
 
-RSpec.describe "Sprints" do
+RSpec.describe "Sprint Feedback" do
   fixtures :all
 
-  context "filling out feedback" do
+  context "filling out the retro" do
     before do
       travel_to "2023-02-02"
       login :john
@@ -20,10 +20,13 @@ RSpec.describe "Sprints" do
       visit sprints_path
       expect(page).to have_content "Please write your feedback"
 
-      fill_in "sprint_feedback[retro_text]", with: "I'm happy"
-      choose "5"
+      fill_in "Retro text", with: "I'm happy"
+      select "5", from: "Retro rating"
       click_button
       expect(page).to have_content "John rated: 5"
+
+      visit root_path
+      expect(page).not_to have_content "REMINDER"
     end
 
     it "shows sprint feedback on the sprint card" do
