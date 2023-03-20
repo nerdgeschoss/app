@@ -21,6 +21,7 @@
 class SprintFeedback < ApplicationRecord
   belongs_to :sprint
   belongs_to :user
+  POSSIBLE_RATINGS = (1..5)
 
   scope :ordered, -> { joins(:user).order("users.email ASC") }
 
