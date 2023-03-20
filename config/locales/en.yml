@@ -60,6 +60,7 @@ en:
     edit:
       really_delete: Really delete
     edit_retro:
+      please_rate: Select a number
       rating: 'Rating:'
       went_well: " What went well? What could be improved?"
   sprints:
