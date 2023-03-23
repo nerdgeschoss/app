@@ -37,7 +37,7 @@
             th = number_to_percentage sprint.daily_nerd_percentage * 100, precision: 0
             th = "#{sprint.tracked_hours.round(1)} / #{(sprint.tracked_hours / [sprint.total_working_days, 1].max).round(1)}"
             th = "#{sprint.billable_hours.round(1)} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
-      - if sprint.to_be_rated? || sprint.sprint_until.past?
+      - if sprint.to_be_rated?
         .feedback
           - all_feedbacks = sprint.sprint_feedbacks.ordered.load
           .feedback__heading = t(".feedback") if all_feedbacks.map(&:retro_text).any?
