@@ -84,7 +84,7 @@ class Leave < ApplicationRecord
   private
 
   def cannot_request_leave_twice_for_same_day_and_same_type
-    if user.leaves.with_status(:approved).public_send("#{type}").where.not(id: id).any? { |leave| (leave.days & days).any? }
+    if user.leaves.with_status(:approved).public_send(type.to_s).where.not(id: id).any? { |leave| (leave.days & days).any? }
       errors.add(:days, :taken)
     end
   end
