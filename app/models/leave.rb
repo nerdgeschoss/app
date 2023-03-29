@@ -35,6 +35,7 @@ class Leave < ApplicationRecord
   range_accessor_methods :leave
 
   validates :title, :days, presence: true
+  validate :cannot_request_leave_twice_for_same_day_and_same_type
 
   before_validation do
     start_on, end_on = days.minmax
@@ -78,5 +79,13 @@ class Leave < ApplicationRecord
 
   def notify_user_on_slack_about_status_change
     user.notify!(Leave::Notification.new(leave: self).status_change_message)
+  end
+
+  private
+
+  def cannot_request_leave_twice_for_same_day_and_same_type
+    if user.leaves.with_status(:approved).public_send("#{type}").where.not(id: id).any? { |leave| (leave.days & days).any? }
+      errors.add(:days, :taken)
+    end
   end
 end
