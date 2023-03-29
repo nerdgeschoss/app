@@ -11,6 +11,7 @@ RSpec.describe "Leaves" do
     visit leaves_path
     click_on "Request leave"
     within ".modal" do
+      select("February")
       find("span", text: "24").click
       find("span", text: "27").click
       fill_in "Title", with: "My Holiday"
