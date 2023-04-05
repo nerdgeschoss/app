@@ -9,9 +9,9 @@ en:
       not_saved: Not saved
   leave:
     status:
-      approved: Approved
-      pending_approval: Pending approval
-      rejected: Rejected
+      approved: approved
+      pending_approval: pending approval
+      rejected: rejected
   leaves:
     form:
       request_leave: Request leave

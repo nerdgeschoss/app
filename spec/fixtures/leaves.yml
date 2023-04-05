@@ -1,0 +1,37 @@
+# == Schema Information
+#
+# Table name: leaves
+#
+#  id           :uuid             not null, primary key
+#  leave_during :daterange        not null
+#  title        :string           not null
+#  type         :string           default("paid"), not null
+#  status       :string           default("pending_approval"), not null
+#  days         :date             default([]), not null, is an Array
+#  user_id      :uuid             not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+john_sick_leave:
+  title: Having the Flu
+  type: sick
+  status: approved
+  days: [2025-01-01]
+  leave_during: '[2025-01-01, 2025-01-02)'
+  user: john
+
+john_vacation:
+  title: Vacation!
+  type: paid
+  status: approved
+  days: [2025-01-03]
+  leave_during: '[2025-01-03, 2025-01-04)'
+  user: john
+
+john_vacation_pending:
+  title: Vacation!
+  type: paid
+  status: pending_approval
+  days: [2025-01-05]
+  leave_during: '[2025-01-05, 2025-01-06)'
+  user: john
