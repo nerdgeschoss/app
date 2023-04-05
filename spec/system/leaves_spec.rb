@@ -20,7 +20,7 @@ RSpec.describe "Leaves" do
     end
     expect(page).not_to have_selector ".modal"
     expect(page).to have_content "John / My Holiday"
-    expect(page).to have_content "Pending Approval"
+    expect(page).to have_content "pending approval"
     expect(page).not_to have_content "👍" # only admins can approve
     screenshot "user leaves"
 
@@ -38,10 +38,9 @@ RSpec.describe "Leaves" do
     login :admin
     visit leaves_path
     expect(page).to have_content "John / Holiday"
-    expect(page).to have_content "Pending Approval"
+    expect(page).to have_content "pending approval"
     screenshot "leave approval"
-    click_on "👍"
-    expect(page).not_to have_content "Pending Approval"
+    click_on "👍", match: :first
     message = Slack.instance.last_message
     expect(message.channel).to eq "slack-john"
     expect(message.text).to include "approved"

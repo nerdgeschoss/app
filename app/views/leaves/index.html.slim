@@ -3,7 +3,7 @@
     = t ".leaves"
     .headline__actions
       a href=modal_path(new_leave_path) = t(".request_leave")
-      = link_to t(".subscribe"), feed_leaves_url(format: :ics, protocol: :webcal)
+      = link_to t(".subscribe"), feed_leaves_url(auth: current_user.id, format: :ics, protocol: :webcal)
   .line.line--space-between
     .stack.stack--row.stack--small.stack--wrap
       - (Leave.statuses.keys + ["all"]).sort.each do |key|
