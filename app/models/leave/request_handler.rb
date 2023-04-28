@@ -8,7 +8,7 @@ class Leave
       @leave = leave
     end
 
-    def handle_request
+    def call
       leave.sick? ? handle_sick_leave : handle_regular_leave
     end
 

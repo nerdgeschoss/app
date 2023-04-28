@@ -22,7 +22,7 @@ class LeavesController < ApplicationController
   def create
     @leave = authorize Leave.new(permitted_attributes(Leave).merge(days: permitted_attributes(Leave)[:days].split(", ")).reverse_merge(user_id: current_user.id))
     if @leave.save
-      Leave::RequestHandler.new(leave: @leave).handle_request
+      Leave::RequestHandler.new(leave: @leave).call
       ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
