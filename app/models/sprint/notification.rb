@@ -33,7 +33,7 @@ class Sprint
           ApplicationController.helpers.date_range(leave.leave_during.min,
             leave.leave_during.max, format: :short, show_year: false).to_s
         end.to_sentence
-        I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: leaves.map(&:days).flatten.size,
+        I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: leaves.map(&:days).flatten.count { |day| @sprint.sprint_during.cover? day },
           dates:)
       end
     end
@@ -43,7 +43,7 @@ class Sprint
         range_covers_repeating_date?(range: @sprint.sprint_during, date: user.born_on) if user.born_on.present?
       end.sort_by { |user| date_in_current_year user.born_on }.map do |user|
         I18n.t("sprints.notifications.birthday_line", user: user.display_name,
-          date: I18n.l(user.hired_on, format: :short))
+          date: I18n.l(user.born_on, format: :short))
       end
     end
 
