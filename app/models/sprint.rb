@@ -96,6 +96,8 @@ class Sprint < ApplicationRecord
 
   def average_rating
     ratings = sprint_feedbacks.map(&:retro_rating).compact
+    return nil if ratings.empty?
+
     ratings.sum / ratings.size.to_f
   end
 
