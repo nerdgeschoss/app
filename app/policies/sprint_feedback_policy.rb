@@ -6,7 +6,7 @@ class SprintFeedbackPolicy < ApplicationPolicy
   end
 
   def update?
-    hr? || record.user == user
+    hr? || (record.user == user && record.retro_missing?)
   end
 
   def destroy?
