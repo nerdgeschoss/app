@@ -22,7 +22,7 @@ class SprintFeedback < ApplicationRecord
   belongs_to :sprint
   belongs_to :user
 
-  validates :retro_rating, numericality: { only_integer: true, in: 1..5 }, allow_nil: true
+  validates :retro_rating, numericality: {only_integer: true, in: 1..5}, allow_nil: true
 
   scope :ordered, -> { joins(:user).order("users.email ASC") }
   scope :retro_missing, -> { where(retro_rating: nil) }
