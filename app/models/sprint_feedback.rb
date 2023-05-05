@@ -21,9 +21,12 @@
 class SprintFeedback < ApplicationRecord
   belongs_to :sprint
   belongs_to :user
-  POSSIBLE_RATINGS = (1..5).freeze
+
+  validates :retro_rating, numericality: { only_integer: true, in: 1..5 }, allow_nil: true
 
   scope :ordered, -> { joins(:user).order("users.email ASC") }
+  scope :retro_missing, -> { where(retro_rating: nil) }
+  scope :sprint_past, -> { joins(:sprint).where("UPPER(sprints.sprint_during) <= ?", DateTime.current) }
 
   def daily_nerd_percentage
     daily_nerd_count.to_f / working_day_count
