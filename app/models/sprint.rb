@@ -24,7 +24,6 @@ class Sprint < ApplicationRecord
   scope :before, ->(date) { where("?::date > LOWER(sprints.sprint_during)", date) }
   scope :current, -> { active_at(DateTime.current) }
   scope :within, ->(time) { where("LOWER(sprints.sprint_during) > ?", time.ago) }
-  scope :past, -> { where("UPPER(sprints.sprint_during) <= ?", DateTime.current) }
 
   validates :title, presence: true
 
