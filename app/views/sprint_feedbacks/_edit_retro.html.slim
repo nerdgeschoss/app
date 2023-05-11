@@ -2,7 +2,7 @@
   .stack
     .line
       strong = f.label :retro_rating
-      .select = f.collection_select :retro_rating, (1..5).map { |number| [number.to_s, number] }.to_h, :second, :first, prompt: t(".please_rate"), required: true
+      .select = f.collection_select :retro_rating, (1..5).index_by(&:to_s), :second, :first, prompt: t(".please_rate"), required: true
     = f.label :retro_text
     .text-area = f.text_area :retro_text, placeholder: t(".went_well"), rows: 8, required: true
     span = f.submit class: :button
