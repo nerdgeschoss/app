@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 namespace :s3 do
+  desc "creates a new bucket for this project"
   task :create_bucket do
     puts "Please enter the name for your new bucket"
     name = $stdin.gets.strip

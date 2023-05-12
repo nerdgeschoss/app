@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SprintFeedbackPolicy < ApplicationPolicy
   def create?
     hr?

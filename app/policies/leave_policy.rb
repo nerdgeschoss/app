@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LeavePolicy < ApplicationPolicy
   def create?
     true
@@ -7,9 +9,17 @@ class LeavePolicy < ApplicationPolicy
     hr?
   end
 
+  def update?
+    hr?
+  end
+
+  def show_all_users?
+    hr?
+  end
+
   def permitted_attributes
     attr = [:title, :days, :type]
-    attr += [:user_id] if hr?
+    attr += [:user_id, :status] if hr?
     attr
   end
 

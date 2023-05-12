@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HarvestApi
   include Singleton
 
@@ -10,12 +12,13 @@ class HarvestApi
 
   def time_entries(from: nil, to: nil)
     query = {from: from.to_date, to: to.to_date}.compact
-    response = get_all("time_entries", query: query)
+    response = get_all("time_entries", query:)
     emails_by_id = users.map { |e| [e.id, e.email] }.to_h
     response.map do |e|
       TimeEntry.new(
         **e.slice(:hours, :rounded_hours, :billable, :billable_rate, :cost_rate, :notes)
-          .merge(id: e[:id].to_s, date: e[:spent_date]&.to_date, project: e.dig(:project, :name), client: e.dig(:client, :name), user: emails_by_id[e.dig(:user, :id)], task: e.dig(:task, :name), response: e)
+          .merge(id: e[:id].to_s, date: e[:spent_date]&.to_date, project: e.dig(:project,
+            :name), client: e.dig(:client, :name), user: emails_by_id[e.dig(:user, :id)], task: e.dig(:task, :name), response: e)
       )
     end
   end
@@ -31,7 +34,7 @@ class HarvestApi
   end
 
   def get(path, **options)
-    response = HTTParty.get api(path), headers: headers, **options
+    response = HTTParty.get(api(path), headers:, **options)
     raise StandardError, "wrong response from Harvest: #{response.code} #{response.message}" unless response.ok?
 
     response
@@ -43,9 +46,11 @@ class HarvestApi
     next_page = :first
     field = path
     until next_page.nil?
-      response = next_page == :first ?
-        HTTParty.get(api(path), headers: headers, **options) :
-        HTTParty.get(next_page, headers: headers, **options_without_query)
+      response = if next_page == :first
+        HTTParty.get(api(path), headers:, **options)
+      else
+        HTTParty.get(next_page, headers:, **options_without_query)
+      end
       raise StandardError, "wrong response from Harvest: #{response.code} #{response.message}" unless response.ok?
 
       values += response[field]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails"
@@ -30,11 +32,14 @@ module TestApp
       ENV["HOST"]
     elsif ENV["HEROKU_APP_NAME"].present?
       "https://#{ENV["HEROKU_APP_NAME"]}.herokuapp.com"
+    elsif Rails.env.test?
+      "http://localhost:31337" # the default capybara port
     else
       "http://localhost:3000"
     end
 
-    config.action_mailer.default_url_options = {host: host}
+    config.action_mailer.default_url_options ||= {}
+    config.action_mailer.default_url_options[:host] = host
     Rails.application.routes.default_url_options[:host] = host
     config.active_job.queue_adapter = :sidekiq
 

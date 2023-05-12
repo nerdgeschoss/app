@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SprintMetrics
   METRICS = [:billable_per_day, :daily_nerd_percentage, :tracked_per_day, :billable_hours, :billable_hours_percentage].freeze
   attr_reader :sprints, :users
@@ -20,7 +22,9 @@ class SprintMetrics
       {
         name: user.display_name,
         data: sprints.select(&:completed?).map do |sprint|
-          [sprint.sprint_until, sprint.sprint_feedbacks.find { |e| e.user_id == user.id }&.public_send(metric)&.round(2)]
+          [sprint.sprint_until, sprint.sprint_feedbacks.find do |e|
+                                  e.user_id == user.id
+                                end&.public_send(metric)&.round(2)]
         end
       }
     end

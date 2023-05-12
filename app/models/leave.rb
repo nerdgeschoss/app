@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: leaves
@@ -14,7 +16,9 @@
 #
 
 class Leave < ApplicationRecord
+  include Rails.application.routes.url_helpers
   include RangeAccessing
+
   self.inheritance_column = nil
 
   belongs_to :user
@@ -23,9 +27,10 @@ class Leave < ApplicationRecord
   scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC") }
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
+  scope :with_status, ->(status) { (status == :all) ? all : where(status:) }
 
   enum type: [:paid, :unpaid, :sick].index_with(&:to_s)
-  enum status: [:pending_approval, :approved].index_with(&:to_s)
+  enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)
 
   range_accessor_methods :leave
 
@@ -34,6 +39,7 @@ class Leave < ApplicationRecord
   before_validation do
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on
+    self.status = :approved if pending_approval? && type == "sick" && days.length == 1
   end
 
   def emoji
@@ -52,16 +58,25 @@ class Leave < ApplicationRecord
     event.dtstart.ical_params = {"VALUE" => "DATE"}
     event.dtend = Icalendar::Values::Date.new leave_during.max + 1.day
     event.dtend.ical_params = {"VALUE" => "DATE"}
-    event.summary = "#{user.display_name}: #{title} #{emoji}"
-    event.url = Rails.application.routes.url_helpers.leaves_url(id: id)
+    display_status = (status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
+    event.summary = "#{user.display_name}: #{title} #{emoji} #{display_status}"
+    event.url = Rails.application.routes.url_helpers.leaves_url(id:)
     event
   end
 
   def notify_slack_about_sick_leave
+    return unless days.include?(Time.zone.today)
+
     Slack.instance.notify(channel: Config.slack_announcement_channel_id!,
-      text: I18n.t("leaves.notifications.sick_leave_content",
-        user: user.display_name,
-        leave_during: (ApplicationController.helpers.date_range leave_during.min, leave_during.max, format: :long),
-        count: days.size))
+      text: Leave::Notification.new(leave: self).slack_sick_leave_message)
+  end
+
+  def notify_hr_on_slack_about_new_request
+    Slack.instance.notify(channel: Config.slack_hr_channel_id!,
+      text: Leave::Notification.new(leave: self).hr_leave_request_message)
+  end
+
+  def notify_user_on_slack_about_status_change
+    user.notify!(Leave::Notification.new(leave: self).status_change_message)
   end
 end
