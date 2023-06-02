@@ -11,10 +11,10 @@
       table.table
         tr
           th = t(".rated", rating: sprint.average_rating)
-          th Daily Nerd
-          th Tracked
-          th Billable
-          th Retro Rating
+          th = t(".daily_nerd")
+          th = t(".tracked")
+          th = t(".billable")
+          th = t(".retro_rating")
         - feedbacks.each do |feedback|
           - users.delete(feedback.user)
           - next if @user.present? && feedback.user_id != @user&.id

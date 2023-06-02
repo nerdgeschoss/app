@@ -78,9 +78,13 @@ en:
         other: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n🏖️ *On leave:*\n%{leaves}"
         zero: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}"
     sprint:
+      billable: Billable
+      daily_nerd: Daily nerd
       feedback: 'Feedback:'
       please_write_feedback: Please write your feedback!
       rated: 'Rating: Ø %{rating}'
+      retro_rating: Retro rating
+      tracked: Tracked
       user_feedback: "%{user} rated: %{rating}"
   time_will_tell:
     date_range:
