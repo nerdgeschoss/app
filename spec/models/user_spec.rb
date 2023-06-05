@@ -45,7 +45,7 @@ RSpec.describe User do
   end
 
   it "congratulation job calls the according method on hiring anniversaries" do
-    travel_to Time.new(2023, 1, 1, 12, 0, 0) do
+    travel_to Time.zone.local(2023, 1, 1, 12, 0, 0) do
       SlackCongratulationJob.perform_now
       expect(slack_text).to eq "🎉 Congratulations John on being a part of nerdgeschoss for 3 years now!"
     end
