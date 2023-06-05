@@ -32,6 +32,12 @@ RSpec.describe User do
     expect(slack_text).to eq "🥳 *HAPPY BIRTHDAY JOHN!!*"
   end
 
+  it "congratulation job calls the according method on birthdays" do
+    travel_to "2023-09-30"
+    SlackCongratulationJob.perform_now
+    expect(slack_text).to eq "🥳 *HAPPY BIRTHDAY JOHN!!*"
+  end
+
   it "congratulates the user on his anniversary" do
     travel_to "2023-02-02"
     john.congratulate_on_hiring_anniversary
