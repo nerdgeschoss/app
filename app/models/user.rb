@@ -32,6 +32,7 @@ class User < ApplicationRecord
   has_many :payslips, dependent: :destroy
   has_many :leaves, dependent: :destroy, class_name: "Leave"
   has_many :sprint_feedbacks, dependent: :destroy
+  has_many :salaries, dependent: :destroy
 
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
@@ -91,6 +92,10 @@ class User < ApplicationRecord
     Slack.instance.notify(channel: Config.slack_announcement_channel_id!,
       text: I18n.t("users.messages.congrats", user: display_name,
         employment_duration: employment_duration_text))
+  end
+
+  def current_salary
+    salaries.find(&:current?)
   end
 
   private

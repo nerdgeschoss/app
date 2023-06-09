@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_27_155357) do
+ActiveRecord::Schema.define(version: 2023_06_09_124512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -63,6 +63,17 @@ ActiveRecord::Schema.define(version: 2023_01_27_155357) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_payslips_on_user_id"
+  end
+
+  create_table "salaries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.daterange "valid_during", null: false
+    t.decimal "brut", null: false
+    t.decimal "net", null: false
+    t.string "hgf_hash"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_salaries_on_user_id"
   end
 
   create_table "sprint_feedbacks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -130,6 +141,7 @@ ActiveRecord::Schema.define(version: 2023_01_27_155357) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "leaves", "users"
   add_foreign_key "payslips", "users"
+  add_foreign_key "salaries", "users"
   add_foreign_key "sprint_feedbacks", "sprints"
   add_foreign_key "sprint_feedbacks", "users"
   add_foreign_key "time_entries", "sprints"
