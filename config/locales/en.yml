@@ -92,3 +92,4 @@ en:
     user:
       days_of_holidays_remaining: "%{days} days of holidays remaining"
       days_of_unpaid_holiday: "%{days} days of unpaid holidays"
+      salary_since: "%{salary} since %{since}"
