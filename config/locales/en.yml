@@ -85,6 +85,7 @@ en:
       happy_birthday: "🥳 *HAPPY BIRTHDAY %{user}!!*"
     show:
       remaining_holidays: Remaining holidays
+      salary_history: Salary History
     unpaid_vacation:
       days_in_month:
         one: "%{count} Day"
