@@ -6,6 +6,7 @@ class SprintsController < ApplicationController
   def index
     @metric = SprintMetrics::METRICS.include?(params[:metric]&.to_sym) ? params[:metric].to_sym : :billable_per_day
     @sprints = policy_scope(Sprint.reverse_chronologic)
+    @users = User.sprinter.to_a
     @user = if params[:user].present?
       User.find(params[:user])
     elsif policy(SprintFeedback).show_group?

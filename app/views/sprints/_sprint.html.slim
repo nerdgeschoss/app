@@ -1,4 +1,3 @@
-- users = User.sprinter.to_a
 - feedbacks = policy_scope(sprint.sprint_feedbacks).ordered.load
 .card id=dom_id(sprint)
   .card__header
@@ -39,9 +38,8 @@
             th = "#{sprint.billable_hours.round(1)} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
       - if sprint.to_be_rated?
         .feedback
-          - all_feedbacks = sprint.sprint_feedbacks.ordered.load
-          .feedback__heading = t(".feedback") if all_feedbacks.map(&:retro_text).any?
-          - all_feedbacks.each do |sprint_feedback|
+          .feedback__heading = t(".feedback") if feedbacks.map(&:retro_text).any?
+          - feedbacks.each do |sprint_feedback|
             - if sprint_feedback.retro_text && sprint_feedback.retro_rating
                 .feedback__content
                   strong = t(".user_feedback", user: sprint_feedback.user.display_name, rating: sprint_feedback.retro_rating)
