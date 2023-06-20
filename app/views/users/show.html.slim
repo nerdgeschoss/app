@@ -10,3 +10,18 @@
         .card__header-content
           .card__title = t ".remaining_holidays", year: Date.today.year
           .card__subtitle = @user.remaining_holidays
+    - if @salaries.any?
+      .card
+        .card__header
+          .card__icon 💰
+          .card__header-content
+            .card__title = t ".salary_history"
+            .stack
+              - @salaries.each do |salary|
+                a href=("https://nerdgeschoss.de/handbook/hgf/##{salary.hgf_hash}" if salary.hgf_hash.present?) target="_blank" class=("strong" if salary.current?)
+                  div
+                    - if salary.valid_until.nil?
+                      = l salary.valid_from.to_date, format: :long
+                    - else
+                      = date_range salary.valid_from, salary.valid_until, format: :long
+                  div #{number_to_currency salary.brut} / #{number_to_currency salary.net}
