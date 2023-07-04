@@ -8,8 +8,11 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-require 'rails_helper'
 
-RSpec.describe TaskUser, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+task_user_1:
+  task: task_1
+  user: john
+
+task_user_2:
+  task: task_2
+  user: john_no_slack

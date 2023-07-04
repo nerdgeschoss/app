@@ -16,3 +16,6 @@
     slack_congratulation:
       cron: "0 9 * * * Europe/Berlin" # every day at 9:00, Berlin time
       class: SlackCongratulationJob
+    github_import:
+      cron: "0 8 * * * Europe/Berlin" # every day at 9:00, Berlin time
+      class: GithubImportJob
