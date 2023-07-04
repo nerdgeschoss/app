@@ -14,17 +14,16 @@ class GithubApi
 
     loop do
       data = execute_query(after_cursor:)
-      items = data["organization"]["project"]["items"]["nodes"]
+      items = data.dig("organization", "project", "items", "nodes")
       Rails.logger.info("Fetched #{items.count} items")
 
       items.each do |item|
-        content = item["content"]
         all_data << ProjectItem.new(
-          id: content.dig("id"),
+          id: item.dig("content", "id"),
           title: item.dig("name", "text") || "",
-          assignees: content.dig("assignees", "nodes")&.map { |node| node.dig("email") } || [],
-          repository: "#{content.dig("repository", "name")}/#{content.dig("repository", "owner", "login")}",
-          issue_number: content.dig("number"),
+          assignees: item.dig("content", "assignees", "nodes")&.map { |node| node.dig("email") } || [],
+          repository: "#{item.dig("content", "repository", "name")}/#{item.dig("content", "repository", "owner", "login")}",
+          issue_number: item.dig("content", "number"),
           status: item.dig("status", "name") || "",
           sprint_title: item.dig("sprint", "title") || "",
           points: item.dig("points", "number") || 0

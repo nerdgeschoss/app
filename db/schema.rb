@@ -10,12 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2023_02_09_171636) do
-=======
-ActiveRecord::Schema.define(version: 2023_06_09_124512) do
->>>>>>> main
-
+ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -39,7 +34,7 @@ ActiveRecord::Schema.define(version: 2023_06_09_124512) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", precision: 6, null: false
+        t.datetime "created_at", precision: 6, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -109,6 +104,7 @@ ActiveRecord::Schema.define(version: 2023_06_09_124512) do
     t.uuid "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id", "user_id"], name: "index_task_users_on_task_id_and_user_id", unique: true
     t.index ["task_id"], name: "index_task_users_on_task_id"
     t.index ["user_id"], name: "index_task_users_on_user_id"
   end
@@ -117,9 +113,13 @@ ActiveRecord::Schema.define(version: 2023_06_09_124512) do
     t.uuid "sprint_id", null: false
     t.string "title", null: false
     t.string "status", null: false
+    t.string "github_id", null: false
+    t.string "repository", null: false
+    t.bigint "issue_number"
     t.integer "story_points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["github_id"], name: "index_tasks_on_github_id", unique: true
     t.index ["sprint_id"], name: "index_tasks_on_sprint_id"
   end
 
