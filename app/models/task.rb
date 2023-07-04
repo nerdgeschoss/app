@@ -64,6 +64,7 @@ class Task < ApplicationRecord
 
         TaskUser.upsert_all(task_users, unique_by: [:task_id, :user_id])
       end
+      return "Sync completed successfully"
     end
   end
 end
