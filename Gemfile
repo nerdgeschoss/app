@@ -37,8 +37,6 @@ gem "sidekiq-scheduler"
 gem "sitemap_generator"
 gem "slim-rails"
 gem "time_will_tell"
-gem "graphql-client"
-gem "awesome_print"
 gem "translate_client"
 gem "yael"
 

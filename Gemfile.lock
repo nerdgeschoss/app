@@ -179,10 +179,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    graphql (2.0.16)
-    graphql-client (0.18.0)
-      activesupport (>= 3.0)
-      graphql
     groupdate (6.2.0)
       activesupport (>= 5.2)
     guard (2.18.0)
@@ -554,7 +550,6 @@ DEPENDENCIES
   document_serializable
   dotenv-rails
   friendly_id
-  graphql-client
   groupdate
   guard
   guard-rspec
