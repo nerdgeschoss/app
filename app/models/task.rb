@@ -99,15 +99,15 @@ class Task < ApplicationRecord
           }
         end
 
-      all_feedbacks = SprintFeedback.all.map { |sf| {sprint_id: sf[:sprint_id], user_id: sf[:user_id], id: sf[:id]} }
-      relevant_fields_from_all_feedbacks = all_feedbacks.map { |sf| sf.slice(:sprint_id, :user_id) }
+      all_sprint_feedbacks = SprintFeedback.all.map { |sf| {sprint_id: sf[:sprint_id], user_id: sf[:user_id], id: sf[:id]} }
+      relevant_fields_from_all_sprint_feedbacks = all_sprint_feedbacks.map { |sf| sf.slice(:sprint_id, :user_id) }
       relevant_fields_from_grouped_feedbacks = grouped_finished_storypoints_by_user.map { |sf| sf.slice(:sprint_id, :user_id) }
 
-      missing_feedbacks = relevant_fields_from_all_feedbacks - relevant_fields_from_grouped_feedbacks
+      missing_sprint_feedbacks = relevant_fields_from_all_sprint_feedbacks - relevant_fields_from_grouped_feedbacks
 
-      missing_feedbacks_with_ids = all_feedbacks.select { |feedback| missing_feedbacks.include? feedback.slice(:sprint_id, :user_id) }
+      missing_sprint_feedbacks_with_ids = all_sprint_feedbacks.select { |feedback| missing_sprint_feedbacks.include? feedback.slice(:sprint_id, :user_id) }
 
-      SprintFeedback.where(id: missing_feedbacks_with_ids.map { |sf| sf[:id] }).delete_all if missing_feedbacks_with_ids.any?
+      SprintFeedback.where(id: missing_sprint_feedbacks_with_ids.map { |sf| sf[:id] }).delete_all if missing_sprint_feedbacks_with_ids.any?
 
       SprintFeedback.upsert_all(grouped_finished_storypoints_by_user, unique_by: [:sprint_id, :user_id], update_only: :finished_storypoints) if grouped_finished_storypoints_by_user.any?
     end
