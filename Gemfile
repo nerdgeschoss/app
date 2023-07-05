@@ -82,7 +82,6 @@ group :development do
   gem "guard-rspec"
   gem "letter_opener"
   gem "listen"
-  gem "pry-rails"
   gem "rb-fsevent"
   gem "solargraph-standardrb"
   gem "web-console"
