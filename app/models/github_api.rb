@@ -18,13 +18,16 @@ class GithubApi
       data = execute_query(after_cursor:)
       items = data.dig("organization", "project", "items", "nodes")
       Rails.logger.info("Fetched #{items.count} items")
-
       items.each do |item|
+        repository_name = item.dig("content", "repository", "name")
+        repository_owner = item.dig("content", "repository", "owner", "login")
+        repository = (repository_name && repository_owner) ? "#{repository_name}/#{repository_owner}" : nil
+
         all_data << ProjectItem.new(
-          id: item.dig("content", "id"),
+          id: item.dig("id"),
           title: item.dig("name", "text") || "",
           assignees: item.dig("content", "assignees", "nodes")&.map { |node| node.dig("email") } || [],
-          repository: "#{item.dig("content", "repository", "name")}/#{item.dig("content", "repository", "owner", "login")}",
+          repository:,
           issue_number: item.dig("content", "number"),
           status: item.dig("status", "name") || "",
           sprint_title: item.dig("sprint", "title") || "",
@@ -32,12 +35,12 @@ class GithubApi
         )
       end
 
-      page_info = data["organization"]["project"]["items"]["pageInfo"]
-      after_cursor = page_info["endCursor"]
+      page_info = data.dig("organization", "project", "items", "pageInfo")
+      after_cursor = page_info.dig("endCursor")
 
       Rails.logger.info("Cursor for next page: #{after_cursor}")
 
-      break unless page_info["hasNextPage"]
+      break unless page_info.dig("hasNextPage")
     end
 
     all_data
@@ -83,7 +86,11 @@ class GithubApi
       query ($organizationLogin: String!, $projectId: Int!, $afterCursor: String) {
         organization(login: $organizationLogin) {
           project: projectV2(number: $projectId) {
-            items(first: 100, after: $afterCursor, orderBy: {field: POSITION, direction: DESC}) {
+            items(
+              first: 100
+              after: $afterCursor
+              orderBy: {field: POSITION, direction: DESC}
+            ) {
               pageInfo {
                 hasNextPage
                 endCursor
@@ -97,7 +104,6 @@ class GithubApi
                       body
                     }
                     ... on Issue {
-                      id
                       number
                       repository {
                         name
@@ -133,6 +139,7 @@ class GithubApi
                     number
                   }
                 }
+                id
               }
             }
           }

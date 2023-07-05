@@ -16,6 +16,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "task_status", ["todo", "in_progress", "review", "shaping", "done", "idea"]
+
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -34,7 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-        t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -112,9 +116,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
   create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "sprint_id", null: false
     t.string "title", null: false
-    t.string "status", null: false
-    t.string "github_id", null: false
-    t.string "repository", null: false
+    t.enum "status", default: "idea", null: false, enum_type: "task_status"
+    t.string "github_id"
+    t.string "repository"
     t.bigint "issue_number"
     t.integer "story_points"
     t.datetime "created_at", precision: 6, null: false

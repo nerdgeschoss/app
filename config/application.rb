@@ -44,5 +44,6 @@ module TestApp
     config.active_job.queue_adapter = :sidekiq
 
     config.assets.paths << Rails.root.join("node_modules")
+    ActiveRecord::Tasks::DatabaseTasks.fixtures_path = Rails.root.join("spec/fixtures").to_s
   end
 end

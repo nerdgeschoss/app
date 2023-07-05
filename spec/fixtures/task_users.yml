@@ -10,9 +10,9 @@
 #
 
 task_user_1:
-  task: task_1
+  task: done
   user: john
 
 task_user_2:
-  task: task_2
+  task: in_progress
   user: john_no_slack
