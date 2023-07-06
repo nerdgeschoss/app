@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "record_type", null: false
     t.uuid "record_id", null: false
     t.uuid "blob_id", null: false
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -55,16 +55,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "status", default: "pending_approval", null: false
     t.date "days", default: [], null: false, array: true
     t.uuid "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_leaves_on_user_id"
   end
 
   create_table "payslips", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.date "month", null: false
     t.uuid "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_payslips_on_user_id"
   end
 
@@ -74,8 +74,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.decimal "brut", null: false
     t.decimal "net", null: false
     t.string "hgf_hash"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_salaries_on_user_id"
   end
 
@@ -85,10 +85,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.integer "daily_nerd_count"
     t.decimal "tracked_hours"
     t.decimal "billable_hours"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "review_notes"
-    t.datetime "daily_nerd_entry_dates", precision: 6, default: [], null: false, array: true
+    t.datetime "daily_nerd_entry_dates", default: [], null: false, array: true
     t.integer "finished_storypoints", default: 0, null: false
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
     t.index ["sprint_id"], name: "index_sprint_feedbacks_on_sprint_id"
@@ -99,15 +99,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "title", null: false
     t.daterange "sprint_during", null: false
     t.integer "working_days", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "task_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_id", null: false
     t.uuid "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["task_id", "user_id"], name: "index_task_users_on_task_id_and_user_id", unique: true
     t.index ["task_id"], name: "index_task_users_on_task_id"
     t.index ["user_id"], name: "index_task_users_on_user_id"
@@ -121,8 +121,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "repository"
     t.bigint "issue_number"
     t.integer "story_points"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["github_id"], name: "index_tasks_on_github_id", unique: true
     t.index ["sprint_id"], name: "index_tasks_on_sprint_id"
   end
@@ -140,8 +140,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "notes"
     t.uuid "user_id", null: false
     t.uuid "sprint_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["external_id"], name: "index_time_entries_on_external_id", unique: true
     t.index ["sprint_id"], name: "index_time_entries_on_sprint_id"
     t.index ["user_id"], name: "index_time_entries_on_user_id"
@@ -152,10 +152,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.string "roles", default: [], null: false, array: true
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: 6
-    t.datetime "remember_created_at", precision: 6
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
     t.string "slack_id"
