@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-class GithubApi
-  include Singleton
+class Github
   class QueryExecutionError < StandardError
     def initialize(message = "GraphQL query execution error")
       super(message)
     end
   end
 
-  ProjectItem = Struct.new(:id, :title, :assignees, :repository, :issue_number, :sprint_title, :status, :points, keyword_init: true)
+  SprintBoardItem = Struct.new(:id, :title, :assignee_emails, :repository, :issue_number, :sprint_title, :status, :points, keyword_init: true)
 
   def project_items
     all_data = []
@@ -21,12 +20,12 @@ class GithubApi
       items.each do |item|
         repository_name = item.dig("content", "repository", "name")
         repository_owner = item.dig("content", "repository", "owner", "login")
-        repository = (repository_name && repository_owner) ? "#{repository_name}/#{repository_owner}" : nil
+        repository = (repository_name && repository_owner) ? "#{repository_owner}/#{repository_name}" : nil
 
-        all_data << ProjectItem.new(
+        all_data << SprintBoardItem.new(
           id: item.dig("id"),
           title: item.dig("name", "text") || "",
-          assignees: item.dig("content", "assignees", "nodes")&.map { |node| node.dig("email") } || [],
+          assignee_emails: item.dig("content", "assignees", "nodes")&.map { |node| node.dig("email") } || [],
           repository:,
           issue_number: item.dig("content", "number"),
           status: item.dig("status", "name") || "",
@@ -42,7 +41,6 @@ class GithubApi
 
       break unless page_info.dig("hasNextPage")
     end
-
     all_data
   end
 
@@ -56,7 +54,7 @@ class GithubApi
     }
 
     headers = {
-      "Authorization" => "Bearer #{Config.github_access_token!.freeze}",
+      "Authorization" => "Bearer #{Config.github_access_token!}",
       "Content-Type" => "application/json"
     }
 
@@ -66,18 +64,10 @@ class GithubApi
       headers:,
       body: {query:, variables:}.to_json
     )
+    raise QueryExecutionError.new("Failed to retrieve data from GitHub API") unless response.ok?
+    parsed_response = JSON.parse(response.body)
+    raise QueryExecutionError.new(parsed_response["errors"].map { |e| e["message"] }.join(", ")) if parsed_response.key?("errors")
 
-    parsed_response =
-      if response.code == 200
-        parsed_response = JSON.parse(response.body)
-        if parsed_response.key?("errors")
-          raise QueryExecutionError.new(parsed_response["errors"].map { |e| e["message"] }.join(", "))
-        else
-          parsed_response
-        end
-      else
-        raise QueryExecutionError.new("Failed to retrieve data from GitHub API")
-      end
     parsed_response["data"]
   end
 
@@ -89,7 +79,6 @@ class GithubApi
             items(
               first: 100
               after: $afterCursor
-              orderBy: {field: POSITION, direction: DESC}
             ) {
               pageInfo {
                 hasNextPage
@@ -111,9 +100,25 @@ class GithubApi
                           login
                         }
                       }
+                      assignees(first: 100) {
+                        nodes {
+                          email
+                        }
+                      }
+                    }
+                    ... on PullRequest {
                       assignees(first: 10) {
                         nodes {
                           email
+                        }
+                      }
+                      title
+                      body
+                      number
+                      repository {
+                        name
+                        owner {
+                          login
                         }
                       }
                     }

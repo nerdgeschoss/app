@@ -6,16 +6,7 @@ puts "Truncating database..."
 Rake::Task["db:truncate_all"].invoke
 puts "Database truncated!"
 
-puts "Creating admin user..."
-User.create!(email: "admin@nerdgeschoss.de") do |user|
-  user.password = "password"
-  user.password_confirmation = "password"
-  puts "Admin user created with email: #{user.email}"
-end
-
-User.create!({first_name: "Jens", last_name: "Ravens", email: "jens@nerdgeschoss.de", password: "password", password_confirmation: "password"})
-User.create!({first_name: "Christian", last_name: "Kroter", email: "christian@nerdgeschoss.de", password: "password", password_confirmation: "password"})
-
+puts "Creating users..."
 10.times do
   puts "Creating user..."
   user = User.create!(
@@ -94,5 +85,24 @@ User.create!({first_name: "Christian", last_name: "Kroter", email: "christian@ne
       task: task,
       user: user
     )
+  end
+
+  puts "Creating owner users..."
+  User.find_or_create_by!(first_name: "Jens", last_name: "Ravens", email: "jens@nerdgeschoss.de") do |user|
+    user.password = "password"
+    user.password_confirmation = "password"
+  end
+
+  User.find_or_create_by!(first_name: "Christian", last_name: "Kroter", email: "christian@nerdgeschoss.de") do |user|
+    user.password = "password"
+    user.password_confirmation = "password"
+  end
+  puts "Owner users created!"
+
+  puts "Creating admin user..."
+  User.create!(email: "admin@nerdgeschoss.de") do |user|
+    user.password = "password"
+    user.password_confirmation = "password"
+    puts "Admin user created with email: #{user.email}"
   end
 end

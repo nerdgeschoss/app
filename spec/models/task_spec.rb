@@ -22,16 +22,15 @@ RSpec.describe Task do
 
   describe ".sync_with_github" do
     before do
-      github_api = GithubApi.instance
-      allow(github_api).to receive(:project_items).and_return(project_items)
+      allow_any_instance_of(Github).to receive(:project_items).and_return(project_items)
     end
 
     let(:project_items) do
       [
-        GithubApi::ProjectItem.new(
+        Github::SprintBoardItem.new(
           id: "I_kwDOHqBmEs5py4Jr",
           title: "APP-777 - Implement Banner and QR Code",
-          assignees: [users(:john).email],
+          assignee_emails: [users(:john).email],
           repository: "nerdgeschoss/laic",
           issue_number: 157,
           sprint_title: sprints(:empty).title,
