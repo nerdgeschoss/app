@@ -165,6 +165,8 @@ GEM
     et-orbi (1.2.7)
       tzinfo
     execjs (2.8.1)
+    faker (3.2.0)
+      i18n (>= 1.8.11, < 2)
     ferrum (0.13)
       addressable (~> 2.5)
       concurrent-ruby (~> 1.1)
@@ -554,6 +556,7 @@ DEPENDENCIES
   devise
   document_serializable
   dotenv-rails
+  faker
   friendly_id
   groupdate
   guard
