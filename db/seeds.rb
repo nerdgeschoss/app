@@ -87,22 +87,24 @@ puts "Creating users..."
     )
   end
 
-  puts "Creating owner users..."
-  User.find_or_create_by!(first_name: "Jens", last_name: "Ravens", email: "jens@nerdgeschoss.de") do |user|
-    user.password = "password"
-    user.password_confirmation = "password"
-  end
+end
 
-  User.find_or_create_by!(first_name: "Christian", last_name: "Kroter", email: "christian@nerdgeschoss.de") do |user|
-    user.password = "password"
-    user.password_confirmation = "password"
-  end
-  puts "Owner users created!"
 
-  puts "Creating admin user..."
-  User.create!(email: "admin@nerdgeschoss.de") do |user|
-    user.password = "password"
-    user.password_confirmation = "password"
-    puts "Admin user created with email: #{user.email}"
-  end
+puts "Creating owner users..."
+User.find_or_create_by!(first_name: "Jens", last_name: "Ravens", email: "jens@nerdgeschoss.de") do |user|
+  user.password = "password"
+  user.password_confirmation = "password"
+end
+
+User.find_or_create_by!(first_name: "Christian", last_name: "Kroter", email: "christian@nerdgeschoss.de") do |user|
+  user.password = "password"
+  user.password_confirmation = "password"
+end
+puts "Owner users created!"
+
+puts "Creating admin user..."
+User.create!(email: "admin@nerdgeschoss.de") do |user|
+  user.password = "password"
+  user.password_confirmation = "password"
+  puts "Admin user created with email: #{user.email}"
 end
