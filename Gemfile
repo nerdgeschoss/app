@@ -39,6 +39,7 @@ gem "slim-rails"
 gem "time_will_tell"
 gem "translate_client"
 gem "yael"
+gem "faker"
 
 # Assets
 gem "autoprefixer-rails"
@@ -57,7 +58,6 @@ gem "sentry-rails"
 gem "sentry-ruby"
 
 group :development, :test do
-  gem "faker"
   gem "pry-rails"
   gem "pry-doc"
   gem "pry-byebug"
