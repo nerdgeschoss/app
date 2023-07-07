@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
 class Github
-  class QueryExecutionError < StandardError
-    def initialize(message = "GraphQL query execution error")
-      super(message)
-    end
-  end
+  include Logging
 
-  SprintBoardItem = Struct.new(:id, :title, :assignee_emails, :repository, :issue_number, :sprint_title, :status, :points, keyword_init: true)
+  class QueryExecutionError < StandardError; end
+
+  SprintBoardItem = Struct.new(:id, :title, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, keyword_init: true)
 
   def project_items
     all_data = []
@@ -16,7 +14,7 @@ class Github
     loop do
       data = execute_query(after_cursor:)
       items = data.dig("organization", "project", "items", "nodes")
-      Rails.logger.info("Fetched #{items.count} items")
+      logger.debug("Fetched #{items.count} items")
       items.each do |item|
         repository_name = item.dig("content", "repository", "name")
         repository_owner = item.dig("content", "repository", "owner", "login")
@@ -25,19 +23,19 @@ class Github
         all_data << SprintBoardItem.new(
           id: item.dig("id"),
           title: item.dig("name", "text") || "",
-          assignee_emails: item.dig("content", "assignees", "nodes")&.map { |node| node.dig("email") } || [],
+          assignee_logins: item.dig("content", "assignees", "nodes").to_a.map { |node| node.dig("login") },
           repository:,
           issue_number: item.dig("content", "number"),
-          status: item.dig("status", "name") || "",
-          sprint_title: item.dig("sprint", "title") || "",
-          points: item.dig("points", "number") || 0
+          status: item.dig("status", "name").presence,
+          sprint_title: item.dig("sprint", "title").presence,
+          points: item.dig("points", "number")&.to_i
         )
       end
 
       page_info = data.dig("organization", "project", "items", "pageInfo")
       after_cursor = page_info.dig("endCursor")
 
-      Rails.logger.info("Cursor for next page: #{after_cursor}")
+      logger.debug("Cursor for next page: #{after_cursor}")
 
       break unless page_info.dig("hasNextPage")
     end
@@ -48,9 +46,7 @@ class Github
 
   def execute_query(after_cursor: nil)
     variables = {
-      "organizationLogin" => "nerdgeschoss",
-      "projectId" => 1,
-      "afterCursor" => after_cursor
+      afterCursor: after_cursor
     }
 
     headers = {
@@ -73,9 +69,9 @@ class Github
 
   def query
     <<~GRAPHQL
-      query ($organizationLogin: String!, $projectId: Int!, $afterCursor: String) {
-        organization(login: $organizationLogin) {
-          project: projectV2(number: $projectId) {
+      query RetrieveSprintBoard($afterCursor: String) {
+        organization(login: "nerdgeschoss") {
+          project: projectV2(number: 1) {
             items(
               first: 100
               after: $afterCursor
@@ -102,14 +98,14 @@ class Github
                       }
                       assignees(first: 100) {
                         nodes {
-                          email
+                          login
                         }
                       }
                     }
                     ... on PullRequest {
                       assignees(first: 10) {
                         nodes {
-                          email
+                          login
                         }
                       }
                       title

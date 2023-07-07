@@ -18,6 +18,7 @@
 #  slack_id               :string
 #  born_on                :date
 #  hired_on               :date
+#  github_handle          :string
 #
 
 class User < ApplicationRecord

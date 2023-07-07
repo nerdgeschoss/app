@@ -22,7 +22,7 @@ RSpec.describe Github do
                       "content": {
                         "number": 157,
                         "repository": {
-                          "name": "laic",
+                          "name": "some-project",
                           "owner": {
                             "login": "nerdgeschoss"
                           }
@@ -30,7 +30,7 @@ RSpec.describe Github do
                         "assignees": {
                           "nodes": [
                             {
-                              "email": "john@example.com"
+                              "login": "john"
                             }
                           ]
                         }
@@ -48,6 +48,22 @@ RSpec.describe Github do
                         "number": 3
                       },
                       "id": "I_kwDOHqBmEs5py4Jr"
+                    },
+                    {
+                      "type": "DRAFT_ISSUE",
+                      "name": {
+                        "text": "APP-123 - Draft"
+                      },
+                      "status": {
+                        "name": null
+                      },
+                      "sprint": {
+                        "title": ""
+                      },
+                      "points": {
+                        "number": null
+                      },
+                      "id": "I_123"
                     }
                   ]
                 }
@@ -59,16 +75,12 @@ RSpec.describe Github do
 
       stub_request(:post, "https://api.github.com/graphql").to_return(status: 200, body:)
 
-      project_item = Github.new.project_items.first
+      project_item_full, project_item_partial = Github.new.project_items.first(2)
 
-      expect(project_item.id).to eq "I_kwDOHqBmEs5py4Jr"
-      expect(project_item.title).to eq "APP-777 - Implement Banner and QR Code"
-      expect(project_item.assignee_emails).to match_array ["john@example.com"]
-      expect(project_item.repository).to eq "nerdgeschoss/laic"
-      expect(project_item.issue_number).to eq 157
-      expect(project_item.sprint_title).to eq "S2023-13"
-      expect(project_item.status).to eq "Done"
-      expect(project_item.points).to eq 3
+      expect(project_item_full).to have_attributes id: "I_kwDOHqBmEs5py4Jr", title: "APP-777 - Implement Banner and QR Code",
+        assignee_logins: ["john"], repository: "nerdgeschoss/some-project", issue_number: 157, sprint_title: "S2023-13", status: "Done", points: 3
+      expect(project_item_partial).to have_attributes id: "I_123", title: "APP-123 - Draft",
+        assignee_logins: [], repository: nil, issue_number: nil, sprint_title: nil, status: nil, points: nil
     end
   end
 end

@@ -10,15 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_102326) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
-
-  # Custom types defined in this database.
-  # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "task_status", ["todo", "in_progress", "review", "shaping", "done", "idea"]
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -114,9 +111,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
   end
 
   create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "sprint_id", null: false
+    t.uuid "sprint_id"
     t.string "title", null: false
-    t.enum "status", default: "idea", null: false, enum_type: "task_status"
+    t.string "status"
     t.string "github_id"
     t.string "repository"
     t.bigint "issue_number"
@@ -158,9 +155,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_124512) do
     t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
-    t.string "slack_id"
     t.date "born_on"
     t.date "hired_on"
+    t.string "slack_id"
+    t.string "github_handle"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

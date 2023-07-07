@@ -3,9 +3,9 @@
 # Table name: tasks
 #
 #  id           :uuid             not null, primary key
-#  sprint_id    :uuid             not null
+#  sprint_id    :uuid
 #  title        :string           not null
-#  status       :enum             default("idea"), not null
+#  status       :string
 #  github_id    :string
 #  repository   :string
 #  issue_number :bigint
