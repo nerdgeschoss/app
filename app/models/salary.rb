@@ -20,7 +20,7 @@ class Salary < ApplicationRecord
 
   scope :chronologic, -> { order("LOWER(salaries.valid_during) ASC") }
 
-  range_accessor_methods :valid_during
+  range_accessor_methods :valid
 
   validates :valid_during, :brut, :net, presence: true
 
