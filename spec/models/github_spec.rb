@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Github do
-  describe "#project_items" do
+  describe "#sprint_board_items" do
     it "returns project items" do
       body = <<~JSON
         {
@@ -75,7 +75,7 @@ RSpec.describe Github do
 
       stub_request(:post, "https://api.github.com/graphql").to_return(status: 200, body:)
 
-      project_item_full, project_item_partial = Github.new.project_items.first(2)
+      project_item_full, project_item_partial = Github.new.sprint_board_items.first(2)
 
       expect(project_item_full).to have_attributes id: "I_kwDOHqBmEs5py4Jr", title: "APP-777 - Implement Banner and QR Code",
         assignee_logins: ["john"], repository: "nerdgeschoss/some-project", issue_number: 157, sprint_title: "S2023-13", status: "Done", points: 3

@@ -25,7 +25,7 @@ class Task < ApplicationRecord
     def sync_with_github
       user_ids_by_handle = User.pluck(:github_handle, :id).to_h
       sprint_ids_by_title = Sprint.pluck(:title, :id).to_h
-      github_tasks = Github.new.project_items
+      github_tasks = Github.new.sprint_board_items
       current_github_ids = pluck(:github_id)
       deleted_ids = current_github_ids - github_tasks.map(&:id).compact
 

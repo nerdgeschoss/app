@@ -7,7 +7,7 @@ class Github
 
   SprintBoardItem = Struct.new(:id, :title, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, keyword_init: true)
 
-  def project_items
+  def sprint_board_items
     all_data = []
     after_cursor = nil
 

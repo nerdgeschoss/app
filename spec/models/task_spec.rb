@@ -22,10 +22,10 @@ RSpec.describe Task do
 
   describe ".sync_with_github" do
     before do
-      allow_any_instance_of(Github).to receive(:project_items).and_return(project_items)
+      allow_any_instance_of(Github).to receive(:sprint_board_items).and_return(sprint_board_items)
     end
 
-    let(:project_items) do
+    let(:sprint_board_items) do
       [
         Github::SprintBoardItem.new(
           id: "I_kwDOHqBmEs5py4Jr",
@@ -42,7 +42,7 @@ RSpec.describe Task do
 
     it "creates new tasks and task_users" do
       Task.sync_with_github
-      task = Task.find_by github_id: project_items.first.id
+      task = Task.find_by github_id: sprint_board_items.first.id
       expect(task.sprint).to eq sprints :empty
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
       expect(task.status).to eq "Done"
@@ -54,7 +54,7 @@ RSpec.describe Task do
 
     it "updates existing tasks" do
       task = tasks :done
-      task.update! github_id: project_items.first.id, users: [users(:admin)], story_points: 13
+      task.update! github_id: sprint_board_items.first.id, users: [users(:admin)], story_points: 13
       Task.sync_with_github
       task.reload
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
