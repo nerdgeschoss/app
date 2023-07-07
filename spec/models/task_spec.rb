@@ -54,7 +54,7 @@ RSpec.describe Task do
 
     it "updates existing tasks" do
       task = tasks :done
-      task.update! github_id: project_items.first.id, users: [], story_points: 13
+      task.update! github_id: project_items.first.id, users: [users(:admin)], story_points: 13
       Task.sync_with_github
       task.reload
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"

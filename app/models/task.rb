@@ -47,13 +47,17 @@ class Task < ApplicationRecord
         if tasks.any?
           task_ids_by_github_id = Task.upsert_all(tasks, returning: [:github_id, :id], unique_by: [:github_id]).rows.to_h
 
+          unused_task_users = TaskUser.pluck(:id, :user_id, :task_id).map { |e| [[e[1], e[2]], e[0]] }.to_h
           task_users = github_tasks.flat_map do |task|
             task.assignee_logins.map do |login|
               user_id = user_ids_by_handle[login]
-              {task_id: task_ids_by_github_id[task.id], user_id: user_id} unless user_id.nil?
+              task_id = task_ids_by_github_id[task.id]
+              unused_task_users.delete([user_id, task_id])
+              {task_id:, user_id:} unless user_id.nil?
             end.compact
           end
           TaskUser.upsert_all(task_users, unique_by: [:task_id, :user_id]) if task_users.any?
+          TaskUser.where(id: unused_task_users.values).delete_all if unused_task_users.any?
         end
 
         sql = <<-SQL
