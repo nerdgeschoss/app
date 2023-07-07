@@ -69,7 +69,7 @@ class Task < ApplicationRecord
               sprint_feedbacks
               JOIN sprints ON sprint_feedbacks.sprint_id = sprints.id
               LEFT JOIN task_users ON sprint_feedbacks.user_id = task_users.user_id
-              LEFT JOIN tasks ON tasks.id = task_users.task_id AND tasks.sprint_id = sprints.id
+              LEFT JOIN tasks ON tasks.id = task_users.task_id AND tasks.sprint_id = sprints.id AND tasks.status = 'Done'
             GROUP BY
               1
           )
