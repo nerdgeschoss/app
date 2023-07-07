@@ -86,9 +86,7 @@ puts "Creating users..."
       user: user
     )
   end
-
 end
-
 
 puts "Creating owner users..."
 User.find_or_create_by!(first_name: "Jens", last_name: "Ravens", email: "jens@nerdgeschoss.de") do |user|
