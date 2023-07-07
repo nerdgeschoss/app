@@ -31,10 +31,20 @@ RSpec.describe Task do
           id: "I_kwDOHqBmEs5py4Jr",
           title: "APP-777 - Implement Banner and QR Code",
           assignee_logins: ["john-github"],
-          repository: "nerdgeschoss/laic",
+          repository: "nerdgeschoss/project",
           issue_number: 157,
           sprint_title: "S2023-02",
           status: "Done",
+          points: 3
+        ),
+        Github::SprintBoardItem.new(
+          id: "I_123",
+          title: "APP-123 - Another Task",
+          assignee_logins: ["john-github"],
+          repository: "nerdgeschoss/project",
+          issue_number: 166,
+          sprint_title: "S2023-02",
+          status: "Todo",
           points: 3
         )
       ]
@@ -46,7 +56,7 @@ RSpec.describe Task do
       expect(task.sprint).to eq sprints :empty
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
       expect(task.status).to eq "Done"
-      expect(task.repository).to eq "nerdgeschoss/laic"
+      expect(task.repository).to eq "nerdgeschoss/project"
       expect(task.issue_number).to eq 157
       expect(task.story_points).to eq 3
       expect(task.users).to eq [users(:john)]
@@ -59,7 +69,7 @@ RSpec.describe Task do
       task.reload
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
       expect(task.users).to eq [users(:john)]
-      expect(task.repository).to eq "nerdgeschoss/laic"
+      expect(task.repository).to eq "nerdgeschoss/project"
       expect(task.issue_number).to eq 157
       expect(task.sprint).to eq sprints :empty
       expect(task.story_points).to eq 3

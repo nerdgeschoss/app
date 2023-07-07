@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_07_102326) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_124234) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
@@ -67,12 +67,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_07_102326) do
 
   create_table "salaries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
-    t.daterange "valid_during", null: false
     t.decimal "brut", null: false
     t.decimal "net", null: false
     t.string "hgf_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "valid_from", null: false
     t.index ["user_id"], name: "index_salaries_on_user_id"
   end
 

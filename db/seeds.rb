@@ -34,6 +34,13 @@ logger.debug "Creating users..."
     github_handle: ["JensRavens"][i]
   )
 
+  brut_salary = Faker::Number.between(from: 3000, to: 8000)
+  user.salaries.create!(
+    brut: brut_salary,
+    net: brut_salary * 0.7,
+    valid_from: user.hired_on
+  )
+
   5.times do
     start_date = Faker::Date.between(from: "2022-01-01", to: "2023-12-31")
     end_date = start_date + rand(1..3).days
