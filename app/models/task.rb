@@ -58,12 +58,16 @@ class Task < ApplicationRecord
 
         sql = <<-SQL
           WITH points_per_sprint AS (
-            SELECT sprint_feedbacks.id AS sprint_feedback_id, SUM(COALESCE(tasks.story_points, 0)) AS points
-            FROM tasks
-            JOIN task_users ON tasks.id = task_users.task_id
-            JOIN sprints ON tasks.sprint_id = sprints.id
-            JOIN sprint_feedbacks ON sprint_feedbacks.sprint_id = sprints.id AND task_users.user_id = sprint_feedbacks.user_id
-            GROUP BY 1
+            SELECT
+              sprint_feedbacks.id AS sprint_feedback_id,
+              SUM(COALESCE(tasks.story_points, 0)) AS points
+            FROM
+              sprint_feedbacks
+              JOIN sprints ON sprint_feedbacks.sprint_id = sprints.id
+              LEFT JOIN task_users ON sprint_feedbacks.user_id = task_users.user_id
+              LEFT JOIN tasks ON tasks.id = task_users.task_id AND tasks.sprint_id = sprints.id
+            GROUP BY
+              1
           )
           UPDATE sprint_feedbacks
           SET finished_storypoints = points_per_sprint.points
