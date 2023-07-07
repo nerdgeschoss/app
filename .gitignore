@@ -33,7 +33,3 @@
 app/assets/builds
 node_modules
 .DS_Store
-
-# Local ENV files
-.env.local
-.env.*.local

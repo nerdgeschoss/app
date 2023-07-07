@@ -5,7 +5,7 @@ ruby File.read(".ruby-version").strip
 
 # Core
 gem "puma"
-gem "rails", "7.0.4"
+gem "rails", "7.0.6"
 
 # Database
 gem "pg"
@@ -58,9 +58,6 @@ gem "sentry-rails"
 gem "sentry-ruby"
 
 group :development, :test do
-  gem "pry-rails"
-  gem "pry-doc"
-  gem "pry-byebug"
   gem "capybara"
   gem "capybara-screenshot-diff"
   gem "cuprite"
