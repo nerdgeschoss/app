@@ -18,6 +18,7 @@
 #  slack_id               :string
 #  born_on                :date
 #  hired_on               :date
+#  github_handle          :string
 #
 
 class User < ApplicationRecord
@@ -33,6 +34,8 @@ class User < ApplicationRecord
   has_many :leaves, dependent: :destroy, class_name: "Leave"
   has_many :sprint_feedbacks, dependent: :destroy
   has_many :salaries, dependent: :destroy
+  has_many :task_users, dependent: :delete_all
+  has_many :tasks, through: :task_users
 
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)

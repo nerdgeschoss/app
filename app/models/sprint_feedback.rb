@@ -14,6 +14,7 @@
 #  updated_at             :datetime         not null
 #  review_notes           :string
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
+#  finished_storypoints   :integer          default(0), not null
 #
 
 class SprintFeedback < ApplicationRecord

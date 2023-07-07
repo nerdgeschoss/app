@@ -16,6 +16,7 @@
 #  slack_id               :string
 #  born_on                :date
 #  hired_on               :date
+#  github_handle          :string
 #
 john: &john
   email: john@example.com
@@ -25,11 +26,13 @@ john: &john
   born_on: 1989-09-30
   hired_on: 2020-01-01
   slack_id: slack-john
+  github_handle: john-github
 
 john_no_slack:
   <<: *john
   email: john-no-slack@example.com
   slack_id: null
+  github_handle: null
 
 admin:
   email: admin@example.com

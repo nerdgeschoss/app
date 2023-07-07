@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class HarvestApi
-  TimeEntry = Struct.new(:id, :date, :hours, :rounded_hours, :billable, :project, :client, :task, :billable_rate,
-    :cost_rate, :notes, :user, :response, keyword_init: true)
-  User = Struct.new(:id, :first_name, :last_name, :email, :weekly_capacity, keyword_init: true)
-
   include Singleton
+
+  TimeEntry = Struct.new(:id, :date, :hours, :rounded_hours, :billable, :project, :client, :task, :billable_rate, :cost_rate, :notes, :user, :response, keyword_init: true)
+  User = Struct.new(:id, :first_name, :last_name, :email, :weekly_capacity, keyword_init: true)
 
   def me
     OpenStruct.new(get("users/me"))

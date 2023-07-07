@@ -5,7 +5,7 @@ ruby File.read(".ruby-version").strip
 
 # Core
 gem "puma"
-gem "rails", "7.0.1"
+gem "rails", "7.0.6"
 
 # Database
 gem "pg"
@@ -39,6 +39,7 @@ gem "slim-rails"
 gem "time_will_tell"
 gem "translate_client"
 gem "yael"
+gem "faker"
 
 # Assets
 gem "autoprefixer-rails"
@@ -79,7 +80,6 @@ group :development do
   gem "guard-rspec"
   gem "letter_opener"
   gem "listen"
-  gem "pry-rails"
   gem "rb-fsevent"
   gem "solargraph-standardrb"
   gem "web-console"
