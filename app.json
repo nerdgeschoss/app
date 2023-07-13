@@ -26,7 +26,7 @@
   },
   "name": "nerdgeschoss_app",
   "scripts": {
-    "postdeploy": "pg_dump --clean --no-owner --no-acl $SOURCE_DATABASE_URL | psql $DATABASE_URL && bin/rails db:migrate"
+    "postdeploy": "bin/rails db:seed"
   },
   "stack": "heroku-20"
 }

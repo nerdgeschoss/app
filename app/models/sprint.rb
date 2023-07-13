@@ -53,6 +53,10 @@ class Sprint < ApplicationRecord
     sprint_feedbacks.map(&:billable_hours).compact.sum
   end
 
+  def finished_storypoints
+    sprint_feedbacks.map(&:finished_storypoints).compact.sum
+  end
+
   def completed?
     sprint_until.past?
   end

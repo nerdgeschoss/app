@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @salaries = @user.salaries.chronologic
   end
 
   def edit

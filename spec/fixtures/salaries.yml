@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: salaries
+#
+#  id         :uuid             not null, primary key
+#  user_id    :uuid             not null
+#  brut       :decimal(, )      not null
+#  net        :decimal(, )      not null
+#  hgf_hash   :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  valid_from :date             not null
+#
+
+john_old:
+  user: john
+  valid_from: 2021-01-01
+  brut: 3500
+  net: 2777.33
+  hgf_hash: c211p000e122d000l211b100o000
+
+john_current:
+  user: john
+  valid_from: 2022-01-01
+  brut: 3800
+  net: 3177.33
+  hgf_hash: c311p000e122d000l211b100o001

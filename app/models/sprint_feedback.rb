@@ -16,6 +16,7 @@
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
 #  retro_rating           :integer
 #  retro_text             :string
+#  finished_storypoints   :integer          default(0), not null
 #
 
 class SprintFeedback < ApplicationRecord

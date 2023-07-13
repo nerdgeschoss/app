@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class SprintMetrics
-  METRICS = [:billable_per_day, :daily_nerd_percentage, :tracked_per_day, :billable_hours, :billable_hours_percentage, :retro_rating].freeze
+
+  METRICS = [:billable_per_day, :daily_nerd_percentage, :tracked_per_day, :billable_hours, :billable_hours_percentage, :retro_rating, :finished_storypoints].freeze
+
   attr_reader :sprints, :users
 
   def initialize(sprints, users: sprints.flat_map(&:sprint_feedbacks).map(&:user).uniq.sort_by(&:display_name))

@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: task_users
+#
+#  id         :uuid             not null, primary key
+#  task_id    :uuid             not null
+#  user_id    :uuid             not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+task_user_1:
+  task: done
+  user: john
+
+task_user_2:
+  task: in_progress
+  user: john_no_slack

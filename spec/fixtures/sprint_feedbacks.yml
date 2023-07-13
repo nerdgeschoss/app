@@ -1,4 +1,45 @@
-john_before:
+# == Schema Information
+#
+# Table name: sprint_feedbacks
+#
+#  id                     :uuid             not null, primary key
+#  sprint_id              :uuid             not null
+#  user_id                :uuid             not null
+#  daily_nerd_count       :integer
+#  tracked_hours          :decimal(, )
+#  billable_hours         :decimal(, )
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  review_notes           :string
+#  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
+#  finished_storypoints   :integer          default(0), not null
+#
+sprint_feedback_1:
+  sprint: empty
+  user: john
+  daily_nerd_count: 5
+  tracked_hours: 30
+  billable_hours: 20
+  review_notes: "Great progress!"
+  daily_nerd_entry_dates:
+    - 2023-01-24
+    - 2023-01-25
+    - 2023-01-26
+  finished_storypoints: 8
+
+sprint_feedback_2:
+  sprint: empty
+  user: john_no_slack
+  daily_nerd_count: 3
+  tracked_hours: 25
+  billable_hours: 15
+  review_notes: "Keep up the good work!"
+  daily_nerd_entry_dates:
+    - 2023-01-24
+    - 2023-01-25
+  finished_storypoints: 5
+  
+  john_before:
   sprint: before
   user: john
 

@@ -9,6 +9,7 @@
     .card__content
       table.table
         tr
+
           th = t(".rated", rating: sprint.average_rating)
           th = t(".daily_nerd")
           th = t(".tracked")
@@ -28,6 +29,7 @@
             td = "#{feedback.tracked_hours&.round(1)} / #{number_with_precision(feedback.tracked_per_day, precision: 1)}"
             td title=number_to_percentage(feedback.billable_hours_percentage * 100, precision: 0) = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours.round(1)} / #{number_with_precision feedback.billable_per_day, precision: 1}"
             td = feedback.retro_rating.nil? ? "-" : feedback.retro_rating
+            td = feedback.finished_storypoints
         - if policy(sprint).overview?
           tr
             th
@@ -36,6 +38,7 @@
             th = number_to_percentage sprint.daily_nerd_percentage * 100, precision: 0
             th = "#{sprint.tracked_hours.round(1)} / #{(sprint.tracked_hours / [sprint.total_working_days, 1].max).round(1)}"
             th = "#{sprint.billable_hours.round(1)} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
+            th = sprint.finished_storypoints
       - if sprint.to_be_rated?
         .feedback
           .feedback__heading = t(".feedback") if feedbacks.map(&:retro_text).any?

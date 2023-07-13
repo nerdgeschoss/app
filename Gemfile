@@ -5,7 +5,7 @@ ruby File.read(".ruby-version").strip
 
 # Core
 gem "puma"
-gem "rails", "7.0.1"
+gem "rails", "7.0.6"
 
 # Database
 gem "pg"
@@ -40,6 +40,8 @@ gem "time_will_tell"
 gem "translate_client"
 gem "yael"
 gem "redcarpet"
+
+gem "faker"
 
 # Assets
 gem "autoprefixer-rails"
