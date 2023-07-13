@@ -81,6 +81,7 @@ en:
       billable: Billable
       daily_nerd: Daily nerd
       feedback: 'Feedback:'
+      finished_storypoints: Finished storypoints
       please_write_feedback: Please write your feedback!
       rated: 'Rating: Ø %{rating}'
       retro_rating: Retro rating
