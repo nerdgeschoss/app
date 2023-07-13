@@ -40,7 +40,6 @@ gem "time_will_tell"
 gem "translate_client"
 gem "yael"
 gem "redcarpet"
-
 gem "faker"
 
 # Assets
@@ -74,7 +73,6 @@ group :development, :test do
   gem "rubocop-rake"
   gem "webmock", require: false
   gem "debug"
-  gem "pry-rails"
 end
 
 group :development do
