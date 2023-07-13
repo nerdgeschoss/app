@@ -15,6 +15,7 @@
           th = t(".tracked")
           th = t(".billable")
           th = t(".retro_rating")
+          th = t(".finished_storypoints")
         - feedbacks.each do |feedback|
           - users.delete(feedback.user)
           - next if @user.present? && feedback.user_id != @user&.id

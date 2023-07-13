@@ -38,8 +38,8 @@ sprint_feedback_2:
     - 2023-01-24
     - 2023-01-25
   finished_storypoints: 5
-  
-  john_before:
+
+john_before:
   sprint: before
   user: john
 
