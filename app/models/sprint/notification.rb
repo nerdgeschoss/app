@@ -33,7 +33,7 @@ class Sprint
           ApplicationController.helpers.date_range(leave.leave_during.min,
             leave.leave_during.max, format: :short, show_year: false).to_s
         end.to_sentence
-        I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: leaves.map(&:days).flatten.count { |day| (@sprint.sprint_during.cover? day) && !day.saturday? && !day.sunday? },
+        I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: leaves.map(&:days).flatten.count { |day| @sprint.sprint_during.cover? day },
           dates:)
       end
     end

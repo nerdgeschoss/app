@@ -25,7 +25,7 @@ RSpec.describe Sprint do
       sprint.send_sprint_start_notification
       text = <<~TEXT
         🏃 *Sprint S2023-02 starts today!*
-        Duration: January 23 — February 3, 2023
+        Duration: January 23 — February 4, 2023
         Working days: 10
       TEXT
       expect(Slack.instance.last_message.text).to eq text.strip
@@ -36,7 +36,7 @@ RSpec.describe Sprint do
       sprint.send_sprint_start_notification
       text = <<~TEXT
         🏃 *Sprint S2023-02 starts today!*
-        Duration: January 23 — February 3, 2023
+        Duration: January 23 — February 4, 2023
         Working days: 10
 
         🏖️ *On leave:*
@@ -51,27 +51,12 @@ RSpec.describe Sprint do
       sprint.send_sprint_start_notification
       text = <<~TEXT
         🏃 *Sprint S2023-02 starts today!*
-        Duration: January 23 — February 3, 2023
+        Duration: January 23 — February 4, 2023
         Working days: 10
 
         🏖️ *On leave:*
 
-        - John is away for 3 days: (Feb 1 — 28)
-      TEXT
-      expect(Slack.instance.last_message.text).to eq text.strip
-    end
-
-    it "displays the correct number of days, taking the weekend into account" do
-      john.leaves.create! type: :paid, title: "Mallorca", days: (Date.new(2023, 1, 23)..Date.new(2023, 2, 4)).to_a
-      sprint.send_sprint_start_notification
-      text = <<~TEXT
-        🏃 *Sprint S2023-02 starts today!*
-        Duration: January 23 — February 3, 2023
-        Working days: 10
-
-        🏖️ *On leave:*
-
-        - John is away for 10 days: (Jan 23 — Feb 4)
+        - John is away for 4 days: (Feb 1 — 28)
       TEXT
       expect(Slack.instance.last_message.text).to eq text.strip
     end
@@ -81,7 +66,7 @@ RSpec.describe Sprint do
       sprint.send_sprint_start_notification
       text = <<~TEXT
         🏃 *Sprint S2023-02 starts today!*
-        Duration: January 23 — February 3, 2023
+        Duration: January 23 — February 4, 2023
         Working days: 10
 
         🎂 *John celebrates their birthday on Feb 01!*
@@ -95,7 +80,7 @@ RSpec.describe Sprint do
       sprint.send_sprint_start_notification
       text = <<~TEXT
         🏃 *Sprint S2023-02 starts today!*
-        Duration: January 23 — February 3, 2023
+        Duration: January 23 — February 4, 2023
         Working days: 10
 
         🎈 *John celebrates their nerdgeschoss anniversary on Jan 25!*
