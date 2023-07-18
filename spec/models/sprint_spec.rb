@@ -76,6 +76,22 @@ RSpec.describe Sprint do
       expect(Slack.instance.last_message.text).to eq text.strip
     end
 
+    it "displays multiple leaves in one sprint correctly" do
+      john.leaves.create! type: :paid, title: "Mallorca", days: (Date.new(2023, 1, 23)..Date.new(2023, 2, 4)).to_a
+      john.leaves.create! type: :paid, title: "Mallorca", days: [Date.new(2023, 2, 2)]
+      sprint.send_sprint_start_notification
+      text = <<~TEXT
+        🏃 *Sprint S2023-02 starts today!*
+        Duration: January 23 — February 3, 2023
+        Working days: 10
+
+        🏖️ *On leave:*
+
+        - John is away for 11 days: (Jan 23 — Feb 4 and Feb 2)
+      TEXT
+      expect(Slack.instance.last_message.text).to eq text.strip
+    end
+
     it "mentions birthdays" do
       john.update! born_on: "1989-02-01", hired_on: "2019-04-25"
       sprint.send_sprint_start_notification
