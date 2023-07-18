@@ -11,7 +11,7 @@
 #
 empty:
   title: S2023-02
-  sprint_during: '[2023-01-23, 2023-02-04]'
+  sprint_during: '[2023-01-23, 2023-02-03]'
   working_days: 10
 
 before:
