@@ -27,14 +27,14 @@ class Sprint
 
     def leaves_text_lines
       @leaves_text_lines ||= Leave.includes(:user).during(@sprint.sprint_during).group_by(&:user).map do |user, leaves|
-        dates = leaves.sort_by do |l|
-                  l.leave_during.min
-                end.map do |leave|
-          ApplicationController.helpers.date_range(leave.leave_during.min,
-            leave.leave_during.max, format: :short, show_year: false).to_s
-        end.to_sentence
-        I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: leaves.map(&:days).flatten.count { |day| @sprint.sprint_during.cover? day },
-          dates:)
+        total_days = leaves.sum do |leave|
+          leave.days.count { |day| (@sprint.sprint_during.cover? day) && !day.saturday? && !day.sunday? }
+        end
+
+        dates = leaves.sort_by { |l| l.leave_during.min }
+          .map { |leave| ApplicationController.helpers.date_range(leave.leave_during.min, leave.leave_during.max, format: :short, show_year: false).to_s }
+          .to_sentence
+        I18n.t("sprints.notifications.leave_line", user: user.display_name, days_count: total_days, dates:)
       end
     end
 
