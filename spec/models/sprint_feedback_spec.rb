@@ -29,9 +29,9 @@ RSpec.describe SprintFeedback do
 
   it "calculates the costs based on the current salary" do
     feedback.recalculate_costs
-    salary = feedback.user.salaries.current_at(feedback.sprint.sprint_from)
-    expect(salary.brut).to eq 3500
-    expect(feedback.costs).to eq 2166.67 # 10 working days, assuming 21 working days per month
+    salary = feedback.user.salary_at(feedback.sprint.sprint_from)
+    expect(salary.brut).to eq 3800
+    expect(feedback.costs).to eq 2352.38 # 10 working days, assuming 21 working days per month
   end
 
   it "displays revenue based on turnover and costs" do
