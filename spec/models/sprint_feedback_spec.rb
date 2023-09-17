@@ -36,7 +36,7 @@ RSpec.describe SprintFeedback do
 
   it "displays revenue based on turnover and costs" do
     expect(feedback.turnover).to eq 150
-    expect(feedback.revenue.to_f).to eq -2016.67
+    expect(feedback.revenue.to_f).to eq(-2016.67)
     expect(feedback.turnover_per_storypoint).to eq 18.75
   end
 end
