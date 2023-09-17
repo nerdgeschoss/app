@@ -91,7 +91,7 @@ class SprintFeedback < ApplicationRecord
   private
 
   def leaves
-    @leaves ||= user.leaves.during(sprint.sprint_during)
+    @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }
   end
 
   def count_days(status)

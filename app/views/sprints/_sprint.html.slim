@@ -1,5 +1,5 @@
-- users = User.sprinter.to_a
-- feedbacks = policy_scope(sprint.sprint_feedbacks).ordered.load
+- feedbacks = sprint.sprint_feedbacks.select { policy(_1).show? }
+- addable_users = @sprinters - feedbacks.map(&:user)
 .card id=dom_id(sprint)
   .card__header
     .card__icon 🏃
@@ -17,7 +17,6 @@
           th Story Points
           th Turnover
         - feedbacks.each do |feedback|
-          - users.delete(feedback.user)
           - next if @user.present? && feedback.user_id != @user&.id
           tr
             td: a href=(policy(feedback).edit? ? popover_path(edit_sprint_feedback_path(feedback)) : "")
@@ -58,7 +57,7 @@
                 div title="Turnover" = number_to_currency sprint.turnover
                 div title="Costs" = number_to_currency -sprint.costs
                 div title="Revenue" = number_to_currency sprint.revenue
-  - if users.any? && policy(SprintFeedback).create?
+  - if addable_users.any? && policy(SprintFeedback).create?
     .card__buttons
-      - users.each do |user|
+      - addable_users.each do |user|
         = button_to "+ #{user.display_name}", sprint_feedbacks_path(sprint_feedback: {sprint_id: sprint.id, user_id: user.id}), class: "button"
