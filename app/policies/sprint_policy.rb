@@ -12,4 +12,8 @@ class SprintPolicy < ApplicationPolicy
   def overview?
     hr?
   end
+
+  def show_revenue?
+    hr?
+  end
 end

@@ -56,6 +56,22 @@ class Sprint < ApplicationRecord
     sprint_feedbacks.map(&:finished_storypoints).compact.sum
   end
 
+  def turnover_per_storypoint
+    (sprint_feedbacks.map(&:turnover_per_storypoint).compact.sum / [sprint_feedbacks.size, 1].max).round(2)
+  end
+
+  def turnover
+    sprint_feedbacks.map(&:turnover).compact.sum
+  end
+
+  def costs
+    sprint_feedbacks.map(&:costs).compact.sum
+  end
+
+  def revenue
+    turnover - costs
+  end
+
   def completed?
     sprint_until.past?
   end
@@ -88,7 +104,8 @@ class Sprint < ApplicationRecord
       sprint_feedbacks.each do |feedback|
         feedback_entries = time_entries.where(user_id: feedback.user_id)
         feedback.update! tracked_hours: feedback_entries.sum(:hours),
-          billable_hours: feedback_entries.billable.sum(:hours)
+          billable_hours: feedback_entries.billable.sum(:hours),
+          turnover: feedback_entries.billable.sum("time_entries.billable_rate * time_entries.rounded_hours")
       end
     end
   end

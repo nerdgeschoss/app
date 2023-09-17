@@ -101,6 +101,10 @@ class User < ApplicationRecord
     salaries.find(&:current?)
   end
 
+  def salary_at(date)
+    salaries.sort_by(&:valid_from).select { _1.valid_from < date }.last
+  end
+
   private
 
   def leaves_this_year

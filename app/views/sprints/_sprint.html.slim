@@ -15,6 +15,7 @@
           th Tracked
           th Billable
           th Story Points
+          th Turnover
         - feedbacks.each do |feedback|
           - users.delete(feedback.user)
           - next if @user.present? && feedback.user_id != @user&.id
@@ -28,7 +29,18 @@
             td title=feedback.daily_nerd_count = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100, precision: 0}"
             td = "#{feedback.tracked_hours&.round(1)} / #{number_with_precision(feedback.tracked_per_day, precision: 1)}"
             td title=number_to_percentage(feedback.billable_hours_percentage * 100, precision: 0) = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours.round(1)} / #{number_with_precision feedback.billable_per_day, precision: 1}"
-            td = feedback.finished_storypoints
+            td
+              = feedback.finished_storypoints
+              br
+              = feedback.working_day_count.positive? ? "#{(feedback.finished_storypoints.to_f / feedback.working_day_count).round(1)} / day" : nil
+            td title="#{feedback.turnover && number_to_currency(feedback.turnover)} - #{feedback.costs && number_to_currency(feedback.costs)}"
+              - if policy(sprint).show_revenue?
+                - if feedback.revenue
+                  div = number_to_currency feedback.revenue
+                - if feedback.turnover_per_storypoint
+                  div = "#{number_to_currency feedback.turnover_per_storypoint} / point"
+              - if feedback.turnover_per_storypoint
+                div class=("text-warn" if feedback.turnover_per_storypoint_against_avarage > 1) = number_to_percentage feedback.turnover_per_storypoint_against_avarage * 100
         - if policy(sprint).overview?
           tr
             th
@@ -38,6 +50,14 @@
             th = "#{sprint.tracked_hours.round(1)} / #{(sprint.tracked_hours / [sprint.total_working_days, 1].max).round(1)}"
             th = "#{sprint.billable_hours.round(1)} / #{(sprint.billable_hours / [sprint.total_working_days, 1].max).round(1)}"
             th = sprint.finished_storypoints
+            th.text-right
+              - if policy(sprint).show_revenue?
+                - if sprint.turnover_per_storypoint
+                  = "#{number_to_currency sprint.turnover_per_storypoint} / point"
+                  br
+                div title="Turnover" = number_to_currency sprint.turnover
+                div title="Costs" = number_to_currency -sprint.costs
+                div title="Revenue" = number_to_currency sprint.revenue
   - if users.any? && policy(SprintFeedback).create?
     .card__buttons
       - users.each do |user|

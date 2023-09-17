@@ -13,3 +13,4 @@
       a.pill class=("active" if metric.to_s == @metric.to_s) href=(url_for(metric: metric, user: @user&.id)) = t(".#{metric}")
   = line_chart SprintMetrics.new(@sprints).metric(@metric, for_user: @user)
   = render @sprints
+  = paginate @sprints
