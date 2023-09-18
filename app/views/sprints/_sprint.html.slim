@@ -1,5 +1,5 @@
 - feedbacks = sprint.sprint_feedbacks.select { policy(_1).show? }
-- addable_users = @sprinters - feedbacks.map(&:user)
+- addable_users = @sprinters.to_a - feedbacks.map(&:user)
 .card id=dom_id(sprint)
   .card__header
     .card__icon 🏃
