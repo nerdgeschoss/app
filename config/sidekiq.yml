@@ -19,3 +19,6 @@
     slack_congratulation:
       cron: "0 9 * * * Europe/Berlin" # every day at 9:00, Berlin time
       class: SlackCongratulationJob
+    slack_status:
+      cron: "0 0 * * * Europe/Berlin" # every day at 00:00, Berlin time
+      class: SlackSetStatusJob
