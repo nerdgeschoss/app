@@ -18,10 +18,16 @@ class Slack
     response.dig("user", "id")
   end
 
+  def set_status(slack_id:, emoji:, text:, until_date:)
+    body = {user: slack_id, profile: {status_text: text, status_emoji: emoji, status_expiration: until_date.to_time.end_of_day.to_i}}.to_json
+    request http_method: :post, slack_method: "users.profile.set", body:, token_type: :user
+  end
+
   private
 
-  def request(http_method:, slack_method:, query: nil, body: nil)
-    headers = {"Content-Type": "application/json", authorization: "Bearer #{Config.slack_token!}"}
+  def request(http_method:, slack_method:, query: nil, body: nil, token_type: :bot)
+    token = Config.public_send("slack_#{token_type}_token!")
+    headers = {"Content-Type": "application/json", authorization: "Bearer #{token}"}
     response = HTTParty.public_send(http_method, "https://slack.com/api/#{slack_method}", headers:,
       query:, body:)
     raise NetworkError, response["error"].humanize unless response.ok?
