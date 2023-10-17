@@ -2,8 +2,6 @@
 
 class User
   class SlackNotification
-    class NotificationError < StandardError; end
-
     attr_reader :user
 
     def initialize(user)
@@ -12,7 +10,7 @@ class User
 
     def slack_mention_display_name
       "<@#{slack_id}>"
-    rescue NotificationError
+    rescue NoSlackIdError
       user.display_name
     end
 
@@ -23,12 +21,7 @@ class User
     private
 
     def slack_id
-      return user.slack_id if user.slack_id.present?
-
-      slack_id = Slack.instance.retrieve_users_slack_id_by_email(user.email)
-      raise NotificationError, "Could not find slack address for #{user.email}" if slack_id.blank?
-      user.update!(slack_id:)
-      slack_id
+      user.ensure_slack_id!
     end
   end
 end

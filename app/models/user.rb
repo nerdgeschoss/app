@@ -22,6 +22,7 @@
 #
 
 class User < ApplicationRecord
+  class NoSlackIdError < StandardError; end
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }
@@ -48,6 +49,15 @@ class User < ApplicationRecord
 
   def slack_mention_display_name
     User::SlackNotification.new(self).slack_mention_display_name
+  end
+
+  def ensure_slack_id!
+    return slack_id if slack_id.present?
+
+    id = Slack.instance.retrieve_users_slack_id_by_email(email)
+    raise NoSlackIdError, "Could not find slack address for #{email}" if id.blank?
+    update!(slack_id: id)
+    id
   end
 
   def full_name
