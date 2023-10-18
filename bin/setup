@@ -33,6 +33,8 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Removing old logs and tempfiles =="
   system! 'bin/rails log:clear tmp:clear'
 
-  puts "\n== Restarting application server =="
-  system! 'overmind restart web'
+  if system('overmind status')
+    puts "\n== Restarting running processes =="
+    system! 'overmind restart'
+  end
 end
