@@ -6,6 +6,18 @@
   "configurations": [
     {
       "type": "rdbg",
+      "name": "RSpec File",
+      "request": "launch",
+      "command": "bin/rspec",
+      "script": "${file}",
+      "askParameters": false,
+      "useTerminal": true,
+      "presentation": {
+        "group": "2_test"
+      }
+    },
+    {
+      "type": "rdbg",
       "name": "Rails",
       "request": "launch",
       "command": "bin/rails",
@@ -13,7 +25,8 @@
       "args": [],
       "askParameters": false,
       "useBundler": true,
-      "localfs": true
+      "localfs": true,
+      "useTerminal": true
     },
     {
       "type": "rdbg",
@@ -24,7 +37,8 @@
       "args": [],
       "askParameters": false,
       "useBundler": true,
-      "localfs": true
+      "localfs": true,
+      "useTerminal": true
     },
     {
       "type": "node",
@@ -32,14 +46,21 @@
       "name": "Assets",
       "runtimeExecutable": "yarn",
       "cwd": "${workspaceFolder}",
-      "runtimeArgs": ["build:watch"]
+      "runtimeArgs": ["build:watch"],
+      "presentation": {
+        "hidden": true
+      }
     }
   ],
   "compounds": [
     {
-      "name": "Dev",
+      "name": "Run App",
       "configurations": ["Rails", "Sidekiq", "Assets"],
-      "stopAll": true
+      "stopAll": true,
+      "presentation": {
+        "group": "1_dev",
+        "order": 1
+      }
     }
   ]
 }
