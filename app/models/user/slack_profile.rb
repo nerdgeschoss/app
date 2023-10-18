@@ -8,18 +8,17 @@ class User
       @user = user
     end
 
-    def set_status(type:, until_date:)
-      Slack.instance.set_status(slack_id: user.ensure_slack_id!, text: type.to_s, emoji: send("#{type}_emoji"), until_date:)
+    def set_status(type:, emoji:, until_date:)
+      Slack.instance.set_status(slack_id: ensure_slack_id!, text: I18n.t(".#{type}_status_text"), emoji:, until_time: until_date.to_time.end_of_day)
     end
 
-    private
+    def ensure_slack_id!
+      return slack_id if slack_id.present?
 
-    def sick_emoji
-      ":face_with_thermometer:"
-    end
-
-    def vacation_emoji
-      ":palm_tree:"
+      id = Slack.instance.retrieve_users_slack_id_by_email(email)
+      raise NoSlackIdError, "Could not find slack address for #{email}" if id.blank?
+      update!(slack_id: id)
+      id
     end
   end
 end

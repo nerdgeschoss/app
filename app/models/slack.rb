@@ -18,8 +18,8 @@ class Slack
     response.dig("user", "id")
   end
 
-  def set_status(slack_id:, emoji:, text:, until_date:)
-    body = {user: slack_id, profile: {status_text: text, status_emoji: emoji, status_expiration: until_date.to_time.end_of_day.to_i}}.to_json
+  def set_status(slack_id:, emoji:, text:, until_time:)
+    body = {user: slack_id, profile: {status_text: text, status_emoji: emoji, status_expiration: until_time.to_i}}.to_json
     request http_method: :post, slack_method: "users.profile.set", body:, token_type: :user
   end
 

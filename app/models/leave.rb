@@ -53,6 +53,15 @@ class Leave < ApplicationRecord
     end
   end
 
+  def slack_emoji
+    case type
+    when "paid" || "unpaid"
+      ":palm_tree:"
+    else
+      ":face_with_thermometer:"
+    end
+  end
+
   def to_ics
     event = Icalendar::Event.new
     event.dtstart = Icalendar::Values::Date.new leave_during.min
@@ -79,5 +88,9 @@ class Leave < ApplicationRecord
 
   def notify_user_on_slack_about_status_change
     user.notify!(Leave::Notification.new(leave: self).status_change_message)
+  end
+
+  def set_slack_status
+    user.slack_profile.set_status(type: type, emoji: slack_emoji, until_date: leave_until)
   end
 end

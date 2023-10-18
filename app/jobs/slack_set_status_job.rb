@@ -6,7 +6,7 @@ class SlackSetStatusJob < ApplicationJob
 
   def perform
     Leave.approved.starts_today.each do |leave|
-      leave.user.slack_profile.set_status(type: leave.sick? ? "sick" : "vacation", until_date: leave.leave_during.max)
+      leave.set_slack_status
     end
   end
 end

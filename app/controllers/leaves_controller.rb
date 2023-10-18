@@ -23,7 +23,7 @@ class LeavesController < ApplicationController
     @leave = authorize Leave.new(permitted_attributes(Leave).merge(days: permitted_attributes(Leave)[:days].split(", ")).reverse_merge(user_id: current_user.id))
     if @leave.save
       @leave.sick? ? @leave.notify_slack_about_sick_leave : @leave.notify_hr_on_slack_about_new_request
-      User::SlackProfile.new(@leave.user).set_status(type: @leave.sick? ? "sick" : "vacation", until_date: @leave.leave_during.max) if @leave.leave_during.include?(Time.zone.today)
+      @leave.set_slack_status if @leave.leave_during.include?(Time.zone.today)
       ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
