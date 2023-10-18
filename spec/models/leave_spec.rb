@@ -80,19 +80,17 @@ RSpec.describe Leave do
     it "is being set on the first day of a leave" do
       stub_request(:post, "https://slack.com/api/users.profile.set")
 
-      Time.use_zone("Berlin") do
-        travel_to Time.zone.parse("2023-01-02")
-        holiday.update! status: :approved
+      travel_to "2023-01-02"
+      holiday.update! status: :approved
 
-        allow(Slack.instance).to receive(:set_status)
-        SlackSetStatusJob.perform_now
-        expect(Slack.instance).to have_received(:set_status).once.with(
-          slack_id: "slack-john",
-          text: "On vacation",
-          emoji: ":palm_tree:",
-          until_time: "2023-01-04".to_time.end_of_day.in_time_zone("Berlin")
-        )
-      end
+      allow(Slack.instance).to receive(:set_status)
+      SlackSetStatusJob.perform_now
+      expect(Slack.instance).to have_received(:set_status).once.with(
+        slack_id: "slack-john",
+        text: "On vacation",
+        emoji: ":palm_tree:",
+        until_time: "2023-01-03".to_time.end_of_day
+      )
     end
 
     it "is not being set on any other day of a leave" do

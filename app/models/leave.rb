@@ -91,6 +91,6 @@ class Leave < ApplicationRecord
   end
 
   def set_slack_status!
-    user.slack_profile.set_status(type: type, emoji: slack_emoji, until_date: leave_until)
+    user.slack_profile.set_status(type: type, emoji: slack_emoji, until_date: leave_during.max)
   end
 end
