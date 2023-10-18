@@ -29,6 +29,7 @@ services:
   redis:
     restart: always
     image: redis
+    network_mode: service:postgres
 
 volumes:
   postgres-data:

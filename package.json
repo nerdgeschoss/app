@@ -6,6 +6,7 @@
     "lint:style": "eslint app/javascript/**/*.ts --max-warnings 0",
     "lint:format": "prettier --list-different \"app/**/*.{ts,scss,json}\"",
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build:watch": "yarn build --watch",
     "bundle-size": "npx source-map-explorer app/assets/builds/application.js app/assets/builds/application.js.map --no-border-checks",
     "start": "yarn build --watch",
     "live": "yarn livereload -e scss app/assets"

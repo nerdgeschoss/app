@@ -6,13 +6,40 @@
   "configurations": [
     {
       "type": "rdbg",
-      "name": "Rails Server",
+      "name": "Rails",
       "request": "launch",
       "command": "bin/rails",
       "script": "server",
       "args": [],
       "askParameters": false,
-      "useBundler": true
+      "useBundler": true,
+      "localfs": true
+    },
+    {
+      "type": "rdbg",
+      "name": "Sidekiq",
+      "request": "launch",
+      "command": "bin/sidekiq",
+      "script": "start",
+      "args": [],
+      "askParameters": false,
+      "useBundler": true,
+      "localfs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Assets",
+      "runtimeExecutable": "yarn",
+      "cwd": "${workspaceFolder}",
+      "runtimeArgs": ["build:watch"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Dev",
+      "configurations": ["Rails", "Sidekiq", "Assets"],
+      "stopAll": true
     }
   ]
 }
