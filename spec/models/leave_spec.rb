@@ -72,6 +72,11 @@ RSpec.describe Leave do
   end
 
   context "Slack status" do
+    it "returns the correct emoji" do
+      expect(holiday.slack_emoji).to eq ":palm_tree:"
+      expect(single_day_sick_leave.slack_emoji).to eq ":face_with_thermometer:"
+    end
+
     it "is being set on the first day of a leave" do
       stub_request(:post, "https://slack.com/api/users.profile.set")
 
@@ -80,7 +85,12 @@ RSpec.describe Leave do
 
       allow(Slack.instance).to receive(:set_status)
       SlackSetStatusJob.perform_now
-      expect(Slack.instance).to have_received(:set_status).once
+      expect(Slack.instance).to have_received(:set_status).once.with(
+        slack_id: "slack-john",
+        text: "On vacation",
+        emoji: ":palm_tree:",
+        until_time: "2023-01-04".to_time.end_of_day
+      )
     end
 
     it "is not being set on any other day of a leave" do
