@@ -22,7 +22,6 @@
 #
 
 class User < ApplicationRecord
-  class NoSlackIdError < StandardError; end
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   scope :alphabetically, -> { order(first_name: :asc) }

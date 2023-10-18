@@ -2,6 +2,8 @@
 
 class User
   class SlackProfile
+    class NoSlackIdError < StandardError; end
+
     attr_reader :user
 
     def initialize(user)
