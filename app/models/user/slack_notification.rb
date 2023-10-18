@@ -21,7 +21,7 @@ class User
     private
 
     def slack_id
-      user.ensure_slack_id!
+      user.slack_profile.ensure_slack_id!
     end
   end
 end

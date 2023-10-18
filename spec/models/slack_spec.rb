@@ -29,7 +29,7 @@ RSpec.describe Slack do
   it "sets the status of a user" do
     stub = stub_request(:post, "https://slack.com/api/users.profile.set")
       .to_return(status: 200)
-    slack.set_status(slack_id: "test", emoji: ":wave:", text: "hello world", until_date: 1.day.from_now)
+    slack.set_status(slack_id: "test", emoji: ":wave:", text: "hello world", until_time: 1.day.from_now.end_of_day.to_i)
     expect(stub).to have_been_requested
   end
 end

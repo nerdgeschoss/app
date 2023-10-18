@@ -6,7 +6,7 @@ class SlackSetStatusJob < ApplicationJob
 
   def perform
     Leave.approved.starts_today.each do |leave|
-      leave.set_slack_status
+      leave.set_slack_status!
     end
   end
 end

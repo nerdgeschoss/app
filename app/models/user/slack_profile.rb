@@ -13,11 +13,11 @@ class User
     end
 
     def ensure_slack_id!
-      return slack_id if slack_id.present?
+      return user.slack_id if user.slack_id.present?
 
-      id = Slack.instance.retrieve_users_slack_id_by_email(email)
-      raise NoSlackIdError, "Could not find slack address for #{email}" if id.blank?
-      update!(slack_id: id)
+      id = Slack.instance.retrieve_users_slack_id_by_email(user.email)
+      raise NoSlackIdError, "Could not find slack address for #{user.email}" if id.blank?
+      user.update!(slack_id: id)
       id
     end
   end
