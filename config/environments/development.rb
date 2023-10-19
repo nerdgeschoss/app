@@ -74,10 +74,4 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
   config.action_mailer.delivery_method = :letter_opener
   config.hosts = nil
-
-  # Logging config
-
-  Logger.include ActiveSupport::LoggerSilence
-  Rails.logger = Logger.new($stdout)
-  config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
 end
