@@ -86,6 +86,10 @@ en:
     show:
       remaining_holidays: Remaining holidays
       salary_history: Salary History
+    slack_profile:
+      paid_status_text: On vacation
+      sick_status_text: On sick leave
+      unpaid_status_text: Away
     unpaid_vacation:
       days_in_month:
         one: "%{count} Day"
