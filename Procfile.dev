@@ -1,4 +1,4 @@
-web: bundle exec puma -C config/puma.rb -p ${PORT:-3000}
+web: bundle exec rails s -p ${PORT:-3000}
 worker: DB_POOL=3 bundle exec sidekiq
 js: yarn build --watch
 livereload: yarn live
