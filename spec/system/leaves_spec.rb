@@ -45,4 +45,25 @@ RSpec.describe "Leaves" do
     expect(message.channel).to eq "slack-john"
     expect(message.text).to include "approved"
   end
+
+  it "automatically approves a single day sick leave and changes the slack status" do
+    login :john
+    visit leaves_path
+    click_on "Request leave"
+    within ".modal" do
+      select(Time.zone.today.strftime("%B"))
+      find("span", text: Time.zone.today.day.to_s).click
+      fill_in "Title", with: "Fever"
+      select("sick")
+      screenshot "request sick leave"
+      click_on "Request leave"
+    end
+    expect(page).to have_content "John / Fever"
+    expect(page).to have_content "approved"
+    screenshot "sick leave approval"
+    status = Slack.instance.last_slack_status_update
+    expect(status.text).to eq "On sick leave"
+    expect(status.slack_id).to eq "slack-john"
+    expect(status.until_time).to eq Time.zone.today.end_of_day
+  end
 end

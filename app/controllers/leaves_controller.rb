@@ -33,6 +33,7 @@ class LeavesController < ApplicationController
   def update
     @leave.update!(permitted_attributes(Leave))
     @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
+    @leave.set_slack_status! if @leave.leave_during.include?(Time.zone.today) && @leave.approved?
     redirect_to leaves_path
   end
 

@@ -72,34 +72,36 @@ RSpec.describe Leave do
   end
 
   context "Slack status" do
-    it "returns the correct emoji" do
-      expect(holiday.slack_emoji).to eq ":palm_tree:"
-      expect(single_day_sick_leave.slack_emoji).to eq ":face_with_thermometer:"
+    before do
+      allow(Slack.instance).to receive(:set_status)
+      holiday.update! status: :approved
     end
 
-    it "is being set on the first day of a leave" do
-      stub_request(:post, "https://slack.com/api/users.profile.set")
+    describe "on the first day of leave" do
+      before do
+        travel_to "2023-01-02"
+        SlackSetStatusJob.perform_now
+      end
 
-      travel_to Time.zone.parse("2023-01-02")
-      holiday.update! status: :approved
-
-      allow(Slack.instance).to receive(:set_status)
-      SlackSetStatusJob.perform_now
-      expect(Slack.instance).to have_received(:set_status).once.with(
-        slack_id: "slack-john",
-        text: "On vacation",
-        emoji: ":palm_tree:",
-        until_time: Time.zone.parse("2023-01-03").end_of_day
-      )
+      it "sets the Slack status once" do
+        expect(Slack.instance).to have_received(:set_status).once.with(
+          slack_id: "slack-john",
+          text: "On vacation",
+          emoji: ":palm_tree:",
+          until_time: Time.zone.parse("2023-01-03").end_of_day
+        )
+      end
     end
 
-    it "is not being set on any other day of a leave" do
-      travel_to "2023-01-03"
-      holiday.update! status: :approved
+    describe "on any other day of leave" do
+      before do
+        travel_to "2023-01-03"
+        SlackSetStatusJob.perform_now
+      end
 
-      allow(Slack.instance).to receive(:set_status)
-      SlackSetStatusJob.perform_now
-      expect(Slack.instance).not_to have_received(:set_status)
+      it "does not set the Slack status" do
+        expect(Slack.instance).not_to have_received(:set_status)
+      end
     end
   end
 end

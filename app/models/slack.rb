@@ -3,9 +3,10 @@
 class Slack
   class NetworkError < StandardError; end
   Message = Struct.new(:channel, :text, keyword_init: true)
+  Status = Struct.new(:slack_id, :text, :until_time, keyword_init: true)
   include Singleton
 
-  attr_accessor :debug, :last_message
+  attr_accessor :debug, :last_message, :last_slack_status_update
 
   def notify(channel:, text:)
     return @last_message = Message.new(channel:, text:) if debug
@@ -19,6 +20,8 @@ class Slack
   end
 
   def set_status(slack_id:, emoji:, text:, until_time:)
+    return @last_slack_status_update = Status.new(slack_id:, text:, until_time:) if debug
+
     body = {user: slack_id, profile: {status_text: text, status_emoji: emoji, status_expiration: until_time.to_i}}.to_json
     request http_method: :post, slack_method: "users.profile.set", body:, token_type: :user
   end
