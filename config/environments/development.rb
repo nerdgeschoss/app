@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/core_ext/integer/time"
+require "active_support/logger"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -73,4 +74,10 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
   config.action_mailer.delivery_method = :letter_opener
   config.hosts = nil
+
+  # Logging config
+
+  Logger.include ActiveSupport::LoggerSilence
+  Rails.logger = Logger.new($stdout)
+  config.logger = ActiveSupport::Logger.new("log/#{Rails.env}.log")
 end
