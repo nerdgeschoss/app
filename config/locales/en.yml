@@ -6,7 +6,7 @@ en:
         leave:
           attributes:
             days:
-              bank_holiday_in_leave_range: "The leave includes bank holidays: %{bank_holidays}"
+              bank_holiday_in_leave_range: 'The leave includes bank holidays: %{bank_holidays}'
   date:
     formats:
       month_long: "%B"

@@ -102,6 +102,7 @@ class Leave < ApplicationRecord
 
     bank_holidays = BankHoliday.weekday_dates_in_years(days.map(&:year).uniq)
     bank_holidays_in_leave_range = bank_holidays.select { |bank_holiday| days.include?(bank_holiday) }
+    # i18n-tasks-use t("activerecord.errors.models.leave.attributes.days.bank_holiday_in_leave_range")
     errors.add(:days, :bank_holiday_in_leave_range, bank_holidays: bank_holidays_in_leave_range.map { |date| date.to_formatted_s(:short) }.join(", ")) if bank_holidays_in_leave_range.present?
   end
 end
