@@ -36,6 +36,10 @@ class Sprint < ApplicationRecord
     sprint_feedbacks.sum(&:holiday_count)
   end
 
+  def bank_holidays
+    BankHoliday.weekday_dates_in_years(sprint_during.map(&:year).uniq).select { |date| sprint_during.cover?(date) }
+  end
+
   def total_sick_days
     sprint_feedbacks.sum(&:sick_day_count)
   end
@@ -56,10 +60,6 @@ class Sprint < ApplicationRecord
     sprint_feedbacks.map(&:finished_storypoints).compact.sum
   end
 
-  def bank_holidays
-    BankHoliday.weekday_dates_in_years(sprint_during.map(&:year).uniq).select { |date| sprint_during.cover?(date) }
-  end
-  
   def turnover_per_storypoint
     (sprint_feedbacks.map(&:turnover_per_storypoint).compact.sum / [sprint_feedbacks.size, 1].max).round(2)
   end
