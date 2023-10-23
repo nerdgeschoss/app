@@ -20,7 +20,7 @@ class BankHoliday < ApplicationRecord
     end
 
     def weekday_dates_in_years(years)
-      years.map { |year| find_or_create_by(year:).dates.reject { |date| date.saturday? || date.sunday? } }.flatten
+      years.map { |year| find_or_create_by!(year:).dates.reject { |date| date.saturday? || date.sunday? } }.flatten
     end
   end
 
@@ -31,6 +31,8 @@ class BankHoliday < ApplicationRecord
   private
 
   def fetch_bank_holidays
+    return unless dates.empty?
+
     dates = BankHoliday::FeiertageApi.instance.retrieve_bank_holidays(year:)
     update!(dates:)
   end
