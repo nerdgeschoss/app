@@ -56,6 +56,10 @@ class Sprint < ApplicationRecord
     sprint_feedbacks.map(&:finished_storypoints).compact.sum
   end
 
+  def bank_holidays
+    BankHoliday.weekday_dates_in_years(sprint_during.map(&:year).uniq).select { |date| sprint_during.cover?(date) }
+  end
+
   def completed?
     sprint_until.past?
   end
