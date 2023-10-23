@@ -14,6 +14,7 @@ class Sprint
         sprint_during: ApplicationController.helpers.date_range(sprint.sprint_during.min, sprint.sprint_during.max,
           format: :long),
         working_days: sprint.working_days,
+        bank_holidays: sprint.bank_holidays.map { |date| I18n.l(date, format: :short) }.to_sentence || sprint.bank_holidays.size,
         leaves: leaves_text_lines.join("\n"),
         count: leaves_text_lines.size)
       [
