@@ -15,6 +15,8 @@
 #  review_notes           :string
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
 #  finished_storypoints   :integer          default(0), not null
+#  turnover               :decimal(, )
+#  costs                  :decimal(, )
 #
 
 class SprintFeedback < ApplicationRecord
@@ -22,6 +24,10 @@ class SprintFeedback < ApplicationRecord
   belongs_to :user
 
   scope :ordered, -> { joins(:user).order("users.email ASC") }
+
+  before_validation do
+    recalculate_costs if costs.nil?
+  end
 
   def daily_nerd_percentage
     daily_nerd_count.to_f / working_day_count
@@ -57,10 +63,35 @@ class SprintFeedback < ApplicationRecord
     save!
   end
 
+  def recalculate_costs
+    salary = user.salary_at(sprint.sprint_from)
+    return unless salary
+
+    self.costs = (sprint.working_days * salary.brut * 1.3 / 21.0).round(2) # assume 30% arbeitgeberkosten and 21 workdays per month
+  end
+
+  def revenue
+    return nil if costs.nil? || turnover.nil?
+
+    turnover - costs
+  end
+
+  def turnover_per_storypoint
+    return nil if turnover.nil? || finished_storypoints.zero? || working_day_count.zero?
+
+    (turnover / finished_storypoints.to_d).round(2)
+  end
+
+  def turnover_per_storypoint_against_avarage
+    return nil if turnover_per_storypoint.nil?
+
+    turnover_per_storypoint / sprint.turnover_per_storypoint
+  end
+
   private
 
   def leaves
-    @leaves ||= user.leaves.during(sprint.sprint_during)
+    @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }
   end
 
   def count_days(status)

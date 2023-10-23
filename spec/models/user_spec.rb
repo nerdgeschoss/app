@@ -66,7 +66,7 @@ RSpec.describe User do
 
     it "fails if slack doesn't recognize the email" do
       allow(Slack.instance).to receive(:retrieve_users_slack_id_by_email).with("john-no-slack@example.com").and_return(nil)
-      expect { john.notify!("hello") }.to raise_error(User::SlackNotification::NotificationError)
+      expect { john.notify!("hello") }.to raise_error(User::SlackProfile::NoSlackIdError)
     end
 
     it "uses the persisted slack id" do

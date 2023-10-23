@@ -13,6 +13,8 @@
 #  review_notes           :string
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
 #  finished_storypoints   :integer          default(0), not null
+#  turnover               :decimal(, )
+#  costs                  :decimal(, )
 #
 sprint_feedback_1:
   sprint: empty
@@ -20,12 +22,14 @@ sprint_feedback_1:
   daily_nerd_count: 5
   tracked_hours: 30
   billable_hours: 20
-  review_notes: "Great progress!"
+  review_notes: 'Great progress!'
   daily_nerd_entry_dates:
     - 2023-01-24
     - 2023-01-25
     - 2023-01-26
   finished_storypoints: 8
+  costs: 2166.67
+  turnover: 150.0
 
 sprint_feedback_2:
   sprint: empty
@@ -33,7 +37,7 @@ sprint_feedback_2:
   daily_nerd_count: 3
   tracked_hours: 25
   billable_hours: 15
-  review_notes: "Keep up the good work!"
+  review_notes: 'Keep up the good work!'
   daily_nerd_entry_dates:
     - 2023-01-24
     - 2023-01-25

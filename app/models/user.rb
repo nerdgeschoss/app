@@ -50,6 +50,10 @@ class User < ApplicationRecord
     User::SlackNotification.new(self).slack_mention_display_name
   end
 
+  def slack_profile
+    @slack_profile ||= User::SlackProfile.new(self)
+  end
+
   def full_name
     [first_name, last_name].map(&:presence).compact.join(" ").presence || email
   end
@@ -99,6 +103,10 @@ class User < ApplicationRecord
 
   def current_salary
     salaries.find(&:current?)
+  end
+
+  def salary_at(date)
+    salaries.sort_by(&:valid_from).select { _1.valid_from < date }.last
   end
 
   private

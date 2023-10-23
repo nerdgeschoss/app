@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_10_20_163216) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -94,6 +95,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_20_163216) do
     t.string "review_notes"
     t.datetime "daily_nerd_entry_dates", default: [], null: false, array: true
     t.integer "finished_storypoints", default: 0, null: false
+    t.decimal "turnover"
+    t.decimal "costs"
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
     t.index ["sprint_id"], name: "index_sprint_feedbacks_on_sprint_id"
     t.index ["user_id"], name: "index_sprint_feedbacks_on_user_id"

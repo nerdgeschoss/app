@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class SprintFeedbackPolicy < ApplicationPolicy
+  def show?
+    record.user == user || hr?
+  end
+
   def create?
     hr?
   end

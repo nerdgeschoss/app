@@ -44,3 +44,11 @@ body {
 strong {
   font-weight: 600;
 }
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-warn {
+  color: var(--color-warning);
+}
