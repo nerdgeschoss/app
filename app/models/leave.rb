@@ -35,6 +35,7 @@ class Leave < ApplicationRecord
   range_accessor_methods :leave
 
   validates :title, :days, presence: true
+  validate :there_are_no_bank_holidays_in_the_leave_range
 
   before_validation do
     start_on, end_on = days.minmax
@@ -78,5 +79,15 @@ class Leave < ApplicationRecord
 
   def notify_user_on_slack_about_status_change
     user.notify!(Leave::Notification.new(leave: self).status_change_message)
+  end
+
+  private
+
+  def there_are_no_bank_holidays_in_the_leave_range
+    return if days.blank?
+
+    bank_holidays = BankHoliday.weekday_dates_in_years(days.map(&:year).uniq)
+    bank_holidays_in_leave_range = bank_holidays.select { |bank_holiday| days.include?(bank_holiday) }
+    errors.add(:days, :bank_holiday_in_leave_range, bank_holidays: bank_holidays_in_leave_range.map { |date| date.to_formatted_s(:short) }.join(", ")) if bank_holidays_in_leave_range.present?
   end
 end
