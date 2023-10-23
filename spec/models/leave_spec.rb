@@ -23,6 +23,10 @@ RSpec.describe Leave do
   let(:holiday) { user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-02", "2023-01-03"] }
   let(:single_day_sick_leave) { user.leaves.create! type: :sick, title: "Sick", days: ["2023-01-02"] }
 
+  before do
+    allow(BankHoliday::FeiertageApi.instance).to receive(:retrieve_bank_holidays).and_return(["2023-05-01", "2023-10-03"])
+  end
+
   it "single day sick leaves are automatically approved" do
     expect(holiday).to be_pending_approval
     expect(single_day_sick_leave).to be_approved
