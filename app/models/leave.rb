@@ -36,6 +36,7 @@ class Leave < ApplicationRecord
   range_accessor_methods :leave
 
   validates :title, :days, presence: true
+  validate :there_are_no_bank_holidays_in_the_leave_range
 
   before_validation do
     start_on, end_on = days.minmax
@@ -92,5 +93,16 @@ class Leave < ApplicationRecord
 
   def set_slack_status!
     user.slack_profile.set_status(type: type, emoji: slack_emoji, until_date: leave_during.max)
+  end
+
+  private
+
+  def there_are_no_bank_holidays_in_the_leave_range
+    return if days.blank?
+
+    bank_holidays = BankHoliday.weekday_dates_in_years(days.map(&:year).uniq)
+    bank_holidays_in_leave_range = bank_holidays.select { |bank_holiday| days.include?(bank_holiday) }
+    # i18n-tasks-use t("activerecord.errors.models.leave.attributes.days.bank_holiday_in_leave_range")
+    errors.add(:days, :bank_holiday_in_leave_range, bank_holidays: bank_holidays_in_leave_range.map { |date| date.to_formatted_s(:short) }.join(", ")) if bank_holidays_in_leave_range.present?
   end
 end

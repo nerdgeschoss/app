@@ -5,6 +5,10 @@ require "system_helper"
 RSpec.describe "Leaves" do
   fixtures :all
 
+  before do
+    allow(BankHoliday::FeiertageApi.instance).to receive(:retrieve_bank_holidays).and_return(["2023-05-01", "2023-10-03"])
+  end
+
   # TODO: fix this test as it will fail beginning 2024. The reason is that the datepicker is not getting the year from 'travel_to'
 
   it "requests a leave and notifies hr" do

@@ -17,6 +17,10 @@ require "rails_helper"
 RSpec.describe Sprint do
   fixtures :all
 
+  before do
+    allow(BankHoliday::FeiertageApi.instance).to receive(:retrieve_bank_holidays).and_return(["2023-05-01", "2023-10-03"])
+  end
+
   context "sending the start notification" do
     let(:sprint) { sprints(:empty) }
     let(:john) { users(:john) }
@@ -27,6 +31,7 @@ RSpec.describe Sprint do
         🏃 *Sprint S2023-02 starts today!*
         Duration: January 23 — February 3, 2023
         Working days: 10
+        Bank holidays: 0
       TEXT
       expect(Slack.instance.last_message.text).to eq text.strip
     end
@@ -38,6 +43,7 @@ RSpec.describe Sprint do
         🏃 *Sprint S2023-02 starts today!*
         Duration: January 23 — February 3, 2023
         Working days: 10
+        Bank holidays: 0
 
         🏖️ *On leave:*
 
@@ -53,6 +59,7 @@ RSpec.describe Sprint do
         🏃 *Sprint S2023-02 starts today!*
         Duration: January 23 — February 3, 2023
         Working days: 10
+        Bank holidays: 0
 
         🏖️ *On leave:*
 
@@ -68,6 +75,7 @@ RSpec.describe Sprint do
         🏃 *Sprint S2023-02 starts today!*
         Duration: January 23 — February 3, 2023
         Working days: 10
+        Bank holidays: 0
 
         🏖️ *On leave:*
 
@@ -84,6 +92,7 @@ RSpec.describe Sprint do
         🏃 *Sprint S2023-02 starts today!*
         Duration: January 23 — February 3, 2023
         Working days: 10
+        Bank holidays: 0
 
         🏖️ *On leave:*
 
@@ -99,6 +108,7 @@ RSpec.describe Sprint do
         🏃 *Sprint S2023-02 starts today!*
         Duration: January 23 — February 3, 2023
         Working days: 10
+        Bank holidays: 0
 
         🎂 *John celebrates their birthday on Feb 01!*
       TEXT
@@ -113,8 +123,23 @@ RSpec.describe Sprint do
         🏃 *Sprint S2023-02 starts today!*
         Duration: January 23 — February 3, 2023
         Working days: 10
+        Bank holidays: 0
 
         🎈 *John celebrates their nerdgeschoss anniversary on Jan 25!*
+      TEXT
+      expect(Slack.instance.last_message.text).to eq text.strip
+    end
+
+    it "mentions bank holidays" do
+      allow(BankHoliday::FeiertageApi.instance).to receive(:retrieve_bank_holidays).and_return(["2023-01-24"])
+
+      travel_to "2023-01-23"
+      sprint.reload.send_sprint_start_notification
+      text = <<~TEXT
+        🏃 *Sprint S2023-02 starts today!*
+        Duration: January 23 — February 3, 2023
+        Working days: 10
+        Bank holidays: Jan 24
       TEXT
       expect(Slack.instance.last_message.text).to eq text.strip
     end
