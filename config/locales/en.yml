@@ -1,5 +1,12 @@
 ---
 en:
+  activerecord:
+    errors:
+      models:
+        leave:
+          attributes:
+            days:
+              bank_holiday_in_leave_range: "The leave includes bank holidays: %{bank_holidays}"
   date:
     formats:
       month_long: "%B"
@@ -67,9 +74,9 @@ en:
 
         - %{user} is away for %{days_count} days: (%{dates})
       sprint_start_content:
-        one: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n🏖️ *On leave:*\n%{leaves}"
-        other: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n🏖️ *On leave:*\n%{leaves}"
-        zero: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}"
+        one: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\nBank holidays: %{bank_holidays}\n\n🏖️ *On leave:*\n%{leaves}"
+        other: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\nBank holidays: %{bank_holidays}\n\n🏖️ *On leave:*\n%{leaves}"
+        zero: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\nBank holidays: %{bank_holidays}"
   time_will_tell:
     date_range:
       different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"
