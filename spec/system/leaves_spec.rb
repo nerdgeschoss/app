@@ -5,17 +5,16 @@ require "system_helper"
 RSpec.describe "Leaves" do
   fixtures :all
 
-  # TODO: fix this test as it will fail beginning 2024. The reason is that the datepicker is not getting the year from 'travel_to'
-
   it "requests a leave and notifies hr" do
-    travel_to "2023-02-02"
+    travel_to "2022-02-02"
     login :john
     visit leaves_path
     click_on "Request leave"
     within ".modal" do
       select("February")
-      find("span", text: "24").click
-      find("span", text: "27").click
+      find("input", class: "cur-year").send_keys "2", "0", "2", "2"
+      find("span", text: "18").click
+      find("span", text: "21").click
       fill_in "Title", with: "My Holiday"
       screenshot "request leave"
       click_on "Request leave"
@@ -29,7 +28,7 @@ RSpec.describe "Leaves" do
     slack_message = Slack.instance.last_message
     expect(slack_message.channel).to eq Config.slack_hr_channel_id
     expect(slack_message.text).to include "<@slack-john>" # user is referenced within message
-    expect(slack_message.text).to include "February 24 — 27, 2023" # date of leave is referenced within message
+    expect(slack_message.text).to include "February 18 — 21, 2022" # date of leave is referenced within message
     url = URI.extract(slack_message.text).first
     expect(url).to include leaves_path # there's a link to this leave
     expect(url).not_to include ":3000" # tests run on a different port, this makes sure that the url helpers are set up correctly
@@ -54,7 +53,7 @@ RSpec.describe "Leaves" do
     click_on "Request leave"
     within ".modal" do
       select(Time.zone.today.strftime("%B"))
-      find("span", text: Time.zone.today.day.to_s).click
+      find("span[aria-current=date]").click
       fill_in "Title", with: "Fever"
       select("sick")
       screenshot "request sick leave"
