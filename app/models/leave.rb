@@ -18,6 +18,7 @@
 class Leave < ApplicationRecord
   include Rails.application.routes.url_helpers
   include RangeAccessing
+  include Leave::RequestHandling
 
   self.inheritance_column = nil
 
@@ -42,42 +43,6 @@ class Leave < ApplicationRecord
     auto_approve_leave if eligible_for_auto_approval?
   end
 
-  def emoji
-    case type
-    when "paid"
-      "\u{1F3D6}"
-    when "unpaid"
-      "\u{1F3D5}"
-    when "non_working"
-      "\u{1F9F3}"
-    else
-      "\u{1F912}"
-    end
-  end
-
-  def slack_emoji
-    case type
-    when "paid", "unpaid"
-      ":palm_tree:"
-    when "non_working"
-      ":luggage:"
-    else
-      ":face_with_thermometer:"
-    end
-  end
-
-  def to_ics
-    event = Icalendar::Event.new
-    event.dtstart = Icalendar::Values::Date.new leave_during.min
-    event.dtstart.ical_params = {"VALUE" => "DATE"}
-    event.dtend = Icalendar::Values::Date.new leave_during.max + 1.day
-    event.dtend.ical_params = {"VALUE" => "DATE"}
-    display_status = (status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
-    event.summary = "#{user.display_name}: #{title} #{emoji} #{display_status}"
-    event.url = Rails.application.routes.url_helpers.leaves_url(id:)
-    event
-  end
-
   def notify_slack_about_sick_leave
     return unless days.include?(Time.zone.today)
 
@@ -95,7 +60,12 @@ class Leave < ApplicationRecord
   end
 
   def set_slack_status!
-    user.slack_profile.set_status(type: type, emoji: slack_emoji, until_date: leave_during.max)
+    emoji = LeavePresenter.new(self).slack_emoji
+    user.slack_profile.set_status(type: type, emoji:, until_date: leave_during.max)
+  end
+
+  def to_ics
+    LeavePresenter.new(self).to_ics
   end
 
   private
