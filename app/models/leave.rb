@@ -30,7 +30,7 @@ class Leave < ApplicationRecord
   scope :with_status, ->(status) { (status == :all) ? all : where(status:) }
   scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
 
-  enum type: [:paid, :unpaid, :sick].index_with(&:to_s)
+  enum type: [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
   enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)
 
   range_accessor_methods :leave
@@ -57,6 +57,8 @@ class Leave < ApplicationRecord
     case type
     when "paid" || "unpaid"
       ":palm_tree:"
+    when "non_working"
+      ":luggage:"
     else
       ":face_with_thermometer:"
     end
