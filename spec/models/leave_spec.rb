@@ -111,38 +111,4 @@ RSpec.describe Leave do
       end
     end
   end
-
-  context "slack emoji" do
-    describe "for paid leave" do
-      it "returns the palm tree emoji" do
-        expect(holiday.slack_emoji).to eq ":palm_tree:"
-      end
-    end
-
-    describe "for unpaid leave" do
-      before do
-        holiday.update! type: :unpaid
-      end
-
-      it "returns the palm tree emoji" do
-        expect(holiday.slack_emoji).to eq ":palm_tree:"
-      end
-    end
-
-    describe "for sick leave" do
-      it "returns the sick emoji" do
-        expect(single_day_sick_leave.slack_emoji).to eq ":face_with_thermometer:"
-      end
-    end
-
-    describe "for non-working days" do
-      before do
-        holiday.update! type: :non_working
-      end
-
-      it "returns the luggage emoji" do
-        expect(holiday.slack_emoji).to eq ":luggage:"
-      end
-    end
-  end
 end
