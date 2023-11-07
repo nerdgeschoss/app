@@ -43,10 +43,13 @@ class Leave < ApplicationRecord
   end
 
   def emoji
-    if paid?
+    case type
+    when "paid"
       "\u{1F3D6}"
-    elsif unpaid?
+    when "unpaid"
       "\u{1F3D5}"
+    when "non_working"
+      "\u{1F9F3}"
     else
       "\u{1F912}"
     end
