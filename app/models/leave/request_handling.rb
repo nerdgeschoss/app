@@ -14,8 +14,7 @@ module Leave::RequestHandling
     set_slack_status! if leave_during.include?(Time.zone.today)
   end
 
-  def handle_request_update
-    notify_user_on_slack_about_status_change if status_previously_changed?
+  def handle_slack_status
     set_slack_status! if leave_during.include?(Time.zone.today) && approved?
   end
 end
