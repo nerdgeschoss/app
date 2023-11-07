@@ -38,9 +38,8 @@ class Leave < ApplicationRecord
   validates :title, :days, presence: true
 
   before_validation do
-    start_on, end_on = days.minmax
-    self.leave_during = start_on..end_on
-    self.status = :approved if pending_approval? && type == "sick" && days.length == 1
+    set_leave_duration
+    auto_approve_leave if eligible_for_auto_approval?
   end
 
   def emoji
@@ -55,7 +54,7 @@ class Leave < ApplicationRecord
 
   def slack_emoji
     case type
-    when "paid" || "unpaid"
+    when "paid", "unpaid"
       ":palm_tree:"
     when "non_working"
       ":luggage:"
@@ -94,5 +93,20 @@ class Leave < ApplicationRecord
 
   def set_slack_status!
     user.slack_profile.set_status(type: type, emoji: slack_emoji, until_date: leave_during.max)
+  end
+
+  private
+
+  def set_leave_duration
+    start_on, end_on = days.minmax
+    self.leave_during = start_on..end_on
+  end
+
+  def auto_approve_leave
+    self.status = :approved
+  end
+
+  def eligible_for_auto_approval?
+    pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
   end
 end
