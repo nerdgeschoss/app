@@ -23,9 +23,16 @@ RSpec.describe Leave do
   let(:holiday) { user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-02", "2023-01-03"] }
   let(:single_day_sick_leave) { user.leaves.create! type: :sick, title: "Sick", days: ["2023-01-02"] }
 
-  it "single day sick leaves are automatically approved" do
-    expect(holiday).to be_pending_approval
-    expect(single_day_sick_leave).to be_approved
+  context "auto-approving" do
+    it "works for single day sick leaves" do
+      expect(holiday).to be_pending_approval
+      expect(single_day_sick_leave).to be_approved
+    end
+
+    it "works for non-working days" do
+      leave = user.leaves.create! type: :non_working, title: "Non-working", days: ["2023-01-02"]
+      expect(leave).to be_approved
+    end
   end
 
   context "sending notifications" do
@@ -101,6 +108,40 @@ RSpec.describe Leave do
 
       it "does not set the Slack status" do
         expect(Slack.instance).not_to have_received(:set_status)
+      end
+    end
+  end
+
+  context "slack emoji" do
+    describe "for paid leave" do
+      it "returns the palm tree emoji" do
+        expect(holiday.slack_emoji).to eq ":palm_tree:"
+      end
+    end
+
+    describe "for unpaid leave" do
+      before do
+        holiday.update! type: :unpaid
+      end
+
+      it "returns the palm tree emoji" do
+        expect(holiday.slack_emoji).to eq ":palm_tree:"
+      end
+    end
+
+    describe "for sick leave" do
+      it "returns the sick emoji" do
+        expect(single_day_sick_leave.slack_emoji).to eq ":face_with_thermometer:"
+      end
+    end
+
+    describe "for non-working days" do
+      before do
+        holiday.update! type: :non_working
+      end
+
+      it "returns the luggage emoji" do
+        expect(holiday.slack_emoji).to eq ":luggage:"
       end
     end
   end
