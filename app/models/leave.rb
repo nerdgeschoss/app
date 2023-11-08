@@ -18,7 +18,6 @@
 class Leave < ApplicationRecord
   include Rails.application.routes.url_helpers
   include RangeAccessing
-  include Leave::RequestHandling
 
   self.inheritance_column = nil
 
@@ -41,6 +40,19 @@ class Leave < ApplicationRecord
   before_validation do
     set_leave_duration
     auto_approve_leave if eligible_for_auto_approval?
+  end
+
+  def handle_incoming_request
+    case type
+    when "sick"
+      notify_slack_about_sick_leave
+    when "paid", "unpaid"
+      notify_hr_on_slack_about_new_request
+    end
+  end
+
+  def handle_slack_status
+    set_slack_status! if leave_during.include?(Time.zone.today) && approved?
   end
 
   def notify_slack_about_sick_leave
