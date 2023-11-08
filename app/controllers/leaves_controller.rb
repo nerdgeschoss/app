@@ -23,6 +23,7 @@ class LeavesController < ApplicationController
     @leave = authorize Leave.new(permitted_attributes(Leave).merge(days: permitted_attributes(Leave)[:days].split(", ")).reverse_merge(user_id: current_user.id))
     if @leave.save
       @leave.handle_incoming_request
+      @leave.handle_slack_status
       ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
