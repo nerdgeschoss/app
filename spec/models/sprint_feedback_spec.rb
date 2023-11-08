@@ -43,10 +43,12 @@ RSpec.describe SprintFeedback do
   end
 
   context "when calculating days" do
+    # sprint_during: '[2023-01-23, 2023-02-03]'
+
     before do
-      feedback.user.leaves.create! type: :non_working, title: "Loveparade", days: [feedback.sprint.sprint_during.min]
-      feedback.user.leaves.create! type: :paid, title: "Holidays", days: [feedback.sprint.sprint_during.max - 5.days]
-      feedback.user.leaves.create! type: :sick, title: "Sick", days: [feedback.sprint.sprint_during.max - 7.days]
+      feedback.user.leaves.create! type: :non_working, title: "Loveparade", days: ["2023-01-23"]
+      feedback.user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-25"]
+      feedback.user.leaves.create! type: :sick, title: "Sick", days: ["2023-01-27"]
     end
     it "takes all leave types into account" do
       expect(feedback.working_day_count).to eq feedback.sprint.working_days - 3
