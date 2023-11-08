@@ -52,7 +52,7 @@ class Leave < ApplicationRecord
   end
 
   def handle_slack_status
-    set_slack_status! if leave_during.include?(Time.zone.today) && approved?
+    set_slack_status! if leave_during.include?(Time.zone.today) && (approved? || sick?)
   end
 
   def notify_slack_about_sick_leave
