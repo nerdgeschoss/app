@@ -112,7 +112,7 @@ RSpec.describe Leave do
     end
   end
 
-  context "RequestHandling" do
+  describe "RequestHandling" do
     let(:sick_leave) { single_day_sick_leave }
     let(:paid_leave) { holiday }
     let(:unpaid_leave) { holiday.tap { |l| l.type = "unpaid" } }
