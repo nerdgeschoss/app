@@ -48,7 +48,7 @@ RSpec.describe SprintFeedback do
       feedback.user.leaves.create! type: :paid, title: "Holidays", days: [feedback.sprint.sprint_during.max - 5.days]
       feedback.user.leaves.create! type: :sick, title: "Sick", days: [feedback.sprint.sprint_during.max - 7.days]
     end
-    it "returns the correct working day count" do
+    it "takes all leave types into account" do
       expect(feedback.working_day_count).to eq feedback.sprint.working_days - 3
     end
   end
