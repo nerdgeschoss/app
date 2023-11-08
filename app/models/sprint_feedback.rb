@@ -46,7 +46,7 @@ class SprintFeedback < ApplicationRecord
   end
 
   def working_day_count
-    sprint.working_days - holiday_count - sick_day_count - non_working_day_count
+    sprint.working_days - [holiday_count, sick_day_count, non_working_day_count].sum
   end
 
   def holiday_count
