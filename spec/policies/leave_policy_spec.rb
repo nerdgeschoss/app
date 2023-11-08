@@ -6,12 +6,10 @@ RSpec.describe LeavePolicy do
   subject { described_class.new(user, record) }
 
   fixtures :all
-  let(:hr_user) { users(:admin) }
-  let(:regular_user) { users(:john) }
   let(:record) { user.leaves.create! type: :paid, title: "Holidays", days: [2.weeks.from_now, 15.days.from_now] }
 
   describe "for a regular user" do
-    let(:user) { regular_user }
+    let(:user) { users(:john) } # regular user
 
     it { is_expected.to permit_action(:create) }
 
@@ -35,7 +33,7 @@ RSpec.describe LeavePolicy do
   end
 
   describe "for an HR user" do
-    let(:user) { hr_user }
+    let(:user) { users(:admin) } # HR user
 
     it { is_expected.to permit_actions([:create, :destroy, :update, :show_all_users]) }
 
