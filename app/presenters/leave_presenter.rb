@@ -10,13 +10,13 @@ class LeavePresenter
   def unicode_emoji
     case leave.type
     when "paid"
-      "\u{1F3D6}"
+      "\u{1F3D6}" # :beach_with_umbrella:
     when "unpaid"
-      "\u{1F3D5}"
+      "\u{1F3D5}" # :camping:
     when "non_working"
-      "\u{1F9F3}"
+      "\u{1F9F3}" # :luggage:
     else
-      "\u{1F912}"
+      "\u{1F912}" # :face_with_thermometer:
     end
   end
 
