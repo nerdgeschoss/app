@@ -94,7 +94,7 @@ RSpec.describe Leave do
         expect(Slack.instance).to have_received(:set_status).once.with(
           slack_id: "slack-john",
           text: "On vacation",
-          emoji: ":palm_tree:",
+          emoji: ":beach_with_umbrella:",
           until_time: Time.zone.parse("2023-01-03").end_of_day
         )
       end
