@@ -13,7 +13,7 @@ RSpec.describe LeavePresenter do
     describe "for paid leave" do
       let(:leave) { holiday }
       it "returns the palm tree emoji" do
-        expect(presenter.slack_emoji).to eq ":palm_tree:"
+        expect(presenter.slack_emoji).to eq ":beach_with_umbrella:"
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe LeavePresenter do
       end
 
       it "returns the palm tree emoji" do
-        expect(presenter.slack_emoji).to eq ":palm_tree:"
+        expect(presenter.slack_emoji).to eq ":beach_with_umbrella:"
       end
     end
 
