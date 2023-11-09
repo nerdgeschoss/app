@@ -23,7 +23,7 @@ class LeavePresenter
   def slack_emoji
     case leave.type
     when "paid", "unpaid"
-      ":palm_tree:"
+      ":beach_with_umbrella:"
     when "non_working"
       ":luggage:"
     else
