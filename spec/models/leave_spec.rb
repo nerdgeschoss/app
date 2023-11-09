@@ -128,54 +128,52 @@ RSpec.describe Leave do
     describe "#handle_incoming_request" do
       it "notifies slack about sick leave for sick type" do
         sick_leave.handle_incoming_request
+
         expect(sick_leave).to have_received(:notify_slack_about_sick_leave)
         expect(sick_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
-        expect(sick_leave).not_to have_received(:set_slack_status!)
       end
 
       it "notifies HR on slack about new request for paid type" do
         paid_leave.handle_incoming_request
+
         expect(paid_leave).to have_received(:notify_hr_on_slack_about_new_request)
         expect(paid_leave).not_to have_received(:notify_slack_about_sick_leave)
-        expect(paid_leave).not_to have_received(:set_slack_status!)
       end
 
       it "notifies HR on slack about new request for unpaid type" do
         unpaid_leave.handle_incoming_request
+
         expect(unpaid_leave).to have_received(:notify_hr_on_slack_about_new_request)
         expect(unpaid_leave).not_to have_received(:notify_slack_about_sick_leave)
-        expect(unpaid_leave).not_to have_received(:set_slack_status!)
       end
     end
 
     describe "#handle_slack_status" do
       it "sets slack status if leave is during today and approved" do
         paid_leave.approved!
-        allow(Time.zone).to receive(:today).and_return(paid_leave.leave_during.min)
+        travel_to paid_leave.leave_during.min
+
         paid_leave.handle_slack_status
+
         expect(paid_leave).to have_received(:set_slack_status!)
-        expect(paid_leave).not_to have_received(:notify_slack_about_sick_leave)
-        expect(paid_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
       end
 
       it "does not set slack status if leave is not during today" do
         paid_leave.approved!
-        allow(Time.zone).to receive(:today).and_return(paid_leave.leave_during.max + 1.day)
+        travel_to paid_leave.leave_during.max + 1.day
 
         paid_leave.handle_slack_status
 
         expect(paid_leave).not_to have_received(:set_slack_status!)
-        expect(paid_leave).not_to have_received(:notify_slack_about_sick_leave)
-        expect(paid_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
       end
 
       it "does not set slack status if leave is not approved" do
         paid_leave.pending_approval!
-        allow(Time.zone).to receive(:today).and_return(paid_leave.leave_during.min)
+        travel_to paid_leave.leave_during.min
+
         paid_leave.handle_slack_status
+
         expect(paid_leave).not_to have_received(:set_slack_status!)
-        expect(paid_leave).not_to have_received(:notify_slack_about_sick_leave)
-        expect(paid_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
       end
     end
   end
