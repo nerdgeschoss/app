@@ -112,69 +112,68 @@ RSpec.describe Leave do
     end
   end
 
-  describe "request handling" do
-    let(:sick_leave) { single_day_sick_leave }
-    let(:paid_leave) { holiday }
-    let(:unpaid_leave) { holiday.tap { |l| l.type = "unpaid" } }
-
+  describe "#handle_incoming_request" do
     before do
-      [sick_leave, paid_leave, unpaid_leave].each do |leave|
+      [single_day_sick_leave, holiday].each do |leave|
         allow(leave).to receive(:notify_slack_about_sick_leave)
         allow(leave).to receive(:notify_hr_on_slack_about_new_request)
+      end
+    end
+    it "notifies slack about sick leave for sick type" do
+      single_day_sick_leave.handle_incoming_request
+
+      expect(single_day_sick_leave).to have_received(:notify_slack_about_sick_leave)
+      expect(single_day_sick_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
+    end
+
+    it "notifies HR on slack about new request for paid type" do
+      holiday.handle_incoming_request
+
+      expect(holiday).to have_received(:notify_hr_on_slack_about_new_request)
+      expect(holiday).not_to have_received(:notify_slack_about_sick_leave)
+    end
+
+    it "notifies HR on slack about new request for unpaid type" do
+      unpaid_holiday = holiday.tap { |l| l.type = "unpaid" }
+
+      unpaid_holiday.handle_incoming_request
+
+      expect(unpaid_holiday).to have_received(:notify_hr_on_slack_about_new_request)
+      expect(unpaid_holiday).not_to have_received(:notify_slack_about_sick_leave)
+    end
+  end
+
+  describe "#handle_slack_status" do
+    before do
+      [single_day_sick_leave, holiday].each do |leave|
         allow(leave).to receive(:set_slack_status!)
       end
     end
+    it "sets slack status if leave is during today and approved" do
+      holiday.approved!
+      travel_to holiday.leave_during.min
 
-    describe "#handle_incoming_request" do
-      it "notifies slack about sick leave for sick type" do
-        sick_leave.handle_incoming_request
+      holiday.handle_slack_status
 
-        expect(sick_leave).to have_received(:notify_slack_about_sick_leave)
-        expect(sick_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
-      end
-
-      it "notifies HR on slack about new request for paid type" do
-        paid_leave.handle_incoming_request
-
-        expect(paid_leave).to have_received(:notify_hr_on_slack_about_new_request)
-        expect(paid_leave).not_to have_received(:notify_slack_about_sick_leave)
-      end
-
-      it "notifies HR on slack about new request for unpaid type" do
-        unpaid_leave.handle_incoming_request
-
-        expect(unpaid_leave).to have_received(:notify_hr_on_slack_about_new_request)
-        expect(unpaid_leave).not_to have_received(:notify_slack_about_sick_leave)
-      end
+      expect(holiday).to have_received(:set_slack_status!)
     end
 
-    describe "#handle_slack_status" do
-      it "sets slack status if leave is during today and approved" do
-        paid_leave.approved!
-        travel_to paid_leave.leave_during.min
+    it "does not set slack status if leave is not during today" do
+      holiday.approved!
+      travel_to holiday.leave_during.max + 1.day
 
-        paid_leave.handle_slack_status
+      holiday.handle_slack_status
 
-        expect(paid_leave).to have_received(:set_slack_status!)
-      end
+      expect(holiday).not_to have_received(:set_slack_status!)
+    end
 
-      it "does not set slack status if leave is not during today" do
-        paid_leave.approved!
-        travel_to paid_leave.leave_during.max + 1.day
+    it "does not set slack status if leave is not approved" do
+      holiday.pending_approval!
+      travel_to holiday.leave_during.min
 
-        paid_leave.handle_slack_status
+      holiday.handle_slack_status
 
-        expect(paid_leave).not_to have_received(:set_slack_status!)
-      end
-
-      it "does not set slack status if leave is not approved" do
-        paid_leave.pending_approval!
-        travel_to paid_leave.leave_during.min
-
-        paid_leave.handle_slack_status
-
-        expect(paid_leave).not_to have_received(:set_slack_status!)
-      end
+      expect(holiday).not_to have_received(:set_slack_status!)
     end
   end
 end
