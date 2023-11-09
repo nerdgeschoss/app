@@ -161,7 +161,9 @@ RSpec.describe Leave do
       it "does not set slack status if leave is not during today" do
         paid_leave.approved!
         allow(Time.zone).to receive(:today).and_return(paid_leave.leave_during.max + 1.day)
+
         paid_leave.handle_slack_status
+
         expect(paid_leave).not_to have_received(:set_slack_status!)
         expect(paid_leave).not_to have_received(:notify_slack_about_sick_leave)
         expect(paid_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
