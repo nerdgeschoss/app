@@ -14,6 +14,7 @@
 #  story_points :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  project_id   :uuid
 #
 class Task < ApplicationRecord
   belongs_to :sprint
@@ -24,6 +25,7 @@ class Task < ApplicationRecord
   class << self
     def sync_with_github
       user_ids_by_handle = User.pluck(:github_handle, :id).to_h
+      project_ids_by_repository = Project.pluck(:repositories, :id).flat_map { |repositories, project_id| repositories.map { |repository| [repository, project_id] } }.to_h
       sprint_ids_by_title = Sprint.pluck(:title, :id).to_h
       github_tasks = Github.new.sprint_board_items
       current_github_ids = pluck(:github_id)
@@ -37,7 +39,8 @@ class Task < ApplicationRecord
           github_id: gt.id,
           repository: gt.repository,
           issue_number: gt.issue_number,
-          story_points: gt.points
+          story_points: gt.points,
+          project_id: project_ids_by_repository[gt.repository]
         }
       end
 

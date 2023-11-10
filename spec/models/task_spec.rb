@@ -14,6 +14,7 @@
 #  story_points :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  project_id   :uuid
 #
 require "rails_helper"
 
