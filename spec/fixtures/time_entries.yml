@@ -17,6 +17,9 @@
 #  sprint_id     :uuid             not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  project_id    :uuid
+#  task_id       :uuid
+#  invoice_id    :uuid
 #
 
 entry_1:

@@ -2,23 +2,21 @@
 
 # == Schema Information
 #
-# Table name: users
+# Table name: sprint_feedbacks
 #
 #  id                     :uuid             not null, primary key
-#  email                  :string           default(""), not null
-#  roles                  :string           default([]), not null, is an Array
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
+#  sprint_id              :uuid             not null
+#  user_id                :uuid             not null
+#  daily_nerd_count       :integer
+#  tracked_hours          :decimal(, )
+#  billable_hours         :decimal(, )
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  first_name             :string
-#  last_name              :string
-#  slack_id               :string
-#  born_on                :date
-#  hired_on               :date
-#  github_handle          :string
+#  review_notes           :string
+#  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
+#  finished_storypoints   :integer          default(0), not null
+#  turnover               :decimal(, )
+#  costs                  :decimal(, )
 #
 
 require "rails_helper"

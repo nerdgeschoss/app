@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_17_173944) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_10_154425) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
@@ -45,6 +45,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_173944) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "invoices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "project_id", null: false
+    t.bigint "harvest_id", null: false
+    t.string "reference", null: false
+    t.decimal "amount", null: false
+    t.string "state", null: false
+    t.datetime "sent_at"
+    t.datetime "paid_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["harvest_id"], name: "index_invoices_on_harvest_id", unique: true
+    t.index ["project_id"], name: "index_invoices_on_project_id"
+  end
+
   create_table "leaves", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.daterange "leave_during", null: false
     t.string "title", null: false
@@ -63,6 +77,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_173944) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_payslips_on_user_id"
+  end
+
+  create_table "projects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "client_name"
+    t.string "repositories", default: [], array: true
+    t.bigint "harvest_ids", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "salaries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -122,7 +145,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_173944) do
     t.integer "story_points"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "project_id"
     t.index ["github_id"], name: "index_tasks_on_github_id", unique: true
+    t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["sprint_id"], name: "index_tasks_on_sprint_id"
   end
 
@@ -141,8 +166,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_173944) do
     t.uuid "sprint_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "project_id"
+    t.uuid "task_id"
+    t.uuid "invoice_id"
     t.index ["external_id"], name: "index_time_entries_on_external_id", unique: true
+    t.index ["invoice_id"], name: "index_time_entries_on_invoice_id"
+    t.index ["project_id"], name: "index_time_entries_on_project_id"
     t.index ["sprint_id"], name: "index_time_entries_on_sprint_id"
+    t.index ["task_id"], name: "index_time_entries_on_task_id"
     t.index ["user_id"], name: "index_time_entries_on_user_id"
   end
 
@@ -167,6 +198,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_173944) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "invoices", "projects"
   add_foreign_key "leaves", "users"
   add_foreign_key "payslips", "users"
   add_foreign_key "salaries", "users"
@@ -174,7 +206,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_17_173944) do
   add_foreign_key "sprint_feedbacks", "users"
   add_foreign_key "task_users", "tasks"
   add_foreign_key "task_users", "users"
+  add_foreign_key "tasks", "projects"
   add_foreign_key "tasks", "sprints"
+  add_foreign_key "time_entries", "invoices"
+  add_foreign_key "time_entries", "projects"
   add_foreign_key "time_entries", "sprints"
+  add_foreign_key "time_entries", "tasks"
   add_foreign_key "time_entries", "users"
 end
