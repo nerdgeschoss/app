@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class LeavePresenter
+class Leave::Presenter
   attr_reader :leave
+  delegate_missing_to :@leave
 
   def initialize(leave)
     @leave = leave

@@ -38,8 +38,13 @@ class Leave < ApplicationRecord
   validates :title, :days, presence: true
 
   before_validation do
-    set_leave_duration
-    auto_approve_leave if eligible_for_auto_approval?
+    start_on, end_on = days.minmax
+    self.leave_during = start_on..end_on
+    self.status = :approved if pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
+  end
+
+  def presenter
+    @presenter ||= Leave::Presenter.new(self)
   end
 
   def handle_incoming_request
@@ -72,26 +77,9 @@ class Leave < ApplicationRecord
   end
 
   def set_slack_status!
-    emoji = LeavePresenter.new(self).slack_emoji
+    emoji = Leave::Presenter.new(self).slack_emoji
     user.slack_profile.set_status(type: type, emoji:, until_date: leave_during.max)
   end
 
-  def to_ics
-    LeavePresenter.new(self).to_ics
-  end
-
-  private
-
-  def set_leave_duration
-    start_on, end_on = days.minmax
-    self.leave_during = start_on..end_on
-  end
-
-  def auto_approve_leave
-    self.status = :approved
-  end
-
-  def eligible_for_auto_approval?
-    pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
-  end
+  delegate :to_ics, to: :presenter
 end

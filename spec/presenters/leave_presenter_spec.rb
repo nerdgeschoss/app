@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe LeavePresenter do
+RSpec.describe Leave::Presenter do
   fixtures :all
   let(:user) { users(:john) }
   let(:holiday) { user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-02", "2023-01-03"] }
