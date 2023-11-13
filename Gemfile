@@ -71,6 +71,7 @@ group :development, :test do
   gem "rubocop-rspec"
   gem "rubocop-rake"
   gem "webmock", require: false
+  gem "pundit-matchers"
 end
 
 group :development do

@@ -307,6 +307,11 @@ GEM
       nio4r (~> 2.0)
     pundit (2.3.0)
       activesupport (>= 3.0.0)
+    pundit-matchers (3.1.2)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
     raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.6.2)
@@ -570,6 +575,7 @@ DEPENDENCIES
   pg
   puma
   pundit
+  pundit-matchers
   rack_session_access
   rails (= 7.0.6)
   rails-i18n

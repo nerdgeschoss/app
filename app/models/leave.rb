@@ -30,7 +30,7 @@ class Leave < ApplicationRecord
   scope :with_status, ->(status) { (status == :all) ? all : where(status:) }
   scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
 
-  enum type: [:paid, :unpaid, :sick].index_with(&:to_s)
+  enum type: [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
   enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)
 
   range_accessor_methods :leave
@@ -40,38 +40,24 @@ class Leave < ApplicationRecord
   before_validation do
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on
-    self.status = :approved if pending_approval? && type == "sick" && days.length == 1
+    self.status = :approved if pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
   end
 
-  def emoji
-    if paid?
-      "\u{1F3D6}"
-    elsif unpaid?
-      "\u{1F3D5}"
-    else
-      "\u{1F912}"
-    end
+  def presenter
+    @presenter ||= Leave::Presenter.new(self)
   end
 
-  def slack_emoji
+  def handle_incoming_request
     case type
-    when "paid" || "unpaid"
-      ":palm_tree:"
-    else
-      ":face_with_thermometer:"
+    when "sick"
+      notify_slack_about_sick_leave
+    when "paid", "unpaid"
+      notify_hr_on_slack_about_new_request
     end
   end
 
-  def to_ics
-    event = Icalendar::Event.new
-    event.dtstart = Icalendar::Values::Date.new leave_during.min
-    event.dtstart.ical_params = {"VALUE" => "DATE"}
-    event.dtend = Icalendar::Values::Date.new leave_during.max + 1.day
-    event.dtend.ical_params = {"VALUE" => "DATE"}
-    display_status = (status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
-    event.summary = "#{user.display_name}: #{title} #{emoji} #{display_status}"
-    event.url = Rails.application.routes.url_helpers.leaves_url(id:)
-    event
+  def handle_slack_status
+    set_slack_status! if leave_during.include?(Time.zone.today) && (approved? || sick?)
   end
 
   def notify_slack_about_sick_leave
@@ -91,6 +77,9 @@ class Leave < ApplicationRecord
   end
 
   def set_slack_status!
-    user.slack_profile.set_status(type: type, emoji: slack_emoji, until_date: leave_during.max)
+    emoji = Leave::Presenter.new(self).slack_emoji
+    user.slack_profile.set_status(type: type, emoji:, until_date: leave_during.max)
   end
+
+  delegate :to_ics, to: :presenter
 end

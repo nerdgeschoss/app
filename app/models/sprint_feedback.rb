@@ -46,7 +46,7 @@ class SprintFeedback < ApplicationRecord
   end
 
   def working_day_count
-    sprint.working_days - holiday_count - sick_day_count
+    sprint.working_days - [holiday_count, sick_day_count, non_working_day_count].sum
   end
 
   def holiday_count
@@ -55,6 +55,10 @@ class SprintFeedback < ApplicationRecord
 
   def sick_day_count
     @sick_day_count ||= count_days :sick
+  end
+
+  def non_working_day_count
+    @non_working_day_count ||= count_days :non_working
   end
 
   def add_daily_nerd_entry(timestamp)
