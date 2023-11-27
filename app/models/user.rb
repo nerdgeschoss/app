@@ -19,6 +19,7 @@
 #  born_on                :date
 #  hired_on               :date
 #  github_handle          :string
+#  nick_name              :string
 #
 
 class User < ApplicationRecord
@@ -43,7 +44,7 @@ class User < ApplicationRecord
   end
 
   def display_name
-    first_name.presence || email
+    nick_name.presence || first_name.presence || email
   end
 
   def slack_mention_display_name
