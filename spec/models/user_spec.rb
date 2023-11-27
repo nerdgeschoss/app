@@ -19,6 +19,7 @@
 #  born_on                :date
 #  hired_on               :date
 #  github_handle          :string
+#  nick_name              :string
 #
 
 require "rails_helper"
@@ -72,6 +73,24 @@ RSpec.describe User do
     it "uses the persisted slack id" do
       users(:john).notify!("hello")
       expect(Slack.instance.last_message).to have_attributes channel: "slack-john", text: "hello"
+    end
+  end
+
+  describe "#display_name" do
+    it "returns the nick name if present" do
+      john.nick_name = "Johnny Boy"
+      expect(john.display_name).to eq "Johnny Boy"
+    end
+
+    it "returns the first name if present and the nick name is nil" do
+      john.nick_name = nil
+      expect(john.display_name).to eq "John"
+    end
+
+    it "returns the email if no name is present" do
+      john.nick_name = nil
+      john.first_name = nil
+      expect(john.display_name).to eq "john@example.com"
     end
   end
 end
