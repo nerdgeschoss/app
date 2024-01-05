@@ -27,6 +27,7 @@
 class TimeEntry < ApplicationRecord
   belongs_to :user
   belongs_to :sprint
+  belongs_to :task, optional: true
 
   scope :billable, -> { where(billable: true) }
 
