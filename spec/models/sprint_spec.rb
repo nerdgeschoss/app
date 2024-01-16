@@ -93,6 +93,7 @@ RSpec.describe Sprint do
     end
 
     it "mentions birthdays" do
+      travel_to "2023-01-23"
       john.update! born_on: "1989-02-01", hired_on: "2019-04-25"
       sprint.send_sprint_start_notification
       text = <<~TEXT
