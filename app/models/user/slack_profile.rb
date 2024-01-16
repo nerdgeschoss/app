@@ -14,6 +14,7 @@ class User
       # i18n-tasks-use t("users.slack_profile.paid_status_text")
       # i18n-tasks-use t("users.slack_profile.sick_status_text")
       # i18n-tasks-use t("users.slack_profile.unpaid_status_text")
+      # i18n-tasks-use t("users.slack_profile.non_working_status_text")
       Slack.instance.set_status(slack_id: ensure_slack_id!, text: I18n.t("users.slack_profile.#{type}_status_text"), emoji:, until_time: until_date.end_of_day)
     end
 
