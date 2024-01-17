@@ -28,6 +28,8 @@ class Task < ApplicationRecord
       project_ids_by_repository = Project.pluck(:repositories, :id).flat_map { |repositories, project_id| repositories.map { |repository| [repository, project_id] } }.to_h
       sprint_ids_by_title = Sprint.pluck(:title, :id).to_h
       github_tasks = Github.new.sprint_board_items
+      current_github_ids = pluck(:github_id)
+      deleted_ids = current_github_ids - github_tasks.map(&:id).compact
 
       tasks = github_tasks.map do |gt|
         {
@@ -43,6 +45,8 @@ class Task < ApplicationRecord
       end
 
       Task.transaction do
+        Task.where(github_id: deleted_ids).destroy_all if deleted_ids.any?
+
         if tasks.any?
           task_ids_by_github_id = Task.upsert_all(tasks, returning: [:github_id, :id], unique_by: [:github_id]).rows.to_h
 

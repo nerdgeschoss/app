@@ -77,12 +77,12 @@ RSpec.describe Task do
       expect(task.status).to eq "Done"
     end
 
-    it "keeps tasks that are not in the list anymore" do
+    it "deletes tasks that are not in the list" do
       task = tasks :done
 
       Task.sync_with_github
 
-      expect(Task.exists?(task.id)).to eq true
+      expect(Task.exists?(task.id)).to eq false
     end
 
     it "only updates finished_storypoints" do
