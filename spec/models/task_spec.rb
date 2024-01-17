@@ -85,7 +85,7 @@ RSpec.describe Task do
       expect(Task.exists?(task.id)).to eq false
     end
 
-    it "does not delete tasks that are done" do
+    it "does not delete tasks that are not in the list if they are done" do
       task = tasks :done
 
       Task.sync_with_github
