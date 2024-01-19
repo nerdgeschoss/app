@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_28_105309) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_19_111322) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -138,7 +139,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_28_105309) do
   create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "sprint_id"
     t.string "title", null: false
-    t.string "status"
+    t.citext "status"
     t.string "github_id"
     t.string "repository"
     t.bigint "issue_number"

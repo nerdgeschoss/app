@@ -7,7 +7,7 @@
 #  id           :uuid             not null, primary key
 #  sprint_id    :uuid
 #  title        :string           not null
-#  status       :string
+#  status       :citext
 #  github_id    :string
 #  repository   :string
 #  issue_number :bigint
@@ -78,11 +78,19 @@ RSpec.describe Task do
     end
 
     it "deletes tasks that are not in the list" do
-      task = tasks :done
+      task = tasks :in_progress
 
       Task.sync_with_github
 
       expect(Task.exists?(task.id)).to eq false
+    end
+
+    it "does not delete tasks that are not in the list if they are done" do
+      task = tasks :done
+
+      Task.sync_with_github
+
+      expect(Task.exists?(task.id)).to eq true
     end
 
     it "only updates finished_storypoints" do
