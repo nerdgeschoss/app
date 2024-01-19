@@ -7,7 +7,7 @@
 #  id           :uuid             not null, primary key
 #  sprint_id    :uuid
 #  title        :string           not null
-#  status       :string
+#  status       :citext
 #  github_id    :string
 #  repository   :string
 #  issue_number :bigint

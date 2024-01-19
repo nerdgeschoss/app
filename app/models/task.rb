@@ -7,7 +7,7 @@
 #  id           :uuid             not null, primary key
 #  sprint_id    :uuid
 #  title        :string           not null
-#  status       :string
+#  status       :citext
 #  github_id    :string
 #  repository   :string
 #  issue_number :bigint
@@ -45,7 +45,7 @@ class Task < ApplicationRecord
       end
 
       Task.transaction do
-        Task.where(github_id: deleted_ids).where.not(status: "Done").destroy_all if deleted_ids.any?
+        Task.where(github_id: deleted_ids).where.not(status: "done").destroy_all if deleted_ids.any?
 
         if tasks.any?
           task_ids_by_github_id = Task.upsert_all(tasks, returning: [:github_id, :id], unique_by: [:github_id]).rows.to_h
