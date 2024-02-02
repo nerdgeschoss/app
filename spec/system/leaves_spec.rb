@@ -76,6 +76,10 @@ RSpec.describe "Leaves" do
     expect(page).not_to have_content "Heads up: Some of the selected days are in the past."
 
     within ".modal" do
+      find(".flatpickr-day.today").click
+
+      expect(page).not_to have_content "Heads up: Some of the selected days are in the past."
+
       find(".flatpickr-prev-month").click
       first(".dayContainer .flatpickr-day").click
     end
