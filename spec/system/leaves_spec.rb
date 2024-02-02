@@ -67,4 +67,19 @@ RSpec.describe "Leaves" do
     expect(status.slack_id).to eq "slack-john"
     expect(status.until_time).to eq Time.zone.today.end_of_day
   end
+
+  it "shows a warning if one of the leave days is in the past" do
+    login :john
+    visit leaves_path
+    click_on "Request leave"
+
+    expect(page).not_to have_content "Heads up: Some of the selected days are in the past."
+
+    within ".modal" do
+      find(".flatpickr-prev-month").click
+      first(".dayContainer .flatpickr-day").click
+    end
+
+    expect(page).to have_content "Heads up: Some of the selected days are in the past."
+  end
 end
