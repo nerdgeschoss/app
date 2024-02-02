@@ -1,5 +1,7 @@
 = form_with model: @leave, class: :stack, builder: AwesomeForm do |f|
-  = f.text_field :days, data: { controller: "calendar" }, style: "display: none"
+  .stack data-controller="calendar"
+    = f.text_field :days, data: { calendar_target: "input" }, style: "display: none"
+    .text-warn data-calendar-target="pastWarning" hidden="hidden" = t(".some_days_in_the_past")
   = @leave.errors[:days].to_sentence
   - if policy(@leave).permitted_attributes.include?(:user_id)
     = f.input :user_id
