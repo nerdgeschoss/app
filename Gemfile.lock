@@ -578,7 +578,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rake
   rubocop-rspec
-  rufus-scheduler (~> 3.9)
+  rufus-scheduler
   sassc-rails
   sentry-rails
   sentry-ruby
