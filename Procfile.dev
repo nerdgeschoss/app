@@ -1,3 +1,2 @@
 web: bundle exec rails s -p ${PORT:-3000}
-worker: bundle exec rake solid_queue:start
 js: yarn build --watch
