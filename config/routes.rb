@@ -2,9 +2,7 @@
 
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
-  authenticate :user, ->(user) { user.admin? } do
-    mount MissionControl::Jobs::Engine, at: "/jobs"
-  end
+  mount MissionControl::Jobs::Engine, at: "/jobs"  # move to admin once there is authentication
   get "sitemaps/*path", to: "shimmer/sitemaps#show"
   get "offline", to: "pages#offline"
   resources :files, only: :show, controller: "shimmer/files"
