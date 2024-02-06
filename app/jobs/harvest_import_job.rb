@@ -2,7 +2,7 @@
 
 class HarvestImportJob < ApplicationJob
   queue_as :import
-  sidekiq_options retry: 0
+  # sidekiq_options retry: 0
 
   def perform
     Project.sync_with_harvest

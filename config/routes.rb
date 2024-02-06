@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require "sidekiq/web"
-require "sidekiq-scheduler/web"
-
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
-  mount Sidekiq::Web => "/sidekiq" # move to admin once there is authentication
+  authenticate :user, ->(user) { user.admin? } do
+    mount MissionControl::Jobs::Engine, at: "/jobs"
+  end
   get "sitemaps/*path", to: "shimmer/sitemaps#show"
   get "offline", to: "pages#offline"
   resources :files, only: :show, controller: "shimmer/files"
