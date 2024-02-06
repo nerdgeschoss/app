@@ -119,6 +119,7 @@ RSpec.describe Leave do
         allow(leave).to receive(:notify_hr_on_slack_about_new_request)
       end
     end
+
     it "notifies slack about sick leave for sick type" do
       single_day_sick_leave.handle_incoming_request
 
@@ -149,6 +150,7 @@ RSpec.describe Leave do
         allow(leave).to receive(:set_slack_status!)
       end
     end
+
     it "sets slack status if leave is during today and approved" do
       holiday.approved!
       travel_to holiday.leave_during.min

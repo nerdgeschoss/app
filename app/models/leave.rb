@@ -78,7 +78,7 @@ class Leave < ApplicationRecord
 
   def set_slack_status!
     emoji = Leave::Presenter.new(self).slack_emoji
-    user.slack_profile.set_status(type: type, emoji:, until_date: leave_during.max)
+    user.slack_profile.set_status(type:, emoji:, until_date: leave_during.max)
   end
 
   delegate :to_ics, to: :presenter
