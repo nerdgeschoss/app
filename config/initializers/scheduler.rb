@@ -2,6 +2,9 @@
 
 require "rufus-scheduler"
 
+return if defined?(Rails::Console) || Rails.env.test? || File.split($PROGRAM_NAME).last == 'rake'
+# https://github.com/jmettraux/rufus-scheduler?tab=readme-ov-file#avoid-scheduling-when-running-the-ruby-on-rails-console
+
 scheduler = Rufus::Scheduler.singleton
 
 # Harvest Import Job
