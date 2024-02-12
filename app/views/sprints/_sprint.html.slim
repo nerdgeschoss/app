@@ -39,7 +39,7 @@
                 - if feedback.turnover_per_storypoint
                   div = "#{number_to_currency feedback.turnover_per_storypoint} / point"
               - if feedback.turnover_per_storypoint
-                div class=("text-warn" if feedback.turnover_per_storypoint_against_avarage > 1) = number_to_percentage feedback.turnover_per_storypoint_against_avarage * 100
+                div class=("text-warning" if feedback.turnover_per_storypoint_against_avarage > 1) = number_to_percentage feedback.turnover_per_storypoint_against_avarage * 100
         - if policy(sprint).overview?
           tr
             th

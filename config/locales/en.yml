@@ -15,6 +15,7 @@ en:
   leaves:
     form:
       request_leave: Request leave
+      some_days_in_the_past: 'Heads up: Some of the selected days are in the past.'
     index:
       all_users: All users
       leaves: Leaves
