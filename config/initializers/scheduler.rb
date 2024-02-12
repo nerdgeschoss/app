@@ -2,7 +2,7 @@
 
 require "rufus-scheduler"
 
-scheduler = Rufus::Scheduler.new
+scheduler = Rufus::Scheduler.singleton
 
 # Harvest Import Job
 scheduler.every "30m" do
