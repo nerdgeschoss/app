@@ -27,6 +27,7 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
 
   def guess_type(method)
     return :select if method.to_s.end_with?("_id")
+    return :datetime if method.to_s.end_with?("at")
     return :pdf if method.to_s.end_with?("pdf")
     return :password if method.to_s.include?("password")
 
@@ -67,6 +68,8 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
       number_field method, options
     when :date
       date_field method, options
+    when :datetime
+      datetime_local_field method, options
     when :pdf
       file_field method, options.reverse_merge(accept: "application/pdf")
     when :select

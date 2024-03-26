@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     resources :sprint_feedbacks
     resources :users do
       get :unpaid_vacation, on: :member
+      resources :inventories, only: :new
     end
+    resources :inventories, only: [:create, :destroy, :edit, :update, :destroy]
     namespace :feed do
       resources :leaves, only: :index
     end

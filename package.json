@@ -29,5 +29,9 @@
     "eslint-plugin-prettier": "^4.0.0",
     "livereload": "^0.9.3",
     "prettier": "^2.5.1"
+  },
+  "volta": {
+    "node": "18.19.1",
+    "yarn": "1.22.22"
   }
 }
