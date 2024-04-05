@@ -14,9 +14,18 @@ class Slack
     request http_method: :post, slack_method: "chat.postMessage", body: {channel:, text:}.to_json
   end
 
+  def push_personalized_message_to_daily_nerd_channel(body:)
+    request_hook url: Config.slack_webhook_url!, body: body.to_json
+  end
+
   def retrieve_users_slack_id_by_email(email)
     response = request http_method: :get, slack_method: "users.lookupByEmail", query: {email:}
     response.dig("user", "id")
+  end
+
+  def retrieve_users_profile_image_url_by_email(email)
+    response = request http_method: :get, slack_method: "users.lookupByEmail", query: {email:}
+    response.dig("user", "profile", "image_72")
   end
 
   def set_status(slack_id:, emoji:, text:, until_time:)
@@ -31,9 +40,16 @@ class Slack
   def request(http_method:, slack_method:, query: nil, body: nil, token_type: :bot)
     token = Config.public_send("slack_#{token_type}_token!")
     headers = {"Content-Type": "application/json", authorization: "Bearer #{token}"}
-    response = HTTParty.public_send(http_method, "https://slack.com/api/#{slack_method}", headers:,
-      query:, body:)
+    response = HTTParty.public_send(http_method, "https://slack.com/api/#{slack_method}", headers:, query:, body:)
+
     raise NetworkError, response["error"].humanize unless response.ok?
+
+    response
+  end
+
+  def request_hook(url:, body:)
+    response = HTTParty.post(url, headers: {"Content-Type": "application/json"}, body:)
+    raise NetworkError, response unless response.ok?
 
     response
   end

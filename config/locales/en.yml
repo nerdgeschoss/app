@@ -1,5 +1,8 @@
 ---
 en:
+  daily_nerd_messages:
+    form:
+      message_placeholder: How was your day? What did you learn?
   date:
     formats:
       month_long: "%B"
@@ -45,6 +48,7 @@ en:
   pages:
     home:
       archive: Archive
+      daily_nerd: Daily Nerd
       hello: Hello %{name}
       last_payments: Last payments
       remaining_holidays: Remaining holidays

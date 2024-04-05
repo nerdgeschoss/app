@@ -18,6 +18,16 @@ class User
       Slack.instance.notify(channel: slack_id, text: message)
     end
 
+    def post_daily_nerd_message(message)
+      body = {
+        username: user.display_name,
+        icon_url: user.slack_profile.image_url,
+        text: message
+      }
+
+      Slack.instance.push_personalized_message_to_daily_nerd_channel(body:)
+    end
+
     private
 
     def slack_id

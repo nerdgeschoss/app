@@ -23,6 +23,8 @@ class SprintFeedback < ApplicationRecord
   belongs_to :sprint
   belongs_to :user
 
+  has_many :daily_nerd_messages, dependent: :destroy
+
   scope :ordered, -> { joins(:user).order("users.email ASC") }
 
   before_validation do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_26_152758) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_04_112633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_stat_statements"
@@ -44,6 +44,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_26_152758) do
     t.uuid "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "daily_nerd_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "sprint_feedback_id", null: false
+    t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sprint_feedback_id"], name: "index_daily_nerd_messages_on_sprint_feedback_id"
   end
 
   create_table "inventories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -211,6 +219,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_26_152758) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "daily_nerd_messages", "sprint_feedbacks"
   add_foreign_key "inventories", "users"
   add_foreign_key "invoices", "projects"
   add_foreign_key "leaves", "users"
