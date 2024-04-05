@@ -8,6 +8,7 @@ class DailyNerdMessagesController < ApplicationController
     @daily_nerd_message = authorize DailyNerdMessage.new(daily_nerd_message_attributes.merge(sprint_feedback:))
     if @daily_nerd_message.save
       @daily_nerd_message.push_to_slack
+      sprint_feedback.add_daily_nerd_entry_date(@daily_nerd_message.created_at)
       redirect_to sprints_path
     else
       render "new", status: :unprocessable_entity
