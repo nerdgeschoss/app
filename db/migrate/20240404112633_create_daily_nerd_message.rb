@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDailyNerdMessage < ActiveRecord::Migration[7.0]
   def change
     create_table :daily_nerd_messages, id: :uuid do |t|
