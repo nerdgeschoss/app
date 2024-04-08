@@ -15,6 +15,8 @@ class Slack
   end
 
   def push_personalized_message_to_daily_nerd_channel(body:)
+    # This is the old way of posting to slack on behalf of a user using a webhook.
+    # It might be necessary to change this in the future to use the new Slack API.
     request_hook url: Config.slack_webhook_url!, body: body.to_json
   end
 
