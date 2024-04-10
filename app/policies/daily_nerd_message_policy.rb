@@ -14,6 +14,6 @@ class DailyNerdMessagePolicy < ApplicationPolicy
   end
 
   def users_own_message?
-    user == record.sprint_feedback.user
+    user.id == record.sprint_feedback.user_id
   end
 end
