@@ -14,11 +14,11 @@ class Slack
     request http_method: :post, slack_method: "chat.postMessage", body: {channel:, text:}.to_json
   end
 
-  def push_personalized_message_to_daily_nerd_channel(body:)
+  def post_personalized_message_to_daily_nerd_channel(user:, message:)
     # This is the old way of posting to slack on behalf of a user using a webhook.
     # https://api.slack.com/legacy/custom-integrations/messaging/webhooks
     # It might be necessary to change this in the future to use the new Slack API.
-    request_hook url: Config.slack_webhook_url!, body: body.to_json
+    request_hook url: Config.slack_webhook_url!, body: personalized_webhook_body(user:, message:).to_json
   end
 
   def retrieve_users_slack_id_by_email(email)
@@ -55,5 +55,13 @@ class Slack
     raise NetworkError, response unless response.ok?
 
     response
+  end
+
+  def personalized_webhook_body(user:, message:)
+    {
+      username: user.display_name,
+      icon_url: user.slack_profile.image_url,
+      text: message
+    }
   end
 end
