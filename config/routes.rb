@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     namespace :feed do
       resources :leaves, only: :index
     end
+    resources :daily_nerd_messages, only: [:create, :update]
     root "pages#home"
   end
 

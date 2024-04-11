@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@hotwired/stimulus": "^3.0.1",
-    "@hotwired/turbo-rails": "^7.1.0",
+    "@hotwired/turbo-rails": "^8.0.4",
     "@nerdgeschoss/shimmer": "^0.0.10",
     "chart.js": "^3.7.0",
     "chartkick": "^4.1.1",

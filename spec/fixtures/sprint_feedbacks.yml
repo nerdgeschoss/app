@@ -19,7 +19,7 @@
 sprint_feedback_1:
   sprint: empty
   user: john
-  daily_nerd_count: 5
+  daily_nerd_count: 3
   tracked_hours: 30
   billable_hours: 20
   review_notes: 'Great progress!'
