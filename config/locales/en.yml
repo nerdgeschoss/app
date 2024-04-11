@@ -3,6 +3,7 @@ en:
   daily_nerd_messages:
     form:
       message_placeholder: How was your day? What did you learn?
+      submits_with: Saving …
   date:
     formats:
       month_long: "%B"
