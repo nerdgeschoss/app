@@ -5,8 +5,6 @@ class SlackSetStatusJob < ApplicationJob
   sidekiq_options retry: 0
 
   def perform
-    Leave.approved.starts_today.each do |leave|
-      leave.set_slack_status!
-    end
+    Leave.approved.starts_today.each(&:set_slack_status!)
   end
 end

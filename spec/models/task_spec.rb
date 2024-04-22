@@ -82,7 +82,7 @@ RSpec.describe Task do
 
       Task.sync_with_github
 
-      expect(Task.exists?(task.id)).to eq false
+      expect(Task.exists?(task.id)).to be false
     end
 
     it "does not delete tasks that are not in the list if they are done" do
@@ -90,7 +90,7 @@ RSpec.describe Task do
 
       Task.sync_with_github
 
-      expect(Task.exists?(task.id)).to eq true
+      expect(Task.exists?(task.id)).to be true
     end
 
     it "only updates finished_storypoints" do
