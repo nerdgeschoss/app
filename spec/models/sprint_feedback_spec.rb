@@ -45,11 +45,17 @@ RSpec.describe SprintFeedback do
 
     before do
       feedback.user.leaves.create! type: :non_working, title: "Loveparade", days: ["2023-01-23"]
-      feedback.user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-25"]
+      feedback.user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-24"], status: :approved
+      feedback.user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-25"], status: :pending_approval
+      feedback.user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-26"], status: :rejected
       feedback.user.leaves.create! type: :sick, title: "Sick", days: ["2023-01-27"]
     end
-    it "takes all leave types into account" do
-      expect(feedback.working_day_count).to eq feedback.sprint.working_days - 3
+    it "takes all non rejected leave types into account" do
+      expect(feedback.working_day_count).to eq feedback.sprint.working_days - 4
+    end
+
+    it "does not count rejected leaves" do
+      expect(feedback.holiday_count).to eq 2
     end
   end
 end
