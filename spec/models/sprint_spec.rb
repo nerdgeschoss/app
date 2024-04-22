@@ -92,7 +92,7 @@ RSpec.describe Sprint do
       expect(Slack.instance.last_message.text).to eq text.strip
     end
 
-    fit "does not display rejected leaves" do
+    it "does not display rejected leaves" do
       john.leaves.create! type: :paid, title: "Mallorca", days: [Date.new(2023, 2, 1)], status: :rejected
       sprint.send_sprint_start_notification
       text = <<~TEXT
