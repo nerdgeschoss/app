@@ -25,7 +25,7 @@ class SprintsController < ApplicationController
   def create
     @sprint = authorize Sprint.new(sprint_attributes)
     User.sprinter.each do |user|
-      @sprint.sprint_feedbacks.build user: user
+      @sprint.sprint_feedbacks.build user:
     end
     if @sprint.save
       ui.navigate_to sprints_path
