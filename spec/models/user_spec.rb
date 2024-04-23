@@ -55,6 +55,7 @@ RSpec.describe User do
 
   context "notified about a message" do
     let(:john) { users(:john_no_slack) }
+
     it "updates the slack id on first use" do
       expect(john).to have_attributes email: "john-no-slack@example.com", slack_id: nil
       allow(Slack.instance).to receive(:retrieve_users_slack_id_by_email).with("john-no-slack@example.com").and_return("slack-15")

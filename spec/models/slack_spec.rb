@@ -15,7 +15,7 @@ RSpec.describe Slack do
     stub_request(:get, "https://slack.com/api/users.lookupByEmail?email=someone@nerdgeschoss.de")
       .to_return(status: 200, body: {error: "not_found"}.to_json, headers: {"Content-Type": "application/json"})
     expect(slack.retrieve_users_slack_id_by_email("jon@nerdgeschoss.de")).to eq "15"
-    expect(slack.retrieve_users_slack_id_by_email("someone@nerdgeschoss.de")).to eq nil
+    expect(slack.retrieve_users_slack_id_by_email("someone@nerdgeschoss.de")).to be_nil
   end
 
   it "sends a message to a channel" do
