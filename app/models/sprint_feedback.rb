@@ -97,7 +97,7 @@ class SprintFeedback < ApplicationRecord
   private
 
   def leaves
-    @leaves ||= user.leaves.not_rejected.select { _1.leave_during.overlaps?(sprint.sprint_during) }
+    @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end
 
   def count_days(type)
