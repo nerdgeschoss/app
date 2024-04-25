@@ -18,7 +18,7 @@ class Slack
     # This is the old way of posting to slack on behalf of a user using a webhook.
     # https://api.slack.com/legacy/custom-integrations/messaging/webhooks
     # It might be necessary to change this in the future to use the new Slack API.
-    request_hook url: Config.slack_webhook_url!, body: personalized_webhook_body(user:, message:, channel: Config.slack_daily_nerd_channel!).to_json
+    request_hook url: Config.slack_webhook_url!, body: personalized_webhook_body(user:, message:).to_json
   end
 
   def retrieve_users_slack_id_by_email(email)
@@ -57,9 +57,8 @@ class Slack
     response
   end
 
-  def personalized_webhook_body(user:, message:, channel:)
+  def personalized_webhook_body(user:, message:)
     {
-      channel:,
       username: user.display_name,
       icon_url: user.slack_profile.image_url,
       text: message
