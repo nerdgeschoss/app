@@ -2,6 +2,22 @@ default: &default
   dispatchers:
     - polling_interval: 1
       batch_size: 500
+      recurring_tasks:
+        harvest_import_job:
+          class: HarvestImportJob
+          schedule: "30m"
+        github_import_job:
+          class: GithubImportJob
+          schedule: "30m"
+        slack_notification_job:
+          class: SlackNotificationJob
+          schedule: "0 8 * * * Europe/Berlin" # every day at 8:00, Berlin time
+        slack_congratulation_job:
+          class: SlackCongratulationJob
+          schedule: "0 9 * * * Europe/Berlin" # every day at 9:00, Berlin time
+        slack_set_status_job:
+          class: SlackSetStatusJob
+          schedule: "0 0 * * * Europe/Berlin" # every day at 00:00, Berlin time
   workers:
     - queues: "*"
       threads: 3
