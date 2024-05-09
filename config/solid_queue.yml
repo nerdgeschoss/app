@@ -13,10 +13,10 @@ default: &default
           class: SlackNotificationJob
           schedule: "0 8 * * * Europe/Berlin" # every day at 8:00, Berlin time
         slack_congratulation_job:
-          class: MyJob
+          class: SlackCongratulationJob
           schedule: "0 9 * * * Europe/Berlin" # every day at 9:00, Berlin time
         slack_set_status_job:
-          class: MyJob
+          class: SlackSetStatusJob
           schedule: "0 0 * * * Europe/Berlin" # every day at 00:00, Berlin time
   workers:
     - queues: "*"
