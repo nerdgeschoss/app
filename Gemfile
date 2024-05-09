@@ -82,6 +82,5 @@ group :development do
   gem "letter_opener"
   gem "listen"
   gem "rb-fsevent"
-  gem "solargraph-standardrb"
   gem "web-console"
 end
