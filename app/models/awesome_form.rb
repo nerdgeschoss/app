@@ -61,7 +61,7 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
     when :string
       text_field method, options
     when :text
-      text_area method, options
+      text_area method, options.reverse_merge(data: {controller: "auto-resize", action: "input->auto-resize#update"})
     when :password
       password_field method, options
     when :number
