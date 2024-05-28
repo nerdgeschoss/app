@@ -18,6 +18,10 @@ class User
       Slack.instance.notify(channel: slack_id, text: message)
     end
 
+    def post_daily_nerd_message(message)
+      Slack.instance.post_personalized_message_to_daily_nerd_channel(user:, message:)
+    end
+
     private
 
     def slack_id

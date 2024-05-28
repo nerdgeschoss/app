@@ -29,6 +29,7 @@ class Leave < ApplicationRecord
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
   scope :with_status, ->(status) { (status == :all) ? all : where(status:) }
   scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
+  scope :not_rejected, -> { where.not(status: :rejected) }
 
   enum type: [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
   enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)

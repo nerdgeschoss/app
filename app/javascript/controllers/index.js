@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AutoResizeController from "./auto_resize_controller.ts"
+application.register("auto-resize", AutoResizeController)
+
 import AutosubmittingController from "./autosubmitting_controller.ts"
 application.register("autosubmitting", AutosubmittingController)
 
