@@ -26,5 +26,9 @@ class User
       user.update!(slack_id: id)
       id
     end
+
+    def image_url
+      Slack.instance.retrieve_users_profile_image_url_by_email(user.email)
+    end
   end
 end

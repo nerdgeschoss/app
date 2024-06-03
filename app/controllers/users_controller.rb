@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @salaries = @user.salaries.chronologic
+    @inventories = @user.inventories
   end
 
   def edit

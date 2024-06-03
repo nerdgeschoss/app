@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "@hotwired/stimulus": "^3.0.1",
-    "@hotwired/turbo-rails": "^7.1.0",
+    "@hotwired/turbo-rails": "^8.0.4",
     "@nerdgeschoss/shimmer": "^0.0.10",
     "chart.js": "^3.7.0",
     "chartkick": "^4.1.1",
@@ -27,5 +27,9 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
+  },
+  "volta": {
+    "node": "18.19.1",
+    "yarn": "1.22.22"
   }
 }

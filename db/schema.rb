@@ -46,6 +46,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_104711) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "daily_nerd_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "sprint_feedback_id", null: false
+    t.string "message", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sprint_feedback_id"], name: "index_daily_nerd_messages_on_sprint_feedback_id"
+  end
+
+  create_table "inventories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.datetime "received_at", null: false
+    t.datetime "returned_at"
+    t.string "name", null: false
+    t.string "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_inventories_on_user_id"
+  end
+
   create_table "invoices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "project_id", null: false
     t.bigint "harvest_id", null: false
@@ -303,6 +322,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_104711) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "daily_nerd_messages", "sprint_feedbacks"
+  add_foreign_key "inventories", "users"
   add_foreign_key "invoices", "projects"
   add_foreign_key "leaves", "users"
   add_foreign_key "payslips", "users"

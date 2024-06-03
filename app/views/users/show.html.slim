@@ -22,3 +22,23 @@
                   div
                     = l salary.valid_from.to_date, format: :long
                   div #{number_to_currency salary.brut} / #{number_to_currency salary.net}
+    - if @inventories.any? || policy(Inventory).create?
+      .card
+        .card__header
+          .card__icon 💻
+          .card__header-content
+            .card__title = t ".inventory"
+            .stack
+              - @inventories.each do |inventory|
+                .stack.stack--tiny class=(:muted if inventory.returned?)
+                  a.line.line--space-between href=(modal_path(edit_inventory_path(inventory)) if policy(inventory).edit?)
+                    .strong = inventory.name
+                    .line
+                      - if inventory.returned?
+                        = date_range inventory.received_at.to_date, inventory.returned_at.to_date
+                      - else
+                        = l inventory.received_at.to_date, format: :long
+                  div = inventory.details
+          - if policy(Inventory).create?
+            .card__context
+              = link_to "add", modal_path(new_user_inventory_path(@user))
