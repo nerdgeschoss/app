@@ -1,5 +1,5 @@
 {
-  "addons": ["newrelic", "heroku-postgresql", "heroku-redis"],
+  "addons": ["newrelic", "heroku-postgresql:essential-0", "heroku-redis"],
   "buildpacks": [
     {
       "url": "https://github.com/brandoncc/heroku-buildpack-vips.git"
@@ -26,7 +26,7 @@
   },
   "name": "nerdgeschoss_app",
   "scripts": {
-    "postdeploy": "bin/rails db:seed"
+    "postdeploy": "bin/rails db:prepare"
   },
   "stack": "heroku-20"
 }
