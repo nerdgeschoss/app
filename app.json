@@ -1,5 +1,5 @@
 {
-  "addons": ["newrelic", "heroku-postgresql:essential-0"]
+  "addons": ["newrelic", "heroku-postgresql:essential-0"],
   "buildpacks": [
     {
       "url": "https://github.com/brandoncc/heroku-buildpack-vips.git"
