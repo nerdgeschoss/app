@@ -41,7 +41,7 @@ module TestApp
     config.action_mailer.default_url_options ||= {}
     config.action_mailer.default_url_options[:host] = host
     Rails.application.routes.default_url_options[:host] = host
-    config.active_job.queue_adapter = :sidekiq
+    config.active_job.queue_adapter = :solid_queue
 
     config.assets.paths << Rails.root.join("node_modules")
     ActiveRecord::Tasks::DatabaseTasks.fixtures_path = Rails.root.join("spec/fixtures").to_s
