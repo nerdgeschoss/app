@@ -23,6 +23,8 @@ class SprintFeedback < ApplicationRecord
   belongs_to :sprint
   belongs_to :user
 
+  has_many :daily_nerd_messages, dependent: :destroy
+
   scope :ordered, -> { joins(:user).order("users.email ASC") }
 
   before_validation do
@@ -95,11 +97,11 @@ class SprintFeedback < ApplicationRecord
   private
 
   def leaves
-    @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }
+    @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end
 
-  def count_days(status)
-    leaves.select { |e| e.public_send("#{status}?") }
+  def count_days(type)
+    leaves.select { |e| e.public_send("#{type}?") }
       .flat_map(&:days).count { |e| sprint.sprint_during.include? e }
   end
 end

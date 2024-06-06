@@ -1,5 +1,9 @@
 ---
 en:
+  daily_nerd_messages:
+    form:
+      message_placeholder: How was your day? What did you learn?
+      submits_with: Saving …
   date:
     formats:
       month_long: "%B"
@@ -7,6 +11,10 @@ en:
   errors:
     messages:
       not_saved: Not saved
+  inventories:
+    form:
+      delete: Delete
+      save: Save
   leave:
     status:
       approved: approved
@@ -41,6 +49,7 @@ en:
   pages:
     home:
       archive: Archive
+      daily_nerd: Daily Nerd
       hello: Hello %{name}
       last_payments: Last payments
       remaining_holidays: Remaining holidays
@@ -85,6 +94,7 @@ en:
       congrats: "🎉 Congratulations %{user} on being a part of nerdgeschoss for %{employment_duration} now!"
       happy_birthday: "🥳 *HAPPY BIRTHDAY %{user}!!*"
     show:
+      inventory: Inventory
       remaining_holidays: Remaining holidays
       salary_history: Salary History
     slack_profile:

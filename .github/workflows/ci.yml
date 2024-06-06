@@ -20,10 +20,6 @@ jobs:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
 
     steps:
       - uses: actions/checkout@v2
@@ -59,7 +55,6 @@ jobs:
         run: bundle exec rspec --format documentation
         env:
           DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/app
-          REDIS_URL: redis://127.0.0.1:6379
           RAILS_ENV: test
           RSPEC_RETRY_RETRY_COUNT: 3
           SCREENSHOTS: '1'

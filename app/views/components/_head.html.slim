@@ -19,5 +19,3 @@ head
   = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
   = yield :additional_head_tags if content_for? :additional_head_tags
-  - if Rails.env.development?
-    script src="http://localhost:35729/livereload.js?snipver=1"

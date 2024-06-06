@@ -12,6 +12,7 @@ RSpec.describe Leave::Presenter do
   context "slack emoji" do
     describe "for paid leave" do
       let(:leave) { holiday }
+
       it "returns the palm tree emoji" do
         expect(presenter.slack_emoji).to eq ":beach_with_umbrella:"
       end
@@ -31,6 +32,7 @@ RSpec.describe Leave::Presenter do
 
     describe "for sick leave" do
       let(:leave) { single_day_sick_leave }
+
       it "returns the sick emoji" do
         expect(presenter.slack_emoji).to eq ":face_with_thermometer:"
       end
@@ -52,6 +54,7 @@ RSpec.describe Leave::Presenter do
   context "unicode emoji" do
     describe "for paid leave" do
       let(:leave) { holiday }
+
       it "returns the beach with umbrella emoji" do
         expect(presenter.unicode_emoji).to eq "\u{1F3D6}"
       end
@@ -83,6 +86,7 @@ RSpec.describe Leave::Presenter do
 
     describe "for sick leave" do
       let(:leave) { single_day_sick_leave }
+
       it "returns the face with thermometer emoji" do
         expect(presenter.unicode_emoji).to eq "\u{1F912}"
       end

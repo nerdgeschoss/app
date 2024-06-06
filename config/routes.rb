@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require "sidekiq/web"
-require "sidekiq-scheduler/web"
-
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
-  mount Sidekiq::Web => "/sidekiq" # move to admin once there is authentication
+  authenticated :user do
+    mount MissionControl::Jobs::Engine, at: "/jobs"
+  end
   get "sitemaps/*path", to: "shimmer/sitemaps#show"
   get "offline", to: "pages#offline"
   resources :files, only: :show, controller: "shimmer/files"
@@ -19,10 +18,13 @@ Rails.application.routes.draw do
     resources :sprint_feedbacks
     resources :users do
       get :unpaid_vacation, on: :member
+      resources :inventories, only: :new
     end
+    resources :inventories, only: [:create, :destroy, :edit, :update, :destroy]
     namespace :feed do
       resources :leaves, only: :index
     end
+    resources :daily_nerd_messages, only: [:create, :update]
     root "pages#home"
   end
 

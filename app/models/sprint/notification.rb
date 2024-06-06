@@ -26,7 +26,7 @@ class Sprint
     private
 
     def leaves_text_lines
-      @leaves_text_lines ||= Leave.includes(:user).during(@sprint.sprint_during).group_by(&:user).map do |user, leaves|
+      @leaves_text_lines ||= Leave.not_rejected.includes(:user).during(@sprint.sprint_during).group_by(&:user).map do |user, leaves|
         total_days = leaves.sum do |leave|
           leave.days.count { |day| (@sprint.sprint_during.cover? day) && !day.saturday? && !day.sunday? }
         end

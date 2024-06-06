@@ -35,7 +35,7 @@ class TimeEntry < ApplicationRecord
     number = notes.scan(/#(\d+)/).flatten.first
     return if number.nil?
 
-    task = Task.find_by(project_id: project_id, issue_number: number)
+    task = Task.find_by(project_id:, issue_number: number)
     return if task.nil?
 
     update! task_id: task.id
