@@ -56,7 +56,7 @@ gem "sentry-ruby"
 group :development, :test do
   gem "capybara"
   gem "capybara-screenshot-diff"
-  gem "cuprite"
+  gem "capybara-playwright-driver"
   gem "i18n-tasks"
   gem "rack_session_access"
   gem "rspec-rails"
@@ -77,4 +77,5 @@ group :development do
   gem "listen"
   gem "rb-fsevent"
   gem "web-console"
+  gem "ruby-lsp-rspec", require: false
 end

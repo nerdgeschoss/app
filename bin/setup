@@ -20,11 +20,11 @@ FileUtils.chdir APP_ROOT do
   system("bundle check") || system!("bundle install")
 
   puts "\n== Installing node modules =="
-  system! "yarn install"
+  system! "yarn install && npx -y playwright install chromium"
 
   puts "\n== Preparing database =="
   system! "bin/rails db:prepare"
 
   puts "\n== Loading Data =="
-  system! "bin/rails db:seed"
+  system! "bin/rails db:seed:replant"
 end

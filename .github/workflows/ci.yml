@@ -45,6 +45,8 @@ jobs:
         run: bundle exec annotate --models && bin/git_tracked_are_unmodified
       - name: JS Lint
         run: yarn lint
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps chromium
       - name: Build
         run: bundle exec rails assets:precompile
       - name: Create PG Database
