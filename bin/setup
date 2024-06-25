@@ -26,5 +26,5 @@ FileUtils.chdir APP_ROOT do
   system! "bin/rails db:prepare"
 
   puts "\n== Loading Data =="
-  system! "bin/rails db:fixtures:load"
+  system! "bin/rails db:seed"
 end

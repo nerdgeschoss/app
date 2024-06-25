@@ -4,18 +4,17 @@ head
   / WebApp
   meta name="viewport" content="width=device-width, initial-scale = 1.0, viewport-fit=cover"
   link rel="manifest" href=manifest_path
-  link rel="apple-touch-icon" href=asset_path("app-icon.png")
+  link rel="apple-touch-icon" href=vite_asset_path("images/app-icon.png")
   meta name="theme-color" content="#ffffff"
   / SEO
-  = favicon_link_tag asset_path('app-icon.png')
+  = favicon_link_tag vite_asset_path('images/app-icon.png')
 
   / Security
   = csrf_meta_tags
   = csp_meta_tag
 
   / Assets
-  - css_path = Rails.env.development? ? "application?v=#{request.request_id}" : "application" # force refresh in safari
-  = stylesheet_link_tag css_path, media: "all", "data-turbo-track": "reload"
-  = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+  = vite_client_tag
+  = vite_typescript_tag "application"
 
   = yield :additional_head_tags if content_for? :additional_head_tags

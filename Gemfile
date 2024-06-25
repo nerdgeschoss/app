@@ -41,11 +41,8 @@ gem "yael"
 gem "faker"
 
 # Assets
-gem "autoprefixer-rails"
-gem "jsbundling-rails"
-gem "sassc-rails"
-gem "serviceworker-rails"
-gem "sprockets"
+gem "sprockets-rails"
+gem "vite_rails"
 gem "stimulus-rails"
 gem "turbo-rails"
 

@@ -1,9 +1,13 @@
 import '@hotwired/turbo-rails';
-import { start, registerServiceWorker } from '@nerdgeschoss/shimmer';
-import { application } from 'controllers/application';
-import './controllers';
+import { start } from '@nerdgeschoss/shimmer';
+import { Application } from '@hotwired/stimulus';
+import { registerControllers } from 'stimulus-vite-helpers';
 import 'chartkick/chart.js';
 
-start({ application });
+const application = Application.start();
+const controllers = import.meta.glob('../controllers/**/*_controller.ts', {
+  eager: true,
+});
+registerControllers(application, controllers);
 
-registerServiceWorker();
+start({ application });
