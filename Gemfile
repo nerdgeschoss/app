@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-ruby File.read(File.join(__dir__, ".ruby-version")).strip
+ruby "~> #{File.read(File.join(__dir__, ".ruby-version")).strip}"
 
 # Core
 gem "puma"
@@ -76,8 +76,6 @@ end
 group :development do
   gem "annotate"
   gem "debug"
-  gem "guard"
-  gem "guard-rspec"
   gem "letter_opener"
   gem "listen"
   gem "rb-fsevent"

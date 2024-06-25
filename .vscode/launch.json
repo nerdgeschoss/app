@@ -5,14 +5,39 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "rdbg",
-      "name": "Rails Server",
+      "name": "UI",
+      "type": "chrome",
       "request": "launch",
-      "command": "bin/rails",
-      "script": "server",
-      "args": [],
-      "askParameters": false,
-      "useBundler": true
+      "url": "http://localhost:3000/",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "Sleepdelay"
+    },
+    {
+      "name": "Rails",
+      "type": "ruby_lsp",
+      "request": "launch",
+      "program": "bin/rails server"
+    },
+    {
+      "name": "Vite",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn build --watch"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Run App",
+      "configurations": [
+        "Vite",
+        "Rails",
+        "UI",
+      ],
+      "stopAll": true,
+      "presentation": {
+        "group": "1_dev",
+        "order": 1
+      }
     }
   ]
 }
