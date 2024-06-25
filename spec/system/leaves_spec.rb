@@ -12,6 +12,8 @@ RSpec.describe "Leaves" do
     click_on "Request leave"
     within ".modal" do
       select("February")
+      expect(page).to have_selector ".cur-year"
+      find("input", class: "cur-year").set ""
       find("input", class: "cur-year").send_keys "2", "0", "2", "2"
       find("span", text: "18").click
       find("span", text: "21").click
@@ -35,13 +37,16 @@ RSpec.describe "Leaves" do
   end
 
   it "approves a requested leave" do
-    users(:john).leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
+    leave = users(:john).leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
     login :admin
     visit leaves_path
     expect(page).to have_content "John / Holiday"
     expect(page).to have_content "pending approval"
     screenshot "leave approval"
-    click_on "👍", match: :first
+    within "#leave_#{leave.id}" do
+      click_on "👍"
+      expect(page).not_to have_content "👍"
+    end
     message = Slack.instance.last_message
     expect(message.channel).to eq "slack-john"
     expect(message.text).to include "approved"
