@@ -4,6 +4,10 @@ on: [push]
 
 env:
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+  RAILS_ENV: test
+  DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/app
+  RSPEC_RETRY_RETRY_COUNT: 3
+  SCREENSHOTS: '1'
 
 jobs:
   ruby:
@@ -11,7 +15,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:12
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -25,7 +29,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '18.x'
           cache: yarn
       - name: Install yarn
         run: yarn install
@@ -39,25 +43,16 @@ jobs:
         run: bundle exec i18n-tasks health
       - name: Check Model Annotations
         run: bundle exec annotate --models && bin/git_tracked_are_unmodified
-        env:
-          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/app
-          RAILS_ENV: test
       - name: JS Lint
         run: yarn lint
-      - name: Build Assets
-        run: yarn build
+      - name: Install Playwright Browsers
+        run: npx --yes playwright install --with-deps chromium
+      - name: Build
+        run: bundle exec rails assets:precompile
       - name: Create PG Database
         run: bundle exec rake db:create db:migrate
-        env:
-          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/app
-          RAILS_ENV: test
-      - name: Build and test with Rake
+      - name: Build and test with RSpec
         run: bundle exec rspec --format documentation
-        env:
-          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/app
-          RAILS_ENV: test
-          RSPEC_RETRY_RETRY_COUNT: 3
-          SCREENSHOTS: '1'
       - name: Upload Screenshots
         if: always()
         run: |

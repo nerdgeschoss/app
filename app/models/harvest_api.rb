@@ -46,8 +46,8 @@ class HarvestApi
     "https://api.harvestapp.com/v2/#{path}"
   end
 
-  def get(path, **options)
-    response = HTTParty.get(api(path), headers:, **options)
+  def get(path, **)
+    response = HTTParty.get(api(path), headers:, **)
     raise StandardError, "wrong response from Harvest: #{response.code} #{response.message}" unless response.ok?
 
     response

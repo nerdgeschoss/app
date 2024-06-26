@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-ruby File.read(File.join(__dir__, ".ruby-version")).strip
+ruby "~> #{File.read(File.join(__dir__, ".ruby-version")).strip}"
 
 # Core
 gem "puma"
-gem "rails", "7.1.3"
+gem "rails", "~> 7.1.3"
 
 # Database
 gem "pg"
@@ -41,11 +41,8 @@ gem "yael"
 gem "faker"
 
 # Assets
-gem "autoprefixer-rails"
-gem "jsbundling-rails"
-gem "sassc-rails"
-gem "serviceworker-rails"
-gem "sprockets"
+gem "sprockets-rails"
+gem "vite_rails"
 gem "stimulus-rails"
 gem "turbo-rails"
 
@@ -59,7 +56,7 @@ gem "sentry-ruby"
 group :development, :test do
   gem "capybara"
   gem "capybara-screenshot-diff"
-  gem "cuprite"
+  gem "capybara-playwright-driver"
   gem "i18n-tasks"
   gem "rack_session_access"
   gem "rspec-rails"
@@ -76,10 +73,9 @@ end
 group :development do
   gem "annotate"
   gem "debug"
-  gem "guard"
-  gem "guard-rspec"
   gem "letter_opener"
   gem "listen"
   gem "rb-fsevent"
   gem "web-console"
+  gem "ruby-lsp-rspec", require: false
 end

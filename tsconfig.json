@@ -3,18 +3,35 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["ES2019", "dom"],
-    "module": "es6",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "module": "es2020",
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*", "app/javascript/*"]
+      "*": [
+        "node_modules/*",
+        "app/javascript/*"
+      ]
     },
     "sourceMap": true,
-    "target": "ES2017",
+    "target": "es2020",
     "noEmit": true,
     "strict": true
   },
-  "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
+  "files": [
+    "typings.d.ts"
+  ],
+  "include": [
+    "app/javascript/**/*"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "node_modules",
+    "vendor",
+    "public"
+  ],
   "compileOnSave": false
 }

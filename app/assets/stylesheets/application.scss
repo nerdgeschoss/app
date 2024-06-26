@@ -1,6 +1,5 @@
-//= require 'application/variables.css'
-//= require 'flatpickr/dist/flatpickr.min.css'
-//= require_self
+@import './application/variables.css';
+@import 'flatpickr/dist/flatpickr.min.css';
 
 // breakpoints
 $phablet: 600px;
@@ -19,5 +18,5 @@ $widescreen-xlarge: 2200px;
   --widescreen-xlarge: $widescreen-xlarge;
 }
 
-@import 'application/util/reset';
-@import 'application/components/*';
+@import './application/util/reset';
+@import './application/components/*';
