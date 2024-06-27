@@ -6,6 +6,6 @@ class HarvestImportJob < ApplicationJob
   def perform
     Project.sync_with_harvest
     Invoice.sync_with_harvest
-    Sprint.within(1.year).find_each(&:sync_with_harvest)
+    Sprint.within(2.months).find_each(&:sync_with_harvest)
   end
 end
