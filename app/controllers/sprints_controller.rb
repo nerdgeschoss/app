@@ -8,7 +8,6 @@ class SprintsController < ApplicationController
     @sprints = policy_scope(Sprint.reverse_chronologic)
       .includes(sprint_feedbacks: [user: :leaves])
       .page(params[:page]).per(20)
-    @users = User.sprinter.to_a
     @sprinters = User.sprinter.to_a
     @user = if params[:user].present?
       User.find(params[:user])
