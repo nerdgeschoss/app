@@ -233,6 +233,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_09_104711) do
     t.string "review_notes"
     t.datetime "daily_nerd_entry_dates", default: [], null: false, array: true
     t.integer "finished_storypoints", default: 0, null: false
+    t.integer "retro_rating"
+    t.string "retro_text"
     t.decimal "turnover"
     t.decimal "costs"
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
