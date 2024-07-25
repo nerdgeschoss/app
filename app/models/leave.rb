@@ -37,7 +37,6 @@ class Leave < ApplicationRecord
   range_accessor_methods :leave
 
   validates :title, :days, presence: true
-  validate :cannot_request_leave_twice_for_same_day_and_same_type
 
   before_validation do
     start_on, end_on = days.minmax
