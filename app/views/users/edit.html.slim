@@ -2,6 +2,7 @@
   = form_with model: @user, class: "stack", builder: AwesomeForm do |f|
     = f.input :first_name
     = f.input :last_name
+    = f.input :nick_name
     - if @user == current_user
       = f.input :password
       = f.input :password_confirmation

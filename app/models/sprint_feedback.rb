@@ -17,17 +17,24 @@
 #  retro_rating           :integer
 #  retro_text             :string
 #  finished_storypoints   :integer          default(0), not null
+#  turnover               :decimal(, )
+#  costs                  :decimal(, )
 #
 
 class SprintFeedback < ApplicationRecord
   belongs_to :sprint
   belongs_to :user
+  has_many :daily_nerd_messages, dependent: :destroy
 
   validates :retro_rating, numericality: {only_integer: true, in: 1..5}, allow_nil: true
 
   scope :ordered, -> { joins(:user).order("users.email ASC") }
   scope :retro_missing, -> { where(retro_rating: nil) }
   scope :sprint_past, -> { joins(:sprint).where("UPPER(sprints.sprint_during) <= ?", DateTime.current) }
+
+  before_validation do
+    recalculate_costs if costs.nil?
+  end
 
   def daily_nerd_percentage
     daily_nerd_count.to_f / working_day_count
@@ -46,7 +53,7 @@ class SprintFeedback < ApplicationRecord
   end
 
   def working_day_count
-    sprint.working_days - holiday_count - sick_day_count
+    sprint.working_days - [holiday_count, sick_day_count, non_working_day_count].sum
   end
 
   def holiday_count
@@ -55,6 +62,10 @@ class SprintFeedback < ApplicationRecord
 
   def sick_day_count
     @sick_day_count ||= count_days :sick
+  end
+
+  def non_working_day_count
+    @non_working_day_count ||= count_days :non_working
   end
 
   def add_daily_nerd_entry(timestamp)
@@ -71,14 +82,39 @@ class SprintFeedback < ApplicationRecord
     !retro_filled_out?
   end
 
+  def recalculate_costs
+    salary = user.salary_at(sprint.sprint_from)
+    return unless salary
+
+    self.costs = (sprint.working_days * salary.brut * 1.3 / 21.0).round(2) # assume 30% arbeitgeberkosten and 21 workdays per month
+  end
+
+  def revenue
+    return nil if costs.nil? || turnover.nil?
+
+    turnover - costs
+  end
+
+  def turnover_per_storypoint
+    return nil if turnover.nil? || finished_storypoints.zero? || working_day_count.zero?
+
+    (turnover / finished_storypoints.to_d).round(2)
+  end
+
+  def turnover_per_storypoint_against_avarage
+    return nil if turnover_per_storypoint.nil?
+
+    turnover_per_storypoint / sprint.turnover_per_storypoint
+  end
+
   private
 
   def leaves
-    @leaves ||= user.leaves.during(sprint.sprint_during)
+    @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end
 
-  def count_days(status)
-    leaves.select { |e| e.public_send("#{status}?") }
+  def count_days(type)
+    leaves.select { |e| e.public_send("#{type}?") }
       .flat_map(&:days).count { |e| sprint.sprint_during.include? e }
   end
 end

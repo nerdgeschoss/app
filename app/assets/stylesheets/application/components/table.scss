@@ -1,8 +1,15 @@
 .table {
   width: 100%;
+  border-collapse: collapse;
 
   th {
     font-weight: 600;
     text-align: left;
+  }
+
+  tbody tr {
+    &:nth-child(2n) td {
+      background-color: #eee;
+    }
   }
 }

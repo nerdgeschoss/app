@@ -4,6 +4,10 @@ en:
     reminder:
       reminder: Reminder
       reminder_text: Please fill out the missing sprint feedback
+  daily_nerd_messages:
+    form:
+      message_placeholder: How was your day? What did you learn?
+      submits_with: Saving …
   date:
     formats:
       month_long: "%B"
@@ -11,6 +15,10 @@ en:
   errors:
     messages:
       not_saved: Not saved
+  inventories:
+    form:
+      delete: Delete
+      save: Save
   leave:
     status:
       approved: approved
@@ -19,6 +27,7 @@ en:
   leaves:
     form:
       request_leave: Request leave
+      some_days_in_the_past: 'Heads up: Some of the selected days are in the past.'
     index:
       all_users: All users
       leaves: Leaves
@@ -44,6 +53,7 @@ en:
   pages:
     home:
       archive: Archive
+      daily_nerd: Daily Nerd
       hello: Hello %{name}
       last_payments: Last payments
       remaining_holidays: Remaining holidays
@@ -101,8 +111,14 @@ en:
       congrats: "🎉 Congratulations %{user} on being a part of nerdgeschoss for %{employment_duration} now!"
       happy_birthday: "🥳 *HAPPY BIRTHDAY %{user}!!*"
     show:
+      inventory: Inventory
       remaining_holidays: Remaining holidays
       salary_history: Salary History
+    slack_profile:
+      non_working_status_text: Non-working day
+      paid_status_text: On vacation
+      sick_status_text: On sick leave
+      unpaid_status_text: Away
     unpaid_vacation:
       days_in_month:
         one: "%{count} Day"

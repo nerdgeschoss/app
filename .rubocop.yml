@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 3.1
+  SuggestExtensions: false
 
 inherit_gem:
   shimmer: config/rubocop_base.yml
@@ -13,10 +13,6 @@ RSpec:
 # TODO: Move this to Shimmer
 Naming/MemoizedInstanceVariableName:
   Enabled: true
-
-# TODO: Move this to Shimmer
-Performance/RedundantMerge:
-  MaxKeyValuePairs: 1
 
 RSpec/ExpectChange:
   Enabled: true

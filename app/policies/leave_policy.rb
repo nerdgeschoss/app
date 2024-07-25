@@ -6,7 +6,7 @@ class LeavePolicy < ApplicationPolicy
   end
 
   def destroy?
-    hr?
+    hr? || (record.user == user && record.leave_during.min > 1.week.from_now)
   end
 
   def update?

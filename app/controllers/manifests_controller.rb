@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ManifestsController < ApplicationController
+  include ViteRails::TagHelpers
+  include ActionView::Helpers::AssetUrlHelper
+
   def show
     render json: {
       id: "/",
@@ -12,13 +15,13 @@ class ManifestsController < ApplicationController
       background_color: "#ffffff",
       icons: [
         {
-          src: asset_path("app-icon.png"),
+          src: vite_asset_path("images/app-icon.png"),
           sizes: "144x144",
           type: "image/png",
           purpose: "any"
         },
         {
-          src: asset_path("app-icon.png"),
+          src: vite_asset_path("images/app-icon.png"),
           sizes: "144x144",
           type: "image/png",
           purpose: "maskable"

@@ -7,23 +7,26 @@
 #  id           :uuid             not null, primary key
 #  sprint_id    :uuid
 #  title        :string           not null
-#  status       :string
+#  status       :citext
 #  github_id    :string
 #  repository   :string
 #  issue_number :bigint
 #  story_points :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  project_id   :uuid
 #
 class Task < ApplicationRecord
   belongs_to :sprint
 
   has_many :task_users, dependent: :delete_all
   has_many :users, through: :task_users
+  has_many :time_entries, dependent: :nullify
 
   class << self
     def sync_with_github
       user_ids_by_handle = User.pluck(:github_handle, :id).to_h
+      project_ids_by_repository = Project.pluck(:repositories, :id).flat_map { |repositories, project_id| repositories.map { |repository| [repository, project_id] } }.to_h
       sprint_ids_by_title = Sprint.pluck(:title, :id).to_h
       github_tasks = Github.new.sprint_board_items
       current_github_ids = pluck(:github_id)
@@ -37,12 +40,13 @@ class Task < ApplicationRecord
           github_id: gt.id,
           repository: gt.repository,
           issue_number: gt.issue_number,
-          story_points: gt.points
+          story_points: gt.points,
+          project_id: project_ids_by_repository[gt.repository]
         }
       end
 
       Task.transaction do
-        Task.where(github_id: deleted_ids).destroy_all if deleted_ids.any?
+        Task.where(github_id: deleted_ids).where.not(status: "done").destroy_all if deleted_ids.any?
 
         if tasks.any?
           task_ids_by_github_id = Task.upsert_all(tasks, returning: [:github_id, :id], unique_by: [:github_id]).rows.to_h

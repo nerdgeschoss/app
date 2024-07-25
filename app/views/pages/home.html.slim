@@ -2,6 +2,14 @@
   h1.headline = t ".hello", name: current_user.display_name
   = render @sprint if @sprint
   = render "components/reminder" if @need_retro.any?
+  - if @daily_nerd_message
+    .card
+      .card__header
+        .card__icon 📝
+        .card__header-content
+          .card__title = t ".daily_nerd"
+          .stack
+            = render partial: "daily_nerd_messages/form", locals: {daily_nerd_message: @daily_nerd_message}
   .columns
     - if @upcoming_leaves.any?
       .card

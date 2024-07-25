@@ -43,3 +43,4 @@ workers ENV.fetch("WEB_CONCURRENCY", 0)
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
+plugin :solid_queue if ENV["RAILS_ENV"] == "production"

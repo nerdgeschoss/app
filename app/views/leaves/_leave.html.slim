@@ -1,9 +1,11 @@
-.card
+.card id="leave_#{leave.id}"
+  - leave = Leave::Presenter.new(leave)
+
   .card__header
-    .card__icon = leave.emoji
+    .card__icon = leave.unicode_emoji
     .card__header-content
       .card__title = [leave.user.display_name, leave.title].map(&:presence).compact.join(" / ")
-      .card__subtitle #{date_range leave.leave_during.min, leave.leave_during.max, format: :long} (#{leave.days.count} days)
+      .card__subtitle #{date_range leave.days.first, leave.days.last, format: :long} (#{leave.days.count} days)
       / i18n-tasks-use t('leave.status.approved')
       / i18n-tasks-use t('leave.status.rejected')
       / i18n-tasks-use t('leave.status.pending_approval')

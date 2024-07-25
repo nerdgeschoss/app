@@ -33,3 +33,7 @@
 app/assets/builds
 node_modules
 .DS_Store
+
+*.env
+/public/vite-dev
+/public/vite-test

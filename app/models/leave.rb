@@ -28,8 +28,10 @@ class Leave < ApplicationRecord
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
   scope :with_status, ->(status) { (status == :all) ? all : where(status:) }
+  scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
+  scope :not_rejected, -> { where.not(status: :rejected) }
 
-  enum type: [:paid, :unpaid, :sick].index_with(&:to_s)
+  enum type: [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
   enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)
 
   range_accessor_methods :leave
@@ -40,29 +42,24 @@ class Leave < ApplicationRecord
   before_validation do
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on
-    self.status = :approved if pending_approval? && type == "sick" && days.length == 1
+    self.status = :approved if pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
   end
 
-  def emoji
-    if paid?
-      "\u{1F3D6}"
-    elsif unpaid?
-      "\u{1F3D5}"
-    else
-      "\u{1F912}"
+  def presenter
+    @presenter ||= Leave::Presenter.new(self)
+  end
+
+  def handle_incoming_request
+    case type
+    when "sick"
+      notify_slack_about_sick_leave
+    when "paid", "unpaid"
+      notify_hr_on_slack_about_new_request
     end
   end
 
-  def to_ics
-    event = Icalendar::Event.new
-    event.dtstart = Icalendar::Values::Date.new leave_during.min
-    event.dtstart.ical_params = {"VALUE" => "DATE"}
-    event.dtend = Icalendar::Values::Date.new leave_during.max + 1.day
-    event.dtend.ical_params = {"VALUE" => "DATE"}
-    display_status = (status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
-    event.summary = "#{user.display_name}: #{title} #{emoji} #{display_status}"
-    event.url = Rails.application.routes.url_helpers.leaves_url(id:)
-    event
+  def handle_slack_status
+    set_slack_status! if leave_during.include?(Time.zone.today) && (approved? || sick?)
   end
 
   def notify_slack_about_sick_leave
@@ -81,11 +78,10 @@ class Leave < ApplicationRecord
     user.notify!(Leave::Notification.new(leave: self).status_change_message)
   end
 
-  private
-
-  def cannot_request_leave_twice_for_same_day_and_same_type
-    if user.leaves.with_status(:approved).public_send(type.to_s).where.not(id:).any? { |leave| (leave.days & days).any? }
-      errors.add(:days, :taken)
-    end
+  def set_slack_status!
+    emoji = Leave::Presenter.new(self).slack_emoji
+    user.slack_profile.set_status(type:, emoji:, until_date: leave_during.max)
   end
+
+  delegate :to_ics, to: :presenter
 end

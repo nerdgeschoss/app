@@ -2,9 +2,9 @@
 
 class AwesomeForm < ActionView::Helpers::FormBuilder
   def input(method, as: nil, placeholder: nil, required: nil, collection: nil, id_method: nil, name_method: nil,
-    min: nil, step: nil)
+    min: nil, step: nil, additional_class: "")
     as ||= guess_type(method)
-    options = {class: "input__input"}
+    options = {class: "input__input #{additional_class}"}
     collection_based = !collection.nil? || as == :select
     collection ||= guess_collection(method) if collection_based
     name_method ||= guess_name_method(method) if collection_based
@@ -27,6 +27,7 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
 
   def guess_type(method)
     return :select if method.to_s.end_with?("_id")
+    return :datetime if method.to_s.end_with?("at")
     return :pdf if method.to_s.end_with?("pdf")
     return :password if method.to_s.include?("password")
 
@@ -60,13 +61,15 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
     when :string
       text_field method, options
     when :text
-      text_area method, options
+      text_area method, options.reverse_merge(data: {controller: "auto-resize", action: "input->auto-resize#update"})
     when :password
       password_field method, options
     when :number
       number_field method, options
     when :date
       date_field method, options
+    when :datetime
+      datetime_local_field method, options
     when :pdf
       file_field method, options.reverse_merge(accept: "application/pdf")
     when :select

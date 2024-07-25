@@ -19,6 +19,7 @@
 #  born_on                :date
 #  hired_on               :date
 #  github_handle          :string
+#  nick_name              :string
 #
 
 class User < ApplicationRecord
@@ -36,6 +37,7 @@ class User < ApplicationRecord
   has_many :salaries, dependent: :destroy
   has_many :task_users, dependent: :delete_all
   has_many :tasks, through: :task_users
+  has_many :inventories, dependent: :destroy
 
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
@@ -43,11 +45,15 @@ class User < ApplicationRecord
   end
 
   def display_name
-    first_name.presence || email
+    nick_name.presence || first_name.presence || email
   end
 
   def slack_mention_display_name
     User::SlackNotification.new(self).slack_mention_display_name
+  end
+
+  def slack_profile
+    @slack_profile ||= User::SlackProfile.new(self)
   end
 
   def full_name
@@ -76,8 +82,8 @@ class User < ApplicationRecord
     leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count
   end
 
-  def send_devise_notification(notification, *args)
-    devise_mailer.send(notification, self, *args).deliver_later
+  def send_devise_notification(notification, *)
+    devise_mailer.send(notification, self, *).deliver_later
   end
 
   def notify!(message)
@@ -99,6 +105,10 @@ class User < ApplicationRecord
 
   def current_salary
     salaries.find(&:current?)
+  end
+
+  def salary_at(date)
+    salaries.sort_by(&:valid_from).select { _1.valid_from < date }.last
   end
 
   private

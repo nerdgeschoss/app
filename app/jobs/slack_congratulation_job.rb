@@ -2,7 +2,6 @@
 
 class SlackCongratulationJob < ApplicationJob
   queue_as :notification
-  sidekiq_options retry: 0
 
   def perform
     User.currently_employed.where("EXTRACT(MONTH FROM born_on) = ? AND EXTRACT(DAY FROM born_on) = ?", Date.current.month, Date.current.day).each(&:congratulate_on_birthday)

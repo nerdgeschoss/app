@@ -19,6 +19,7 @@
 #  born_on                :date
 #  hired_on               :date
 #  github_handle          :string
+#  nick_name              :string
 #
 
 require "rails_helper"
@@ -54,6 +55,7 @@ RSpec.describe User do
 
   context "notified about a message" do
     let(:john) { users(:john_no_slack) }
+
     it "updates the slack id on first use" do
       expect(john).to have_attributes email: "john-no-slack@example.com", slack_id: nil
       allow(Slack.instance).to receive(:retrieve_users_slack_id_by_email).with("john-no-slack@example.com").and_return("slack-15")
@@ -66,12 +68,30 @@ RSpec.describe User do
 
     it "fails if slack doesn't recognize the email" do
       allow(Slack.instance).to receive(:retrieve_users_slack_id_by_email).with("john-no-slack@example.com").and_return(nil)
-      expect { john.notify!("hello") }.to raise_error(User::SlackNotification::NotificationError)
+      expect { john.notify!("hello") }.to raise_error(User::SlackProfile::NoSlackIdError)
     end
 
     it "uses the persisted slack id" do
       users(:john).notify!("hello")
       expect(Slack.instance.last_message).to have_attributes channel: "slack-john", text: "hello"
+    end
+  end
+
+  describe "#display_name" do
+    it "returns the nick name if present" do
+      john.nick_name = "Johnny Boy"
+      expect(john.display_name).to eq "Johnny Boy"
+    end
+
+    it "returns the first name if present and the nick name is nil" do
+      john.nick_name = nil
+      expect(john.display_name).to eq "John"
+    end
+
+    it "returns the email if no name is present" do
+      john.nick_name = nil
+      john.first_name = nil
+      expect(john.display_name).to eq "john@example.com"
     end
   end
 end

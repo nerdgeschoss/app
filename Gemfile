@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-ruby File.read(".ruby-version").strip
+ruby "~> #{File.read(File.join(__dir__, ".ruby-version")).strip}"
 
 # Core
 gem "puma"
-gem "rails", "7.0.6"
+gem "rails", "~> 7.1.3"
 
 # Database
 gem "pg"
-gem "redis"
 
 # Performance
 gem "bootsnap", require: false
@@ -29,13 +28,13 @@ gem "icalendar", "~> 2.4"
 gem "image_processing"
 gem "kaminari"
 gem "mini_magick"
+gem "mission_control-jobs"
 gem "pundit"
 gem "rails-i18n"
 gem "shimmer"
-gem "sidekiq"
-gem "sidekiq-scheduler"
 gem "sitemap_generator"
 gem "slim-rails"
+gem "solid_queue"
 gem "time_will_tell"
 gem "translate_client"
 gem "yael"
@@ -43,11 +42,8 @@ gem "redcarpet"
 gem "faker"
 
 # Assets
-gem "autoprefixer-rails"
-gem "jsbundling-rails"
-gem "sassc-rails"
-gem "serviceworker-rails"
-gem "sprockets"
+gem "sprockets-rails"
+gem "vite_rails"
 gem "stimulus-rails"
 gem "turbo-rails"
 
@@ -61,7 +57,7 @@ gem "sentry-ruby"
 group :development, :test do
   gem "capybara"
   gem "capybara-screenshot-diff"
-  gem "cuprite"
+  gem "capybara-playwright-driver"
   gem "i18n-tasks"
   gem "rack_session_access"
   gem "rspec-rails"
@@ -73,15 +69,14 @@ group :development, :test do
   gem "rubocop-rake"
   gem "webmock", require: false
   gem "debug"
+  gem "pundit-matchers"
 end
 
 group :development do
   gem "annotate"
-  gem "guard"
-  gem "guard-rspec"
   gem "letter_opener"
   gem "listen"
   gem "rb-fsevent"
-  gem "solargraph-standardrb"
   gem "web-console"
+  gem "ruby-lsp-rspec", require: false
 end

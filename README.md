@@ -9,3 +9,5 @@ Make sure the nerdgeschoss development is running correctly (https://github.com/
 
 To test notifications join the `test-channel` on the NG workspace in slack. That is where messages arrive in development.
 To test notifications to private channels (e.g. HR channel ), create a new private channel, add the Nerdgeschoss App to the channel as an integration and insert the channel ID into the credentials YAML file in Rails.
+
+To test notifications via the legacy webhook join the `flink_testing` channel. It is not possible to create new custom webhooks. They will be deprecated eventually.

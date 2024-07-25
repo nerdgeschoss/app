@@ -55,7 +55,7 @@ logger.debug "Creating users..."
 
   sprints.each do |sprint|
     user.sprint_feedbacks.create!(
-      sprint: sprint,
+      sprint:,
       daily_nerd_count: Faker::Number.between(from: 0, to: sprint.working_days),
       tracked_hours: Faker::Number.between(from: 20, to: sprint.working_days * 8.0),
       billable_hours: Faker::Number.between(from: 10, to: sprint.working_days * 6.0),
