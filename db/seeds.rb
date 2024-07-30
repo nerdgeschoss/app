@@ -21,10 +21,11 @@ sprints = Sprint.all
 
 logger.debug "Creating users..."
 10.times do |i|
+  first_name = Faker::Name.first_name
   user = User.create!(
-    email: "#{Faker::Name.first_name}@nerdgeschoss.de",
+    email: "#{first_name}@nerdgeschoss.de",
     roles: ["sprinter"],
-    first_name: Faker::Name.first_name,
+    first_name:,
     last_name: Faker::Name.last_name,
     born_on: Faker::Date.birthday(min_age: 18, max_age: 65),
     hired_on: Faker::Date.between(from: "2010-01-01", to: "2023-12-31"),
