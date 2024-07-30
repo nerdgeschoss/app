@@ -24,7 +24,7 @@ RSpec.describe "Sprint Feedback" do
       select "5", from: "Retro rating"
       click_button
       expect(page).to have_content "John rated: 5"
-      expect(page).to have_content "John rated: I liked the sprint"
+      expect(page).to have_content "I'm happy"
 
       visit root_path
       expect(page).not_to have_content "REMINDER"
