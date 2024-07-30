@@ -96,6 +96,7 @@ en:
       rated: 'Rating: Ø %{rating}'
       retro_rating: Retro rating
       tracked: Tracked
+      turnover: Turnover
       user_feedback: "%{user} rated: %{rating}"
   time_will_tell:
     date_range:
