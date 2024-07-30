@@ -35,18 +35,6 @@ john_no_slack:
   slack_id: null
   github_handle: null
 
-cigdem:
-  email: cigdem@example.com
-  roles: ['sprinter']
-  first_name: Cigdem
-  last_name: Doe
-
-yuki:
-  email: yuki@example.com
-  roles: ['sprinter']
-  first_name: Yuki
-  last_name: Doe
-
 admin:
   email: admin@example.com
   roles: ['hr']

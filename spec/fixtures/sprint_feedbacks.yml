@@ -46,14 +46,3 @@ sprint_feedback_2:
 john_before:
   sprint: before
   user: john
-
-cigdem_before:
-  sprint: before
-  user: cigdem
-  retro_rating: 3
-
-yuki_before:
-  sprint: before
-  user: yuki
-  retro_rating: 5
-  retro_text: 'I liked the sprint'
