@@ -10,7 +10,7 @@ class SprintFeedbackPolicy < ApplicationPolicy
   end
 
   def update?
-    hr?
+    hr? || record.user == user
   end
 
   def destroy?
@@ -23,6 +23,14 @@ class SprintFeedbackPolicy < ApplicationPolicy
 
   def show_notes?
     hr?
+  end
+
+  def permitted_attributes
+    if hr?
+      [:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes, :skip_retro]
+    else
+      [:retro_rating, :retro_text, :skip_retro]
+    end
   end
 
   class Scope < Scope

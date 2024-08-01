@@ -1,0 +1,11 @@
+.reminder {
+  &__header {
+    color: var(--color-error);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  &__content {
+    color: var(--color-error);
+  }
+}

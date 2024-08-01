@@ -1,4 +1,5 @@
 - feedbacks = sprint.sprint_feedbacks.select { policy(_1).show? }
+
 - addable_users = @sprinters.to_a - feedbacks.map(&:user)
 .card id=dom_id(sprint)
   .card__header
@@ -7,15 +8,16 @@
       .card__title = sprint.title
       .card__subtitle = date_range sprint.sprint_from, sprint.sprint_until, format: :long
   - if feedbacks.any?
-    .card__content
+    .card__content.stack
       table.table
         tr
-          th
-          th Daily Nerd
-          th Tracked
-          th Billable
-          th Story Points
-          th Turnover
+          th = t(".rated", rating: sprint.average_rating)
+          th = t(".daily_nerd")
+          th = t(".tracked")
+          th = t(".billable")
+          th = t(".retro_rating")
+          th = t(".finished_storypoints")
+          th = t(".turnover")
         - feedbacks.each do |feedback|
           - next if @user.present? && feedback.user_id != @user&.id
           tr
@@ -24,10 +26,16 @@
                 strong = feedback.user.display_name
                 - if policy(feedback).show_notes? && feedback.review_notes.present?
                   span< title=feedback.review_notes 📝
-              div = [feedback.working_day_count, feedback.holiday_count, feedback.sick_day_count].join(" / ")
+              div
+                span title="Working Days" = feedback.working_day_count
+                | &nbsp;/&nbsp;
+                span title="Holidays" = feedback.holiday_count
+                | &nbsp;/&nbsp;
+                span title="Sick Days" = feedback.sick_day_count
             td title=feedback.daily_nerd_count = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100, precision: 0}"
             td = "#{feedback.tracked_hours&.round(1)} / #{number_with_precision(feedback.tracked_per_day, precision: 1)}"
             td title=number_to_percentage(feedback.billable_hours_percentage * 100, precision: 0) = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours.round(1)} / #{number_with_precision feedback.billable_per_day, precision: 1}"
+            td = feedback.retro_rating.nil? ? "-" : feedback.retro_rating
             td
               = feedback.finished_storypoints
               br
@@ -40,6 +48,7 @@
                   div = "#{number_to_currency feedback.turnover_per_storypoint} / point"
               - if feedback.turnover_per_storypoint
                 div class=("text-warning" if feedback.turnover_per_storypoint_against_avarage > 1) = number_to_percentage feedback.turnover_per_storypoint_against_avarage * 100
+
         - if policy(sprint).overview?
           tr
             th
@@ -57,6 +66,34 @@
                 div title="Turnover" = number_to_currency sprint.turnover
                 div title="Costs" = number_to_currency -sprint.costs
                 div title="Revenue" = number_to_currency sprint.revenue
+
+      - if sprint.to_be_rated?
+        - feedbacks = sprint.sprint_feedbacks.select { _1.has_retro? || _1.user == @user }
+        .feedback.stack
+          .feedback__heading = t(".feedback") if feedbacks.any?
+
+          - feedbacks.each do |feedback|
+            - is_own = feedback.user == @user
+            .feedback__item.stack.stack--row(data-controller=(is_own && "feedback"))
+              .feedback__column
+                - if feedback.has_retro?
+                  .feedback__content(data-feedback-target="content")
+                    strong = t(".user_feedback", user: feedback.user.display_name, rating: feedback.retro_rating)
+                    = markdown feedback.retro_text
+                - elsif feedback.skip_retro?
+                  .feedback__content(data-feedback-target="content")
+                    strong = t(".user_skipped_retro", user: feedback.user.display_name)
+                - else
+                  .feedback__alert = t(".please_write_feedback")
+
+                - if is_own
+                  .feedback__form(data-feedback-target="form" class=(feedback.retro_completed? && "feedback__form--hidden"))
+                    .feedback__form-heading = t('.edit_feedback')
+                    = render "sprint_feedbacks/edit_retro", feedback:
+
+              - if is_own && feedback.retro_completed?
+                button.button.button--small(data-action="feedback#toggle") Edit
+
   - if addable_users.any? && policy(SprintFeedback).create?
     .card__buttons
       - addable_users.each do |user|

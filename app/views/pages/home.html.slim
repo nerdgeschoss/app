@@ -1,7 +1,7 @@
 .container: .stack
   h1.headline = t ".hello", name: current_user.display_name
-  - if @sprint
-    = render @sprint
+  = render @sprint if @sprint
+  = render "components/retro_reminder", sprint: @needs_retro.sprint if @needs_retro.present?
   - if @daily_nerd_message
     .card
       .card__header

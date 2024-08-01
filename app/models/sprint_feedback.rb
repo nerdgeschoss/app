@@ -14,6 +14,8 @@
 #  updated_at             :datetime         not null
 #  review_notes           :string
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
+#  retro_rating           :integer
+#  retro_text             :string
 #  finished_storypoints   :integer          default(0), not null
 #  turnover               :decimal(, )
 #  costs                  :decimal(, )
@@ -22,10 +24,18 @@
 class SprintFeedback < ApplicationRecord
   belongs_to :sprint
   belongs_to :user
-
   has_many :daily_nerd_messages, dependent: :destroy
 
+  validates :retro_rating, numericality: {only_integer: true, in: 1..5}, allow_nil: true
+
   scope :ordered, -> { joins(:user).order("users.email ASC") }
+  scope :retro_missing, -> { where(retro_rating: nil, skip_retro: false) }
+  scope :retro_not_skipped, -> { where(skip_retro: false) }
+  scope :sprint_past, -> {
+    joins(:sprint)
+      .where("UPPER(sprints.sprint_during) <= ?", DateTime.current)
+      .order("UPPER(sprints.sprint_during) DESC")
+  }
 
   before_validation do
     recalculate_costs if costs.nil?
@@ -69,6 +79,14 @@ class SprintFeedback < ApplicationRecord
     save!
   end
 
+  def has_retro?
+    retro_rating.present? && retro_text.present? && !skip_retro?
+  end
+
+  def retro_completed?
+    has_retro? || skip_retro?
+  end
+
   def recalculate_costs
     salary = user.salary_at(sprint.sprint_from)
     return unless salary
@@ -101,7 +119,7 @@ class SprintFeedback < ApplicationRecord
   end
 
   def count_days(type)
-    leaves.select { |e| e.public_send("#{type}?") }
+    leaves.select { |e| e.public_send(:"#{type}?") }
       .flat_map(&:days).count { |e| sprint.sprint_during.include? e }
   end
 end

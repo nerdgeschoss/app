@@ -22,12 +22,17 @@ class Sprint < ApplicationRecord
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
   scope :start_on, ->(date) { where("?::date = LOWER(sprints.sprint_during)", date) }
+  scope :before, ->(date) { where("?::date > LOWER(sprints.sprint_during)", date) }
   scope :current, -> { active_at(DateTime.current) }
   scope :within, ->(time) { where("LOWER(sprints.sprint_during) > ?", time.ago) }
 
   validates :title, presence: true
 
   range_accessor_methods :sprint
+
+  def full_title
+    "#{title} (#{ApplicationController.helpers.date_range(sprint_during.min, sprint_during.max, format: :long)})"
+  end
 
   def total_working_days
     sprint_feedbacks.sum(&:working_day_count)
@@ -79,5 +84,16 @@ class Sprint < ApplicationRecord
 
   def send_sprint_start_notification
     Slack.instance.notify(channel: Config.slack_announcement_channel_id!, text: Sprint::Notification.new(self).message)
+  end
+
+  def average_rating
+    ratings = sprint_feedbacks.retro_not_skipped.filter_map(&:retro_rating)
+    return nil if ratings.empty?
+
+    ratings.sum / ratings.size.to_f
+  end
+
+  def to_be_rated?
+    sprint_until.today? || completed?
   end
 end

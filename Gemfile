@@ -38,6 +38,7 @@ gem "solid_queue"
 gem "time_will_tell"
 gem "translate_client"
 gem "yael"
+gem "redcarpet"
 gem "faker"
 
 # Assets
@@ -67,12 +68,12 @@ group :development, :test do
   gem "rubocop-rspec"
   gem "rubocop-rake"
   gem "webmock", require: false
+  gem "debug"
   gem "pundit-matchers"
 end
 
 group :development do
   gem "annotate"
-  gem "debug"
   gem "letter_opener"
   gem "listen"
   gem "rb-fsevent"

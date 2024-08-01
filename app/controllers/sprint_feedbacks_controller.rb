@@ -2,6 +2,7 @@
 
 class SprintFeedbacksController < ApplicationController
   before_action :authenticate_user!
+  before_action :assign_feedback, except: [:create]
 
   def create
     feedback = authorize SprintFeedback.new(feedback_create_attributes)
@@ -10,30 +11,35 @@ class SprintFeedbacksController < ApplicationController
   end
 
   def edit
-    @feedback = authorize SprintFeedback.find params[:id]
   end
 
   def update
-    feedback = authorize SprintFeedback.find params[:id]
-    feedback.update! feedback_update_attributes
-    ui.close_popover
-    ui.replace feedback.sprint
+    if @feedback.update feedback_update_attributes
+      @user = @feedback.user
+      ui.close_popover
+      ui.replace @feedback.sprint
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    feedback = authorize SprintFeedback.find params[:id]
-    feedback.destroy!
+    @feedback.destroy!
     ui.close_popover
-    ui.replace feedback.sprint
+    ui.replace @feedback.sprint
   end
 
   private
+
+  def assign_feedback
+    @feedback = authorize SprintFeedback.find params[:id]
+  end
 
   def feedback_create_attributes
     params.require(:sprint_feedback).permit(:user_id, :sprint_id)
   end
 
   def feedback_update_attributes
-    params.require(:sprint_feedback).permit(:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes)
+    params.require(:sprint_feedback).permit(policy(@feedback).permitted_attributes)
   end
 end
