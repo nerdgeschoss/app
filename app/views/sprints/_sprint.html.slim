@@ -88,7 +88,7 @@
 
                 - if is_own
                   .feedback__form(data-feedback-target="form" style="background-color: yyellow;" class=(feedback.retro_completed? && "feedback__form--hidden"))
-                    .feedback__form-heading Edit Feedback
+                    .feedback__form-heading = t('.edit_feedback')
                     = render "sprint_feedbacks/edit_retro", feedback:
               - if is_own && feedback.retro_completed?
                 button.button.button--small(data-action="feedback#toggle") Edit

@@ -70,8 +70,7 @@ en:
     edit:
       really_delete: Really delete
     edit_retro:
-      please_rate: Select a number
-      prompt: "What went well? What could be improved?"
+      prompt: What went well? What could be improved?
       submits_with: Saving …
   sprints:
     index:
@@ -91,6 +90,7 @@ en:
     sprint:
       billable: Billable
       daily_nerd: Daily nerd
+      edit_feedback: Edit Feedback
       feedback: Feedback
       finished_storypoints: Finished storypoints
       please_write_feedback: Please write your feedback!
