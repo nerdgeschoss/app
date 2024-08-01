@@ -68,15 +68,15 @@
                 div title="Revenue" = number_to_currency sprint.revenue
 
       - if sprint.to_be_rated?
-        - feedbacks = sprint.sprint_feedbacks.select { _1.retro_present? || _1.user == @user }
+        - feedbacks = sprint.sprint_feedbacks.select { _1.has_retro? || _1.user == @user }
         .feedback.stack
           .feedback__heading = t(".feedback") if feedbacks.any?
 
           - feedbacks.each do |feedback|
             - is_own = feedback.user == @user
-            .feedback__item.stack.stack--row(data-controller=("feedback" if is_own))
+            .feedback__item.stack.stack--row(data-controller=(is_own && "feedback"))
               .feedback__column
-                - if feedback.retro_present?
+                - if feedback.has_retro?
                   .feedback__content(data-feedback-target="content")
                     strong = t(".user_feedback", user: feedback.user.display_name, rating: feedback.retro_rating)
                     = markdown feedback.retro_text
@@ -87,9 +87,10 @@
                   .feedback__alert = t(".please_write_feedback")
 
                 - if is_own
-                  .feedback__form(data-feedback-target="form" style="background-color: yyellow;" class=(feedback.retro_completed? && "feedback__form--hidden"))
+                  .feedback__form(data-feedback-target="form" class=(feedback.retro_completed? && "feedback__form--hidden"))
                     .feedback__form-heading = t('.edit_feedback')
                     = render "sprint_feedbacks/edit_retro", feedback:
+
               - if is_own && feedback.retro_completed?
                 button.button.button--small(data-action="feedback#toggle") Edit
 

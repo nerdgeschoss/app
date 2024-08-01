@@ -70,6 +70,7 @@ en:
     edit:
       really_delete: Really delete
     edit_retro:
+      no_rating: No Rating
       prompt: What went well? What could be improved?
       submits_with: Saving …
   sprints:

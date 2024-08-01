@@ -79,12 +79,12 @@ class SprintFeedback < ApplicationRecord
     save!
   end
 
-  def retro_present?
+  def has_retro?
     retro_rating.present? && retro_text.present? && !skip_retro?
   end
 
   def retro_completed?
-    retro_present? || skip_retro?
+    has_retro? || skip_retro?
   end
 
   def recalculate_costs
