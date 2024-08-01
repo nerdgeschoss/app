@@ -11,7 +11,7 @@
   border-radius: 16px;
 
   &:hover {
-    color: #eee;
+    color: var(--color-muted-background);
   }
 
   &.active {

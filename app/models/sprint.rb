@@ -30,6 +30,10 @@ class Sprint < ApplicationRecord
 
   range_accessor_methods :sprint
 
+  def full_title
+    "#{title} (#{ApplicationController.helpers.date_range(sprint_during.min, sprint_during.max, format: :long)})"
+  end
+
   def total_working_days
     sprint_feedbacks.sum(&:working_day_count)
   end
@@ -83,7 +87,7 @@ class Sprint < ApplicationRecord
   end
 
   def average_rating
-    ratings = sprint_feedbacks.map(&:retro_rating).compact
+    ratings = sprint_feedbacks.retro_not_skipped.filter_map(&:retro_rating)
     return nil if ratings.empty?
 
     ratings.sum / ratings.size.to_f

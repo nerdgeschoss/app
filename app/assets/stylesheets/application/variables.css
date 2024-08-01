@@ -8,11 +8,12 @@
   --color-warning: #ff5167;
   --color-error: #ff5167;
   --color-background: #ffffff;
+  --color-muted-background: #edeeee;
   --color-background-dark: #191d24;
   --color-background-dark-alternate: #17191d;
   --color-tint: #6750a4;
   --color-warn: #f39c12;
-  --color-border: #e5e5e5;
+  --color-border: rgba(0 0 0 /0.1);
   --color-footer: #1d2024;
   --color-shadow: rgba(--color-text, 0.3);
 

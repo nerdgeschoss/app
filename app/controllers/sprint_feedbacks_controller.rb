@@ -15,6 +15,7 @@ class SprintFeedbacksController < ApplicationController
 
   def update
     if @feedback.update feedback_update_attributes
+      @user = @feedback.user
       ui.close_popover
       ui.replace @feedback.sprint
     else

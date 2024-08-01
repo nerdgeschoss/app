@@ -1,9 +1,9 @@
 ---
 en:
   components:
-    reminder:
-      reminder: Reminder
-      reminder_text: Please fill out the missing sprint feedback
+    retro_reminder:
+      missing_retro: Missing Sprint Feedback
+      reminder_text: Please add your sprint feedback for %{sprint_title}
   daily_nerd_messages:
     form:
       message_placeholder: How was your day? What did you learn?
@@ -71,7 +71,8 @@ en:
       really_delete: Really delete
     edit_retro:
       please_rate: Select a number
-      went_well: " What went well? What could be improved?"
+      prompt: "What went well? What could be improved?"
+      submits_with: Saving …
   sprints:
     index:
       add: Add
@@ -90,14 +91,15 @@ en:
     sprint:
       billable: Billable
       daily_nerd: Daily nerd
-      feedback: 'Feedback:'
+      feedback: Feedback
       finished_storypoints: Finished storypoints
       please_write_feedback: Please write your feedback!
       rated: 'Rating: Ø %{rating}'
       retro_rating: Retro rating
       tracked: Tracked
       turnover: Turnover
-      user_feedback: "%{user} rated: %{rating}"
+      user_feedback: "%{user} rated: %{rating} / 5"
+      user_skipped_retro: "%{user} skipped the retro"
   time_will_tell:
     date_range:
       different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"

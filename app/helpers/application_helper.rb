@@ -4,6 +4,8 @@ module ApplicationHelper
   include Shimmer::FileHelper
 
   def markdown(text)
+    return nil if text.blank?
+
     options = {
       filter_html: true,
       no_images: true,

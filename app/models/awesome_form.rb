@@ -70,6 +70,8 @@ class AwesomeForm < ActionView::Helpers::FormBuilder
       date_field method, options
     when :datetime
       datetime_local_field method, options
+    when :boolean
+      check_box method, options
     when :pdf
       file_field method, options.reverse_merge(accept: "application/pdf")
     when :select

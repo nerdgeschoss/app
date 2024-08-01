@@ -1,8 +1,15 @@
-= form_with model: feedback do |f|
-  .stack
-    .line
-      strong = f.label :retro_rating
-      .select = f.collection_select :retro_rating, (1..5).index_by(&:to_s), :second, :first, prompt: t(".please_rate"), required: true
-    = f.label :retro_text
-    .text-area = f.text_area :retro_text, placeholder: t(".went_well"), rows: 8, cols: 100, required: true
-    span = f.submit class: :button
+= form_with model: feedback, class: :stack, namespace: dom_id(feedback), builder: AwesomeForm do |f|
+  div.feedback__rating
+    = f.radio_button :retro_rating, "", class: "feedback__radio", label: "–", style: "margin-right: 10px;"
+
+    = f.radio_button :retro_rating, 1, class: "feedback__radio", label: "1"
+    = f.radio_button :retro_rating, 2, class: "feedback__radio", label: "2"
+    = f.radio_button :retro_rating, 3, class: "feedback__radio", label: "3"
+    = f.radio_button :retro_rating, 4, class: "feedback__radio", label: "4"
+    = f.radio_button :retro_rating, 5, class: "feedback__radio", label: "5"
+
+  = f.input :retro_text, as: :text, placeholder: t(".prompt"), required: false, additional_class: "input__input--daily-nerd"
+
+  = f.input :skip_retro, as: :boolean
+
+  span = f.submit class: :button, data: { turbo_submits_with: t('.submits_with') }

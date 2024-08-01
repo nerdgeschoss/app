@@ -11,7 +11,7 @@ class PagesController < ApplicationController
       sprint_feedback = current_user.sprint_feedbacks.find_or_create_by(sprint: @sprint)
       @daily_nerd_message = authorize DailyNerdMessage.find_by(created_at: Time.zone.today.all_day, sprint_feedback:) || sprint_feedback.daily_nerd_messages.build
     end
-    @need_retro = current_user.sprint_feedbacks.sprint_past.retro_missing
+    @needs_retro = current_user.sprint_feedbacks.sprint_past.retro_missing.first
   end
 
   def offline

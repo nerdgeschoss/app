@@ -10,7 +10,7 @@ class SprintFeedbackPolicy < ApplicationPolicy
   end
 
   def update?
-    hr? || (record.user == user && record.retro_missing?)
+    hr? || record.user == user
   end
 
   def destroy?
@@ -27,9 +27,9 @@ class SprintFeedbackPolicy < ApplicationPolicy
 
   def permitted_attributes
     if hr?
-      [:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes]
+      [:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes, :skip_retro]
     else
-      [:retro_rating, :retro_text]
+      [:retro_rating, :retro_text, :skip_retro]
     end
   end
 
