@@ -29,6 +29,24 @@ john: &john
   slack_id: slack-john
   github_handle: john-github
 
+cigdem:
+  email: cigdem@example.com
+  roles: ['sprinter']
+  first_name: Cigdem
+  last_name: Doe
+
+yuki:
+  email: yuki@example.com
+  roles: ['sprinter']
+  first_name: Yuki
+  last_name: Doe
+
+zacharias:
+  email: zacharias@example.com
+  roles: ['sprinter']
+  first_name: Zacharias
+  last_name: Zinser
+
 john_no_slack:
   <<: *john
   email: john-no-slack@example.com

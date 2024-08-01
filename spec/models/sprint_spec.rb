@@ -132,7 +132,11 @@ RSpec.describe Sprint do
     end
   end
 
-  it "returns the correct sprint rating average" do
-    expect(sprints(:before).average_rating).to eq 4.0
+  describe "#average_rating" do
+    it "returns the average sprint rating" do
+      sprint = sprints(:before)
+
+      expect(sprint.average_rating).to eq 4.0
+    end
   end
 end
