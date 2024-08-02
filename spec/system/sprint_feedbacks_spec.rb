@@ -6,7 +6,7 @@ RSpec.describe "Sprint Feedback" do
   fixtures :all
 
   before do
-    travel_to "2023-02-02"
+    travel_to "2023-02-05"
     login :john
   end
 
@@ -30,7 +30,7 @@ RSpec.describe "Sprint Feedback" do
   end
 
   it "allows editing the retro feedback" do
-    feedback = sprint_feedbacks(:john_before)
+    feedback = sprint_feedbacks(:sprint_feedback_john)
     feedback.update!(retro_text: "I'm happy!", retro_rating: 5)
     visit sprints_path
 

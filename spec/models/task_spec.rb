@@ -94,7 +94,7 @@ RSpec.describe Task do
     end
 
     it "only updates finished_storypoints" do
-      sprint_feedback = sprint_feedbacks(:sprint_feedback_1)
+      sprint_feedback = sprint_feedbacks(:sprint_feedback_john)
       expect(sprint_feedback).to have_attributes finished_storypoints: 8
 
       Task.sync_with_github
