@@ -31,7 +31,7 @@ class Sprint < ApplicationRecord
   range_accessor_methods :sprint
 
   def full_title
-    "#{title} (#{ApplicationController.helpers.date_range(sprint_during.min, sprint_during.max, format: :long)})"
+    "#{title} (#{ApplicationController.helpers.date_range(sprint_from, sprint_until, format: :long)})"
   end
 
   def total_working_days
