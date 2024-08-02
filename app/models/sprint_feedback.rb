@@ -87,6 +87,10 @@ class SprintFeedback < ApplicationRecord
     has_retro? || skip_retro?
   end
 
+  def by?(user)
+    self.user == user
+  end
+
   def recalculate_costs
     salary = user.salary_at(sprint.sprint_from)
     return unless salary

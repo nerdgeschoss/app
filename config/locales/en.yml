@@ -91,7 +91,7 @@ en:
     sprint:
       billable: Billable
       daily_nerd: Daily nerd
-      edit_feedback: Edit Feedback
+      edit_feedback: Edit Feedback (%{user})
       feedback: Feedback
       finished_storypoints: Finished storypoints
       please_write_feedback: Please write your feedback!
@@ -100,6 +100,7 @@ en:
       tracked: Tracked
       turnover: Turnover
       user_feedback: "%{user} rated: %{rating} / 5"
+      user_feedback_missing: "%{user} did not add their rating yet"
       user_skipped_retro: "%{user} skipped the retro"
   time_will_tell:
     date_range:

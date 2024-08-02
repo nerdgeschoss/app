@@ -92,8 +92,4 @@ class Sprint < ApplicationRecord
 
     ratings.sum / ratings.size.to_f
   end
-
-  def to_be_rated?
-    sprint_until.today? || completed?
-  end
 end
