@@ -27,7 +27,7 @@ class SprintFeedbackPolicy < ApplicationPolicy
 
   def permitted_attributes
     if hr?
-      [:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes, :skip_retro]
+      [:daily_nerd_count, :tracked_hours, :billable_hours, :review_notes, :retro_rating, :retro_text, :skip_retro]
     else
       [:retro_rating, :retro_text, :skip_retro]
     end

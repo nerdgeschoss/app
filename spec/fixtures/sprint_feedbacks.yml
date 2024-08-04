@@ -16,7 +16,7 @@
 #  turnover               :decimal(, )
 #  costs                  :decimal(, )
 #
-sprint_feedback_1:
+sprint_feedback_john:
   sprint: empty
   user: john
   daily_nerd_count: 3
@@ -43,22 +43,18 @@ sprint_feedback_2:
     - 2023-01-25
   finished_storypoints: 5
 
-john_before:
-  sprint: before
-  user: john
-
-cigdem_before:
-  sprint: before
+cigdem_current:
+  sprint: empty
   user: cigdem
   retro_rating: 3
 
-yuki_before:
-  sprint: before
+yuki_current:
+  sprint: empty
   user: yuki
   retro_rating: 5
   retro_text: 'I liked the sprint'
 
-zacharias_before:
-  sprint: before
+zacharias_current:
+  sprint: empty
   user: zacharias
   skip_retro: true
