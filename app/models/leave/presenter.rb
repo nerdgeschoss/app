@@ -33,14 +33,16 @@ class Leave::Presenter
   end
 
   def to_ics
-    event = Icalendar::Event.new
-    event.dtstart = Icalendar::Values::Date.new leave.leave_during.min
-    event.dtstart.ical_params = {"VALUE" => "DATE"}
-    event.dtend = Icalendar::Values::Date.new leave.leave_during.max + 1.day
-    event.dtend.ical_params = {"VALUE" => "DATE"}
-    display_status = (leave.status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
-    event.summary = "#{leave.user.display_name}: #{leave.title} #{unicode_emoji} #{display_status}"
-    event.url = Rails.application.routes.url_helpers.leaves_url(id: leave.id)
-    event
+    leave.days.sort.slice_when { |prev, curr| prev.next_day != curr }.map do |range|
+      event = Icalendar::Event.new
+      event.dtstart = Icalendar::Values::Date.new range.first
+      event.dtstart.ical_params = {"VALUE" => "DATE"}
+      event.dtend = Icalendar::Values::Date.new range.last
+      event.dtend.ical_params = {"VALUE" => "DATE"}
+      display_status = (leave.status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
+      event.summary = "#{leave.user.display_name}: #{leave.title} #{unicode_emoji} #{display_status}"
+      event.url = Rails.application.routes.url_helpers.leaves_url(id: leave.id)
+      event
+    end
   end
 end
