@@ -37,7 +37,7 @@ class Leave::Presenter
       event = Icalendar::Event.new
       event.dtstart = Icalendar::Values::Date.new range.first
       event.dtstart.ical_params = {"VALUE" => "DATE"}
-      event.dtend = Icalendar::Values::Date.new range.last
+      event.dtend = Icalendar::Values::Date.new (range.length == 1) ? range.last : range.last.next_day
       event.dtend.ical_params = {"VALUE" => "DATE"}
       display_status = (leave.status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
       event.summary = "#{leave.user.display_name}: #{leave.title} #{unicode_emoji} #{display_status}"
