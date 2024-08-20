@@ -13,7 +13,7 @@ module Feed
 
     def require_login
       current_user = User.find_by id: params[:auth] if params[:auth].present?
-      head :unauthorized unless current_user&.roles&.include?("hr")
+      head :unauthorized unless current_user&.roles&.include?("hr") || current_user&.roles&.include?("sprinter")
     end
   end
 end
