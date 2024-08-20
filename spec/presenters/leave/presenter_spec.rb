@@ -92,4 +92,16 @@ RSpec.describe Leave::Presenter do
       end
     end
   end
+
+  context "exporting to ics" do
+    let(:leave) { holiday }
+    it "returns an array of event objects" do
+      expect(presenter.to_ics).to all(be_an(Icalendar::Event))
+    end
+
+    it "splits up events for disjoint dates" do
+      leave.update! days: ["2023-01-02", "2023-01-03", "2023-01-06"]
+      expect(presenter.to_ics.length).to eq 2
+    end
+  end
 end
