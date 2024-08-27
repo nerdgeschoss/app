@@ -4,6 +4,10 @@ class SprintFeedbacksController < ApplicationController
   before_action :authenticate_user!
   before_action :assign_feedback, except: [:create]
 
+  def show
+    @feedback = authorize SprintFeedback.includes(:user, :daily_nerd_messages, sprint: [time_entries: [:project, task_object: :time_entries]]).find params[:id]
+  end
+
   def create
     feedback = authorize SprintFeedback.new(feedback_create_attributes)
     feedback.save!

@@ -6,6 +6,10 @@ services:
     volumes:
       - ../..:/workspaces:cached
       - nerdgeschoss_app-node_modules:/workspaces/nerdgeschoss_app/node_modules
+      - ~/.netrc:/root/.netrc
+      - ~/.ssh:/root/.ssh
+      - ~/.config/gh:/root/.config/gh
+      - ~/.aws:/root/.aws
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity

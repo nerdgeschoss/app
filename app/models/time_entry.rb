@@ -27,6 +27,8 @@
 class TimeEntry < ApplicationRecord
   belongs_to :user
   belongs_to :sprint
+  belongs_to :project, optional: true
+  belongs_to :task_object, class_name: "Task", foreign_key: "task_id", optional: true, inverse_of: :time_entries
 
   scope :billable, -> { where(billable: true) }
 
@@ -39,5 +41,9 @@ class TimeEntry < ApplicationRecord
     return if task.nil?
 
     update! task_id: task.id
+  end
+
+  def costs
+    billable_rate * rounded_hours
   end
 end

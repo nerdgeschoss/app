@@ -12,6 +12,7 @@ en:
     formats:
       month_long: "%B"
       month_year: "%B %Y"
+      weekday: "%A"
   errors:
     messages:
       not_saved: Not saved
@@ -73,6 +74,17 @@ en:
       no_rating: No Rating
       prompt: What went well? What could be improved?
       submits_with: Saving …
+    show:
+      daily_nerd: Daily Nerd
+      hours: Hours
+      members: Members
+      note: Note
+      points: Points
+      sprints: Sprints
+      status: Status
+      task: Task
+      total_cost: Total Cost
+      total_hours: Total Hours
   sprints:
     index:
       add: Add
