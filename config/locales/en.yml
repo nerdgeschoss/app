@@ -10,6 +10,7 @@ en:
       submits_with: Saving …
   date:
     formats:
+      weekday: "%A"
       month_long: "%B"
       month_year: "%B %Y"
   errors:

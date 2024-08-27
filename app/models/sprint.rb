@@ -51,27 +51,27 @@ class Sprint < ApplicationRecord
   end
 
   def tracked_hours
-    sprint_feedbacks.map(&:tracked_hours).compact.sum
+    sprint_feedbacks.filter_map(&:tracked_hours).sum
   end
 
   def billable_hours
-    sprint_feedbacks.map(&:billable_hours).compact.sum
+    sprint_feedbacks.filter_map(&:billable_hours).sum
   end
 
   def finished_storypoints
-    sprint_feedbacks.map(&:finished_storypoints).compact.sum
+    sprint_feedbacks.filter_map(&:finished_storypoints).sum
   end
 
   def turnover_per_storypoint
-    (sprint_feedbacks.map(&:turnover_per_storypoint).compact.sum / [sprint_feedbacks.size, 1].max).round(2)
+    (sprint_feedbacks.filter_map(&:turnover_per_storypoint).sum / [sprint_feedbacks.size, 1].max).round(2)
   end
 
   def turnover
-    sprint_feedbacks.map(&:turnover).compact.sum
+    sprint_feedbacks.filter_map(&:turnover).sum
   end
 
   def costs
-    sprint_feedbacks.map(&:costs).compact.sum
+    sprint_feedbacks.filter_map(&:costs).sum
   end
 
   def revenue
