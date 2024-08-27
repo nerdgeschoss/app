@@ -5,7 +5,7 @@ class SprintFeedbacksController < ApplicationController
   before_action :assign_feedback, except: [:create]
 
   def show
-    @feedback = authorize SprintFeedback.find params[:id]
+    @feedback = authorize SprintFeedback.includes(:user, :daily_nerd_messages, sprint: [time_entries: [:project, task_object: :time_entries]]).find params[:id]
   end
 
   def create
