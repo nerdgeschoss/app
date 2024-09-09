@@ -5,7 +5,7 @@ import { registerControllers } from 'stimulus-vite-helpers';
 import 'chartkick/chart.js';
 
 const application = Application.start();
-const controllers = import.meta.glob('./controllers/**/*_controller.ts', {
+const controllers = import.meta.glob('./controllers/**/*_controller.{ts,tsx}', {
   eager: true,
 });
 registerControllers(application, controllers);

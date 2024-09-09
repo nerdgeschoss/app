@@ -29,7 +29,7 @@
       "name": "Vite",
       "type": "node-terminal",
       "request": "launch",
-      "command": "yarn build --watch"
+      "command": "bin/vite dev"
     }
   ],
   "compounds": [

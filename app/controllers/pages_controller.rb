@@ -1,5 +1,31 @@
 # frozen_string_literal: true
 
+require "benchmark"
+
+class TSXHandler
+  class << self
+    def render(path, assigns)
+      id = Pathname.new(path).relative_path_from(Rails.root.join("app", "views")).to_s
+      schema = PropSchema.new(path.sub(".tsx", ".props.rb"))
+      schema_file_path = path.sub(".tsx", ".schema.ts")
+      File.write(schema_file_path, schema.to_typescript)
+      props = schema.serialize(assigns).deep_transform_keys { _1.to_s.camelize(:lower) }
+      response = nil
+      time = Benchmark.realtime do
+        response = HTTParty.post("http://localhost:4000/render", body: {path:, props:, id:}.to_json)
+      end
+      puts "took #{(time * 1000).round(2)}ms to render"
+      response.body
+    end
+  end
+
+  def call(template, source)
+    "TSXHandler.render('#{template.identifier}', assigns)"
+  end
+end
+
+ActionView::Template.register_template_handler(:tsx, TSXHandler.new)
+
 class PagesController < ApplicationController
   before_action :authenticate_user!
 
