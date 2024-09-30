@@ -14,9 +14,8 @@ export default class extends Controller {
     }
     const implementation = imports['../../views/' + this.componentName];
     if (!implementation) return;
-    const App = (await implementation()).default;
+    const App = ((await implementation()) as any).default;
     this.root.render(<App {...this.props} />);
-    console.info('Hydrated', this.componentName);
   }
 
   disconnect(): void {
