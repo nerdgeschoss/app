@@ -5,7 +5,18 @@ class UsersController < ApplicationController
   before_action :assign_user, except: :index
 
   def index
+    @filter = params[:filter].presence || "employee"
     @users = policy_scope(User.alphabetically)
+    case @filter
+    when "employee"
+      @users = @users.currently_employed
+    when "sprinter"
+      @users = @users.sprinter
+    when "hr"
+      @users = @users.hr
+    when "archive"
+      @users = @users.where(roles: [])
+    end
   end
 
   def show
