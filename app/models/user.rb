@@ -60,10 +60,6 @@ class User < ApplicationRecord
     [first_name, last_name].map(&:presence).compact.join(" ").presence || email
   end
 
-  def yearly_holidays
-    30
-  end
-
   def remaining_holidays
     yearly_holidays - used_holidays
   end
