@@ -12,6 +12,7 @@ en:
     formats:
       month_long: "%B"
       month_year: "%B %Y"
+      weekday: "%A"
   errors:
     messages:
       not_saved: Not saved
@@ -73,6 +74,17 @@ en:
       no_rating: No Rating
       prompt: What went well? What could be improved?
       submits_with: Saving …
+    show:
+      daily_nerd: Daily Nerd
+      hours: Hours
+      members: Members
+      note: Note
+      points: Points
+      sprints: Sprints
+      status: Status
+      task: Task
+      total_cost: Total Cost
+      total_hours: Total Hours
   sprints:
     index:
       add: Add
@@ -91,7 +103,7 @@ en:
     sprint:
       billable: Billable
       daily_nerd: Daily nerd
-      edit_feedback: Edit Feedback
+      edit_feedback: Edit Feedback (%{user})
       feedback: Feedback
       finished_storypoints: Finished storypoints
       please_write_feedback: Please write your feedback!
@@ -100,6 +112,7 @@ en:
       tracked: Tracked
       turnover: Turnover
       user_feedback: "%{user} rated: %{rating} / 5"
+      user_feedback_missing: "%{user} did not add their rating yet"
       user_skipped_retro: "%{user} skipped the retro"
   time_will_tell:
     date_range:

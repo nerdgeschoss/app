@@ -32,7 +32,8 @@
                 span title="Holidays" = feedback.holiday_count
                 | &nbsp;/&nbsp;
                 span title="Sick Days" = feedback.sick_day_count
-            td title=feedback.daily_nerd_count = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100, precision: 0}"
+            td title=feedback.daily_nerd_count
+              a href=sprint_feedback_path(feedback) = feedback.daily_nerd_count.nil? ? "-" : "#{number_to_percentage feedback.daily_nerd_percentage * 100, precision: 0}"
             td = "#{feedback.tracked_hours&.round(1)} / #{number_with_precision(feedback.tracked_per_day, precision: 1)}"
             td title=number_to_percentage(feedback.billable_hours_percentage * 100, precision: 0) = feedback.billable_hours.nil? ? "-" : "#{feedback.billable_hours.round(1)} / #{number_with_precision feedback.billable_per_day, precision: 1}"
             td = feedback.retro_rating.nil? ? "-" : feedback.retro_rating
@@ -67,32 +68,36 @@
                 div title="Costs" = number_to_currency -sprint.costs
                 div title="Revenue" = number_to_currency sprint.revenue
 
-      - if sprint.to_be_rated?
-        - feedbacks = sprint.sprint_feedbacks.select { _1.has_retro? || _1.user == @user }
-        .feedback.stack
-          .feedback__heading = t(".feedback") if feedbacks.any?
+      - feedbacks = sprint.sprint_feedbacks.select { _1.has_retro? || policy(_1).update? }
+      .feedback.stack
+        .feedback__heading = t(".feedback") if feedbacks.any?
 
-          - feedbacks.each do |feedback|
-            - is_own = feedback.user == @user
-            .feedback__item.stack.stack--row(data-controller=(is_own && "feedback"))
-              .feedback__column
-                - if feedback.has_retro?
-                  .feedback__content(data-feedback-target="content")
-                    strong = t(".user_feedback", user: feedback.user.display_name, rating: feedback.retro_rating)
-                    = markdown feedback.retro_text
-                - elsif feedback.skip_retro?
-                  .feedback__content(data-feedback-target="content")
-                    strong = t(".user_skipped_retro", user: feedback.user.display_name)
-                - else
-                  .feedback__alert = t(".please_write_feedback")
+        - feedbacks.each do |feedback|
+          - display_name = feedback.user.display_name
+          - can_edit = policy(feedback).update?
+          - show_content = feedback.retro_completed? || !feedback.by?(current_user)
 
-                - if is_own
-                  .feedback__form(data-feedback-target="form" class=(feedback.retro_completed? && "feedback__form--hidden"))
-                    .feedback__form-heading = t('.edit_feedback')
-                    = render "sprint_feedbacks/edit_retro", feedback:
+          .feedback__item.stack.stack--row(data-controller=(can_edit && "feedback"))
+            .feedback__column
+              - if show_content
+                .feedback__content(data-feedback-target="content")
+                  - if feedback.has_retro?
+                      strong = t(".user_feedback", user: display_name, rating: feedback.retro_rating)
+                      = markdown feedback.retro_text
+                  - elsif feedback.skip_retro?
+                      strong = t(".user_skipped_retro", user: display_name)
+                  - elsif !feedback.by?(current_user)
+                      strong = t(".user_feedback_missing", user: display_name)
+              - elsif feedback.by?(current_user)
+                .feedback__alert = t(".please_write_feedback")
 
-              - if is_own && feedback.retro_completed?
-                button.button.button--small(data-action="feedback#toggle") Edit
+              - if can_edit
+                .feedback__form(data-feedback-target="form" class=class_names("feedback__form--hidden": feedback.retro_completed? || !feedback.by?(current_user) ))
+                  .feedback__form-heading = t('.edit_feedback', user: display_name)
+                  = render "sprint_feedbacks/edit_retro", feedback:
+
+            - if can_edit && show_content
+              button.button.button--small(data-action="feedback#toggle") Edit
 
   - if addable_users.any? && policy(SprintFeedback).create?
     .card__buttons

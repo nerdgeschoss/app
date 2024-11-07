@@ -30,7 +30,7 @@ class Task < ApplicationRecord
       sprint_ids_by_title = Sprint.pluck(:title, :id).to_h
       github_tasks = Github.new.sprint_board_items
       current_github_ids = pluck(:github_id)
-      deleted_ids = current_github_ids - github_tasks.map(&:id).compact
+      deleted_ids = current_github_ids - github_tasks.filter_map(&:id)
 
       tasks = github_tasks.map do |gt|
         {
@@ -53,12 +53,12 @@ class Task < ApplicationRecord
 
           unused_task_users = TaskUser.pluck(:id, :user_id, :task_id).map { |e| [[e[1], e[2]], e[0]] }.to_h
           task_users = github_tasks.flat_map do |task|
-            task.assignee_logins.map do |login|
+            task.assignee_logins.filter_map do |login|
               user_id = user_ids_by_handle[login]
               task_id = task_ids_by_github_id[task.id]
               unused_task_users.delete([user_id, task_id])
               {task_id:, user_id:} unless user_id.nil?
-            end.compact
+            end
           end
           TaskUser.upsert_all(task_users, unique_by: [:task_id, :user_id]) if task_users.any?
           TaskUser.where(id: unused_task_users.values).delete_all if unused_task_users.any?
@@ -85,5 +85,13 @@ class Task < ApplicationRecord
         ActiveRecord::Base.connection.execute(sql)
       end
     end
+  end
+
+  def total_hours
+    time_entries.sum(&:hours)
+  end
+
+  def total_costs
+    time_entries.sum(&:costs)
   end
 end

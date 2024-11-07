@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_01_095831) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_16_121754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_stat_statements"
@@ -319,6 +319,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_01_095831) do
     t.date "hired_on"
     t.string "github_handle"
     t.string "nick_name"
+    t.integer "yearly_holidays", default: 30, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
