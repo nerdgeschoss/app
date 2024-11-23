@@ -40,7 +40,7 @@ RSpec.describe Leave do
       holiday.notify_hr_on_slack_about_new_request
       text = <<~TEXT
         *<@slack-john>* requested a new paid leave for January 2 — 3, 2023
-        You can approve or reject this request <http://localhost:31337/en/leaves?status=pending_approval&user_id=d6f57eaa-da8a-5c59-a1a1-8ebe34034b8a|here>
+        You can approve or reject this request <http://example.com/en/leaves?status=pending_approval&user_id=d6f57eaa-da8a-5c59-a1a1-8ebe34034b8a|here>
       TEXT
       expect(Slack.instance.last_message.text).to eq text.strip
     end
