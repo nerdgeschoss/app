@@ -18,7 +18,6 @@ services:
     network_mode: service:db
 
     environment:
-      REDIS_URL: redis://redis:6379
       TZ: Europe/Berlin
 
   db:
@@ -28,13 +27,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
-  redis:
-    image: redis
-    restart: unless-stopped
-    volumes:
-      - redis-data:/data
 
 volumes:
   postgres-data:
-  redis-data:
   nerdgeschoss_app-node_modules:
