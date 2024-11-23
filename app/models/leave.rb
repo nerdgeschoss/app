@@ -31,8 +31,8 @@ class Leave < ApplicationRecord
   scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
   scope :not_rejected, -> { where.not(status: :rejected) }
 
-  enum type: [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
-  enum status: [:pending_approval, :approved, :rejected].index_with(&:to_s)
+  enum :type, [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
+  enum :status, [:pending_approval, :approved, :rejected].index_with(&:to_s)
 
   range_accessor_methods :leave
 
