@@ -11,7 +11,7 @@ env:
 
 jobs:
   ruby:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
 
     services:
       postgres:
@@ -26,10 +26,14 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - name: Install dependencies from apt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips42
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: yarn
       - name: Install yarn
         run: yarn install
@@ -42,7 +46,7 @@ jobs:
       - name: Translations Lint
         run: bundle exec i18n-tasks health
       - name: Check Model Annotations
-        run: bundle exec annotate --models && bin/git_tracked_are_unmodified
+        run: bundle exec annotaterb models --frozen
       - name: JS Lint
         run: yarn lint
       - name: Install Playwright Browsers
@@ -53,8 +57,3 @@ jobs:
         run: bundle exec rake db:create db:migrate
       - name: Build and test with RSpec
         run: bundle exec rspec --format documentation
-      - name: Upload Screenshots
-        if: always()
-        run: |
-          (cd doc/screenshots; zip -r ../../screenshots.zip .)
-          curl -X POST "https://screamshot.nerdgeschoss.de/projects/r4qn4uHa5R84AoZQpDsgCSbe/versions" -F "name=\"$GITHUB_REF\"" -F "file=@screenshots.zip" -F "iteration=\"$GITHUB_SHA\""

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "capybara_screenshot_diff/rspec"
+
 module PlaywrightHelper
   def pause
     Capybara.current_session.driver.with_playwright_page do |page|

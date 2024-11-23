@@ -13,33 +13,28 @@
   "license": "MIT",
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.10",
-    "@nerdgeschoss/shimmer": "^0.0.38",
-    "@types/bun": "^1.1.10",
-    "@types/react": "^18.3.10",
-    "@types/react-dom": "^18.3.0",
-    "bun": "^1.1.29",
-    "chart.js": "^4.4.4",
-    "chartkick": "^5.0.1",
-    "esbuild": "^0.24.0",
-    "flatpickr": "^4.6.13",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "sass": "^1.79.4",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.8",
+    "@hotwired/turbo-rails": "^8.0.12",
+    "@nerdgeschoss/shimmer": "^0.0.10",
+    "chart.js": "^3.7.0",
+    "chartkick": "^4.1.1",
+    "flatpickr": "^4.6.9",
+    "sass": "^1.77.6",
+    "typescript": "^4.5.4",
+    "vite": "^5.0.0",
     "vite-plugin-rails": "^0.5.0",
     "vite-plugin-sass-glob-import": "^3.0.2"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.1.1",
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
-    "@typescript-eslint/parser": "^8.7.0",
-    "eslint": "^9.11.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.37.0",
-    "prettier": "^3.3.3",
-    "typescript-eslint": "^8.7.0"
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.1",
+    "vite-plugin-ruby": "^5.1.0"
+  },
+  "volta": {
+    "node": "18.19.1",
+    "yarn": "1.22.22"
   }
 }

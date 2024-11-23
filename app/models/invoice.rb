@@ -5,15 +5,15 @@
 # Table name: invoices
 #
 #  id         :uuid             not null, primary key
-#  project_id :uuid             not null
-#  harvest_id :bigint           not null
-#  reference  :string           not null
 #  amount     :decimal(, )      not null
-#  state      :string           not null
-#  sent_at    :datetime
 #  paid_at    :datetime
+#  reference  :string           not null
+#  sent_at    :datetime
+#  state      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  harvest_id :bigint           not null
+#  project_id :uuid             not null
 #
 class Invoice < ApplicationRecord
   belongs_to :project

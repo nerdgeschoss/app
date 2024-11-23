@@ -2,9 +2,6 @@
   "addons": ["newrelic", "heroku-postgresql:essential-0"],
   "buildpacks": [
     {
-      "url": "https://github.com/brandoncc/heroku-buildpack-vips.git"
-    },
-    {
       "url": "heroku/nodejs"
     },
     {
@@ -23,7 +20,7 @@
   },
   "name": "nerdgeschoss_app",
   "scripts": {
-    "postdeploy": "bin/rails db:prepare"
+    "postdeploy": "bin/rails db:prepare && bin/rails db:seed"
   },
-  "stack": "heroku-22"
+  "stack": "heroku-24"
 }

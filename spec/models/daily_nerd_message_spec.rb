@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: daily_nerd_messages
+#
+#  id                 :uuid             not null, primary key
+#  message            :string           not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  sprint_feedback_id :uuid             not null
+#
 require "rails_helper"
 
 RSpec.describe DailyNerdMessage do

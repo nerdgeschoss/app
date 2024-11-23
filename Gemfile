@@ -5,7 +5,7 @@ ruby "~> #{File.read(File.join(__dir__, ".ruby-version")).strip}"
 
 # Core
 gem "puma"
-gem "rails", "~> 7.1.3"
+gem "rails", "~> 8.0"
 
 # Database
 gem "pg"
@@ -35,11 +35,14 @@ gem "shimmer"
 gem "sitemap_generator"
 gem "slim-rails"
 gem "solid_queue"
+gem "solid_cache"
+gem "solid_cable"
 gem "time_will_tell"
 gem "translate_client"
 gem "yael"
 gem "redcarpet"
 gem "faker"
+gem "ruby-vips"
 
 # Assets
 gem "sprockets-rails"
@@ -56,7 +59,7 @@ gem "sentry-ruby"
 
 group :development, :test do
   gem "capybara"
-  gem "capybara-screenshot-diff"
+  gem "capybara-screenshot-diff", require: false
   gem "capybara-playwright-driver"
   gem "i18n-tasks"
   gem "rack_session_access"
@@ -73,7 +76,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotate"
+  gem "annotaterb"
   gem "letter_opener"
   gem "listen"
   gem "rb-fsevent"

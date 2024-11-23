@@ -5,10 +5,10 @@
 # Table name: task_users
 #
 #  id         :uuid             not null, primary key
-#  task_id    :uuid             not null
-#  user_id    :uuid             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  task_id    :uuid             not null
+#  user_id    :uuid             not null
 #
 class TaskUser < ApplicationRecord
   belongs_to :task
