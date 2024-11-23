@@ -42,7 +42,7 @@ jobs:
       - name: Translations Lint
         run: bundle exec i18n-tasks health
       - name: Check Model Annotations
-        run: bundle exec annotate --models && bin/git_tracked_are_unmodified
+        run: bundle exec annotaterb models --frozen
       - name: JS Lint
         run: yarn lint
       - name: Install Playwright Browsers
