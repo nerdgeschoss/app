@@ -40,6 +40,7 @@ gem "translate_client"
 gem "yael"
 gem "redcarpet"
 gem "faker"
+gem "ruby-vips"
 
 # Assets
 gem "sprockets-rails"
