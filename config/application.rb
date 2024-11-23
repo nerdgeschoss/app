@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails"
@@ -37,7 +39,7 @@ module TestApp
     Rails.application.routes.default_url_options[:host] = host
     config.active_job.queue_adapter = :solid_queue
 
-    config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_lib(ignore: ["assets", "tasks"])
     config.generators.system_tests = nil
   end
 end

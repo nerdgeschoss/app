@@ -56,7 +56,7 @@ gem "sentry-ruby"
 
 group :development, :test do
   gem "capybara"
-  gem "capybara-screenshot-diff"
+  gem "capybara-screenshot-diff", require: false
   gem "capybara-playwright-driver"
   gem "i18n-tasks"
   gem "rack_session_access"
