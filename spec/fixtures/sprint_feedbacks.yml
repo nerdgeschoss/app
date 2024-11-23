@@ -3,18 +3,21 @@
 # Table name: sprint_feedbacks
 #
 #  id                     :uuid             not null, primary key
-#  sprint_id              :uuid             not null
-#  user_id                :uuid             not null
-#  daily_nerd_count       :integer
-#  tracked_hours          :decimal(, )
 #  billable_hours         :decimal(, )
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  review_notes           :string
+#  costs                  :decimal(, )
+#  daily_nerd_count       :integer
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
 #  finished_storypoints   :integer          default(0), not null
+#  retro_rating           :integer
+#  retro_text             :string
+#  review_notes           :string
+#  skip_retro             :boolean          default(FALSE)
+#  tracked_hours          :decimal(, )
 #  turnover               :decimal(, )
-#  costs                  :decimal(, )
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  sprint_id              :uuid             not null
+#  user_id                :uuid             not null
 #
 sprint_feedback_john:
   sprint: empty

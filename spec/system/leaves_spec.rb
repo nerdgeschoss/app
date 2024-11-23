@@ -54,11 +54,13 @@ RSpec.describe "Leaves" do
 
   it "automatically approves a single day sick leave and changes the slack status" do
     login :john
+    date = Time.zone.today.beginning_of_week
+    travel_to date
     visit leaves_path
     click_on "Request leave"
     within ".modal" do
       select(Time.zone.today.strftime("%B"))
-      find("span[aria-current=date]").click
+      find(".flatpickr-day", text: date.day).click
       fill_in "Title", with: "Fever"
       select("sick")
       screenshot "request sick leave"

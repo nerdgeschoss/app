@@ -5,10 +5,10 @@
 # Table name: daily_nerd_messages
 #
 #  id                 :uuid             not null, primary key
-#  sprint_feedback_id :uuid             not null
-#  message            :string
+#  message            :string           not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  sprint_feedback_id :uuid             not null
 #
 class DailyNerdMessage < ApplicationRecord
   belongs_to :sprint_feedback

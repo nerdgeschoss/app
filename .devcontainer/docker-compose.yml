@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: ghcr.io/nerdgeschoss/nerdgeschoss/development-environment:3.3-18
+    image: ghcr.io/nerdgeschoss/nerdgeschoss/development-environment:3.3-22
     volumes:
       - ../..:/workspaces:cached
       - nerdgeschoss_app-node_modules:/workspaces/nerdgeschoss_app/node_modules
@@ -18,7 +18,6 @@ services:
     network_mode: service:db
 
     environment:
-      REDIS_URL: redis://redis:6379
       TZ: Europe/Berlin
 
   db:
@@ -28,13 +27,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
-  redis:
-    image: redis
-    restart: unless-stopped
-    volumes:
-      - redis-data:/data
 
 volumes:
   postgres-data:
-  redis-data:
   nerdgeschoss_app-node_modules:
