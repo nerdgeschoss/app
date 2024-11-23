@@ -11,7 +11,7 @@ env:
 
 jobs:
   ruby:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     services:
       postgres:
@@ -57,8 +57,3 @@ jobs:
         run: bundle exec rake db:create db:migrate
       - name: Build and test with RSpec
         run: bundle exec rspec --format documentation
-      - name: Upload Screenshots
-        if: always()
-        run: |
-          (cd doc/screenshots; zip -r ../../screenshots.zip .)
-          curl -X POST "https://screamshot.nerdgeschoss.de/projects/r4qn4uHa5R84AoZQpDsgCSbe/versions" -F "name=\"$GITHUB_REF\"" -F "file=@screenshots.zip" -F "iteration=\"$GITHUB_SHA\""
