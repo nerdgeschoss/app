@@ -1,0 +1,18 @@
+field :current_user, global: :current_user do
+  field :id
+  field :display_name
+  field :avatar_url, value: -> { avatar_image(size: 200) }
+end
+
+field :filter, value: -> { @filter }
+field :users, array: true, value: -> { @users } do
+  field :id
+  field :avatar_url, value: -> { avatar_image(size: 80) }
+  field :full_name
+  field :nick_name, null: true
+  field :remaining_holidays, Integer
+  field :current_salary, null: true do
+    field :brut, Float
+    field :valid_from, Date
+  end
+end
