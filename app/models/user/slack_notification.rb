@@ -10,7 +10,7 @@ class User
 
     def slack_mention_display_name
       "<@#{slack_id}>"
-    rescue NoSlackIdError
+    rescue SlackProfile::NoSlackIdError
       user.display_name
     end
 
