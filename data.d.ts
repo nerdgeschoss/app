@@ -3,8 +3,16 @@ export interface DataSchema {
     currentUser: {
       id: string;
       email: string;
-      firstName: string;
+      displayName: string;
     };
+    upcomingLeaves: Array<{
+      id: string;
+      startDate: string;
+      endDate: string;
+      title: string;
+    }>;
+    payslips: Array<{ id: string; month: string }>;
+    remainingHolidays: string;
   };
   'users/index': {
     filter: string;
