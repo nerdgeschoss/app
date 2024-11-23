@@ -25,7 +25,8 @@
     "strict": true
   },
   "files": [
-    "typings.d.ts"
+    "typings.d.ts",
+    "data.d.ts"
   ],
   "include": [
     "app/javascript/**/*"
