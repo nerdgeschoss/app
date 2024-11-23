@@ -73,7 +73,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotate"
+  gem "annotaterb"
   gem "letter_opener"
   gem "listen"
   gem "rb-fsevent"

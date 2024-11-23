@@ -5,14 +5,14 @@
 # Table name: leaves
 #
 #  id           :uuid             not null, primary key
+#  days         :date             default([]), not null, is an Array
 #  leave_during :daterange        not null
+#  status       :string           default("pending_approval"), not null
 #  title        :string           not null
 #  type         :string           default("paid"), not null
-#  status       :string           default("pending_approval"), not null
-#  days         :date             default([]), not null, is an Array
-#  user_id      :uuid             not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  user_id      :uuid             not null
 #
 
 require "rails_helper"

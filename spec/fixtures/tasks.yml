@@ -3,16 +3,16 @@
 # Table name: tasks
 #
 #  id           :uuid             not null, primary key
-#  sprint_id    :uuid
-#  title        :string           not null
-#  status       :citext
-#  github_id    :string
-#  repository   :string
 #  issue_number :bigint
+#  repository   :string
+#  status       :citext
 #  story_points :integer
+#  title        :string           not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  github_id    :string
 #  project_id   :uuid
+#  sprint_id    :uuid
 #
 
 done:

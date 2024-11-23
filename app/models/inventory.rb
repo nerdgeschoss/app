@@ -5,13 +5,13 @@
 # Table name: inventories
 #
 #  id          :uuid             not null, primary key
-#  user_id     :uuid             not null
+#  details     :string
+#  name        :string           not null
 #  received_at :datetime         not null
 #  returned_at :datetime
-#  name        :string           not null
-#  details     :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  user_id     :uuid             not null
 #
 class Inventory < ApplicationRecord
   belongs_to :user
