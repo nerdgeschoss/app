@@ -3,11 +3,11 @@ import { Sidebar } from '../../javascript/components/sidebar/sidebar';
 import { PageProps } from '../../../data.d';
 
 export default function ({
-  data: { filter, users },
+  data: { filter, users, currentUser },
 }: PageProps<'users/index'>): JSX.Element {
   return (
     <>
-      <Sidebar />
+      <Sidebar user={currentUser} />
       <div className="content">
         <div className="container">
           <div className="stack">

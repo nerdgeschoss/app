@@ -7,7 +7,7 @@ export default function Home({
 }: PageProps<'pages/home'>): JSX.Element {
   return (
     <>
-      <Sidebar />
+      <Sidebar user={currentUser} />
       <div className="content">
         <div className="container">
           <div className="stack">

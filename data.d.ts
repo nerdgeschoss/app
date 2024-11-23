@@ -2,8 +2,8 @@ export interface DataSchema {
   'pages/home': {
     currentUser: {
       id: string;
-      email: string;
       displayName: string;
+      avatarUrl: string;
     };
     upcomingLeaves: Array<{
       id: string;
@@ -15,6 +15,11 @@ export interface DataSchema {
     remainingHolidays: string;
   };
   'users/index': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
     filter: string;
     users: Array<{
       id: string;

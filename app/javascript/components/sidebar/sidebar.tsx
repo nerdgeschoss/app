@@ -1,7 +1,15 @@
 import React from 'react';
 import logo from '../../../frontend/images/logo.svg';
 
-export function Sidebar(): JSX.Element {
+interface Props {
+  user: {
+    id: string;
+    displayName: string;
+    avatarUrl: string;
+  };
+}
+
+export function Sidebar({ user }: Props): JSX.Element {
   return (
     <nav className="sidebar">
       <a className="sidebar__header" href="/">
@@ -22,9 +30,9 @@ export function Sidebar(): JSX.Element {
         </a>
       </div>
       <div className="sidebar__footer">
-        <a className="sidebar__avatar" href="/user">
-          <div className="sidebar__avatar-name">User</div>
-          <img src="" alt="avatar" />
+        <a className="sidebar__avatar" href={`/users/${user.id}`}>
+          <div className="sidebar__avatar-name">{user.displayName}</div>
+          <img src={user.avatarUrl} alt="avatar" />
         </a>
       </div>
     </nav>
