@@ -10,7 +10,7 @@ import { Button } from '../../javascript/components/button/button';
 import { useReaction } from '../../javascript/sprinkles/reaction';
 
 export default function ({
-  data: { nextPageUrl, currentUser, leaves, activeFilter },
+  data: { nextPageUrl, currentUser, leaves, activeFilter, feedUrl },
 }: PageProps<'leaves/index'>): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
@@ -18,7 +18,10 @@ export default function ({
   return (
     <Layout user={currentUser} container>
       <Stack>
-        <Text type="headline">{t('users.index.title')}</Text>
+        <Stack line="mobile" justify="space-between">
+          <Text type="headline">{t('users.index.title')}</Text>
+          <a href={feedUrl}>subscribe</a>
+        </Stack>
         <Stack line="mobile">
           {['all', 'pending_approval', 'rejected'].map((e) => (
             <a
