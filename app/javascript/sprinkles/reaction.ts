@@ -94,7 +94,7 @@ export class Reaction {
     const metaJson = (
       document.querySelector('meta[name="reaction-data"]') as HTMLMetaElement
     ).content;
-    const data = metaJson ? JSON.parse(metaJson) : {};
+    const data = metaJson ? JSON.parse(decodeURIComponent(metaJson)) : {};
     const meta = new Meta(data);
     meta.path = window.location.pathname + window.location.search;
     this.history.cache.write(meta);

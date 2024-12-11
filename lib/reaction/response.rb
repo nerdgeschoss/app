@@ -10,7 +10,7 @@ module Reaction
 
     def to_s
       props = schema.serialize(@context)
-      globals = schema.root.fields.values.select { _1.global.present? }.map { [_1.name, _1.global] }.to_h
+      globals = schema.root.fields.values.select { _1.global.present? }.map! { [_1.name, _1.global] }.to_h
       {
         component:,
         props:,

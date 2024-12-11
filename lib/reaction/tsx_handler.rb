@@ -5,7 +5,7 @@ module Reaction
         id = Pathname.new(path).relative_path_from(Rails.root.join("app", "views")).to_s.sub(".tsx", "")
         response = Response.new(component: id, context:)
         <<~HTML
-          <meta name="reaction-data" content='#{response}' />
+          <meta name="reaction-data" content="#{ERB::Util.url_encode(response.to_s)}" />
           <div id="root"></div>
         HTML
       end

@@ -12,6 +12,7 @@ class LeavesController < ApplicationController
     end
     @leaves = policy_scope(@user.present? ? Leave.where(user_id: @user) : Leave.all).reverse_chronologic
     @leaves = @leaves.with_status(params[:status]&.to_sym) if params[:status].present?
+    @leaves = @leaves.page(params[:page]).per(20)
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
   end
 

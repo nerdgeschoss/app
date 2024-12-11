@@ -20,6 +20,30 @@ export interface DataSchema {
       id: string;
     };
   };
+  'leaves/index': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+    feedUrl: string;
+    filters: Array<{ id: string }>;
+    activeFilter: string;
+    permitUserSelect: string;
+    users: Array<{ id: string; displayName: string }>;
+    leaves: Array<{
+      id: string;
+      unicodeEmoji: string;
+      title: string;
+      days: Array<{ days: string }>;
+      user: {
+        id: string;
+        displayName: string;
+      };
+      permitUpdate: string;
+      permitDestroy: string;
+    }>;
+  };
   'pages/home': {
     currentUser: {
       id: string;
