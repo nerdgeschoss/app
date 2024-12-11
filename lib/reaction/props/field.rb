@@ -1,6 +1,7 @@
 module Reaction
   module Props
     class Field
+      class Boolean < ::TrueClass; end
       attr_reader :name, :type, :null, :fields, :value_override, :global, :array
 
       def initialize(name, type = String, null: false, value: nil, global: nil, array: false, &block)
@@ -33,6 +34,8 @@ module Reaction
           value.to_s
         elsif type == Time
           value.iso8601
+        elsif type == Boolean
+          !!value
         elsif type == Object
           fields.map do |name, field|
             field_value = if field.value_override
@@ -61,6 +64,8 @@ module Reaction
           "#{name}: string#{null ? " | null" : ""};"
         elsif type == Time
           "#{name}: string#{null ? " | null" : ""};"
+        elsif type == Boolean
+          "#{name}: boolean#{null ? " | null" : ""};"
         elsif type == Object
           if skip_root
             fields.map { |name, field| field.to_typescript }.join("\n")
@@ -76,6 +81,15 @@ module Reaction
 
       def field(name, type = String, null: false, value: nil, global: nil, array: false, &)
         @fields[name] = self.class.new(name, type, null:, value:, global:, array:, &)
+      end
+
+      def render(name)
+        path, file = name.split("/")
+        name = Rails.root.join("app/views", path, "_#{file}.props.rb").to_s
+        schema = File.read(name)
+        Schema.new(schema).root.fields.each do |name, field|
+          @fields[name] = field
+        end
       end
     end
   end

@@ -1,8 +1,4 @@
-field :current_user, global: :current_user do
-  field :id
-  field :display_name
-  field :avatar_url, value: -> { avatar_image(size: 200) }
-end
+render "components/current_user"
 
 field :upcoming_leaves, array: true, value: -> { @upcoming_leaves } do
   field :id
@@ -16,4 +12,4 @@ field :payslips, array: true, value: -> { @payslips } do
   field :month, Date, value: -> { month }
 end
 
-field :remaining_holidays, value: -> { current_user.remaining_holidays }
+field :remaining_holidays, Integer, value: -> { current_user.remaining_holidays }

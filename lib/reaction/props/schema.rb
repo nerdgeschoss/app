@@ -1,6 +1,7 @@
 module Reaction
   module Props
     class Schema
+      Boolean = Field::Boolean
       attr_reader :root
 
       def initialize(string)

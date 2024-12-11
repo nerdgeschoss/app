@@ -1,0 +1,18 @@
+{
+  "pages": {
+    "home": {
+      "hello": "Hello, %{name}!",
+      "upcoming_holidays": "Upcoming holidays",
+      "last_payments": "Last payments",
+      "remaining_holidays": "Remaining holidays",
+      "number_holidays_left": "You have %{count} days off left"
+    }
+  },
+  "users": {
+    "index": {
+      "title": "Users",
+      "number_holidays_left": "%{count} days off left",
+      "salary_since": "%{amount} since %{date}"
+    }
+  }
+}

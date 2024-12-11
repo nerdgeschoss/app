@@ -12,12 +12,13 @@
     "jsx": "preserve",
     "module": "es2020",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "*": [
         "node_modules/*",
         "app/javascript/*"
-      ]
+      ],
     },
     "sourceMap": true,
     "target": "es2020",

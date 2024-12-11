@@ -1,17 +1,20 @@
 import React from 'react';
 import { Sidebar } from '../../javascript/components/sidebar/sidebar';
 import { PageProps } from '../../../data.d';
+import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
 
 export default function ({
   data: { filter, users, currentUser },
 }: PageProps<'users/index'>): JSX.Element {
+  const t = useTranslate();
+  const l = useFormatter();
   return (
     <>
       <Sidebar user={currentUser} />
       <div className="content">
         <div className="container">
           <div className="stack">
-            <h1 className="headline">Users</h1>
+            <h1 className="headline">{t('users.index.title')}</h1>
             <div className="line line--space-between">
               <div className="stack stack--row stack--small stack--wrap">
                 {['employee', 'sprinter', 'hr', 'archive'].map((e) => (
@@ -40,11 +43,15 @@ export default function ({
                       {user.fullName} {user.nickName && `(${user.nickName})`}
                     </a>
                     <div className="card__subtitle">
-                      {user.remainingHolidays} holidays left
+                      {t('users.index.number_holidays_left', {
+                        count: user.remainingHolidays,
+                      })}
                       {user.currentSalary && (
                         <div>
-                          ${user.currentSalary.brut} since $
-                          {user.currentSalary.validFrom}
+                          {t('users.index.salary_since', {
+                            amount: l.currency(user.currentSalary.brut),
+                            date: l.date(user.currentSalary.validFrom),
+                          })}
                         </div>
                       )}
                     </div>
@@ -58,11 +65,3 @@ export default function ({
     </>
   );
 }
-
-// .container: .stack
-//   h1.headline = t ".users"
-//   .line.line--space-between
-//     .stack.stack--row.stack--small.stack--wrap
-//       - (["employee", "sprinter", "hr", "archive"]).each do |filter|
-//         a.pill class=("active" if filter == @filter) href=(url_for(filter:)) = t("user.filter.#{filter}")
-//   = render @users

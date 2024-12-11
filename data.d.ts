@@ -1,4 +1,16 @@
 export interface DataSchema {
+  'components/_current_user': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+  };
+  'inventories/new': {
+    user: {
+      id: string;
+    };
+  };
   'pages/home': {
     currentUser: {
       id: string;
@@ -12,7 +24,7 @@ export interface DataSchema {
       title: string;
     }>;
     payslips: Array<{ id: string; month: string }>;
-    remainingHolidays: string;
+    remainingHolidays: number;
   };
   'users/index': {
     currentUser: {
@@ -32,6 +44,35 @@ export interface DataSchema {
         validFrom: string;
       } | null;
     }>;
+  };
+  'users/show': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+    user: {
+      id: string;
+      fullName: string;
+      remainingHolidays: number;
+    };
+    salaries: Array<{
+      id: string;
+      hgfHash: string | null;
+      current: boolean;
+      validFrom: string;
+      brut: number;
+      net: number;
+    }>;
+    inventories: Array<{
+      id: string;
+      name: string;
+      returned: boolean;
+      receivedAt: string;
+      returnedAt: string | null;
+      details: string | null;
+    }>;
+    permitEditInventory: boolean;
   };
 }
 
