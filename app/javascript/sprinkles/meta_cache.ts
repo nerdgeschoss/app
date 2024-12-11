@@ -10,7 +10,6 @@ export class MetaCache {
   private subscriptions = new Map<string, MetaCacheSubscription[]>();
 
   async fetch(url: string): Promise<CacheResult> {
-    console.log('fetch', url, this.cache.has(url));
     if (this.cache.has(url)) {
       return { meta: this.cache.get(url)!, fresh: false };
     }
@@ -24,7 +23,6 @@ export class MetaCache {
   }
 
   write(data: Meta): void {
-    console.log('writing', data.path);
     this.cache.set(data.path, data);
     this.updateSubscriptions(data.path);
   }
@@ -74,7 +72,6 @@ export class MetaCache {
     const body = await response.json();
     const meta = new Meta(body);
     meta.path = url;
-    console.log('loaded', meta.path);
     return meta;
   }
 }
