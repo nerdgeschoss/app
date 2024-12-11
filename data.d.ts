@@ -53,6 +53,10 @@ export interface DataSchema {
     nextPageUrl: string;
     permitCreatePayslip: boolean;
   };
+  'payslips/new': {
+    users: Array<{ id: string; displayName: string }>;
+    defaultMonth: string;
+  };
   'users/index': {
     currentUser: {
       id: string;

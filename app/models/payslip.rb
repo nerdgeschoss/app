@@ -17,4 +17,6 @@ class Payslip < ApplicationRecord
   belongs_to :user
 
   has_one_attached :pdf
+
+  validates :month, :pdf, presence: true
 end

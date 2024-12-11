@@ -37,6 +37,7 @@ export class Reaction {
       if (!target) return;
       if (target.target === '_blank') return;
       if (!target.href.startsWith(document.location.origin)) return;
+      if (/\.[0-9a-z]+$/i.test(target.href)) return; // return early for file links like pdfs
       event.preventDefault();
       this.history.navigate(target.getAttribute('href')!);
     });
@@ -60,12 +61,14 @@ export class Reaction {
     params?: object;
     refresh?: boolean;
   }): Promise<void> {
-    let body = '';
+    let body: FormData | null = null;
     const csrfToken = document
       .querySelector("[name='csrf-token']")
       ?.getAttribute('content');
     if (method !== 'GET' && params) {
-      body = JSON.stringify(params);
+      const formData = new FormData();
+      serialize(params, formData);
+      body = formData;
     }
     const response = await fetch(path, {
       credentials: 'same-origin',
@@ -74,7 +77,6 @@ export class Reaction {
       headers: {
         'X-CSRF-Token': csrfToken ?? '',
         'X-Reaction': 'true',
-        'Content-Type': 'application/json',
         Accept: 'application/json',
       },
     });
@@ -109,4 +111,39 @@ export class Reaction {
       React.createElement(ReactionContext.Provider, { value: this }, app)
     );
   }
+}
+
+function serialize(
+  obj: object,
+  formData: FormData,
+  parentPath?: string[]
+): void {
+  Object.entries(obj).forEach(([key, value]) => {
+    const pathElements = [...(parentPath || []), key];
+    let path = pathElements.shift()!;
+    path += pathElements.map((e) => `[${e}]`).join('');
+    if (value === null || value === undefined) {
+      formData.append(path, '');
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach((v, i) => {
+        serialize({ [i]: v }, formData, [...(parentPath || []), key]);
+      });
+      return;
+    }
+    if (value instanceof File) {
+      formData.append(path, value);
+      return;
+    }
+    if (value instanceof Date) {
+      formData.append(path, value.toISOString());
+      return;
+    }
+    if (typeof value === 'object') {
+      serialize(value, formData, [...(parentPath || []), key]);
+      return;
+    }
+    formData.append(path, value);
+  });
 }

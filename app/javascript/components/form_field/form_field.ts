@@ -15,3 +15,8 @@ export interface FormField<T> {
   onBlur?: () => void;
   onFocus?: () => void;
 }
+
+export interface SelectOption<T extends string> {
+  value: T;
+  label: string;
+}
