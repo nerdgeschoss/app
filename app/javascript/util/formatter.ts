@@ -27,6 +27,17 @@ export class Formatter {
     }).format(date);
   }
 
+  dateWithoutYear(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: '2-digit',
+      day: '2-digit',
+    }).format(date);
+  }
+
   time(value: Date | string): string | null {
     const date = this.parseDate(value);
     if (!date) {
@@ -60,6 +71,19 @@ export class Formatter {
     }
 
     return new Intl.DateTimeFormat(this.locale, options).format(date);
+  }
+
+  dateRange(start: Date | string, end: Date | string): string | null {
+    const startDate = this.parseDate(start);
+    const endDate = this.parseDate(end);
+    if (!startDate || !endDate) {
+      return null;
+    }
+    if (startDate.getFullYear() === endDate.getFullYear()) {
+      return `${this.dateWithoutYear(startDate)} - ${this.date(endDate)}`;
+    } else {
+      return `${this.date(startDate)} - ${this.date(endDate)}`;
+    }
   }
 
   parseDate(value?: string | Date | null): Date | null {

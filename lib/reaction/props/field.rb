@@ -2,9 +2,9 @@ module Reaction
   module Props
     class Field
       class Boolean < ::TrueClass; end
-      attr_reader :name, :type, :null, :fields, :value_override, :global, :array
+      attr_reader :name, :type, :null, :fields, :value_override, :global, :array, :parent
 
-      def initialize(name, type = String, null: false, value: nil, global: nil, array: false, &block)
+      def initialize(name, type = String, null: false, value: nil, global: nil, array: false, parent: nil, &block)
         @name = name
         @type = block ? Object : type
         @null = null
@@ -12,11 +12,17 @@ module Reaction
         @fields = {}
         @global = global
         @array = array
+        @parent = parent
         instance_exec(&block) if block
+      end
+
+      def path
+        parent ? "#{parent.path}.#{name}" : name
       end
 
       def serialize(value, array_content: false)
         return nil if value.nil? && null
+        raise "Value is nil but null is false at #{path}" if value.nil? && !null
 
         if array && !array_content
           return value.map { |v| serialize(v, array_content: true) }
@@ -39,7 +45,7 @@ module Reaction
         elsif type == Object
           fields.map do |name, field|
             field_value = if field.value_override
-              value.instance_exec(&field.value_override)
+              ValueProxy.new(value).instance_exec(&field.value_override)
             else
               value.is_a?(Hash) ? value.with_indifferent_access[name] : value.try(name)
             end
@@ -80,7 +86,7 @@ module Reaction
       private
 
       def field(name, type = String, null: false, value: nil, global: nil, array: false, &)
-        @fields[name] = self.class.new(name, type, null:, value:, global:, array:, &)
+        @fields[name] = self.class.new(name, type, null:, value:, global:, array:, parent: self, &)
       end
 
       def render(name)

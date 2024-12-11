@@ -10,6 +10,7 @@ end
 field :payslips, array: true, value: -> { @payslips } do
   field :id
   field :month, Date, value: -> { month }
+  field :url, value: -> { helpers.image_file_url(pdf) }
 end
 
 field :remaining_holidays, Integer, value: -> { current_user.remaining_holidays }

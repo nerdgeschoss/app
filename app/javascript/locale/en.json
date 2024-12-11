@@ -5,7 +5,8 @@
       "upcoming_holidays": "Upcoming holidays",
       "last_payments": "Last payments",
       "remaining_holidays": "Remaining holidays",
-      "number_holidays_left": "You have %{count} days off left"
+      "number_holidays_left": "You have %{count} days off left",
+      "payslip_archive": "archive"
     }
   },
   "users": {

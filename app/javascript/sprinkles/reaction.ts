@@ -35,6 +35,8 @@ export class Reaction {
         target = target.parentElement as HTMLAnchorElement;
       }
       if (!target) return;
+      if (target.target === '_blank') return;
+      if (!target.href.startsWith(document.location.origin)) return;
       event.preventDefault();
       this.history.navigate(target.getAttribute('href')!);
     });

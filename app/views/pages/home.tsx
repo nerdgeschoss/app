@@ -5,12 +5,13 @@ import { Columns } from '../../javascript/components/columns/columns';
 import { Layout } from '../../javascript/components/layout/layout';
 import { Stack } from '../../javascript/components/stack/stack';
 import { Text } from '../../javascript/components/text/text';
-import { useTranslate } from '../../javascript/util/dependencies';
+import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
 
 export default function Home({
   data: { currentUser, upcomingLeaves, payslips, remainingHolidays },
 }: PageProps<'pages/home'>): JSX.Element {
   const t = useTranslate();
+  const l = useFormatter();
   return (
     <Layout user={currentUser} container>
       <Stack>
@@ -24,7 +25,7 @@ export default function Home({
               title={t('pages.home.upcoming_holidays')}
               subtitle={upcomingLeaves.map((leave) => (
                 <div key={leave.id}>
-                  {leave.startDate}, {leave.endDate}, {leave.title}
+                  {l.dateRange(leave.startDate, leave.endDate)}: {leave.title}
                 </div>
               ))}
             />
@@ -33,9 +34,15 @@ export default function Home({
             <Card
               icon="💸"
               title={t('pages.home.last_payments')}
-              subtitle={payslips.map((payslip) => (
-                <div key={payslip.id}>{payslip.month}</div>
-              ))}
+              subtitle={
+                <Stack size={2}>
+                  {payslips.map((payslip) => (
+                    <a key={payslip.id} href={payslip.url} target="_blank">
+                      {payslip.month}
+                    </a>
+                  ))}
+                </Stack>
+              }
             />
           )}
           <Card
@@ -44,6 +51,7 @@ export default function Home({
             subtitle={t('pages.home.number_holidays_left', {
               count: remainingHolidays,
             })}
+            context={<a href="/payslips">{t('pages.home.payslip_archive')}</a>}
           />
         </Columns>
       </Stack>

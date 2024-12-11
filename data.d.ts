@@ -32,7 +32,7 @@ export interface DataSchema {
       endDate: string;
       title: string;
     }>;
-    payslips: Array<{ id: string; month: string }>;
+    payslips: Array<{ id: string; month: string; url: string }>;
     remainingHolidays: number;
   };
   'users/index': {
