@@ -11,6 +11,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
+  create_schema "heroku_ext"
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -335,9 +337,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
     t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
-    t.string "slack_id"
     t.date "born_on"
     t.date "hired_on"
+    t.string "slack_id"
     t.string "github_handle"
     t.string "nick_name"
     t.integer "yearly_holidays", default: 30, null: false

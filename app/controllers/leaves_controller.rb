@@ -12,6 +12,7 @@ class LeavesController < ApplicationController
     end
     @leaves = policy_scope(@user.present? ? Leave.where(user_id: @user) : Leave.all).reverse_chronologic
     @leaves = @leaves.with_status(params[:status]&.to_sym) if params[:status].present?
+    @leaves = @leaves.page(params[:page]).per(20)
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
   end
 
@@ -24,7 +25,6 @@ class LeavesController < ApplicationController
     if @leave.save
       @leave.handle_incoming_request
       @leave.handle_slack_status
-      ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
     end
@@ -34,12 +34,10 @@ class LeavesController < ApplicationController
     @leave.update!(permitted_attributes(Leave))
     @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
     @leave.handle_slack_status
-    redirect_to leaves_path
   end
 
   def destroy
     @leave.destroy!
-    redirect_to leaves_path
   end
 
   private

@@ -1,7 +1,0 @@
-.container: .stack
-  h1.headline = t ".users"
-  .line.line--space-between
-    .stack.stack--row.stack--small.stack--wrap
-      - (["employee", "sprinter", "hr", "archive"]).each do |filter|
-        a.pill class=("active" if filter == @filter) href=(url_for(filter:)) = t("user.filter.#{filter}")
-  = render @users
