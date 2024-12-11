@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { Meta } from './meta';
+import { MetaCacheSubscription } from './meta_cache';
 import { useReaction } from './reaction';
 
 interface Props {
@@ -8,21 +8,26 @@ interface Props {
 
 export function Frame({ url }: Props): JSX.Element | null {
   const reaction = useReaction();
-  const [Component, setComponent] = React.useState<FunctionComponent | null>(
-    null
-  );
-  const [data, setData] = React.useState<Meta | null>(null);
+  const [Component, setComponent] = React.useState<FunctionComponent<{
+    data: any;
+  }> | null>(null);
+  const [data, setData] = React.useState<any | null>(null);
   useEffect(() => {
+    let subscription: MetaCacheSubscription | null = null;
     reaction.history.cache.fetch(url).then((meta) => {
       setData(meta.meta.props);
+      subscription = reaction.history.cache.subscribe(url, (data) =>
+        setData(data)
+      );
       reaction
         .componentFor(meta.meta.component)
         .then((component) => setComponent(() => component));
     });
+    return () => {
+      subscription?.unsubscribe();
+    };
   }, [url]);
-  console.log('data', url, data, !!data, !!Component);
   if (!Component) return null;
   if (!data) return null;
-  console.log('frame render');
   return <Component data={data} />;
 }

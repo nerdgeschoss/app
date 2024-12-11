@@ -9,6 +9,7 @@ interface Props {
 export function Button({ title, disabled, onClick }: Props): JSX.Element {
   return (
     <button
+      className="button"
       onClick={(event) => {
         event.preventDefault();
         if (disabled) return;

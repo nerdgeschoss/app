@@ -16,6 +16,11 @@ export class History {
     this.onChange(await this.cache.refresh(url));
   }
 
+  async refreshPageContent(): Promise<void> {
+    const url = window.location.pathname + window.location.search;
+    this.onChange(await this.cache.refresh(url));
+  }
+
   async restore(): Promise<void> {
     const url = window.location.pathname + window.location.search;
     const result = await this.cache.fetch(url);

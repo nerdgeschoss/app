@@ -8,7 +8,6 @@ class InventoriesController < ApplicationController
   def create
     @inventory = authorize Inventory.new permitted_attributes(Inventory)
     @inventory.save!
-    ui.navigate_to @inventory.user
   end
 
   def edit

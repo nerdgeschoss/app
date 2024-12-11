@@ -48,6 +48,38 @@ export class Reaction {
     return ((await implementation()) as any).default;
   }
 
+  async call({
+    path,
+    method,
+    params,
+  }: {
+    path: string;
+    method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+    params: object;
+  }): Promise<void> {
+    let body = '';
+    const csrfToken = document
+      .querySelector("[name='csrf-token']")
+      ?.getAttribute('content');
+    if (method !== 'GET') {
+      body = JSON.stringify(params);
+    }
+    const response = await fetch(path, {
+      credentials: 'same-origin',
+      method,
+      body,
+      headers: {
+        'X-CSRF-Token': csrfToken ?? '',
+        'X-Reaction': 'true',
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+  }
+
   private async loadPage(): Promise<void> {
     const rootElement = document.getElementById('root');
     if (!rootElement) throw new Error('Root element not found');
