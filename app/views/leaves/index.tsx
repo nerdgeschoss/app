@@ -10,7 +10,7 @@ import { Button } from '../../javascript/components/button/button';
 import { useReaction } from '../../javascript/sprinkles/reaction';
 
 export default function ({
-  data: { users, currentUser, leaves, activeFilter },
+  data: { nextPageUrl, currentUser, leaves, activeFilter },
 }: PageProps<'leaves/index'>): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
@@ -64,8 +64,18 @@ export default function ({
               }
             />
           ))}
+          {nextPageUrl && (
+            <Button
+              title="more"
+              onClick={() =>
+                reaction.history.extendPageContentWithPagination(
+                  nextPageUrl,
+                  'leaves'
+                )
+              }
+            />
+          )}
         </Stack>
-        <pre>{JSON.stringify(leaves, null, 2)}</pre>
       </Stack>
     </Layout>
   );

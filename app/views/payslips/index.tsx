@@ -57,16 +57,9 @@ export default function Home({
           <Button
             title="more"
             onClick={() =>
-              reaction.history.extendPageContent(
+              reaction.history.extendPageContentWithPagination(
                 nextPageUrl,
-                (state, page) => ({
-                  ...state,
-                  props: {
-                    ...state.props,
-                    payslips: [...state.props.payslips, ...page.props.payslips],
-                    nextPageUrl: page.props.nextPageUrl,
-                  },
-                })
+                'payslips'
               )
             }
           />

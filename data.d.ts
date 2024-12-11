@@ -43,6 +43,7 @@ export interface DataSchema {
       permitUpdate: string;
       permitDestroy: string;
     }>;
+    nextPageUrl: string;
   };
   'pages/home': {
     currentUser: {
