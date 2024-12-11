@@ -38,7 +38,7 @@ export default function Home({
                 <Stack size={2}>
                   {payslips.map((payslip) => (
                     <a key={payslip.id} href={payslip.url} target="_blank">
-                      {payslip.month}
+                      {l.monthAndYear(payslip.month)}
                     </a>
                   ))}
                 </Stack>

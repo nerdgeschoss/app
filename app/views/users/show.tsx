@@ -31,9 +31,10 @@ export default function ({
                   key={salary.id}
                   href={
                     salary.hgfHash
-                      ? `"https://nerdgeschoss.de/handbook/hgf/#${salary.hgf_hash}`
+                      ? `https://nerdgeschoss.de/handbook/hgf/#${salary.hgfHash}`
                       : undefined
                   }
+                  target="_blank"
                 >
                   <div>{l.date(salary.validFrom)}</div>
                   <div>{l.currency(salary.brut)}</div>
