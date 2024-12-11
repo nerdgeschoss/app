@@ -52,16 +52,18 @@ export class Reaction {
     path,
     method,
     params,
+    refresh = true,
   }: {
     path: string;
     method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
-    params: object;
+    params?: object;
+    refresh?: boolean;
   }): Promise<void> {
     let body = '';
     const csrfToken = document
       .querySelector("[name='csrf-token']")
       ?.getAttribute('content');
-    if (method !== 'GET') {
+    if (method !== 'GET' && params) {
       body = JSON.stringify(params);
     }
     const response = await fetch(path, {
@@ -77,6 +79,9 @@ export class Reaction {
     });
     if (!response.ok) {
       throw new Error(response.statusText);
+    }
+    if (refresh) {
+      await this.history.refreshPageContent();
     }
   }
 

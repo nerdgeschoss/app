@@ -59,10 +59,16 @@ export default function ({
           >
             <Stack>
               {inventories.map((inventory) => (
-                <Stack key={inventory.id} size={4}>
-                  <Text>{inventory.name}</Text>
-                  <Text>{inventory.details}</Text>
-                </Stack>
+                <div
+                  onClick={() =>
+                    modal.present(`/inventories/${inventory.id}/edit`)
+                  }
+                >
+                  <Stack key={inventory.id} size={4}>
+                    <Text>{inventory.name}</Text>
+                    <Text>{inventory.details}</Text>
+                  </Stack>
+                </div>
               ))}
             </Stack>
           </Card>

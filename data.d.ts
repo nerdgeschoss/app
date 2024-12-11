@@ -6,6 +6,15 @@ export interface DataSchema {
       avatarUrl: string;
     };
   };
+  'inventories/edit': {
+    inventory: {
+      id: string;
+      name: string;
+      details: string | null;
+      receivedAt: string;
+      returnedAt: string | null;
+    };
+  };
   'inventories/new': {
     user: {
       id: string;
