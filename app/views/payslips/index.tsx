@@ -28,13 +28,29 @@ export default function Home({
         </Stack>
         <Columns>
           {payslips.map((payslip) => (
-            <a key={payslip.id} href={payslip.url} target="_blank">
-              <Card
-                icon="💸"
-                title={payslip.user.displayName}
-                subtitle={l.monthAndYear(payslip.month)}
-              />
-            </a>
+            <Card
+              icon="💸"
+              title={payslip.user.displayName}
+              subtitle={l.monthAndYear(payslip.month)}
+              context={
+                <Stack line="mobile">
+                  <a key={payslip.id} href={payslip.url} target="_blank">
+                    ⬇️
+                  </a>
+                  {payslip.permitDestroy && (
+                    <Button
+                      title="delete"
+                      onClick={() =>
+                        reaction.call({
+                          path: `/payslips/${payslip.id}`,
+                          method: 'DELETE',
+                        })
+                      }
+                    />
+                  )}
+                </Stack>
+              }
+            />
           ))}
         </Columns>
         {nextPageUrl && (
