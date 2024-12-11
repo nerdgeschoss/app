@@ -27,7 +27,6 @@ export interface DataSchema {
       avatarUrl: string;
     };
     feedUrl: string;
-    filters: Array<{ id: string }>;
     activeFilter: string;
     permitUserSelect: string;
     users: Array<{ id: string; displayName: string }>;
@@ -35,7 +34,8 @@ export interface DataSchema {
       id: string;
       unicodeEmoji: string;
       title: string;
-      days: Array<{ days: string }>;
+      status: string;
+      days: Array<{ day: string }>;
       user: {
         id: string;
         displayName: string;

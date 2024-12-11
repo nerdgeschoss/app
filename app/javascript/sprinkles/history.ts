@@ -3,7 +3,7 @@ import { MetaCache } from './meta_cache';
 
 export class History {
   cache = new MetaCache();
-  private path: string = window.location.pathname;
+  private path: string = window.location.pathname + window.location.search;
 
   constructor(private onChange: (meta: Meta) => void) {
     window.addEventListener('popstate', this.restore.bind(this));

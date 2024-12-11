@@ -25,7 +25,6 @@ class LeavesController < ApplicationController
     if @leave.save
       @leave.handle_incoming_request
       @leave.handle_slack_status
-      ui.navigate_to leaves_path
     else
       render "new", status: :unprocessable_entity
     end
@@ -35,12 +34,10 @@ class LeavesController < ApplicationController
     @leave.update!(permitted_attributes(Leave))
     @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
     @leave.handle_slack_status
-    redirect_to leaves_path
   end
 
   def destroy
     @leave.destroy!
-    redirect_to leaves_path
   end
 
   private
