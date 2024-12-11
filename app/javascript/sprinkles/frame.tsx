@@ -16,9 +16,9 @@ export function Frame({ url }: Props): JSX.Element | null {
     let subscription: MetaCacheSubscription | null = null;
     reaction.history.cache.fetch(url).then((meta) => {
       setData(meta.meta.props);
-      subscription = reaction.history.cache.subscribe(url, (data) =>
-        setData(data)
-      );
+      subscription = reaction.history.cache.subscribe(url, (newData) => {
+        setData(newData);
+      });
       reaction
         .componentFor(meta.meta.component)
         .then((component) => setComponent(() => component));

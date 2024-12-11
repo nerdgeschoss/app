@@ -38,6 +38,17 @@ export class Formatter {
     }).format(date);
   }
 
+  monthAndYear(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
+      year: 'numeric',
+    }).format(date);
+  }
+
   time(value: Date | string): string | null {
     const date = this.parseDate(value);
     if (!date) {

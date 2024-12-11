@@ -18,19 +18,15 @@ export class MetaCache {
   }
 
   async refresh(url: string): Promise<Meta> {
-    console.log('refreshing', url);
-    const response = await fetch(url, {
-      headers: { accept: 'application/json' },
-    });
-    const body = await response.json();
-    const meta = new Meta(body);
-    this.write(url, meta);
+    const body = await this.loadMeta(url);
+    this.write(body);
     return body;
   }
 
-  write(url: string, data: Meta): void {
-    this.cache.set(url, data);
-    this.updateSubscriptions(url);
+  write(data: Meta): void {
+    console.log('writing', data.path);
+    this.cache.set(data.path, data);
+    this.updateSubscriptions(data.path);
   }
 
   clear(): void {
@@ -53,10 +49,33 @@ export class MetaCache {
     );
   }
 
+  async extendPageContent(
+    currentPath: string,
+    nextPath: string,
+    merge: (state: Meta, page: Meta) => Meta
+  ): Promise<void> {
+    const currentState = this.cache.get(currentPath);
+    if (!currentState)
+      throw new Error('Current state not found for path: ' + currentPath);
+    const nextState = await this.loadMeta(nextPath);
+    this.write(merge(currentState!, nextState));
+  }
+
   private updateSubscriptions(url: string): void {
     const data = this.cache.get(url);
     const subscriptions = this.subscriptions.get(url) || [];
-    subscriptions.forEach((s) => s.call(data));
+    subscriptions.forEach((s) => s.call(data?.props));
+  }
+
+  private async loadMeta(url: string): Promise<Meta> {
+    const response = await fetch(url, {
+      headers: { accept: 'application/json' },
+    });
+    const body = await response.json();
+    const meta = new Meta(body);
+    meta.path = url;
+    console.log('loaded', meta.path);
+    return meta;
   }
 }
 

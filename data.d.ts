@@ -35,6 +35,24 @@ export interface DataSchema {
     payslips: Array<{ id: string; month: string; url: string }>;
     remainingHolidays: number;
   };
+  'payslips/index': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+    payslips: Array<{
+      id: string;
+      user: {
+        displayName: string;
+      };
+      month: string;
+      url: string;
+      permitDestroy: boolean;
+    }>;
+    nextPageUrl: string;
+    permitCreatePayslip: boolean;
+  };
   'users/index': {
     currentUser: {
       id: string;

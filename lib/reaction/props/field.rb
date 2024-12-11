@@ -45,7 +45,7 @@ module Reaction
         elsif type == Object
           fields.map do |name, field|
             field_value = if field.value_override
-              ValueProxy.new(value).instance_exec(&field.value_override)
+              ValueProxy.new(value, context:).instance_exec(&field.value_override)
             else
               value.is_a?(Hash) ? value.with_indifferent_access[name] : value.try(name)
             end
@@ -81,6 +81,10 @@ module Reaction
         else
           raise "Unknown type: #{type}"
         end
+      end
+
+      def context
+        parent&.context
       end
 
       private

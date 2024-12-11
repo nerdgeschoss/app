@@ -1,5 +1,6 @@
 import React, { createContext, FunctionComponent, ReactElement } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Frame } from './frame';
 import { History } from './history';
 import { Meta } from './meta';
 
@@ -16,9 +17,8 @@ export class Reaction {
   private root!: ReturnType<typeof createRoot>;
   private layout?: FunctionComponent<{
     children: ReactElement;
-    reaction: Reaction;
   }>;
-  history = new History((meta) => this.renderPage(meta));
+  history = new History((meta) => this.renderPage(meta.path));
 
   constructor({ layout }: { layout?: Reaction['layout'] } | undefined = {}) {
     this.layout = layout;
@@ -45,7 +45,6 @@ export class Reaction {
   async componentFor(path: string): Promise<FunctionComponent<any> | null> {
     const importPath = '../../views/' + path + '.tsx';
     const implementation = imports[importPath];
-    console.log('implementation', path, importPath, implementation);
     if (!implementation) return null;
     return ((await implementation()) as any).default;
   }
@@ -95,18 +94,16 @@ export class Reaction {
     ).content;
     const data = metaJson ? JSON.parse(metaJson) : {};
     const meta = new Meta(data);
-    this.history.cache.write(window.location.pathname, meta);
+    meta.path = window.location.pathname + window.location.search;
+    this.history.cache.write(meta);
     this.root = createRoot(rootElement);
-    this.renderPage(meta);
+    this.renderPage(meta.path);
   }
 
-  private async renderPage(meta: Meta): Promise<void> {
-    const App = await this.componentFor(meta.component);
-    if (!App) return;
-    const content = React.createElement(App, { data: meta.props });
+  private async renderPage(path: string): Promise<void> {
+    const content = React.createElement(Frame, { url: path });
     const app = React.createElement(this.layout || React.Fragment, {
       children: content,
-      reaction: this,
     });
     this.root.render(
       React.createElement(ReactionContext.Provider, { value: this }, app)
