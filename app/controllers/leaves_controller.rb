@@ -21,13 +21,10 @@ class LeavesController < ApplicationController
   end
 
   def create
-    @leave = authorize Leave.new(permitted_attributes(Leave).merge(days: permitted_attributes(Leave)[:days].split(", ")).reverse_merge(user_id: current_user.id))
-    if @leave.save
-      @leave.handle_incoming_request
-      @leave.handle_slack_status
-    else
-      render "new", status: :unprocessable_entity
-    end
+    @leave = authorize Leave.new(permitted_attributes(Leave).reverse_merge(user_id: current_user.id))
+    @leave.save!
+    @leave.handle_incoming_request
+    @leave.handle_slack_status
   end
 
   def update

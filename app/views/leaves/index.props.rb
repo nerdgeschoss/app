@@ -22,4 +22,4 @@ field :leaves, array: true, value: -> { @leaves } do
   field :permit_update, value: -> { helpers.policy(self).update? }
   field :permit_destroy, value: -> { helpers.policy(self).destroy? }
 end
-field :next_page_url, value: -> { helpers.path_to_next_page @leaves }
+field :next_page_url, null: true, value: -> { helpers.path_to_next_page @leaves }

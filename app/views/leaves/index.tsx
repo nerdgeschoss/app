@@ -7,6 +7,7 @@ import { Stack } from '../../javascript/components/stack/stack';
 import { Text } from '../../javascript/components/text/text';
 import { Card } from '../../javascript/components/card/card';
 import { Button } from '../../javascript/components/button/button';
+import { useModal } from '../../javascript/components/modal/modal';
 import { useReaction } from '../../javascript/sprinkles/reaction';
 
 export default function ({
@@ -15,12 +16,14 @@ export default function ({
   const t = useTranslate();
   const l = useFormatter();
   const reaction = useReaction();
+  const modal = useModal();
   return (
     <Layout user={currentUser} container>
       <Stack>
         <Stack line="mobile" justify="space-between">
           <Text type="headline">{t('users.index.title')}</Text>
           <a href={feedUrl}>subscribe</a>
+          <Button title="add" onClick={() => modal.present('/leaves/new')} />
         </Stack>
         <Stack line="mobile">
           {['all', 'pending_approval', 'rejected'].map((e) => (

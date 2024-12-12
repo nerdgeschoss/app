@@ -18,8 +18,9 @@ class LeavePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    attr = [:title, :days, :type]
+    attr = [:title, :type]
     attr += [:user_id, :status] if hr?
+    attr += [days: []]
     attr
   end
 

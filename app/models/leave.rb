@@ -69,8 +69,8 @@ class Leave < ApplicationRecord
   end
 
   def notify_hr_on_slack_about_new_request
-    Slack.instance.notify(channel: Config.slack_hr_channel_id!,
-      text: Leave::Notification.new(leave: self).hr_leave_request_message)
+    Slack.instance.notify(channel: Config.slack_hr_channel_id,
+      text: Leave::Notification.new(leave: self).hr_leave_request_message) if Config.slack_hr_channel_id.present?
   end
 
   def notify_user_on_slack_about_status_change

@@ -43,7 +43,16 @@ export interface DataSchema {
       permitUpdate: string;
       permitDestroy: string;
     }>;
-    nextPageUrl: string;
+    nextPageUrl: string | null;
+  };
+  'leaves/new': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+    permitUserSelect: boolean;
+    users: Array<{ id: string; displayName: string }>;
   };
   'pages/home': {
     currentUser: {

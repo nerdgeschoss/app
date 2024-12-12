@@ -128,7 +128,13 @@ function serialize(
     }
     if (Array.isArray(value)) {
       value.forEach((v, i) => {
-        serialize({ [i]: v }, formData, [...(parentPath || []), key]);
+        if (typeof v === 'object' && !(v instanceof Date)) {
+          serialize({ [i]: v }, formData, [...(parentPath || []), key]);
+        } else if (v instanceof Date) {
+          formData.append(path + `[]`, v.toISOString());
+        } else {
+          formData.append(path + `[]`, v);
+        }
       });
       return;
     }
