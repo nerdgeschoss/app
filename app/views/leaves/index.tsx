@@ -17,6 +17,7 @@ export default function ({
   const l = useFormatter();
   const reaction = useReaction();
   const modal = useModal();
+
   return (
     <Layout user={currentUser} container>
       <Stack>
@@ -55,9 +56,33 @@ export default function ({
               }
               context={
                 <>
+                  {!!leave.permitApprove && (
+                    <>
+                      <Button
+                        title="👍"
+                        onClick={() =>
+                          reaction.call({
+                            path: `/leaves/${leave.id}`,
+                            method: 'PATCH',
+                            params: { leave: { status: 'approved' } },
+                          })
+                        }
+                      />
+                      <Button
+                        title="👎"
+                        onClick={() =>
+                          reaction.call({
+                            path: `/leaves/${leave.id}`,
+                            method: 'PATCH',
+                            params: { leave: { status: 'rejected' } },
+                          })
+                        }
+                      />
+                    </>
+                  )}
                   {leave.permitDestroy && (
                     <Button
-                      title="delete"
+                      title="🗑️"
                       onClick={() =>
                         reaction.call({
                           path: `/leaves/${leave.id}`,

@@ -28,7 +28,7 @@ export interface DataSchema {
     };
     feedUrl: string;
     activeFilter: string;
-    permitUserSelect: string;
+    permitUserSelect: boolean;
     users: Array<{ id: string; displayName: string }>;
     leaves: Array<{
       id: string;
@@ -40,8 +40,9 @@ export interface DataSchema {
         id: string;
         displayName: string;
       };
-      permitUpdate: string;
-      permitDestroy: string;
+      permitUpdate: boolean;
+      permitDestroy: boolean;
+      permitApprove: boolean;
     }>;
     nextPageUrl: string | null;
   };

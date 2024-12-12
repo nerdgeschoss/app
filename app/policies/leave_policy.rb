@@ -24,6 +24,10 @@ class LeavePolicy < ApplicationPolicy
     attr
   end
 
+  def approve?
+    record.pending_approval? && hr?
+  end
+
   class Scope < Scope
     def resolve
       if hr?

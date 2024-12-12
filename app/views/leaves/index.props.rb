@@ -2,7 +2,7 @@ render "components/current_user"
 
 field :feed_url, value: -> { helpers.feed_leaves_url(auth: current_user.id, format: :ics, protocol: :webcal) }
 field :active_filter, value: -> { @status }
-field :permit_user_select, value: -> { helpers.policy(Leave).show_all_users? }
+field :permit_user_select, Boolean, value: -> { helpers.policy(Leave).show_all_users? }
 field :users, array: true, value: -> { User.currently_employed } do
   field :id
   field :display_name
@@ -19,7 +19,8 @@ field :leaves, array: true, value: -> { @leaves } do
     field :id
     field :display_name
   end
-  field :permit_update, value: -> { helpers.policy(self).update? }
-  field :permit_destroy, value: -> { helpers.policy(self).destroy? }
+  field :permit_update, Boolean, value: -> { helpers.policy(self).update? }
+  field :permit_destroy, Boolean, value: -> { helpers.policy(self).destroy? }
+  field :permit_approve, Boolean, value: -> { helpers.policy(self).approve? }
 end
 field :next_page_url, null: true, value: -> { helpers.path_to_next_page @leaves }
