@@ -1,0 +1,42 @@
+$breakpoint-phone: 375px;
+$breakpoint-tablet: 640px;
+$breakpoint-tablet-large: 765px;
+$breakpoint-desktop: 890px;
+$breakpoint-widescreen: 1280px;
+$breakpoint-widescreen-large: 1440px;
+
+@mixin media-phone {
+  @media only screen and (min-width: $breakpoint-phone) {
+    @content;
+  }
+}
+
+@mixin media-tablet {
+  @media only screen and (min-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin media-tablet-large {
+  @media only screen and (min-width: $breakpoint-tablet-large) {
+    @content;
+  }
+}
+
+@mixin media-desktop {
+  @media only screen and (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+@mixin media-widescreen {
+  @media only screen and (min-width: $breakpoint-widescreen) {
+    @content;
+  }
+}
+
+@mixin media-widescreen-large {
+  @media only screen and (min-width: $breakpoint-widescreen-large) {
+    @content;
+  }
+}

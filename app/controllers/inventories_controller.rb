@@ -8,7 +8,6 @@ class InventoriesController < ApplicationController
   def create
     @inventory = authorize Inventory.new permitted_attributes(Inventory)
     @inventory.save!
-    ui.navigate_to @inventory.user
   end
 
   def edit
@@ -18,12 +17,10 @@ class InventoriesController < ApplicationController
   def update
     @inventory = authorize Inventory.find params[:id]
     @inventory.update! permitted_attributes(Inventory)
-    ui.navigate_to @inventory.user
   end
 
   def destroy
     @inventory = authorize Inventory.find params[:id]
     @inventory.destroy!
-    ui.navigate_to @inventory.user
   end
 end

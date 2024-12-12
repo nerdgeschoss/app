@@ -1,0 +1,30 @@
+{
+  "pages": {
+    "home": {
+      "hello": "Hello, %{name}!",
+      "upcoming_holidays": "Upcoming holidays",
+      "last_payments": "Last payments",
+      "remaining_holidays": "Remaining holidays",
+      "number_holidays_left": "You have %{count} days off left",
+      "payslip_archive": "archive"
+    }
+  },
+  "users": {
+    "index": {
+      "title": "Users",
+      "number_holidays_left": "%{count} days off left",
+      "salary_since": "%{amount} since %{date}"
+    },
+    "show": {
+      "remaining_holidays":"Remaining holidays",
+      "salary_history": "Salary history",
+      "inventory": "Inventory",
+      "add_inventory": "add"
+    }
+  },
+  "leaves": {
+    "new":{
+      "days_in_past_warning": "Heads up: Some of the selected days are in the past."
+    }
+  }
+}

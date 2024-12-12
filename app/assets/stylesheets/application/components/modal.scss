@@ -29,7 +29,9 @@
     position: relative;
     background-color: white;
     border-radius: 5px 5px 0 0;
-    transition: opacity 0.5s, transform 0.5s;
+    transition:
+      opacity 0.5s,
+      transform 0.5s;
     opacity: 0;
     transform: translate(0, 80px);
     padding: 1rem 1rem 0;
