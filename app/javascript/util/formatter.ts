@@ -14,6 +14,13 @@ export class Formatter {
     }).format(Number(value));
   }
 
+  singleDigitNumber(value: number): string {
+    return new Intl.NumberFormat(this.locale, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }).format(value);
+  }
+
   date(value: Date | string): string | null {
     const date = this.parseDate(value);
 

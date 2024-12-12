@@ -92,6 +92,38 @@ export interface DataSchema {
     users: Array<{ id: string; displayName: string }>;
     defaultMonth: string;
   };
+  'sprints/index': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+    sprints: Array<{
+      id: string;
+      title: string;
+      sprintFrom: string;
+      sprintUntil: string;
+      performances: Array<{
+        id: string;
+        reviewNotes: string | null;
+        workingDayCount: number;
+        holidayCount: number;
+        sickDayCount: number;
+        dailyNerdCount: number;
+        trackedHours: number;
+        billableHours: number;
+        billablePerDay: number;
+        retroRating: number | null;
+        finishedStorypoints: number;
+        revenue: number | null;
+        user: {
+          id: string;
+          displayName: string;
+        };
+      }>;
+    }>;
+    nextPageUrl: string | null;
+  };
   'users/index': {
     currentUser: {
       id: string;
