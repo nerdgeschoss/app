@@ -105,20 +105,25 @@ export interface DataSchema {
       sprintUntil: string;
       performances: Array<{
         id: string;
-        reviewNotes: string | null;
         workingDayCount: number;
-        holidayCount: number;
-        sickDayCount: number;
-        dailyNerdCount: number;
         trackedHours: number;
         billableHours: number;
-        billablePerDay: number;
         retroRating: number | null;
         finishedStorypoints: number;
-        revenue: number | null;
+        days: Array<{
+          id: string;
+          day: string;
+          hasDailyNerdMessage: boolean;
+          leave: {
+            id: string;
+            type: string;
+          } | null;
+          hasTimeEntries: boolean;
+        }>;
         user: {
           id: string;
           displayName: string;
+          avatarUrl: string;
         };
       }>;
     }>;

@@ -12,6 +12,10 @@ module Reaction
       def helpers
         @context
       end
+
+      def root(&block)
+        @context.instance_eval(&block)
+      end
     end
   end
 end

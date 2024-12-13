@@ -117,11 +117,11 @@ class SprintFeedback < ApplicationRecord
     turnover_per_storypoint / sprint.turnover_per_storypoint
   end
 
-  private
-
   def leaves
     @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end
+
+  private
 
   def count_days(type)
     leaves.select { |e| e.public_send(:"#{type}?") }
