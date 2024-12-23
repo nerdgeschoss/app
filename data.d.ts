@@ -92,6 +92,58 @@ export interface DataSchema {
     users: Array<{ id: string; displayName: string }>;
     defaultMonth: string;
   };
+  'sprint_feedbacks/show': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+    feedback: {
+      id: string;
+      finishedStorypoints: number;
+      finishedStorypointsPerDay: number;
+      retroRating: number | null;
+      retroText: string | null;
+      workingDayCount: number;
+      trackedHours: number;
+      billableHours: number;
+      sprint: {
+        id: string;
+        title: string;
+        sprintFrom: string;
+        sprintUntil: string;
+      };
+      user: {
+        id: string;
+        displayName: string;
+        avatarUrl: string;
+      };
+      days: Array<{
+        id: string;
+        day: string;
+        hasDailyNerdMessage: boolean;
+        leave: {
+          id: string;
+          type: string;
+        } | null;
+        timeEntries: Array<{
+          id: string;
+          notes: string | null;
+          type: string;
+          hours: string;
+          project: {
+            id: string;
+            name: string;
+          } | null;
+          task: {
+            id: string;
+            status: string;
+            totalHours: string;
+          } | null;
+        }>;
+      }>;
+    };
+  };
   'sprints/index': {
     currentUser: {
       id: string;

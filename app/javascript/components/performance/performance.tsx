@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { useFormatter } from '../../util/dependencies';
 
 interface Props {
+  id: string;
   workingDayCount: number;
   retroRating: number | null;
   finishedStorypoints: number;
@@ -29,6 +30,7 @@ interface Props {
 }
 
 export function Performance({
+  id,
   user,
   finishedStorypoints,
   retroRating,
@@ -40,7 +42,7 @@ export function Performance({
   const percentageOfRequiredHours =
     workingDayCount > 0 ? trackedHours / (workingDayCount * 7.5) : 1.0;
   return (
-    <div className="performance">
+    <a className="performance" href={`/sprint_feedbacks/${id}`}>
       <Stack size={11}>
         <Stack justify="center" line="mobile" size={6}>
           <img src={user.avatarUrl} className="performance__avatar" />
@@ -87,6 +89,6 @@ export function Performance({
           </div>
         </Stack>
       </Stack>
-    </div>
+    </a>
   );
 }

@@ -117,6 +117,11 @@ class SprintFeedback < ApplicationRecord
     turnover_per_storypoint / sprint.turnover_per_storypoint
   end
 
+  def finished_storypoints_per_day
+    return 0 if working_day_count.zero?
+    finished_storypoints.to_f / working_day_count
+  end
+
   def leaves
     @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end

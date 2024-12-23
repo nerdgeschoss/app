@@ -45,6 +45,16 @@ export class Formatter {
     }).format(date);
   }
 
+  dayName(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      weekday: 'long',
+    }).format(date);
+  }
+
   monthAndYear(value: Date | string): string | null {
     const date = this.parseDate(value);
     if (!date) {
