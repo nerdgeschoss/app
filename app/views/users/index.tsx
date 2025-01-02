@@ -6,6 +6,7 @@ import { Layout } from '../../javascript/components/layout/layout';
 import { Stack } from '../../javascript/components/stack/stack';
 import { Text } from '../../javascript/components/text/text';
 import { Card } from '../../javascript/components/card/card';
+import { Link } from '../../javascript/sprinkles/history';
 
 export default function ({
   data: { filter, users, currentUser },
@@ -18,13 +19,9 @@ export default function ({
         <Text type="headline">{t('users.index.title')}</Text>
         <Stack line="mobile">
           {['employee', 'sprinter', 'hr', 'archive'].map((e) => (
-            <a
-              key={e}
-              className={`pill ${e === filter ? 'active' : ''}`}
-              href={`/users?filter=${e}`}
-            >
-              {e}
-            </a>
+            <Link key={e} href={`/users?filter=${e}`}>
+              <div className={`pill ${e === filter ? 'active' : ''}`}>{e}</div>
+            </Link>
           ))}
         </Stack>
         {users.map((user) => (

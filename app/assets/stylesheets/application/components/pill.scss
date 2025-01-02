@@ -6,15 +6,15 @@
   height: 24px;
   line-height: 24px;
   padding: 0 10px;
-  background-color: var(--color-tint);
+  background-color: var(--text-primary-base);
   color: white;
   border-radius: 16px;
 
   &:hover {
-    color: var(--color-muted-background);
+    background-color: var(--text-primary-weaker);
   }
 
   &.active {
-    background-color: var(--color-text);
+    background-color: var(--text-primary-weak);
   }
 }

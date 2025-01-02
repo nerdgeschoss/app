@@ -5,6 +5,7 @@ import { Columns } from '../../javascript/components/columns/columns';
 import { Layout } from '../../javascript/components/layout/layout';
 import { Stack } from '../../javascript/components/stack/stack';
 import { Text } from '../../javascript/components/text/text';
+import { Link } from '../../javascript/sprinkles/history';
 import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
 
 export default function Home({
@@ -44,7 +45,7 @@ export default function Home({
                 </Stack>
               }
               context={
-                <a href="/payslips">{t('pages.home.payslip_archive')}</a>
+                <Link href="/payslips">{t('pages.home.payslip_archive')}</Link>
               }
             />
           )}

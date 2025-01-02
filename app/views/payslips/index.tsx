@@ -29,6 +29,7 @@ export default function Home({
         <Columns>
           {payslips.map((payslip) => (
             <Card
+              key={payslip.id}
               icon="💸"
               title={payslip.user.displayName}
               subtitle={l.monthAndYear(payslip.month)}

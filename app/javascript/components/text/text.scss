@@ -32,4 +32,8 @@
   &--menu-bold {
     @include desktop-menu-bold();
   }
+
+  &--headline {
+    @include desktop-headline();
+  }
 }

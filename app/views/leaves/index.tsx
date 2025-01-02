@@ -9,6 +9,7 @@ import { Card } from '../../javascript/components/card/card';
 import { Button } from '../../javascript/components/button/button';
 import { useModal } from '../../javascript/components/modal/modal';
 import { useReaction } from '../../javascript/sprinkles/reaction';
+import { Link } from '../../javascript/sprinkles/history';
 
 export default function ({
   data: { nextPageUrl, currentUser, leaves, activeFilter, feedUrl },
@@ -28,13 +29,11 @@ export default function ({
         </Stack>
         <Stack line="mobile">
           {['all', 'pending_approval', 'rejected'].map((e) => (
-            <a
-              key={e}
-              className={`pill ${e === activeFilter ? 'active' : ''}`}
-              href={`/leaves?status=${e}`}
-            >
-              {e}
-            </a>
+            <Link key={e} href={`/leaves?status=${e}`}>
+              <div className={`pill ${e === activeFilter ? 'active' : ''}`}>
+                {e}
+              </div>
+            </Link>
           ))}
         </Stack>
         <Stack>

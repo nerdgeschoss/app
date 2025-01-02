@@ -28,19 +28,6 @@ export class Reaction {
     document.addEventListener('DOMContentLoaded', () => {
       this.loadPage();
     });
-    document.addEventListener('click', (event) => {
-      let target = event.target as HTMLAnchorElement;
-      while (target && target.tagName !== 'A') {
-        if (target === document.body) return;
-        target = target.parentElement as HTMLAnchorElement;
-      }
-      if (!target) return;
-      if (target.target === '_blank') return;
-      if (!target.href.startsWith(document.location.origin)) return;
-      if (/\.[0-9a-z]+$/i.test(target.href)) return; // return early for file links like pdfs
-      event.preventDefault();
-      this.history.navigate(target.getAttribute('href')!);
-    });
   }
 
   async componentFor(path: string): Promise<FunctionComponent<any> | null> {

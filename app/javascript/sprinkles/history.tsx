@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Meta } from './meta';
 import { MetaCache } from './meta_cache';
 import { useReaction } from './reaction';
@@ -16,6 +16,30 @@ export function usePath(): string {
     };
   }, [history]);
   return path;
+}
+
+export function Link({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}): JSX.Element {
+  const history = useReaction().history;
+  return (
+    <a
+      href={href}
+      onClick={(event) => {
+        event.preventDefault();
+        history.navigate(href);
+      }}
+      className={className}
+    >
+      {children}
+    </a>
+  );
 }
 
 export class History {

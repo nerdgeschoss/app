@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Link } from '../../sprinkles/history';
 
 interface Props {
   children?: ReactNode;
@@ -35,9 +36,9 @@ export function Card({
   );
   if (href) {
     return (
-      <a className="card" href={href}>
+      <Link className="card" href={href}>
         {content}
-      </a>
+      </Link>
     );
   }
   return <div className="card">{content}</div>;

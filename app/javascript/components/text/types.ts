@@ -38,4 +38,4 @@ export type Color =
   | 'white-100'
   | 'white-90';
 
-export type TextType = 'menu-bold' | 'menu-semibold' | 'tooltip';
+export type TextType = 'menu-bold' | 'menu-semibold' | 'tooltip' | 'headline';

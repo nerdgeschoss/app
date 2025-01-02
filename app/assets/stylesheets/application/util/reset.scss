@@ -36,10 +36,7 @@ body {
   -webkit-font-smoothing: antialiased;
   font-size: var(--size-text);
   line-height: 1.5;
-  font-feature-settings:
-    'kern' 1,
-    'onum' 0,
-    'liga' 1;
+  font-feature-settings: 'kern' 1, 'onum' 0, 'liga' 1;
   background-color: var(--color-background);
   caret-color: var(--color-tint);
 }

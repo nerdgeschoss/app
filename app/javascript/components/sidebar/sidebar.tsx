@@ -5,7 +5,7 @@ import logo from '../../../frontend/images/logo.svg';
 import './sidebar.scss';
 import classNames from 'classnames';
 import { Icon, IconName } from '../icon/icon';
-import { usePath } from '../../sprinkles/history';
+import { Link, usePath } from '../../sprinkles/history';
 
 interface Props {
   user: {
@@ -71,18 +71,18 @@ export function Sidebar({ user }: Props): JSX.Element {
         <div className="sidebar__links">
           <Stack size={24} tabletSize={32} desktopSize={48}>
             {links.map((link) => (
-              <a
-                className={classNames('sidebar__link', {
-                  'sidebar__link--active': link.active,
-                })}
-                key={link.name}
-                href={link.path}
-              >
-                <Icon name={link.icon} size={24} desktopSize={32} />
-                <div className="sidebar__link-text">
-                  <Text type="menu-semibold">{link.name}</Text>
+              <Link href={link.path} key={link.name}>
+                <div
+                  className={classNames('sidebar__link', {
+                    'sidebar__link--active': link.active,
+                  })}
+                >
+                  <Icon name={link.icon} size={24} desktopSize={32} />
+                  <div className="sidebar__link-text">
+                    <Text type="menu-semibold">{link.name}</Text>
+                  </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </Stack>
         </div>
