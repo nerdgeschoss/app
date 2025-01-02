@@ -1,9 +1,27 @@
+import { useEffect, useState } from 'react';
 import { Meta } from './meta';
 import { MetaCache } from './meta_cache';
+import { useReaction } from './reaction';
+
+export function usePath(): string {
+  const history = useReaction().history;
+  const [path, setPath] = useState(history.path);
+  useEffect(() => {
+    const listener = (history: History) => {
+      setPath(history.path);
+    };
+    history.subscribe(listener);
+    return () => {
+      history.unsubscribe(listener);
+    };
+  }, [history]);
+  return path;
+}
 
 export class History {
   cache = new MetaCache();
-  private path: string = window.location.pathname + window.location.search;
+  path: string = window.location.pathname + window.location.search;
+  listeners: Array<(history: History) => void> = [];
 
   constructor(private onChange: (meta: Meta) => void) {
     window.addEventListener('popstate', this.restore.bind(this));
@@ -16,6 +34,7 @@ export class History {
     this.onChange(result.meta);
     if (result.fresh) return;
     this.onChange(await this.cache.refresh(url));
+    this.listeners.forEach((e) => e(this));
   }
 
   async refreshPageContent(): Promise<void> {
@@ -48,5 +67,13 @@ export class History {
     const result = await this.cache.fetch(url);
     this.path = url;
     this.onChange(result.meta);
+  }
+
+  subscribe(listener: (history: History) => void): void {
+    this.listeners.push(listener);
+  }
+
+  unsubscribe(listener: (history: History) => void): void {
+    this.listeners = this.listeners.filter((e) => e !== listener);
   }
 }

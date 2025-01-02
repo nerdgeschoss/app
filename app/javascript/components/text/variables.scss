@@ -1,0 +1,64 @@
+:root {
+  --arrow-button-bg-default: #ffffff;
+  --background-primary-base: #ffffff;
+  --background-primary-strong: #2e2d31;
+  --background-primary-weak: #728597;
+  --background-primary-weaker: #888888;
+  --background-secondary-base: rgba(44, 168, 255, 0.1000);
+  --background-secondary-weak: #2ca8ff;
+  --blue-1: rgba(44, 168, 255, 0.1000);
+  --blue-100: #2ca8ff;
+  --color: #ffffff;
+  --gray-100: #2e2d31;
+  --gray-20: #d9d9d9;
+  --gray-50: #728597;
+  --gray-70: #888888;
+  --icon-arrow-active: #2ca8ff;
+  --icon-arrow-default: #888888;
+  --icon-menu-active: #2ca8ff;
+  --icon-menu-default: #888888;
+  --icon-navigation-active: #ffffff;
+  --icon-navigation-default: #888888;
+  --icon-navigation-hover: #2ca8ff;
+  --menu-bg-active: #2ca8ff;
+  --menu-bg-default: #ffffff;
+  --menu-bg-hover: rgba(44, 168, 255, 0.1000);
+  --menu-label-active: #ffffff;
+  --menu-label-default: #888888;
+  --menu-label-hover: #2ca8ff;
+  --navigation-bg-default: #ffffff;
+  --text-color: #ffffff;
+  --text-primary-base: #2e2d31;
+  --text-primary-weak: #728597;
+  --text-primary-weaker: #888888;
+  --text-primary-weakest: #ffffff;
+  --text-secondary-base: #2ca8ff;
+  --tooltip-bg-default: #2e2d31;
+  --tooltip-label-default: #ffffff;
+  --white-100: #ffffff;
+  --white-90: #ffffff;
+}
+@mixin tooltip() {
+  font-size: 18px;
+  text-decoration: none;
+  font-family: 'Inter';
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 24px;
+}
+@mixin desktop-menu-semibold() {
+  font-size: 18px;
+  text-decoration: none;
+  font-family: 'Inter';
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: normal;
+}
+@mixin desktop-menu-bold() {
+  font-size: 18px;
+  text-decoration: none;
+  font-family: 'Inter';
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: normal;
+}

@@ -43,6 +43,9 @@ export default function Home({
                   ))}
                 </Stack>
               }
+              context={
+                <a href="/payslips">{t('pages.home.payslip_archive')}</a>
+              }
             />
           )}
           <Card
@@ -51,7 +54,6 @@ export default function Home({
             subtitle={t('pages.home.number_holidays_left', {
               count: remainingHolidays,
             })}
-            context={<a href="/payslips">{t('pages.home.payslip_archive')}</a>}
           />
         </Columns>
       </Stack>

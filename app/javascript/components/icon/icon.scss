@@ -1,0 +1,29 @@
+@import '../layout.scss';
+
+$icons: 'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user';
+
+.icon {
+  display: block;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  flex-shrink: 0;
+  color: var(--icon-color);
+  width: var(--icon-size);
+  aspect-ratio: 1;
+
+  @each $icon in $icons {
+    &--#{$icon} {
+      mask-image: url('./icons/#{$icon}.svg');
+    }
+  }
+
+  @include media-tablet {
+    width: var(--icon-tablet-size);
+  }
+
+  @include media-desktop {
+    width: var(--icon-desktop-size);
+  }
+}
