@@ -1,16 +1,16 @@
 export class Meta {
   path: string;
   component: string;
-  props: any;
+  props: object;
 
   constructor({
     component,
     path,
     props,
   }: {
-    component: string;
-    path: string;
-    props: any;
+    component: Meta['component'];
+    path: Meta['path'];
+    props: Meta['props'];
   }) {
     this.component = component;
     this.props = props;

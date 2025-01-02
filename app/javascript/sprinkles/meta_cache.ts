@@ -32,7 +32,10 @@ export class MetaCache {
     this.subscriptions.clear();
   }
 
-  subscribe(url: string, callback: (meta: any) => void): MetaCacheSubscription {
+  subscribe(
+    url: string,
+    callback: (meta: unknown) => void
+  ): MetaCacheSubscription {
     const subscription = new MetaCacheSubscription(this, url, callback);
     const existing = this.subscriptions.get(url) || [];
     this.subscriptions.set(url, [...existing, subscription]);
@@ -80,10 +83,10 @@ export class MetaCacheSubscription {
   constructor(
     private cache: MetaCache,
     private url: string,
-    private callback: (data: any) => void
+    private callback: (data: unknown) => void
   ) {}
 
-  call(data: any): void {
+  call(data: unknown): void {
     this.callback(data);
   }
 

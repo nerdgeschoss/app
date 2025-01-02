@@ -52,7 +52,9 @@ $animation_time: 0.35s;
   &__content {
     position: relative;
     background-color: #fff;
-    transition: opacity $animation_time, transform $animation_time;
+    transition:
+      opacity $animation_time,
+      transform $animation_time;
     transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     opacity: 0;
     height: 100vh;

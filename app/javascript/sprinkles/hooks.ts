@@ -8,6 +8,5 @@ export function useOnMount(callback: () => void): void {
       callback();
     }
     didRender.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }

@@ -81,7 +81,7 @@ export class History {
       props: {
         ...state.props,
         [propPath]: [...state.props[propPath], ...page.props[propPath]],
-        nextPageUrl: page.props.nextPageUrl,
+        nextPageUrl: (page.props as { nextPageUrl: string }).nextPageUrl,
       },
     }));
   }

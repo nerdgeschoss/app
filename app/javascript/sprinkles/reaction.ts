@@ -30,10 +30,11 @@ export class Reaction {
     });
   }
 
-  async componentFor(path: string): Promise<FunctionComponent<any> | null> {
+  async componentFor(path: string): Promise<FunctionComponent<unknown> | null> {
     const importPath = '../../views/' + path + '.tsx';
     const implementation = imports[importPath];
     if (!implementation) return null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return ((await implementation()) as any).default;
   }
 
@@ -91,9 +92,11 @@ export class Reaction {
 
   private async renderPage(path: string): Promise<void> {
     const content = React.createElement(Frame, { url: path });
-    const app = React.createElement(this.layout || React.Fragment, {
-      children: content,
-    });
+    const app = React.createElement(
+      this.layout || React.Fragment,
+      undefined,
+      content
+    );
     this.root.render(
       React.createElement(ReactionContext.Provider, { value: this }, app)
     );

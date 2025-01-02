@@ -1,33 +1,16 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode } from 'react';
 
-import { Text } from '../text/text';
 import { FormField } from '../form_field/form_field';
-import classnames from 'classnames';
-import Flatpickr from 'react-flatpickr';
+import DatePicker from 'react-flatpickr';
 
 interface Props extends FormField<Date[]> {
   label?: ReactNode;
 }
 
-export function CalendarField({
-  name,
-  value,
-  ariaLabel,
-  placeholder,
-  required,
-  disabled,
-  readOnly,
-  inputId,
-  label,
-  touched,
-  errors,
-  onChange,
-  onBlur,
-  onFocus,
-}: Props): JSX.Element {
+export function CalendarField({ value, onChange }: Props): JSX.Element {
   return (
     <div className="calendar-field">
-      <Flatpickr
+      <DatePicker
         value={value}
         options={{
           inline: true,
