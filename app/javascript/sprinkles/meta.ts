@@ -1,7 +1,7 @@
 export class Meta {
   path: string;
   component: string;
-  props: object;
+  props: Record<string, unknown>;
 
   constructor({
     component,

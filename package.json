@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@nerdgeschoss/react-use-form-library": "^0.0.70",
-    "@types/react": "^19.0.2",
+    "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
     "@types/react-flatpickr": "^3.8.11",
     "classnames": "^2.5.1",
@@ -21,9 +21,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-flatpickr": "^3.10.13",
-    "sass": "^1.83.0",
+    "sass": "^1.83.1",
     "typescript": "^5.7.2",
-    "vite": "^6.0.6",
+    "vite": "^6.0.7",
     "vite-plugin-rails": "^0.5.0",
     "vite-plugin-sass-glob-import": "^5.0.0"
   },

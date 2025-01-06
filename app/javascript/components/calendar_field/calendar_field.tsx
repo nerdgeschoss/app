@@ -1,11 +1,16 @@
 import React, { ReactNode } from 'react';
 
 import { FormField } from '../form_field/form_field';
-import DatePicker from 'react-flatpickr';
+import DatePickerImport, { DateTimePickerProps } from 'react-flatpickr';
 
 interface Props extends FormField<Date[]> {
   label?: ReactNode;
 }
+
+// workaround for the type error in the flatpickr package
+const DatePicker = DatePickerImport as unknown as (
+  props: DateTimePickerProps
+) => JSX.Element;
 
 export function CalendarField({ value, onChange }: Props): JSX.Element {
   return (

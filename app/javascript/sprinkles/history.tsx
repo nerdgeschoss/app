@@ -80,7 +80,10 @@ export class History {
       ...state,
       props: {
         ...state.props,
-        [propPath]: [...state.props[propPath], ...page.props[propPath]],
+        [propPath]: [
+          ...(state.props[propPath] as unknown[]),
+          ...(page.props[propPath] as unknown[]),
+        ],
         nextPageUrl: (page.props as { nextPageUrl: string }).nextPageUrl,
       },
     }));
