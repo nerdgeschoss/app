@@ -57,7 +57,7 @@ export function Sidebar({ user }: Props): JSX.Element {
       active: path.startsWith('/users'),
     },
   ];
-  console.table(links);
+
   return (
     <nav className={classNames('sidebar', { 'sidebar--expanded': expanded })}>
       <div className="sidebar__header">

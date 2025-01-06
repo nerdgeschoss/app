@@ -1,3 +1,5 @@
+@use '../layout';
+
 @mixin base-container {
   --container-width: 1500px;
   display: grid;
@@ -13,7 +15,7 @@
     grid-column: 2/2;
   }
 
-  @media (min-width: $tablet) {
+  @include layout.media-tablet {
     grid-template-columns:
       minmax(24px, 1fr)
       minmax(0, var(--container-width))

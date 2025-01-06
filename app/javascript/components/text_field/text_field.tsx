@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField } from '../form_field/form_field';
 import classnames from 'classnames';
+import './text_field.scss';
 
 interface Props extends FormField<string | null> {
   label?: ReactNode;
@@ -19,31 +20,30 @@ export function TextField({
   inputId,
   label,
   touched,
-  valid,
   errors,
   onChange,
   onBlur,
   onFocus,
 }: Props): JSX.Element {
   return (
-    <div className="textfield__container">
+    <div className="text-field__container">
       <div
         className={classnames(
-          'textfield',
+          'text-field',
           {
-            'textfield--filled': !!value,
-            'textfield--readonly': readOnly,
-            'textfield--disabled': disabled,
-            'textfield--placeholder': placeholder,
+            'text-field--filled': !!value,
+            'text-field--readonly': readOnly,
+            'text-field--disabled': disabled,
+            'text-field--placeholder': placeholder,
           },
           { disabled }
         )}
       >
-        <div className="textfield__content">
+        <div className="text-field__content">
           {label !== undefined && (
             <label
-              className={classnames('textfield__label', {
-                'textfield__label--disabled': disabled,
+              className={classnames('text-field__label', {
+                'text-field__label--disabled': disabled,
               })}
               htmlFor={inputId}
             >
@@ -54,7 +54,7 @@ export function TextField({
             <input
               id={inputId}
               name={name}
-              className={classnames('textfield__input')}
+              className={classnames('text-field__input')}
               readOnly={readOnly}
               value={value ?? ''}
               type="text"
@@ -79,7 +79,7 @@ export function TextField({
           </Text>
         </div>
         {touched && errors && (
-          <div className="textfield__errors">
+          <div className="text-field__errors">
             {errors.map((error) => (
               <Text key={error}>{error}</Text>
             ))}

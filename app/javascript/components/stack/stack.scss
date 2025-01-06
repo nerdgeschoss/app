@@ -1,4 +1,4 @@
-@import '../layout.scss';
+@use '../layout';
 
 :root {
   --size: 16px;
@@ -81,7 +81,7 @@
     grid-auto-flow: column;
   }
 
-  @include media-tablet {
+  @include layout.media-tablet {
     width: auto;
     gap: var(--tablet-size);
 
@@ -145,7 +145,7 @@
     }
   }
 
-  @include media-desktop {
+  @include layout.media-desktop {
     width: auto;
     gap: var(--desktop-size);
 

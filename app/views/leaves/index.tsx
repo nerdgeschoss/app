@@ -23,7 +23,7 @@ export default function ({
     <Layout user={currentUser} container>
       <Stack>
         <Stack line="mobile" justify="space-between">
-          <Text type="headline">{t('users.index.title')}</Text>
+          <Text type="headline">{t('leaves.index.title')}</Text>
           <a href={feedUrl}>subscribe</a>
           <Button title="add" onClick={() => modal.present('/leaves/new')} />
         </Stack>

@@ -43,23 +43,3 @@ body {
   background-color: var(--color-background);
   caret-color: var(--color-tint);
 }
-
-strong {
-  font-weight: 600;
-}
-
-.text-right {
-  text-align: right !important;
-}
-
-.text-warning {
-  color: var(--color-warning);
-}
-
-.text-warn {
-  color: var(--color-warn);
-}
-
-.hidden {
-  display: none;
-}

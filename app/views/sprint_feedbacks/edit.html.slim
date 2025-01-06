@@ -1,7 +1,0 @@
-= form_with model: @feedback, class: :stack, builder: AwesomeForm do |f|
-  = f.input :daily_nerd_count, as: :number
-  = f.input :tracked_hours, as: :number, step: 0.1
-  = f.input :billable_hours, as: :number, step: 0.1
-  = f.input :review_notes, as: :text
-  span = f.submit class: :button
-= button_to "destroy", @feedback, method: :delete, form: { data: { turbo_confirm: t(".really_delete") } }, class: :button

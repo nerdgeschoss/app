@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Link } from '../../sprinkles/history';
+import './card.scss';
 
 interface Props {
   children?: ReactNode;

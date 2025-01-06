@@ -1,4 +1,4 @@
-@import '../layout.scss';
+@use '../layout';
 
 $navbar_height: 63px;
 $animation_time: 0.35s;
@@ -62,7 +62,7 @@ $animation_time: 0.35s;
     transform: translate(100%, 0px);
     max-height: 90vh;
 
-    @include media-tablet {
+    @include layout.media-tablet {
       max-height: 100%;
     }
 
@@ -73,20 +73,20 @@ $animation_time: 0.35s;
 
   &--large {
     .modal__content {
-      @include media-tablet {
+      @include layout.media-tablet {
         width: 640px;
       }
-      @include media-desktop {
+      @include layout.media-desktop {
         width: 900px;
       }
     }
 
     &.modal--center {
       .modal__content {
-        @include media-tablet {
+        @include layout.media-tablet {
           width: 640px;
         }
-        @include media-desktop {
+        @include layout.media-desktop {
           width: 900px;
         }
       }
@@ -104,14 +104,14 @@ $animation_time: 0.35s;
       max-width: unset;
       width: 100%;
 
-      @include media-tablet {
+      @include layout.media-tablet {
         width: 640px;
         margin-top: 0;
         top: 50%;
         width: unset;
       }
 
-      @include media-desktop {
+      @include layout.media-desktop {
         width: 640px;
       }
 
@@ -127,7 +127,7 @@ $animation_time: 0.35s;
       opacity: 1;
       transform: none;
 
-      @include media-tablet {
+      @include layout.media-tablet {
         transform: translate(0px, -50%);
       }
     }

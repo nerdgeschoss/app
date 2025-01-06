@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 
 import { FormField } from '../form_field/form_field';
 import DatePickerImport, { DateTimePickerProps } from 'react-flatpickr';
+import './calendar-field.scss';
+import 'flatpickr/dist/flatpickr.min.css';
 
 interface Props extends FormField<Date[]> {
   label?: ReactNode;

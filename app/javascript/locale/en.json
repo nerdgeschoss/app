@@ -25,6 +25,9 @@
   "leaves": {
     "new": {
       "days_in_past_warning": "Heads up: Some of the selected days are in the past."
+    },
+    "index": {
+      "title": "Leaves"
     }
   }
 }

@@ -1,9 +1,0 @@
-/# locals: (sprint:)
-
-a.card href=sprints_path(anchor: dom_id(sprint))
-  .card__header
-    .card__icon ⚠️
-    .card__header-content
-      .card__title = t(".missing_retro")
-      .card__subtitle
-        = t(".reminder_text", sprint_title: sprint.full_title)

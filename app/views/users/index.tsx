@@ -1,11 +1,11 @@
 import React from 'react';
-import { Sidebar } from '../../javascript/components/sidebar/sidebar';
 import { PageProps } from '../../../data.d';
 import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
 import { Layout } from '../../javascript/components/layout/layout';
 import { Stack } from '../../javascript/components/stack/stack';
 import { Text } from '../../javascript/components/text/text';
 import { Card } from '../../javascript/components/card/card';
+import { Pill } from '../../javascript/components/pill/pill';
 import { Link } from '../../javascript/sprinkles/history';
 
 export default function ({
@@ -20,7 +20,7 @@ export default function ({
         <Stack line="mobile">
           {['employee', 'sprinter', 'hr', 'archive'].map((e) => (
             <Link key={e} href={`/users?filter=${e}`}>
-              <div className={`pill ${e === filter ? 'active' : ''}`}>{e}</div>
+              <Pill active={e === filter}>{e}</Pill>
             </Link>
           ))}
         </Stack>
