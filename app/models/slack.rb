@@ -28,7 +28,7 @@ class Slack
 
   def retrieve_users_slack_id_by_email(email)
     response = request http_method: :get, slack_method: "users.lookupByEmail", query: {email:}
-    response.dig("user", "id")
+    response&.dig("user", "id")
   end
 
   def retrieve_users_profile_image_url_by_email(email)
@@ -48,7 +48,7 @@ class Slack
   def request(http_method:, slack_method:, query: nil, body: nil, token_type: :bot)
     return unless configured?
 
-    token = Config.public_send("slack_#{token_type}_token!")
+    token = Config.public_send(:"slack_#{token_type}_token!")
     headers = {"Content-Type": "application/json", authorization: "Bearer #{token}"}
     response = HTTParty.public_send(http_method, "https://slack.com/api/#{slack_method}", headers:, query:, body:)
 

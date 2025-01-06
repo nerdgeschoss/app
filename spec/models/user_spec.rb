@@ -30,6 +30,12 @@ RSpec.describe User do
   let(:john) { users(:john) }
   let(:slack_text) { Slack.instance.last_message.text }
 
+  around do |example|
+    Config.stub(slack_announcement_channel_id: "slack-announcement-channel") do
+      example.run
+    end
+  end
+
   it "congratulates the user on his birthday" do
     john.congratulate_on_birthday
     expect(slack_text).to eq "🥳 *HAPPY BIRTHDAY JOHN!!*"

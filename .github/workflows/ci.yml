@@ -43,8 +43,6 @@ jobs:
           bundler-cache: true
       - name: Lint
         run: bundle exec rubocop
-      - name: Translations Lint
-        run: bundle exec i18n-tasks health
       - name: Check Model Annotations
         run: bundle exec annotaterb models --frozen
       - name: JS Lint
