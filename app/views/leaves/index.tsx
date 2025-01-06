@@ -1,5 +1,4 @@
 import React from 'react';
-import { Sidebar } from '../../javascript/components/sidebar/sidebar';
 import { PageProps } from '../../../data.d';
 import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
 import { Layout } from '../../javascript/components/layout/layout';
@@ -10,6 +9,7 @@ import { Button } from '../../javascript/components/button/button';
 import { useModal } from '../../javascript/components/modal/modal';
 import { useReaction } from '../../javascript/sprinkles/reaction';
 import { Link } from '../../javascript/sprinkles/history';
+import { Pill } from '../../javascript/components/pill/pill';
 
 export default function ({
   data: { nextPageUrl, currentUser, leaves, activeFilter, feedUrl },
@@ -30,9 +30,7 @@ export default function ({
         <Stack line="mobile">
           {['all', 'pending_approval', 'rejected'].map((e) => (
             <Link key={e} href={`/leaves?status=${e}`}>
-              <div className={`pill ${e === activeFilter ? 'active' : ''}`}>
-                {e}
-              </div>
+              <Pill active={e === activeFilter}>{e}</Pill>
             </Link>
           ))}
         </Stack>

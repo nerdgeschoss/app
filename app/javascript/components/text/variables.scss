@@ -62,8 +62,16 @@
   letter-spacing: normal;
   line-height: normal;
 }
+@mixin mobile-headline() {
+  font-size: 18px;
+  text-decoration: none;
+  font-family: 'Inter';
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: normal;
+}
 @mixin desktop-headline() {
-  font-size: 22px;
+  font-size: 40px;
   text-decoration: none;
   font-family: 'Inter';
   font-weight: 700;

@@ -1,4 +1,5 @@
-@import './variables.scss';
+@use './variables';
+@use '../layout';
 
 @font-face {
   font-family: Inter;
@@ -22,18 +23,21 @@
   hyphens: auto;
 
   &--tooltip {
-    @include tooltip();
+    @include variables.tooltip();
   }
 
   &--menu-semibold {
-    @include desktop-menu-semibold();
+    @include variables.desktop-menu-semibold();
   }
 
   &--menu-bold {
-    @include desktop-menu-bold();
+    @include variables.desktop-menu-bold();
   }
 
   &--headline {
-    @include desktop-headline();
+    @include variables.mobile-headline();
+    @include layout.media-desktop {
+      @include variables.desktop-headline();
+    }
   }
 }
