@@ -3,9 +3,20 @@
 require "rails_helper"
 
 RSpec.describe Reaction::Props::Schema do
+  let(:example_schema) do
+    <<~RUBY
+      field :current_user do
+        field :first_name
+        field :email, null: false
+        field :age, Integer
+      end
+      field :sprint, null: false, value: -> { sprint2 }
+    RUBY
+  end
+
   describe "#initialize" do
     it "parses a tree of properties using a DSL" do
-      schema = Reaction::Props::Schema.new(Rails.root.join("spec/fixtures/files/example_schema.rb"))
+      schema = Reaction::Props::Schema.new(example_schema)
       root = schema.root
       current_user = root.fields[:current_user]
       expect(root.name).to eq :root
@@ -20,7 +31,7 @@ RSpec.describe Reaction::Props::Schema do
 
     describe "#serialize" do
       it "serializes a tree of properties" do
-        schema = Reaction::Props::Schema.new(Rails.root.join("spec/fixtures/files/example_schema.rb"))
+        schema = Reaction::Props::Schema.new(example_schema)
         serialized = schema.serialize(OpenStruct.new({
           current_user: {
             first_name: "John",
@@ -28,8 +39,8 @@ RSpec.describe Reaction::Props::Schema do
             age: "30"
           }, sprint2: "some value"
         }))
-        expect(serialized["current_user"]).to eq({
-          "first_name" => "John",
+        expect(serialized["currentUser"]).to eq({
+          "firstName" => "John",
           "email" => "name@example.com",
           "age" => 30
         })
