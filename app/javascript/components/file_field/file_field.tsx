@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { Text } from '../text/text';
-import { FormField, SelectOption } from '../form_field/form_field';
+import { FormField } from '../form_field/form_field';
 import classnames from 'classnames';
 
 interface Props extends FormField<File | null> {
@@ -19,7 +19,6 @@ export function FileField({
   inputId,
   label,
   touched,
-  valid,
   errors,
   onChange,
   onBlur,

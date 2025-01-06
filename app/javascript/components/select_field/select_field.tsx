@@ -20,7 +20,6 @@ export function SelectField<T extends string>({
   inputId,
   label,
   touched,
-  valid,
   errors,
   onChange,
   onBlur,

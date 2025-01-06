@@ -9,7 +9,6 @@ import React, {
   useEffect,
 } from 'react';
 import classnames from 'classnames';
-import { Reaction } from '../../sprinkles/reaction';
 import { Frame } from '../../sprinkles/frame';
 
 interface ModalProps {
@@ -28,7 +27,6 @@ function Modal(props: ModalProps): JSX.Element {
     if (props.open !== open) {
       setOpen(props.open);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.open]);
 
   return (
@@ -58,9 +56,7 @@ interface ModalPresenter {
 }
 
 const ModalPresenterContext = createContext<ModalPresenter>({
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   present: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   close: () => {},
 });
 
@@ -72,7 +68,6 @@ interface ModalInfo {
 
 const ModalInfoContext = createContext<ModalInfo>({
   id: '',
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   close: () => {},
 });
 
@@ -84,7 +79,7 @@ export function useModalInfo(): ModalInfo {
   return useContext(ModalInfoContext);
 }
 
-interface ModalData<Props extends object> {
+interface ModalData {
   id: string;
   handle?: string;
   large?: boolean;
@@ -97,7 +92,7 @@ export function ModalWrapper({
 }: {
   children: ReactNode;
 }): JSX.Element {
-  const [modals, setModals] = useState<ModalData<object>[]>([]);
+  const [modals, setModals] = useState<ModalData[]>([]);
 
   const closeId = useMemo(() => {
     return (id: string) => {
@@ -131,7 +126,6 @@ export function ModalWrapper({
         ]);
       },
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modals]);
 
   useEffect(() => {

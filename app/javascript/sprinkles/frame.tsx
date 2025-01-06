@@ -7,8 +7,8 @@ interface Props {
 }
 
 interface State {
-  data: any;
-  component: FunctionComponent<{ data: any }> | null;
+  data: unknown;
+  component: FunctionComponent<{ data: unknown }> | null;
 }
 
 export function Frame({ url }: Props): JSX.Element | null {
