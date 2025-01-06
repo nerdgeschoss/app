@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 field :current_user do
   field :first_name
   field :email, null: false

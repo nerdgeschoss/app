@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 render "components/current_user"
 
 field :upcoming_leaves, array: true, value: -> { @upcoming_leaves } do

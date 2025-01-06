@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Reaction
   class TsxHandler
     class << self

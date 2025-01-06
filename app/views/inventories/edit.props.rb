@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 field :inventory, value: -> { @inventory } do
   field :id
   field :name

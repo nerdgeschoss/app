@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 field :users, array: true, value: -> { User.currently_employed.alphabetically } do
   field :id
   field :display_name

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Reaction
   class Response
     attr_reader :schema, :component

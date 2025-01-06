@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe PropSchema do
+RSpec.describe Reaction::Props::Schema do
   describe "#initialize" do
     it "parses a tree of properties using a DSL" do
-      schema = PropSchema.new(Rails.root.join("spec/fixtures/files/example_schema.rb"))
+      schema = Reaction::Props::Schema.new(Rails.root.join("spec/fixtures/files/example_schema.rb"))
       root = schema.root
       current_user = root.fields[:current_user]
       expect(root.name).to eq :root
@@ -20,7 +20,7 @@ RSpec.describe PropSchema do
 
     describe "#serialize" do
       it "serializes a tree of properties" do
-        schema = PropSchema.new(Rails.root.join("spec/fixtures/files/example_schema.rb"))
+        schema = Reaction::Props::Schema.new(Rails.root.join("spec/fixtures/files/example_schema.rb"))
         serialized = schema.serialize(OpenStruct.new({
           current_user: {
             first_name: "John",

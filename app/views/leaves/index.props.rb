@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 render "components/current_user"
 
 field :feed_url, value: -> { helpers.feed_leaves_url(auth: current_user.id, format: :ics, protocol: :webcal) }

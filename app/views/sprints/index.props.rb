@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 render "components/current_user"
 
 field :sprints, array: true, value: -> { @sprints } do

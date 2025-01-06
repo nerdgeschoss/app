@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 field :current_user, global: :current_user do
   field :id
   field :display_name

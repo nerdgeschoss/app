@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Reaction
   module Controller
     extend ActiveSupport::Concern
@@ -16,7 +18,7 @@ module Reaction
           end
           format.json do
             return head :no_content if reaction_request?
-            render json: Response.new(component: "#{controller_path}/#{action_name}", context: self.view_context).to_s
+            render json: Response.new(component: "#{controller_path}/#{action_name}", context: view_context).to_s
           end
         end
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 render "components/current_user"
 
 field :permit_user_select, Boolean, value: -> { helpers.policy(Leave).show_all_users? }
