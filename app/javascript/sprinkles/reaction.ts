@@ -42,7 +42,7 @@ export class Reaction {
     path,
     method,
     params,
-    refresh = true,
+    refresh = false,
   }: {
     path: string;
     method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -70,6 +70,16 @@ export class Reaction {
     });
     if (!response.ok) {
       throw new Error(response.statusText);
+    }
+    if (response.headers.get('Content-Type')?.includes('application/json')) {
+      const data = await response.json();
+      if (data.component) {
+        const meta = new Meta(data);
+        this.history.cache.write(meta);
+        if (data.path !== this.history.path) {
+          await this.history.navigate(data.path, { allowStale: true });
+        }
+      }
     }
     if (refresh) {
       await this.history.refreshPageContent();

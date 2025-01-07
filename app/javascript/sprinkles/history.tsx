@@ -51,12 +51,15 @@ export class History {
     window.addEventListener('popstate', this.restore.bind(this));
   }
 
-  async navigate(url: string): Promise<void> {
+  async navigate(
+    url: string,
+    { allowStale = false }: { allowStale?: boolean } = {}
+  ): Promise<void> {
     const result = await this.cache.fetch(url);
     window.history.pushState({}, '', url);
     this.path = url;
     this.onChange(result.meta);
-    if (result.fresh) return;
+    if (result.fresh || allowStale) return;
     this.onChange(await this.cache.refresh(url));
     this.listeners.forEach((e) => e(this));
   }

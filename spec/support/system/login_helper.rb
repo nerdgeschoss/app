@@ -9,5 +9,4 @@ end
 
 RSpec.configure do |config|
   config.include LoginHelper, type: :system
-  config.include Devise::Test::IntegrationHelpers, type: :system
 end

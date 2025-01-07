@@ -45,6 +45,7 @@ export default function Home({
                         reaction.call({
                           path: `/payslips/${payslip.id}`,
                           method: 'DELETE',
+                          refresh: true,
                         })
                       }
                     />

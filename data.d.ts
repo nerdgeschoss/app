@@ -92,6 +92,8 @@ export interface DataSchema {
     users: Array<{ id: string; displayName: string }>;
     defaultMonth: string;
   };
+  'sessions/edit': { email: string };
+  'sessions/new': {};
   'sprint_feedbacks/show': {
     currentUser: {
       id: string;

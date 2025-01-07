@@ -17,8 +17,9 @@ module Reaction
             super
           end
           format.json do
-            return head :no_content if reaction_request?
-            render json: Response.new(component: "#{controller_path}/#{action_name}", context: view_context).to_s
+            response = Response.new(component: "#{controller_path}/#{action_name}", context: view_context)
+            return head :no_content unless response.schema
+            render json: response.to_s
           end
         end
       end

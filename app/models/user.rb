@@ -24,8 +24,6 @@
 #
 
 class User < ApplicationRecord
-  devise :database_authenticatable, :recoverable, :rememberable, :validatable
-
   scope :alphabetically, -> { order(first_name: :asc) }
   scope :with_role, ->(role) { where("? = ANY(users.roles)", role) }
   scope :sprinter, -> { with_role("sprinter") }
@@ -58,7 +56,7 @@ class User < ApplicationRecord
   end
 
   def full_name
-    [first_name, last_name].map(&:presence).compact.join(" ").presence || email
+    [first_name, last_name].filter_map(&:presence).join(" ").presence || email
   end
 
   def remaining_holidays
@@ -77,10 +75,6 @@ class User < ApplicationRecord
 
   def used_holidays
     leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count
-  end
-
-  def send_devise_notification(notification, *)
-    devise_mailer.send(notification, self, *).deliver_later
   end
 
   def notify!(message)

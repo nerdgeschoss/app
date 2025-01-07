@@ -1,8 +1,0 @@
-.container
-  .headline Forgot your password?
-  = form_for resource, as: resource_name, url: password_path(resource_name), method: :post, builder: AwesomeForm, data: { turbo: false } do |f|
-    .stack
-      = render "devise/shared/error_messages", resource: resource
-      = f.input :email
-      span = f.button "Send me reset password instructions", class: "button"
-  = render "devise/shared/links"
