@@ -1,12 +1,16 @@
 class Current < ActiveSupport::CurrentAttributes
-  attribute :session
+  attribute :cookies
 
   def user
-    @user ||= User.find_by(id: session[:user_id])
+    @user ||= User.find_by(id: cookies.encrypted[:auth])
   end
 
   def user=(user)
-    session[:user_id] = user&.id
+    if user
+      cookies.encrypted[:auth] = {value: user&.id, httponly: true, expires: 3.months.from_now}
+    else
+      cookies.delete(:auth)
+    end
     @user = user
   end
 

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { Text } from '../text/text';
-import { FormField } from '../form_field/form_field';
+import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
 import './text_field.scss';
 
@@ -25,6 +25,7 @@ export function TextField({
   onBlur,
   onFocus,
 }: Props): JSX.Element {
+  inputId = useInputId(inputId);
   return (
     <div className="text-field__container">
       <div
@@ -47,7 +48,7 @@ export function TextField({
               })}
               htmlFor={inputId}
             >
-              <Text>{label}</Text>
+              {label}
             </label>
           )}
           <Text>

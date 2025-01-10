@@ -60,17 +60,23 @@ export default function ({
           >
             <Stack>
               {inventories.map((inventory) => (
-                <div
-                  key={inventory.id}
-                  onClick={() =>
-                    modal.present(`/inventories/${inventory.id}/edit`)
-                  }
-                >
-                  <Stack size={4}>
-                    <Text>{inventory.name}</Text>
-                    <Text>{inventory.details}</Text>
-                  </Stack>
-                </div>
+                <Stack size={4}>
+                  <a
+                    key={inventory.id}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      modal.present(`/inventories/${inventory.id}/edit`);
+                    }}
+                  >
+                    {inventory.name}
+                  </a>
+                  <Text>{inventory.details}</Text>
+                  <Text>
+                    {inventory.returnedAt
+                      ? l.dateRange(inventory.receivedAt, inventory.returnedAt)
+                      : l.date(inventory.receivedAt)}
+                  </Text>
+                </Stack>
               ))}
             </Stack>
           </Card>

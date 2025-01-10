@@ -128,6 +128,14 @@ export class Formatter {
     return new Date(unix);
   }
 
+  parseRequiredDate(value: string | Date | null): Date {
+    const date = this.parseDate(value);
+    if (!date) {
+      throw new Error('Invalid date');
+    }
+    return date;
+  }
+
   percentage(value: number): string {
     return new Intl.NumberFormat(this.locale, {
       style: 'percent',

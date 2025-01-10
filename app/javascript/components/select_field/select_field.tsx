@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { Text } from '../text/text';
-import { FormField, SelectOption } from '../form_field/form_field';
+import { FormField, SelectOption, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
 
 interface Props<T extends string> extends FormField<T> {
@@ -26,6 +26,7 @@ export function SelectField<T extends string>({
   onFocus,
   options,
 }: Props<T>): JSX.Element {
+  inputId = useInputId(inputId);
   return (
     <div className="textfield__container">
       <div
@@ -48,7 +49,7 @@ export function SelectField<T extends string>({
               })}
               htmlFor={inputId}
             >
-              <Text>{label}</Text>
+              {label}
             </label>
           )}
           <Text>

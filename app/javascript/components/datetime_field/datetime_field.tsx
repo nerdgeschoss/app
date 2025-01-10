@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { Text } from '../text/text';
-import { FormField } from '../form_field/form_field';
+import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
 
 interface Props extends FormField<Date | null> {
@@ -24,6 +24,7 @@ export function DatetimeField({
   onBlur,
   onFocus,
 }: Props): JSX.Element {
+  inputId = useInputId(inputId);
   return (
     <div className="textfield__container">
       <div

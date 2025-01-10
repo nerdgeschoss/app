@@ -24,10 +24,37 @@
   },
   "leaves": {
     "new": {
-      "days_in_past_warning": "Heads up: Some of the selected days are in the past."
+      "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
+      "sick": "Sick",
+      "paid": "Paid",
+      "not_working": "Not working",
+      "days": "Days",
+      "user": "User",
+      "title": "Title",
+      "type": "Type",
+      "request": "Request leave"
     },
     "index": {
-      "title": "Leaves"
+      "title": "Leaves",
+      "subscribe": "Subscribe",
+      "request": "Request leave",
+      "more": "More"
+    }
+  },
+  "inventories": {
+    "new": {
+      "name": "Name",
+      "details": "Details",
+      "received_at": "Received at",
+      "save": "Save"
+    },
+    "edit": {
+      "name": "Name",
+      "details": "Details",
+      "received_at": "Received at",
+      "returned_at": "Returned at",
+      "save": "Save",
+      "delete": "Delete"
     }
   }
 }

@@ -1,21 +1,15 @@
 import React from 'react';
-import { Sidebar } from '../../javascript/components/sidebar/sidebar';
 import { PageProps } from '../../../data.d';
-import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
+import { useFormatter } from '../../javascript/util/dependencies';
 import { Layout } from '../../javascript/components/layout/layout';
 import { Stack } from '../../javascript/components/stack/stack';
 import { Card } from '../../javascript/components/card/card';
 import { Text } from '../../javascript/components/text/text';
-import { useModal } from '../../javascript/components/modal/modal';
-import { useReaction } from '../../javascript/sprinkles/reaction';
 
 export default function ({
   data: { currentUser, feedback },
 }: PageProps<'sprint_feedbacks/show'>): JSX.Element {
-  const t = useTranslate();
   const l = useFormatter();
-  const reaction = useReaction();
-  const modal = useModal();
   const hourGoal = feedback.workingDayCount * 7.5;
 
   return (

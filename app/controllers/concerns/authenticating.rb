@@ -3,7 +3,7 @@ module Authenticating
 
   included do
     before_action do
-      Current.session = session
+      Current.cookies = cookies
     end
 
     helper_method :current_user

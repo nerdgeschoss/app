@@ -24,8 +24,11 @@ export default function ({
       <Stack>
         <Stack line="mobile" justify="space-between">
           <Text type="headline">{t('leaves.index.title')}</Text>
-          <a href={feedUrl}>subscribe</a>
-          <Button title="add" onClick={() => modal.present('/leaves/new')} />
+          <a href={feedUrl}>{t('leaves.index.subscribe')}</a>
+          <Button
+            title={t('leaves.index.request')}
+            onClick={() => modal.present('/leaves/new')}
+          />
         </Stack>
         <Stack line="mobile">
           {['all', 'pending_approval', 'rejected'].map((e) => (
@@ -37,6 +40,7 @@ export default function ({
         <Stack>
           {leaves.map((leave) => (
             <Card
+              id={`leave_${leave.id}`}
               key={leave.id}
               icon={leave.unicodeEmoji}
               title={[leave.user.displayName, leave.title].join(' / ')}
@@ -62,6 +66,7 @@ export default function ({
                             path: `/leaves/${leave.id}`,
                             method: 'PATCH',
                             params: { leave: { status: 'approved' } },
+                            refresh: true,
                           })
                         }
                       />
@@ -72,6 +77,7 @@ export default function ({
                             path: `/leaves/${leave.id}`,
                             method: 'PATCH',
                             params: { leave: { status: 'rejected' } },
+                            refresh: true,
                           })
                         }
                       />
@@ -84,6 +90,7 @@ export default function ({
                         reaction.call({
                           path: `/leaves/${leave.id}`,
                           method: 'DELETE',
+                          refresh: true,
                         })
                       }
                     />
@@ -94,7 +101,7 @@ export default function ({
           ))}
           {nextPageUrl && (
             <Button
-              title="more"
+              title={t('leaves.index.more')}
               onClick={() =>
                 reaction.history.extendPageContentWithPagination(
                   nextPageUrl,

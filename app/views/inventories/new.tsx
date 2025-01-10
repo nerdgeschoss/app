@@ -3,10 +3,10 @@ import React from 'react';
 import { PageProps } from '../../../data.d';
 import { TextField } from '../../javascript/components/text_field/text_field';
 import { Button } from '../../javascript/components/button/button';
-import { DatetimeField } from '../../javascript/components/datetime_field/datetime_field';
+import { DateField } from '../../javascript/components/date_field/date_field';
 import { useModalInfo } from '../../javascript/components/modal/modal';
 import { useReaction } from '../../javascript/sprinkles/reaction';
-import { Container } from '../../javascript/components/container/container';
+import { useTranslate } from '../../javascript/util/dependencies';
 
 interface Form {
   userId: string;
@@ -20,6 +20,7 @@ export default function ({
 }: PageProps<'inventories/new'>): JSX.Element {
   const modal = useModalInfo();
   const reaction = useReaction();
+  const t = useTranslate();
   const { fields, onSubmit, valid } = useForm<Form>({
     model: { userId: user.id, name: '', details: '', receivedAt: new Date() },
     validations: {
@@ -31,16 +32,24 @@ export default function ({
         path: '/inventories',
         method: 'POST',
         params: { inventory: model },
+        refresh: true,
       });
       modal.close();
     },
   });
   return (
     <>
-      <TextField {...fields.name} label="Name" />
-      <TextField {...fields.details} label="Details" />
-      <DatetimeField {...fields.receivedAt} label="Received at" />
-      <Button title="create" disabled={!valid} onClick={onSubmit} />
+      <TextField {...fields.name} label={t('inventories.new.name')} />
+      <TextField {...fields.details} label={t('inventories.new.details')} />
+      <DateField
+        {...fields.receivedAt}
+        label={t('inventories.new.received_at')}
+      />
+      <Button
+        title={t('inventories.new.save')}
+        disabled={!valid}
+        onClick={onSubmit}
+      />
     </>
   );
 }

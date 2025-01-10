@@ -19,10 +19,12 @@ export function usePath(): string {
 }
 
 export function Link({
+  id,
   href,
   children,
   className,
 }: {
+  id?: string;
   href: string;
   children: ReactNode;
   className?: string;
@@ -30,6 +32,7 @@ export function Link({
   const history = useReaction().history;
   return (
     <a
+      id={id}
       href={href}
       onClick={(event) => {
         event.preventDefault();

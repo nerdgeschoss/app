@@ -1,8 +1,6 @@
 import React from 'react';
-import { Sidebar } from '../../javascript/components/sidebar/sidebar';
 import { PageProps } from '../../../data.d';
-import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
-import { Layout } from '../../javascript/components/layout/layout';
+import { useTranslate } from '../../javascript/util/dependencies';
 import { CalendarField } from '../../javascript/components/calendar_field/calendar_field';
 import { TextField } from '../../javascript/components/text_field/text_field';
 import { SelectField } from '../../javascript/components/select_field/select_field';
@@ -24,10 +22,9 @@ export default function ({
   data: { permitUserSelect, users, currentUser },
 }: PageProps<'leaves/new'>): JSX.Element {
   const t = useTranslate();
-  const l = useFormatter();
   const reaction = useReaction();
   const modal = useModalInfo();
-  const { fields, onSubmit, valid, model } = useForm<Form>({
+  const { fields, onSubmit, valid } = useForm<Form>({
     model: {
       userId: currentUser.id,
       days: [],
@@ -36,7 +33,8 @@ export default function ({
     },
     validations: {
       userId: 'required',
-      days: ({ model }) => ((model.days?.length ?? 0) == 0 ? ['required'] : []),
+      days: ({ model }) =>
+        (model.days?.length ?? 0) === 0 ? ['required'] : [],
       title: 'required',
       type: 'required',
     },
@@ -45,37 +43,45 @@ export default function ({
         path: '/leaves',
         method: 'POST',
         params: { leave: model },
+        refresh: true,
       });
       modal.close();
     },
   });
   const leaveTypes: SelectOption<Form['type']>[] = [
-    { value: 'paid', label: 'Paid' },
-    { value: 'sick', label: 'Sick' },
-    { value: 'not_working', label: 'Not Working' },
+    { value: 'paid', label: t('leaves.new.paid') },
+    { value: 'sick', label: t('leaves.new.sick') },
+    { value: 'not_working', label: t('leaves.new.not_working') },
   ];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const someDaysInPast = fields.days.value.some((date) => date < today);
-  console.log('model', model);
 
   return (
     <>
-      <CalendarField {...fields.days} label="Days" />
+      <CalendarField {...fields.days} label={t('leaves.new.days')} />
       {someDaysInPast && <Text>{t('leaves.new.days_in_past_warning')}</Text>}
       {permitUserSelect && (
         <SelectField
           {...fields.userId}
-          label="User"
+          label={t('leaves.new.user')}
           options={users.map((user) => ({
             value: user.id,
             label: user.displayName,
           }))}
         />
       )}
-      <TextField {...fields.title} label="Title" />
-      <SelectField {...fields.type} label="Type" options={leaveTypes} />
-      <Button title="create" disabled={!valid} onClick={onSubmit} />
+      <TextField {...fields.title} label={t('leaves.new.title')} />
+      <SelectField
+        {...fields.type}
+        label={t('leaves.new.type')}
+        options={leaveTypes}
+      />
+      <Button
+        title={t('leaves.new.request')}
+        disabled={!valid}
+        onClick={onSubmit}
+      />
     </>
   );
 }

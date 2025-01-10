@@ -3,6 +3,7 @@ import { Link } from '../../sprinkles/history';
 import './card.scss';
 
 interface Props {
+  id?: string;
   children?: ReactNode;
   icon?: ReactNode;
   title?: ReactNode;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function Card({
+  id,
   children,
   icon,
   title,
@@ -37,10 +39,14 @@ export function Card({
   );
   if (href) {
     return (
-      <Link className="card" href={href}>
+      <Link className="card" href={href} id={id}>
         {content}
       </Link>
     );
   }
-  return <div className="card">{content}</div>;
+  return (
+    <div className="card" id={id}>
+      {content}
+    </div>
+  );
 }

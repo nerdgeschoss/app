@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 export interface FormField<T> {
   value: T;
   name?: string;
@@ -19,4 +21,15 @@ export interface FormField<T> {
 export interface SelectOption<T extends string> {
   value: T;
   label: string;
+}
+
+function randomId(length = 10): string {
+  return Math.random()
+    .toString(36)
+    .substring(2, length + 2);
+}
+
+export function useInputId(id?: string): string {
+  const random = useMemo(() => randomId(), []);
+  return id || random;
 }
