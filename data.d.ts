@@ -69,6 +69,10 @@ export interface DataSchema {
     }>;
     payslips: Array<{ id: string; month: string; url: string }>;
     remainingHolidays: number;
+    dailyNerdMessage: {
+      id: string | null;
+      message: string;
+    } | null;
   };
   'payslips/index': {
     currentUser: {
@@ -123,7 +127,10 @@ export interface DataSchema {
       days: Array<{
         id: string;
         day: string;
-        hasDailyNerdMessage: boolean;
+        dailyNerdMessage: {
+          id: string;
+          message: string;
+        } | null;
         leave: {
           id: string;
           type: string;

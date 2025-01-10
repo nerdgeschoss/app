@@ -3,13 +3,13 @@ import React, { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
-import './text_field.scss';
+import './text_area.scss';
 
 interface Props extends FormField<string> {
   label?: ReactNode;
 }
 
-export function TextField({
+export function TextArea({
   name,
   value,
   ariaLabel,
@@ -27,24 +27,24 @@ export function TextField({
 }: Props): JSX.Element {
   inputId = useInputId(inputId);
   return (
-    <div className="text-field__container">
+    <div className="text-area__container">
       <div
         className={classnames(
-          'text-field',
+          'text-area',
           {
-            'text-field--filled': !!value,
-            'text-field--readonly': readOnly,
-            'text-field--disabled': disabled,
-            'text-field--placeholder': placeholder,
+            'text-area--filled': !!value,
+            'text-area--readonly': readOnly,
+            'text-area--disabled': disabled,
+            'text-area--placeholder': placeholder,
           },
           { disabled }
         )}
       >
-        <div className="text-field__content">
+        <div className="text-area__content">
           {label !== undefined && (
             <label
-              className={classnames('text-field__label', {
-                'text-field__label--disabled': disabled,
+              className={classnames('text-area__label', {
+                'text-area__label--disabled': disabled,
               })}
               htmlFor={inputId}
             >
@@ -52,13 +52,12 @@ export function TextField({
             </label>
           )}
           <Text>
-            <input
+            <textarea
               id={inputId}
               name={name}
-              className={classnames('text-field__input')}
+              className={classnames('text-area__input')}
               readOnly={readOnly}
               value={value ?? ''}
-              type="text"
               onChange={(event) => {
                 if (readOnly) {
                   event.preventDefault();
@@ -80,7 +79,7 @@ export function TextField({
           </Text>
         </div>
         {touched && errors && (
-          <div className="text-field__errors">
+          <div className="text-area__errors">
             {errors.map((error) => (
               <Text key={error}>{error}</Text>
             ))}

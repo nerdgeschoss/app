@@ -28,7 +28,10 @@ field :feedback, value: -> { @feedback } do
   field :days, array: true, value: -> { sprint.days.map { {day: _1, feedback: self} } } do
     field :id, value: -> { [self[:feedback].id, self[:day].to_s].join("-") }
     field :day, Date, value: -> { self[:day] }
-    field :has_daily_nerd_message, Boolean, value: -> { !!self[:feedback].daily_nerd_messages.find { _1.created_at.to_date == self[:day] } }
+    field :daily_nerd_message, null: true, value: -> { self[:feedback].daily_nerd_messages.find { _1.created_at.to_date == self[:day] } } do
+      field :id
+      field :message
+    end
     field :leave, null: true, value: -> { self[:feedback].leaves.find { _1.days.include?(self[:day]) } } do
       field :id
       field :type

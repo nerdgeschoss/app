@@ -7,9 +7,16 @@ import { Stack } from '../../javascript/components/stack/stack';
 import { Text } from '../../javascript/components/text/text';
 import { Link } from '../../javascript/sprinkles/history';
 import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
+import { DailyNerdCard } from './_daily_nerd_card';
 
 export default function Home({
-  data: { currentUser, upcomingLeaves, payslips, remainingHolidays },
+  data: {
+    currentUser,
+    upcomingLeaves,
+    payslips,
+    remainingHolidays,
+    dailyNerdMessage,
+  },
 }: PageProps<'pages/home'>): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
@@ -19,6 +26,7 @@ export default function Home({
         <Text type="headline">
           {t('pages.home.hello', { name: currentUser.displayName })}
         </Text>
+        {dailyNerdMessage && <DailyNerdCard {...dailyNerdMessage} />}
         <Columns>
           {upcomingLeaves.length > 0 && (
             <Card

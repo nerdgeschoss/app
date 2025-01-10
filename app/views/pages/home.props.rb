@@ -16,3 +16,8 @@ field :payslips, array: true, value: -> { @payslips } do
 end
 
 field :remaining_holidays, Integer, value: -> { current_user.remaining_holidays }
+
+field :daily_nerd_message, null: true, value: -> { @daily_nerd_message } do
+  field :id, null: true
+  field :message, null: true
+end

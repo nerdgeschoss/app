@@ -76,32 +76,37 @@ export default function ({
                 title={l.dayName(day.day)}
                 subtitle={l.date(day.day)}
               >
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <td>Note</td>
-                      <td>Task</td>
-                      <td>Project</td>
-                      <td>Tracked</td>
-                      <td>Status</td>
-                      <td>Members</td>
-                      <td>Total Hours</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {day.timeEntries.map((timeEntry) => (
-                      <tr key={timeEntry.id}>
-                        <td>{timeEntry.notes}</td>
-                        <td>{timeEntry.type}</td>
-                        <td>{timeEntry.project?.name}</td>
-                        <td>{timeEntry.hours}</td>
-                        <td>{timeEntry.task?.status}</td>
-                        <td></td>
-                        <td>{timeEntry.task?.totalHours}</td>
+                <Stack>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <td>Note</td>
+                        <td>Task</td>
+                        <td>Project</td>
+                        <td>Tracked</td>
+                        <td>Status</td>
+                        <td>Members</td>
+                        <td>Total Hours</td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {day.timeEntries.map((timeEntry) => (
+                        <tr key={timeEntry.id}>
+                          <td>{timeEntry.notes}</td>
+                          <td>{timeEntry.type}</td>
+                          <td>{timeEntry.project?.name}</td>
+                          <td>{timeEntry.hours}</td>
+                          <td>{timeEntry.task?.status}</td>
+                          <td></td>
+                          <td>{timeEntry.task?.totalHours}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {day.dailyNerdMessage && (
+                    <Text multiline>{day.dailyNerdMessage.message}</Text>
+                  )}
+                </Stack>
               </Card>
             ))}
           </Stack>
