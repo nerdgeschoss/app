@@ -67,9 +67,7 @@ export default function ({
               <Stack size={0}>
                 <Text>⭐ Retrospective</Text>
                 <Text>{feedback.retroRating}/5</Text>
-                <Text>
-                  <pre>{feedback.retroText}</pre>
-                </Text>
+                <Text multiline>{feedback.retroText}</Text>
               </Stack>
             </Stack>
             {feedback.days.map((day) => (

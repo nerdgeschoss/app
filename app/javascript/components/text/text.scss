@@ -21,6 +21,11 @@
   width: fit-content;
   color: var(--text-primary-base);
   hyphens: auto;
+  white-space: nowrap;
+
+  &--multiline {
+    white-space: normal;
+  }
 
   &--tooltip {
     @include variables.tooltip();
