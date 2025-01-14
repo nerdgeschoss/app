@@ -29,14 +29,6 @@ en:
       status_change_content: |-
         Hi, *%{user}*!
         Your %{type} leave request for %{leave_during} has been %{status}.
-  pages:
-    home:
-      archive: Archive
-      daily_nerd: Daily Nerd
-      hello: Hello %{name}
-      last_payments: Last payments
-      remaining_holidays: Remaining holidays
-      upcoming_holidays: Upcoming holidays
   sprints:
     notifications:
       anniversary_line: "\n🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"
