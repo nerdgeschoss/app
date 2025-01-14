@@ -19,7 +19,7 @@ interface ModalProps {
 }
 
 function Modal(props: ModalProps): JSX.Element {
-  const { children } = props;
+  const { children, onClose } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -43,7 +43,10 @@ function Modal(props: ModalProps): JSX.Element {
           'modal__background--fade-out': !props.open,
         })}
       />
-      <div className="modal__content">{children}</div>
+      <div className="modal__content">
+        <div className="modal__close" onClick={onClose} />
+        {children}
+      </div>
     </div>
   );
 }
