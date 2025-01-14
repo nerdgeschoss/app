@@ -93,7 +93,7 @@ export interface DataSchema {
       url: string;
       permitDestroy: boolean;
     }>;
-    nextPageUrl: string;
+    nextPageUrl: string | null;
     permitCreatePayslip: boolean;
   };
   'payslips/new': {

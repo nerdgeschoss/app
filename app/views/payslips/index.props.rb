@@ -11,6 +11,6 @@ field :payslips, array: true, value: -> { @payslips } do
   field :url, value: -> { helpers.image_file_url(pdf) }
   field :permit_destroy, Boolean, value: -> { helpers.policy(self).destroy? }
 end
-field :next_page_url, value: -> { path_to_next_page @payslips }
+field :next_page_url, null: true, value: -> { path_to_next_page @payslips }
 
 field :permit_create_payslip, Boolean, value: -> { helpers.policy(Payslip).create? }
