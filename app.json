@@ -23,7 +23,7 @@
   },
   "name": "nerdgeschoss_app",
   "scripts": {
-    "postdeploy": "bin/rails db:prepare && bin/rails db:seed"
+    "postdeploy": "bin/rails db:prepare"
   },
   "stack": "heroku-24"
 }
