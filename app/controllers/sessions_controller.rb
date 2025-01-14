@@ -6,7 +6,8 @@ class SessionsController < ApplicationController
 
   def create
     email = params.require(:email)
-    code = Rails.env.development? ? "999999" : SecureRandom.random_number(10**6).to_s.rjust(6, "0")
+    dev_login = Rails.env.development? || Config.dev_login?
+    code = dev_login ? "999999" : SecureRandom.random_number(10**6).to_s.rjust(6, "0")
     cookies.encrypted[:auth_challenge] = {
       value: [email, code],
       expires: 15.minutes.from_now,
