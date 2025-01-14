@@ -22,7 +22,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:first_name, :last_name, :nick_name, :password, :password_confirmation]
+    [:first_name, :last_name, :nick_name]
   end
 
   class Scope < Scope

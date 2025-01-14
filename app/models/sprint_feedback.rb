@@ -5,16 +5,16 @@
 # Table name: sprint_feedbacks
 #
 #  id                     :uuid             not null, primary key
-#  billable_hours         :decimal(, )
+#  billable_hours         :decimal(, )      default(0.0), not null
 #  costs                  :decimal(, )
-#  daily_nerd_count       :integer
+#  daily_nerd_count       :integer          default(0), not null
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
 #  finished_storypoints   :integer          default(0), not null
 #  retro_rating           :integer
 #  retro_text             :string
 #  review_notes           :string
-#  skip_retro             :boolean          default(FALSE)
-#  tracked_hours          :decimal(, )
+#  skip_retro             :boolean          default(FALSE), not null
+#  tracked_hours          :decimal(, )      default(0.0), not null
 #  turnover               :decimal(, )
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
