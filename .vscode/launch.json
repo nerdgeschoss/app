@@ -19,13 +19,6 @@
       "program": "bin/rails server"
     },
     {
-      "name": "Solid Queue",
-      "type": "ruby_lsp",
-      "request": "launch",
-      "program": "bin/rails solid_queue:start",
-      "preLaunchTask": "Sleepdelay"
-    },
-    {
       "name": "Vite",
       "type": "node-terminal",
       "request": "launch",
@@ -38,8 +31,7 @@
       "configurations": [
         "Vite",
         "Rails",
-        "UI",
-        "Solid Queue"
+        "UI"
       ],
       "stopAll": true,
       "presentation": {

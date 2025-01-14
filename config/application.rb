@@ -37,7 +37,6 @@ module TestApp
     config.action_mailer.default_url_options ||= {}
     config.action_mailer.default_url_options[:host] = host
     Rails.application.routes.default_url_options[:host] = host
-    config.active_job.queue_adapter = :solid_queue
 
     config.autoload_lib(ignore: ["assets", "tasks"])
     config.generators.system_tests = nil
