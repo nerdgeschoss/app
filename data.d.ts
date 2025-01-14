@@ -189,6 +189,7 @@ export interface DataSchema {
       }>;
     }>;
     nextPageUrl: string | null;
+    permitCreateSprint: boolean;
   };
   'sprints/new': {
     sprint: {

@@ -36,3 +36,4 @@ field :sprints, array: true, value: -> { @sprints } do
   end
 end
 field :next_page_url, null: true, value: -> { helpers.path_to_next_page @sprints }
+field :permit_create_sprint, Boolean, value: -> { helpers.policy(Sprint).create? }

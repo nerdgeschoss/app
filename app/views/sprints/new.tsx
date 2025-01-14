@@ -8,6 +8,7 @@ import { TextField } from '../../frontend/components/text_field/text_field';
 import { DateField } from '../../frontend/components/date_field/date_field';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
+import { NumberField } from '../../frontend/components/number_field/number_field';
 
 export default function ({
   data: { sprint },
@@ -47,6 +48,10 @@ export default function ({
       <DateField
         {...fields.sprintUntil}
         label={t('sprints.new.sprint_until')}
+      />
+      <NumberField
+        {...fields.workingDays}
+        label={t('sprints.new.working_days')}
       />
       <Button
         title={t('sprints.new.save')}

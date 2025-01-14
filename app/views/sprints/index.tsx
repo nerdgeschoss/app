@@ -12,7 +12,7 @@ import { useModal } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 
 export default function ({
-  data: { currentUser, sprints, nextPageUrl },
+  data: { currentUser, sprints, nextPageUrl, permitCreateSprint },
 }: PageProps<'sprints/index'>): JSX.Element {
   const l = useFormatter();
   const reaction = useReaction();
@@ -23,7 +23,9 @@ export default function ({
       <Stack>
         <Stack line="mobile" justify="space-between">
           <Text type="headline">Sprints</Text>
-          <Button title="add" onClick={() => modal.present('/sprints/new')} />
+          {permitCreateSprint && (
+            <Button title="add" onClick={() => modal.present('/sprints/new')} />
+          )}
         </Stack>
         <Stack>
           {sprints.map((sprint) => (
