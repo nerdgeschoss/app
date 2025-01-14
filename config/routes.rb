@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
   mount MissionControl::Jobs::Engine, at: "/jobs"
   get "sitemaps/*path", to: "shimmer/sitemaps#show"
-  get "offline", to: "pages#offline"
   resources :files, only: :show, controller: "shimmer/files"
   resource :manifest, only: :show
 
@@ -31,9 +30,5 @@ Rails.application.routes.draw do
     post "confirm_login", to: "sessions#update"
     get "logout", to: "sessions#destroy"
     root "pages#home"
-  end
-
-  namespace :integration do
-    post "flink", to: "flink#webhook"
   end
 end

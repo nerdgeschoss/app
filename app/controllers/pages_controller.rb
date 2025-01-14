@@ -11,7 +11,4 @@ class PagesController < ApplicationController
     @daily_nerd_message = DailyNerdMessage.find_by(created_at: Time.zone.today.all_day, sprint_feedback:) || sprint_feedback.daily_nerd_messages.build if sprint_feedback
     @needs_retro_for = SprintFeedback.where(user: current_user).sprint_past.reverse_chronologic.limit(2).find { !_1.retro_completed? }
   end
-
-  def offline
-  end
 end
