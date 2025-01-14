@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button } from '../../javascript/components/button/button';
-import { Stack } from '../../javascript/components/stack/stack';
-import { Text } from '../../javascript/components/text/text';
-import { TextField } from '../../javascript/components/text_field/text_field';
-import { Container } from '../../javascript/components/container/container';
+import { Button } from '../../frontend/components/button/button';
+import { Stack } from '../../frontend/components/stack/stack';
+import { Text } from '../../frontend/components/text/text';
+import { TextField } from '../../frontend/components/text_field/text_field';
+import { Container } from '../../frontend/components/container/container';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
-import { useReaction } from '../../javascript/sprinkles/reaction';
+import { useReaction } from '../../frontend/sprinkles/reaction';
 
 export default function NewSession(): JSX.Element {
   const reaction = useReaction();

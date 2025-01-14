@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-namespace :schema do
+namespace :reaction do
   desc "writes the schema"
-  task generate: :environment do
+  task schema: :environment do
     schemas = {}
     Dir.glob(Rails.root.join("app", "views", "**", "*.props.rb")).each do |path|
       name = Pathname.new(path).relative_path_from(Rails.root.join("app", "views")).to_s.sub(".props.rb", "")

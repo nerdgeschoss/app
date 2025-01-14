@@ -18,11 +18,7 @@ class SprintsController < ApplicationController
     User.sprinter.each do |user|
       @sprint.sprint_feedbacks.build user:
     end
-    if @sprint.save
-      ui.navigate_to sprints_path
-    else
-      render "new", status: :unprocessable_entity
-    end
+    @sprint.save!
   end
 
   private

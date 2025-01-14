@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card } from '../../javascript/components/card/card';
-import { TextArea } from '../../javascript/components/text_area/text_area';
-import { Button } from '../../javascript/components/button/button';
+import { Card } from '../../frontend/components/card/card';
+import { TextArea } from '../../frontend/components/text_area/text_area';
+import { Button } from '../../frontend/components/button/button';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
-import { useReaction } from '../../javascript/sprinkles/reaction';
+import { useReaction } from '../../frontend/sprinkles/reaction';
 
 interface Props {
   id: string | null;

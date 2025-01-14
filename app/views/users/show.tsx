@@ -1,11 +1,11 @@
 import React from 'react';
-import { Layout } from '../../javascript/components/layout/layout';
-import { Stack } from '../../javascript/components/stack/stack';
-import { Text } from '../../javascript/components/text/text';
-import { Card } from '../../javascript/components/card/card';
-import { Columns } from '../../javascript/components/columns/columns';
-import { useModal } from '../../javascript/components/modal/modal';
-import { useTranslate, useFormatter } from '../../javascript/util/dependencies';
+import { Layout } from '../../frontend/components/layout/layout';
+import { Stack } from '../../frontend/components/stack/stack';
+import { Text } from '../../frontend/components/text/text';
+import { Card } from '../../frontend/components/card/card';
+import { Columns } from '../../frontend/components/columns/columns';
+import { useModal } from '../../frontend/components/modal/modal';
+import { useTranslate, useFormatter } from '../../frontend/util/dependencies';
 import { PageProps } from '../../../data.d';
 
 export default function ({

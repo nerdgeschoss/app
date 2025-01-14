@@ -71,7 +71,7 @@ export interface DataSchema {
     remainingHolidays: number;
     dailyNerdMessage: {
       id: string | null;
-      message: string;
+      message: string | null;
     } | null;
   };
   'payslips/index': {
@@ -189,6 +189,13 @@ export interface DataSchema {
       }>;
     }>;
     nextPageUrl: string | null;
+  };
+  'sprints/new': {
+    sprint: {
+      sprintFrom: string;
+      sprintUntil: string;
+      workingDays: number;
+    };
   };
   'users/index': {
     currentUser: {

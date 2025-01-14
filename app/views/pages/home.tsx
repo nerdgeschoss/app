@@ -1,12 +1,12 @@
 import React from 'react';
 import { PageProps } from '../../../data.d';
-import { Card } from '../../javascript/components/card/card';
-import { Columns } from '../../javascript/components/columns/columns';
-import { Layout } from '../../javascript/components/layout/layout';
-import { Stack } from '../../javascript/components/stack/stack';
-import { Text } from '../../javascript/components/text/text';
-import { Link } from '../../javascript/sprinkles/history';
-import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
+import { Card } from '../../frontend/components/card/card';
+import { Columns } from '../../frontend/components/columns/columns';
+import { Layout } from '../../frontend/components/layout/layout';
+import { Stack } from '../../frontend/components/stack/stack';
+import { Text } from '../../frontend/components/text/text';
+import { Link } from '../../frontend/sprinkles/history';
+import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { DailyNerdCard } from './_daily_nerd_card';
 
 export default function Home({

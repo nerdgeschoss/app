@@ -1,10 +1,10 @@
 import React from 'react';
 import { PageProps } from '../../../data.d';
-import { useFormatter } from '../../javascript/util/dependencies';
-import { Layout } from '../../javascript/components/layout/layout';
-import { Stack } from '../../javascript/components/stack/stack';
-import { Card } from '../../javascript/components/card/card';
-import { Text } from '../../javascript/components/text/text';
+import { useFormatter } from '../../frontend/util/dependencies';
+import { Layout } from '../../frontend/components/layout/layout';
+import { Stack } from '../../frontend/components/stack/stack';
+import { Card } from '../../frontend/components/card/card';
+import { Text } from '../../frontend/components/text/text';
 
 export default function ({
   data: { currentUser, feedback },

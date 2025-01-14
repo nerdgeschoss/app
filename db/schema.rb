@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_14_100959) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_14_103055) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -266,9 +266,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_100959) do
   create_table "sprint_feedbacks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "sprint_id", null: false
     t.uuid "user_id", null: false
-    t.integer "daily_nerd_count"
-    t.decimal "tracked_hours"
-    t.decimal "billable_hours"
+    t.integer "daily_nerd_count", default: 0, null: false
+    t.decimal "tracked_hours", default: "0.0", null: false
+    t.decimal "billable_hours", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "review_notes"
@@ -278,7 +278,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_100959) do
     t.decimal "costs"
     t.integer "retro_rating"
     t.string "retro_text"
-    t.boolean "skip_retro", default: false
+    t.boolean "skip_retro", default: false, null: false
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
     t.index ["sprint_id"], name: "index_sprint_feedbacks_on_sprint_id"
     t.index ["user_id"], name: "index_sprint_feedbacks_on_user_id"
@@ -287,7 +287,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_14_100959) do
   create_table "sprints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.daterange "sprint_during", null: false
-    t.integer "working_days", null: false
+    t.integer "working_days", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

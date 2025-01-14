@@ -31,7 +31,7 @@
   ],
   "include": [
     "app/javascript/**/*"
-  ],
+, "app/frontend/sprinkles", "app/frontend/util", "app/frontend/layout.tsx"  ],
   "exclude": [
     "**/*.spec.ts",
     "node_modules",

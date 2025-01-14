@@ -1,14 +1,14 @@
 import React from 'react';
 import { PageProps } from '../../../data.d';
-import { Card } from '../../javascript/components/card/card';
-import { Columns } from '../../javascript/components/columns/columns';
-import { Layout } from '../../javascript/components/layout/layout';
-import { Stack } from '../../javascript/components/stack/stack';
-import { Text } from '../../javascript/components/text/text';
-import { Button } from '../../javascript/components/button/button';
-import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
-import { useReaction } from '../../javascript/sprinkles/reaction';
-import { useModal } from '../../javascript/components/modal/modal';
+import { Card } from '../../frontend/components/card/card';
+import { Columns } from '../../frontend/components/columns/columns';
+import { Layout } from '../../frontend/components/layout/layout';
+import { Stack } from '../../frontend/components/stack/stack';
+import { Text } from '../../frontend/components/text/text';
+import { Button } from '../../frontend/components/button/button';
+import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
+import { useReaction } from '../../frontend/sprinkles/reaction';
+import { useModal } from '../../frontend/components/modal/modal';
 
 export default function Home({
   data: { currentUser, payslips, nextPageUrl },

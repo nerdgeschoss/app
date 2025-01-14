@@ -9,6 +9,14 @@
       "payslip_archive": "archive"
     }
   },
+  "sprints": {
+    "new": {
+      "title": "Title",
+      "sprint_from": "Sprint from",
+      "sprint_until": "Sprint until",
+      "save": "Save"
+    }
+  },
   "users": {
     "index": {
       "title": "Users",

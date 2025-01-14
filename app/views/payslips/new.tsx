@@ -1,13 +1,13 @@
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import React from 'react';
 import { PageProps } from '../../../data.d';
-import { Button } from '../../javascript/components/button/button';
-import { DateField } from '../../javascript/components/date_field/date_field';
-import { useModalInfo } from '../../javascript/components/modal/modal';
-import { SelectField } from '../../javascript/components/select_field/select_field';
-import { FileField } from '../../javascript/components/file_field/file_field';
-import { useReaction } from '../../javascript/sprinkles/reaction';
-import { useFormatter } from '../../javascript/util/dependencies';
+import { Button } from '../../frontend/components/button/button';
+import { DateField } from '../../frontend/components/date_field/date_field';
+import { useModalInfo } from '../../frontend/components/modal/modal';
+import { SelectField } from '../../frontend/components/select_field/select_field';
+import { FileField } from '../../frontend/components/file_field/file_field';
+import { useReaction } from '../../frontend/sprinkles/reaction';
+import { useFormatter } from '../../frontend/util/dependencies';
 
 interface Form {
   userId: string;

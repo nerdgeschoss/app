@@ -1,15 +1,15 @@
 import React from 'react';
 import { PageProps } from '../../../data.d';
-import { useTranslate } from '../../javascript/util/dependencies';
-import { CalendarField } from '../../javascript/components/calendar_field/calendar_field';
-import { TextField } from '../../javascript/components/text_field/text_field';
-import { SelectField } from '../../javascript/components/select_field/select_field';
-import { Button } from '../../javascript/components/button/button';
-import { useReaction } from '../../javascript/sprinkles/reaction';
+import { useTranslate } from '../../frontend/util/dependencies';
+import { CalendarField } from '../../frontend/components/calendar_field/calendar_field';
+import { TextField } from '../../frontend/components/text_field/text_field';
+import { SelectField } from '../../frontend/components/select_field/select_field';
+import { Button } from '../../frontend/components/button/button';
+import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
-import { useModalInfo } from '../../javascript/components/modal/modal';
-import { SelectOption } from '../../javascript/components/form_field/form_field';
-import { Text } from '../../javascript/components/text/text';
+import { useModalInfo } from '../../frontend/components/modal/modal';
+import { SelectOption } from '../../frontend/components/form_field/form_field';
+import { Text } from '../../frontend/components/text/text';
 
 interface Form {
   userId: string;

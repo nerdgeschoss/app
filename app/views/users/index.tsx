@@ -1,12 +1,12 @@
 import React from 'react';
 import { PageProps } from '../../../data.d';
-import { useFormatter, useTranslate } from '../../javascript/util/dependencies';
-import { Layout } from '../../javascript/components/layout/layout';
-import { Stack } from '../../javascript/components/stack/stack';
-import { Text } from '../../javascript/components/text/text';
-import { Card } from '../../javascript/components/card/card';
-import { Pill } from '../../javascript/components/pill/pill';
-import { Link } from '../../javascript/sprinkles/history';
+import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
+import { Layout } from '../../frontend/components/layout/layout';
+import { Stack } from '../../frontend/components/stack/stack';
+import { Text } from '../../frontend/components/text/text';
+import { Card } from '../../frontend/components/card/card';
+import { Pill } from '../../frontend/components/pill/pill';
+import { Link } from '../../frontend/sprinkles/history';
 
 export default function ({
   data: { filter, users, currentUser },
