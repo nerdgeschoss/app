@@ -12,7 +12,7 @@ export function NumberField(props: Props): JSX.Element {
     <TextField
       {...props}
       value={props.value.toString()}
-      onChange={(value) => Number(value)}
+      onChange={(value) => props.onChange?.(Number(value))}
     />
   );
 }

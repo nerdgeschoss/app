@@ -12,7 +12,10 @@ Rails.application.routes.draw do
     resources :payslips
     resources :leaves
     resources :sprints
-    resources :sprint_feedbacks
+    resources :sprint_feedbacks do
+      get "edit_retro", on: :member
+      post "update_retro", on: :member
+    end
     resources :users do
       get :unpaid_vacation, on: :member
       resources :inventories, only: :new

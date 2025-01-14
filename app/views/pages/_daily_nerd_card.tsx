@@ -33,16 +33,24 @@ export function DailyNerdCard({ id, message }: Props): JSX.Element {
     },
   });
   return (
-    <Card title="Daily Nerd" icon="📝">
-      <TextArea
-        {...fields.message}
-        label="Message"
-        placeholder="How was your day? What did you learn?"
-      />
-      <Button
-        title={id ? 'Update daily nerd message' : 'Create daily nerd message'}
-        onClick={onSubmit}
-      />
-    </Card>
+    <Card
+      title="Daily Nerd"
+      icon="📝"
+      subtitle={
+        <>
+          <TextArea
+            {...fields.message}
+            label="Message"
+            placeholder="How was your day? What did you learn?"
+          />
+          <Button
+            title={
+              id ? 'Update daily nerd message' : 'Create daily nerd message'
+            }
+            onClick={onSubmit}
+          />
+        </>
+      }
+    />
   );
 }

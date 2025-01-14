@@ -6,7 +6,10 @@
       "last_payments": "Last payments",
       "remaining_holidays": "Remaining holidays",
       "number_holidays_left": "You have %{count} days off left",
-      "payslip_archive": "archive"
+      "payslip_archive": "archive",
+      "missing_retro": "Retrospective Notes Missing",
+      "missing_retro_description": "You did not yet leave a rating for sprint %{title}.",
+      "leave_retro_notes": "Rate the sprint now"
     }
   },
   "sprints": {
@@ -15,6 +18,14 @@
       "sprint_from": "Sprint from",
       "sprint_until": "Sprint until",
       "working_days": "Working days",
+      "save": "Save"
+    }
+  },
+  "sprint_feedbacks": {
+    "edit_retro": {
+      "skip": "Skip rating this sprint",
+      "rating": "Rating",
+      "text": "Text",
       "save": "Save"
     }
   },

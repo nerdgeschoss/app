@@ -16,6 +16,7 @@ export default function Home({
     payslips,
     remainingHolidays,
     dailyNerdMessage,
+    needsRetroFor,
   },
 }: PageProps<'pages/home'>): JSX.Element {
   const t = useTranslate();
@@ -26,8 +27,24 @@ export default function Home({
         <Text type="headline">
           {t('pages.home.hello', { name: currentUser.displayName })}
         </Text>
-        {dailyNerdMessage && <DailyNerdCard {...dailyNerdMessage} />}
         <Columns>
+          {needsRetroFor && (
+            <Card
+              icon="🚀"
+              title={t('pages.home.missing_retro')}
+              subtitle={
+                <Stack>
+                  {t('pages.home.missing_retro_description', {
+                    title: needsRetroFor.title,
+                  })}
+                  <Link href={`/en/sprint_feedbacks/${needsRetroFor.id}`}>
+                    {t('pages.home.leave_retro_notes')}
+                  </Link>
+                </Stack>
+              }
+            />
+          )}
+          {dailyNerdMessage && <DailyNerdCard {...dailyNerdMessage} />}
           {upcomingLeaves.length > 0 && (
             <Card
               icon="🏝️"

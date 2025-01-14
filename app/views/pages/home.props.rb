@@ -21,3 +21,8 @@ field :daily_nerd_message, null: true, value: -> { @daily_nerd_message } do
   field :id, null: true
   field :message, null: true
 end
+
+field :needs_retro_for, null: true, value: -> { @needs_retro_for } do
+  field :id
+  field :title, value: -> { sprint.title }
+end

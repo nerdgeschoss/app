@@ -12,6 +12,8 @@ field :feedback, value: -> { @feedback } do
   field :tracked_hours, Float
   field :billable_hours, Float
 
+  field :permit_edit_retro_notes, Boolean, value: -> { helpers.policy(self).update? }
+
   field :sprint do
     field :id
     field :title

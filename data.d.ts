@@ -73,6 +73,10 @@ export interface DataSchema {
       id: string | null;
       message: string | null;
     } | null;
+    needsRetroFor: {
+      id: string;
+      title: string;
+    } | null;
   };
   'payslips/index': {
     currentUser: {
@@ -98,6 +102,19 @@ export interface DataSchema {
   };
   'sessions/edit': { email: string };
   'sessions/new': {};
+  'sprint_feedbacks/edit_retro': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+    };
+    feedback: {
+      id: string;
+      retroRating: number | null;
+      retroText: string | null;
+      skipRetro: boolean;
+    };
+  };
   'sprint_feedbacks/show': {
     currentUser: {
       id: string;
@@ -113,6 +130,7 @@ export interface DataSchema {
       workingDayCount: number;
       trackedHours: number;
       billableHours: number;
+      permitEditRetroNotes: boolean;
       sprint: {
         id: string;
         title: string;

@@ -5,12 +5,15 @@ import { Layout } from '../../frontend/components/layout/layout';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Card } from '../../frontend/components/card/card';
 import { Text } from '../../frontend/components/text/text';
+import { useModal } from '../../frontend/components/modal/modal';
+import { Button } from '../../frontend/components/button/button';
 
 export default function ({
   data: { currentUser, feedback },
 }: PageProps<'sprint_feedbacks/show'>): JSX.Element {
   const l = useFormatter();
   const hourGoal = feedback.workingDayCount * 7.5;
+  const modal = useModal();
 
   return (
     <Layout user={currentUser} container>
@@ -68,6 +71,16 @@ export default function ({
                 <Text>⭐ Retrospective</Text>
                 <Text>{feedback.retroRating}/5</Text>
                 <Text multiline>{feedback.retroText}</Text>
+                {feedback.permitEditRetroNotes && (
+                  <Button
+                    title="leave feedback"
+                    onClick={() =>
+                      modal.present(
+                        `/en/sprint_feedbacks/${feedback.id}/edit_retro`
+                      )
+                    }
+                  />
+                )}
               </Stack>
             </Stack>
             {feedback.days.map((day) => (
@@ -77,32 +90,34 @@ export default function ({
                 subtitle={l.date(day.day)}
               >
                 <Stack>
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <td>Note</td>
-                        <td>Task</td>
-                        <td>Project</td>
-                        <td>Tracked</td>
-                        <td>Status</td>
-                        <td>Members</td>
-                        <td>Total Hours</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {day.timeEntries.map((timeEntry) => (
-                        <tr key={timeEntry.id}>
-                          <td>{timeEntry.notes}</td>
-                          <td>{timeEntry.type}</td>
-                          <td>{timeEntry.project?.name}</td>
-                          <td>{timeEntry.hours}</td>
-                          <td>{timeEntry.task?.status}</td>
-                          <td></td>
-                          <td>{timeEntry.task?.totalHours}</td>
+                  {day.timeEntries.length > 0 && (
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <td>Note</td>
+                          <td>Task</td>
+                          <td>Project</td>
+                          <td>Tracked</td>
+                          <td>Status</td>
+                          <td>Members</td>
+                          <td>Total Hours</td>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {day.timeEntries.map((timeEntry) => (
+                          <tr key={timeEntry.id}>
+                            <td>{timeEntry.notes}</td>
+                            <td>{timeEntry.type}</td>
+                            <td>{timeEntry.project?.name}</td>
+                            <td>{timeEntry.hours}</td>
+                            <td>{timeEntry.task?.status}</td>
+                            <td></td>
+                            <td>{timeEntry.task?.totalHours}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                   {day.dailyNerdMessage && (
                     <Text multiline>{day.dailyNerdMessage.message}</Text>
                   )}

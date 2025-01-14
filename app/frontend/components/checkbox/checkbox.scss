@@ -1,0 +1,15 @@
+.checkbox {
+  &__input {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid currentColor;
+
+    &:checked::before {
+      display: block;
+      content: 'X';
+      width: 10px;
+      height: 10px;
+    }
+  }
+}

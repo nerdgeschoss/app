@@ -9,6 +9,14 @@ class SprintFeedbackPolicy < ApplicationPolicy
     hr?
   end
 
+  def edit_retro?
+    update?
+  end
+
+  def update_retro?
+    update?
+  end
+
   def update?
     hr? || record.user == user
   end

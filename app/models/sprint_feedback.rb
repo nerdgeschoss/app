@@ -30,6 +30,7 @@ class SprintFeedback < ApplicationRecord
   validates :retro_rating, numericality: {only_integer: true, in: 1..5}, allow_nil: true
 
   scope :ordered, -> { joins(:user).order("users.email ASC") }
+  scope :reverse_chronologic, -> { joins(:sprint).order("LOWER(sprints.sprint_during) DESC") }
   scope :retro_missing, -> { where(retro_rating: nil, skip_retro: false) }
   scope :retro_not_skipped, -> { where(skip_retro: false) }
   scope :sprint_past, -> {
