@@ -90,8 +90,10 @@ export class Reaction {
     const rootElement = document.getElementById('root');
     if (!rootElement) throw new Error('Root element not found');
     const metaJson = (
-      document.querySelector('meta[name="reaction-data"]') as HTMLMetaElement
-    ).content;
+      document.querySelector(
+        'template[id="reaction-data"]'
+      ) as HTMLTemplateElement
+    ).content.textContent;
     const data = metaJson ? JSON.parse(decodeURIComponent(metaJson)) : {};
     const meta = new Meta(data);
     meta.path = window.location.pathname + window.location.search;
