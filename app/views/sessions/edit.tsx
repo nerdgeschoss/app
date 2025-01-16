@@ -7,6 +7,7 @@ import { TextField } from '../../frontend/components/text_field/text_field';
 import { Container } from '../../frontend/components/container/container';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
+import { Form } from '../../frontend/components/form/form';
 
 export default function EditSession({
   data: { email },
@@ -30,19 +31,21 @@ export default function EditSession({
   });
   return (
     <Container>
-      <Stack>
-        <Text type="headline">Login</Text>
-        <TextField {...fields.email} label="Email" disabled />
-        <TextField
-          {...fields.code}
-          label="Code"
-          errors={[
-            ...fields.code.errors,
-            ...(invalidCode ? ['invalid-code'] : []),
-          ]}
-        />
-        <Button title="Login" disabled={!valid} onClick={onSubmit} />
-      </Stack>
+      <Form onSubmit={onSubmit}>
+        <Stack>
+          <Text type="headline">Login</Text>
+          <TextField {...fields.email} label="Email" disabled />
+          <TextField
+            {...fields.code}
+            label="Code"
+            errors={[
+              ...fields.code.errors,
+              ...(invalidCode ? ['invalid-code'] : []),
+            ]}
+          />
+          <Button title="Login" disabled={!valid} onClick={onSubmit} />
+        </Stack>
+      </Form>
     </Container>
   );
 }

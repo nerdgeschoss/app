@@ -10,6 +10,7 @@ import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useModalInfo } from '../../frontend/components/modal/modal';
 import { SelectOption } from '../../frontend/components/form_field/form_field';
 import { Text } from '../../frontend/components/text/text';
+import { Form } from '../../frontend/components/form/form';
 
 interface Form {
   userId: string;
@@ -58,7 +59,7 @@ export default function ({
   const someDaysInPast = fields.days.value.some((date) => date < today);
 
   return (
-    <>
+    <Form onSubmit={onSubmit}>
       <CalendarField {...fields.days} label={t('leaves.new.days')} />
       {someDaysInPast && <Text>{t('leaves.new.days_in_past_warning')}</Text>}
       {permitUserSelect && (
@@ -82,6 +83,6 @@ export default function ({
         disabled={!valid}
         onClick={onSubmit}
       />
-    </>
+    </Form>
   );
 }

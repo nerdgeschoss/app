@@ -7,6 +7,7 @@ import { DateField } from '../../frontend/components/date_field/date_field';
 import { useModalInfo } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useTranslate } from '../../frontend/util/dependencies';
+import { Form } from '../../frontend/components/form/form';
 
 interface Form {
   userId: string;
@@ -38,7 +39,7 @@ export default function ({
     },
   });
   return (
-    <>
+    <Form onSubmit={onSubmit}>
       <TextField {...fields.name} label={t('inventories.new.name')} />
       <TextField {...fields.details} label={t('inventories.new.details')} />
       <DateField
@@ -50,6 +51,6 @@ export default function ({
         disabled={!valid}
         onClick={onSubmit}
       />
-    </>
+    </Form>
   );
 }

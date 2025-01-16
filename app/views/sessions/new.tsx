@@ -6,6 +6,7 @@ import { TextField } from '../../frontend/components/text_field/text_field';
 import { Container } from '../../frontend/components/container/container';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
+import { Form } from '../../frontend/components/form/form';
 
 export default function NewSession(): JSX.Element {
   const reaction = useReaction();
@@ -23,11 +24,13 @@ export default function NewSession(): JSX.Element {
   });
   return (
     <Container>
-      <Stack>
-        <Text type="headline">Login</Text>
-        <TextField {...fields.email} label="Email" />
-        <Button title="Login" disabled={!valid} onClick={onSubmit} />
-      </Stack>
+      <Form onSubmit={onSubmit}>
+        <Stack>
+          <Text type="headline">Login</Text>
+          <TextField {...fields.email} label="Email" />
+          <Button title="Login" disabled={!valid} onClick={onSubmit} />
+        </Stack>
+      </Form>
     </Container>
   );
 }

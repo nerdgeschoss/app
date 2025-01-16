@@ -8,6 +8,7 @@ import { SelectField } from '../../frontend/components/select_field/select_field
 import { FileField } from '../../frontend/components/file_field/file_field';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useFormatter } from '../../frontend/util/dependencies';
+import { Form } from '../../frontend/components/form/form';
 
 interface Form {
   userId: string;
@@ -42,7 +43,7 @@ export default function ({
     },
   });
   return (
-    <>
+    <Form onSubmit={onSubmit}>
       <SelectField
         {...fields.userId}
         label="User"
@@ -54,6 +55,6 @@ export default function ({
       <DateField {...fields.month} label="Received at" />
       <FileField {...fields.pdf} label="File" />
       <Button title="create" disabled={!valid} onClick={onSubmit} />
-    </>
+    </Form>
   );
 }

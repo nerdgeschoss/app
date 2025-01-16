@@ -9,6 +9,7 @@ import { DateField } from '../../frontend/components/date_field/date_field';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
 import { NumberField } from '../../frontend/components/number_field/number_field';
+import { Form } from '../../frontend/components/form/form';
 
 export default function ({
   data: { sprint },
@@ -42,22 +43,27 @@ export default function ({
   });
 
   return (
-    <Stack>
-      <TextField {...fields.title} label={t('sprints.new.title')} />
-      <DateField {...fields.sprintFrom} label={t('sprints.new.sprint_from')} />
-      <DateField
-        {...fields.sprintUntil}
-        label={t('sprints.new.sprint_until')}
-      />
-      <NumberField
-        {...fields.workingDays}
-        label={t('sprints.new.working_days')}
-      />
-      <Button
-        title={t('sprints.new.save')}
-        disabled={!valid}
-        onClick={onSubmit}
-      />
-    </Stack>
+    <Form onSubmit={onSubmit}>
+      <Stack>
+        <TextField {...fields.title} label={t('sprints.new.title')} />
+        <DateField
+          {...fields.sprintFrom}
+          label={t('sprints.new.sprint_from')}
+        />
+        <DateField
+          {...fields.sprintUntil}
+          label={t('sprints.new.sprint_until')}
+        />
+        <NumberField
+          {...fields.workingDays}
+          label={t('sprints.new.working_days')}
+        />
+        <Button
+          title={t('sprints.new.save')}
+          disabled={!valid}
+          onClick={onSubmit}
+        />
+      </Stack>
+    </Form>
   );
 }
