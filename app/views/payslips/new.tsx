@@ -9,6 +9,7 @@ import { FileField } from '../../frontend/components/file_field/file_field';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useFormatter } from '../../frontend/util/dependencies';
 import { Form } from '../../frontend/components/form/form';
+import { handleError } from '../../frontend/util/errors';
 
 interface Form {
   userId: string;
@@ -41,6 +42,7 @@ export default function ({
       });
       modal.close();
     },
+    onSubmitError: handleError,
   });
   return (
     <Form onSubmit={onSubmit}>

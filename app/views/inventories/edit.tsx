@@ -9,6 +9,7 @@ import { Container } from '../../frontend/components/container/container';
 import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { DateField } from '../../frontend/components/date_field/date_field';
 import { Form } from '../../frontend/components/form/form';
+import { handleError } from '../../frontend/util/errors';
 
 interface Form {
   name: string;
@@ -44,6 +45,7 @@ export default function ({
       });
       modal.close();
     },
+    onSubmitError: handleError,
   });
   return (
     <Container>

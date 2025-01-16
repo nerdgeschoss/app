@@ -10,6 +10,7 @@ import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
 import { NumberField } from '../../frontend/components/number_field/number_field';
 import { Form } from '../../frontend/components/form/form';
+import { handleError } from '../../frontend/util/errors';
 
 export default function ({
   data: { sprint },
@@ -40,6 +41,7 @@ export default function ({
       });
       modal.close();
     },
+    onSubmitError: handleError,
   });
 
   return (

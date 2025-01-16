@@ -11,6 +11,7 @@ import { useModalInfo } from '../../frontend/components/modal/modal';
 import { SelectOption } from '../../frontend/components/form_field/form_field';
 import { Text } from '../../frontend/components/text/text';
 import { Form } from '../../frontend/components/form/form';
+import { handleError } from '../../frontend/util/errors';
 
 interface Form {
   userId: string;
@@ -48,6 +49,7 @@ export default function ({
       });
       modal.close();
     },
+    onSubmitError: handleError,
   });
   const leaveTypes: SelectOption<Form['type']>[] = [
     { value: 'paid', label: t('leaves.new.paid') },

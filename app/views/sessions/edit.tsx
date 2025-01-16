@@ -8,6 +8,7 @@ import { Container } from '../../frontend/components/container/container';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Form } from '../../frontend/components/form/form';
+import { handleError } from '../../frontend/util/errors';
 
 export default function EditSession({
   data: { email },
@@ -28,6 +29,7 @@ export default function EditSession({
         setInvalidCode(true);
       }
     },
+    onSubmitError: handleError,
   });
   return (
     <Container>

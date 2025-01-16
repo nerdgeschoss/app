@@ -1,6 +1,7 @@
 import React from 'react';
 import { PageProps } from '../../../data.d';
 import { useTranslate } from '../../frontend/util/dependencies';
+import { handleError } from '../../frontend/util/errors';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Button } from '../../frontend/components/button/button';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
@@ -44,6 +45,7 @@ export default function ({
       });
       modal.close();
     },
+    onSubmitError: (error) => handleError(error),
   });
 
   return (

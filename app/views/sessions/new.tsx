@@ -7,6 +7,7 @@ import { Container } from '../../frontend/components/container/container';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Form } from '../../frontend/components/form/form';
+import { handleError } from '../../frontend/util/errors';
 
 export default function NewSession(): JSX.Element {
   const reaction = useReaction();
@@ -21,6 +22,7 @@ export default function NewSession(): JSX.Element {
         refresh: false,
       });
     },
+    onSubmitError: handleError,
   });
   return (
     <Container>

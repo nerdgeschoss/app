@@ -8,6 +8,7 @@ import { useModalInfo } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { Form } from '../../frontend/components/form/form';
+import { handleError } from '../../frontend/util/errors';
 
 interface Form {
   userId: string;
@@ -37,6 +38,7 @@ export default function ({
       });
       modal.close();
     },
+    onSubmitError: handleError,
   });
   return (
     <Form onSubmit={onSubmit}>
