@@ -153,7 +153,7 @@ export function ModalWrapper({
                 onClose={() => closeId(modal.id)}
                 large={modal.large}
               >
-                <Frame url={modal.url} />
+                <Frame url={modal.url} awaitLoading />
               </Modal>
             </ModalInfoContext.Provider>
           ))}

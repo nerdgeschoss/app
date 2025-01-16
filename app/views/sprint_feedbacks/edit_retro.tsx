@@ -4,8 +4,8 @@ import { useTranslate } from '../../frontend/util/dependencies';
 import { handleError } from '../../frontend/util/errors';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Button } from '../../frontend/components/button/button';
+import { TextArea } from '../../frontend/components/text_area/text_area';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
-import { TextField } from '../../frontend/components/text_field/text_field';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
 import { NumberField } from '../../frontend/components/number_field/number_field';
@@ -60,7 +60,7 @@ export default function ({
             {...fields.retroRating}
             label={t('sprint_feedbacks.edit_retro.rating')}
           />
-          <TextField
+          <TextArea
             {...fields.retroText}
             label={t('sprint_feedbacks.edit_retro.text')}
           />

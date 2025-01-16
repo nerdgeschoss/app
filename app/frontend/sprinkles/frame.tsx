@@ -4,6 +4,7 @@ import { useReaction } from './reaction';
 
 interface Props {
   url: string;
+  awaitLoading?: boolean;
 }
 
 interface State {
@@ -11,20 +12,22 @@ interface State {
   component: FunctionComponent<{ data: unknown }> | null;
 }
 
-export function Frame({ url }: Props): JSX.Element | null {
+export function Frame({ url, awaitLoading }: Props): JSX.Element | null {
   const reaction = useReaction();
   const [state, setComponentState] = useState<State | null>(null);
   useEffect(() => {
     let subscription: MetaCacheSubscription | null = null;
-    reaction.history.cache.fetch(url).then((meta) => {
-      const data = meta.meta.props;
-      reaction.componentFor(meta.meta.component).then((component) => {
-        setComponentState({ data, component });
-        subscription = reaction.history.cache.subscribe(url, (newData) => {
-          setComponentState({ data: newData, component });
+    reaction.history.cache
+      .fetch(url, { force: awaitLoading })
+      .then((result) => {
+        const data = result.meta.props;
+        reaction.componentFor(result.meta.component).then((component) => {
+          setComponentState({ data, component });
+          subscription = reaction.history.cache.subscribe(url, (newData) => {
+            setComponentState({ data: newData, component });
+          });
         });
       });
-    });
     return () => {
       subscription?.unsubscribe();
     };

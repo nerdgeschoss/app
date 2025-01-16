@@ -9,8 +9,11 @@ export class MetaCache {
   private cache = new Map<string, Meta>();
   private subscriptions = new Map<string, MetaCacheSubscription[]>();
 
-  async fetch(url: string): Promise<CacheResult> {
-    if (this.cache.has(url)) {
+  async fetch(
+    url: string,
+    { force }: { force?: boolean } = {}
+  ): Promise<CacheResult> {
+    if (!force && this.cache.has(url)) {
       return { meta: this.cache.get(url)!, fresh: false };
     }
     return { meta: await this.refresh(url), fresh: true };

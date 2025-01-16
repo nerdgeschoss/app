@@ -73,7 +73,9 @@ export default function ({
                 <Text multiline>{feedback.retroText}</Text>
                 {feedback.permitEditRetroNotes && (
                   <Button
-                    title="leave feedback"
+                    title={
+                      feedback.retroText ? 'edit feedback' : 'leave feedback'
+                    }
                     onClick={() =>
                       modal.present(
                         `/en/sprint_feedbacks/${feedback.id}/edit_retro`
