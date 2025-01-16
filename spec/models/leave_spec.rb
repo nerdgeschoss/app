@@ -23,6 +23,12 @@ RSpec.describe Leave do
   let(:holiday) { user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-02", "2023-01-03"] }
   let(:single_day_sick_leave) { user.leaves.create! type: :sick, title: "Sick", days: ["2023-01-02"] }
 
+  around do |example|
+    Config.stub(slack_announcement_channel_id: "slack-announcement-channel", slack_bot_token: "BOT_TOKEN", slack_hr_channel_id: "HR_CHANNEL") do
+      example.run
+    end
+  end
+
   describe "auto-approving" do
     it "works for single day sick leaves" do
       expect(holiday).to be_pending_approval

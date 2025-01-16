@@ -1,20 +1,24 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "lib": [
       "es2020",
       "dom"
     ],
+    "jsx": "preserve",
     "module": "es2020",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "*": [
         "node_modules/*",
         "app/javascript/*"
-      ]
+      ],
     },
     "sourceMap": true,
     "target": "es2020",
@@ -22,11 +26,12 @@
     "strict": true
   },
   "files": [
-    "typings.d.ts"
+    "typings.d.ts",
+    "data.d.ts"
   ],
   "include": [
     "app/javascript/**/*"
-  ],
+, "app/frontend/sprinkles", "app/frontend/util", "app/frontend/layout.tsx"  ],
   "exclude": [
     "**/*.spec.ts",
     "node_modules",

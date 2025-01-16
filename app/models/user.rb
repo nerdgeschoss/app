@@ -4,27 +4,23 @@
 #
 # Table name: users
 #
-#  id                     :uuid             not null, primary key
-#  born_on                :date
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  first_name             :string
-#  github_handle          :string
-#  hired_on               :date
-#  last_name              :string
-#  nick_name              :string
-#  remember_created_at    :datetime
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  roles                  :string           default([]), not null, is an Array
-#  yearly_holidays        :integer          default(30), not null
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  slack_id               :string
+#  id              :uuid             not null, primary key
+#  born_on         :date
+#  email           :string           default(""), not null
+#  first_name      :string
+#  github_handle   :string
+#  hired_on        :date
+#  last_name       :string
+#  nick_name       :string
+#  roles           :string           default([]), not null, is an Array
+#  yearly_holidays :integer          default(30), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  slack_id        :string
 #
 
 class User < ApplicationRecord
-  devise :database_authenticatable, :recoverable, :rememberable, :validatable
+  self.ignored_columns = ["encrypted_password", "reset_password_sent_at", "reset_password_token", "remember_created_at"]
 
   scope :alphabetically, -> { order(first_name: :asc) }
   scope :with_role, ->(role) { where("? = ANY(users.roles)", role) }
@@ -58,7 +54,7 @@ class User < ApplicationRecord
   end
 
   def full_name
-    [first_name, last_name].map(&:presence).compact.join(" ").presence || email
+    [first_name, last_name].filter_map(&:presence).join(" ").presence || email
   end
 
   def remaining_holidays
@@ -77,10 +73,6 @@ class User < ApplicationRecord
 
   def used_holidays
     leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count
-  end
-
-  def send_devise_notification(notification, *)
-    devise_mailer.send(notification, self, *).deliver_later
   end
 
   def notify!(message)

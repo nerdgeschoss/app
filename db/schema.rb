@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_14_103055) do
+  create_schema "heroku_ext"
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -199,7 +201,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
     t.string "hostname"
     t.text "metadata"
     t.datetime "created_at", null: false
+    t.string "name", null: false
     t.index ["last_heartbeat_at"], name: "index_solid_queue_processes_on_last_heartbeat_at"
+    t.index ["name", "supervisor_id"], name: "index_solid_queue_processes_on_name_and_supervisor_id", unique: true
     t.index ["supervisor_id"], name: "index_solid_queue_processes_on_supervisor_id"
   end
 
@@ -220,6 +224,22 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
     t.datetime "created_at", null: false
     t.index ["job_id"], name: "index_solid_queue_recurring_executions_on_job_id", unique: true
     t.index ["task_key", "run_at"], name: "index_solid_queue_recurring_executions_on_task_key_and_run_at", unique: true
+  end
+
+  create_table "solid_queue_recurring_tasks", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "schedule", null: false
+    t.string "command", limit: 2048
+    t.string "class_name"
+    t.text "arguments"
+    t.string "queue_name"
+    t.integer "priority", default: 0
+    t.boolean "static", default: true, null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_solid_queue_recurring_tasks_on_key", unique: true
+    t.index ["static"], name: "index_solid_queue_recurring_tasks_on_static"
   end
 
   create_table "solid_queue_scheduled_executions", force: :cascade do |t|
@@ -246,9 +266,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
   create_table "sprint_feedbacks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "sprint_id", null: false
     t.uuid "user_id", null: false
-    t.integer "daily_nerd_count"
-    t.decimal "tracked_hours"
-    t.decimal "billable_hours"
+    t.integer "daily_nerd_count", default: 0, null: false
+    t.decimal "tracked_hours", default: "0.0", null: false
+    t.decimal "billable_hours", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "review_notes"
@@ -258,7 +278,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
     t.decimal "costs"
     t.integer "retro_rating"
     t.string "retro_text"
-    t.boolean "skip_retro", default: false
+    t.boolean "skip_retro", default: false, null: false
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
     t.index ["sprint_id"], name: "index_sprint_feedbacks_on_sprint_id"
     t.index ["user_id"], name: "index_sprint_feedbacks_on_user_id"
@@ -267,7 +287,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
   create_table "sprints", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.daterange "sprint_during", null: false
-    t.integer "working_days", null: false
+    t.integer "working_days", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -335,9 +355,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_23_125437) do
     t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
-    t.string "slack_id"
     t.date "born_on"
     t.date "hired_on"
+    t.string "slack_id"
     t.string "github_handle"
     t.string "nick_name"
     t.integer "yearly_holidays", default: 30, null: false

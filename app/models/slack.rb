@@ -8,8 +8,13 @@ class Slack
 
   attr_accessor :debug, :last_message, :last_slack_status_update
 
+  def configured?
+    Config.slack_bot_token.present?
+  end
+
   def notify(channel:, text:)
     return @last_message = Message.new(channel:, text:) if debug
+    return unless configured?
 
     request http_method: :post, slack_method: "chat.postMessage", body: {channel:, text:}.to_json
   end
@@ -23,7 +28,7 @@ class Slack
 
   def retrieve_users_slack_id_by_email(email)
     response = request http_method: :get, slack_method: "users.lookupByEmail", query: {email:}
-    response.dig("user", "id")
+    response&.dig("user", "id")
   end
 
   def retrieve_users_profile_image_url_by_email(email)
@@ -41,7 +46,9 @@ class Slack
   private
 
   def request(http_method:, slack_method:, query: nil, body: nil, token_type: :bot)
-    token = Config.public_send("slack_#{token_type}_token!")
+    return unless configured?
+
+    token = Config.public_send(:"slack_#{token_type}_token!")
     headers = {"Content-Type": "application/json", authorization: "Bearer #{token}"}
     response = HTTParty.public_send(http_method, "https://slack.com/api/#{slack_method}", headers:, query:, body:)
 

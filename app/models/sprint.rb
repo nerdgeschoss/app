@@ -5,9 +5,9 @@
 # Table name: sprints
 #
 #  id            :uuid             not null, primary key
-#  title         :string           not null
 #  sprint_during :daterange        not null
-#  working_days  :integer          not null
+#  title         :string           not null
+#  working_days  :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
@@ -80,6 +80,10 @@ class Sprint < ApplicationRecord
 
   def completed?
     sprint_until.past?
+  end
+
+  def days
+    sprint_during.to_a
   end
 
   def send_sprint_start_notification

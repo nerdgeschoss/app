@@ -1,0 +1,47 @@
+.performance {
+  border-radius: 16px;
+  border: 1px solid #6a74ff;
+  padding: 12px;
+
+  &__avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  &__day {
+    height: 16px;
+    width: 6px;
+    border-radius: 2px;
+    background-color: #e8eefb;
+
+    &--sick {
+      background-color: #2da9ff;
+    }
+
+    &--vacation {
+      background-color: #1ed451;
+    }
+
+    &--working {
+      background-color: #6a74ff;
+    }
+  }
+
+  &__daily-nerd {
+    height: 6px;
+    width: 6px;
+    border-radius: 3px;
+    background-color: #e8eefb;
+
+    &--written {
+      background-color: #ff50f1;
+    }
+  }
+
+  &__icon-line {
+    display: flex;
+    justify-content: space-between;
+  }
+}

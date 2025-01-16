@@ -1,0 +1,23 @@
+.errors {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  z-index: 1000;
+
+  &__notification {
+    position: relative;
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+
+  &__notification-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+  }
+}

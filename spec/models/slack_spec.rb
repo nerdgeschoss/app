@@ -5,8 +5,11 @@ require "rails_helper"
 RSpec.describe Slack do
   let(:slack) { Slack.instance }
 
-  before do
+  around do |example|
     slack.debug = false
+    Config.stub(slack_bot_token: "TEST", slack_user_token: "USER_TOKEN_TEST") do
+      example.run
+    end
   end
 
   it "retrieves a slack id by email" do

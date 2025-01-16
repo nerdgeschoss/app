@@ -4,23 +4,19 @@
 #
 # Table name: users
 #
-#  id                     :uuid             not null, primary key
-#  born_on                :date
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  first_name             :string
-#  github_handle          :string
-#  hired_on               :date
-#  last_name              :string
-#  nick_name              :string
-#  remember_created_at    :datetime
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  roles                  :string           default([]), not null, is an Array
-#  yearly_holidays        :integer          default(30), not null
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  slack_id               :string
+#  id              :uuid             not null, primary key
+#  born_on         :date
+#  email           :string           default(""), not null
+#  first_name      :string
+#  github_handle   :string
+#  hired_on        :date
+#  last_name       :string
+#  nick_name       :string
+#  roles           :string           default([]), not null, is an Array
+#  yearly_holidays :integer          default(30), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  slack_id        :string
 #
 
 require "rails_helper"
@@ -29,6 +25,12 @@ RSpec.describe User do
   fixtures :all
   let(:john) { users(:john) }
   let(:slack_text) { Slack.instance.last_message.text }
+
+  around do |example|
+    Config.stub(slack_announcement_channel_id: "slack-announcement-channel") do
+      example.run
+    end
+  end
 
   it "congratulates the user on his birthday" do
     john.congratulate_on_birthday

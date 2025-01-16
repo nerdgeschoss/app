@@ -14,17 +14,11 @@ class SprintFeedbacksController < ApplicationController
     ui.replace feedback.sprint
   end
 
-  def edit
+  def edit_retro
   end
 
-  def update
-    if @feedback.update feedback_update_attributes
-      @user = @feedback.user
-      ui.close_popover
-      ui.replace @feedback.sprint
-    else
-      render :edit, status: :unprocessable_entity
-    end
+  def update_retro
+    @feedback.update! feedback_update_attributes
   end
 
   def destroy

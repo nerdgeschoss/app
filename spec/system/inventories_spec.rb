@@ -13,24 +13,27 @@ RSpec.describe "Leaves" do
     click_on "add"
     within ".modal" do
       fill_in "Name", with: "MacBook Pro M3"
+      fill_in "Received at", with: Date.current.to_s
       screenshot "add_inventory"
       click_on "Save"
     end
 
     expect(page).not_to have_selector ".modal"
     expect(page).to have_content "MacBook Pro M3"
-    expect(page).to have_content "February 02, 2022"
+    expect(page).to have_content "02/02/2022"
 
-    click_on "MacBook Pro M3"
+    travel_to "2022-02-05"
+
+    find("a", text: "MacBook Pro M3").click
     within ".modal" do
-      fill_in "Returned at", with: DateTime.current
+      fill_in "Returned at", with: Date.current.to_s
       click_on "Save"
     end
 
     expect(page).not_to have_selector ".modal"
-    expect(page).to have_selector ".muted"
+    expect(page).to have_content "02/05/2022"
 
-    click_on "MacBook Pro M3"
+    find("a", text: "MacBook Pro M3").click
     click_on "Delete"
 
     expect(page).not_to have_content "MacBook Pro M3"

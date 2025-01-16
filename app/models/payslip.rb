@@ -12,9 +12,11 @@
 #
 
 class Payslip < ApplicationRecord
-  scope :reverse_chronologic, -> { order(month: :desc) }
+  scope :reverse_chronologic, -> { order(month: :desc, id: :asc) }
 
   belongs_to :user
 
   has_one_attached :pdf
+
+  validates :month, :pdf, presence: true
 end

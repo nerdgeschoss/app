@@ -12,6 +12,7 @@ search:
     - app/assets/videos
     - app/assets/builds
     - app/javascript/lib
+    - app/views/**/*.tsx
 
 ignore_unused:
   - errors.*

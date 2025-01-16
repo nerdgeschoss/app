@@ -1,0 +1,166 @@
+@import '../layout.scss';
+
+.sidebar {
+  background-color: var(--navigation-bg-default);
+  box-shadow: 0px 10px 10px 0px rgba(43, 124, 138, 0.03);
+  position: sticky;
+  top: 0;
+  width: 100vw;
+
+  @include media-desktop {
+    width: 84px;
+    height: 100vh;
+    position: fixed;
+    padding: 32px 16px 40px;
+    box-shadow: 7px 10px 10px 0px rgba(43, 124, 138, 0.03);
+  }
+
+  &__header {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+
+    @include media-desktop {
+      padding: 0;
+      justify-content: center;
+    }
+  }
+
+  &__logo {
+    height: 40px;
+    width: auto;
+  }
+
+  &__content {
+    background-color: var(--navigation-bg-default);
+    position: absolute;
+    width: 100%;
+    padding: 24px 16px;
+    display: none;
+
+    @include media-desktop {
+      padding: 48px 0 0;
+      position: relative;
+      display: block;
+    }
+  }
+
+  &__link {
+    display: flex;
+    gap: 24px;
+    cursor: pointer;
+    color: var(--icon-navigation-default);
+    position: relative;
+
+    @include media-desktop {
+      padding: 10px;
+      border-radius: 16px;
+    }
+
+    &--active {
+      @include media-desktop {
+        background-color: var(--menu-bg-active);
+        color: var(--icon-navigation-active);
+      }
+    }
+
+    &:hover {
+      @include media-desktop {
+        background-color: var(--menu-bg-hover);
+        color: var(--icon-navigation-hover);
+      }
+
+      .sidebar__link-text {
+        @include media-desktop {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__link-text {
+    @include media-desktop {
+      position: absolute;
+      background-color: var(--tooltip-bg-default);
+      color: var(--tooltip-label-default);
+      padding: 9px 18px 11px;
+      border-radius: 100px;
+      left: 57px;
+      top: 4px;
+      display: none;
+    }
+  }
+
+  &__links {
+    margin-bottom: 104px;
+  }
+
+  &__avatar {
+    width: 52px;
+    aspect-ratio: 1;
+    border-radius: 100%;
+  }
+
+  &__footer-username {
+    @include media-desktop {
+      display: none;
+    }
+  }
+
+  &__menu-toggle {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+    &::before,
+    &::after {
+      position: absolute;
+      display: block;
+      content: '';
+      width: 24px;
+      height: 2px;
+      border-radius: 1px;
+      background-color: currentColor;
+      transition: all 0.3s;
+    }
+
+    &::before {
+      top: 8px;
+    }
+
+    &::after {
+      top: 16px;
+    }
+
+    @include media-desktop {
+      display: none;
+    }
+  }
+
+  &--expanded {
+    .sidebar__content {
+      display: block;
+    }
+
+    .sidebar__menu-toggle {
+      &::before {
+        transform: rotate(45deg);
+        top: 11px;
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+        top: 11px;
+      }
+    }
+  }
+}
+
+.content {
+  @include media-desktop {
+    margin-left: 84px;
+  }
+}

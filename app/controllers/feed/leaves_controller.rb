@@ -6,7 +6,9 @@ module Feed
 
     def index
       @leaves = Leave.all
-      respond_to :ics
+      respond_to do |format|
+        format.ics
+      end
     end
 
     private

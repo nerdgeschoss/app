@@ -5,9 +5,9 @@
 # Table name: sprints
 #
 #  id            :uuid             not null, primary key
-#  title         :string           not null
 #  sprint_during :daterange        not null
-#  working_days  :integer          not null
+#  title         :string           not null
+#  working_days  :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
@@ -16,6 +16,12 @@ require "rails_helper"
 
 RSpec.describe Sprint do
   fixtures :all
+
+  around do |example|
+    Config.stub(slack_announcement_channel_id: "slack-announcement-channel", slack_bot_token: "BOT_TOKEN", slack_hr_channel_id: "HR_CHANNEL") do
+      example.run
+    end
+  end
 
   context "sending the start notification" do
     let(:sprint) { sprints(:empty) }

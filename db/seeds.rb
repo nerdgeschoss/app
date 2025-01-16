@@ -30,8 +30,6 @@ logger.debug "Creating users..."
     born_on: Faker::Date.birthday(min_age: 18, max_age: 65),
     hired_on: Faker::Date.between(from: "2010-01-01", to: "2023-12-31"),
     slack_id: Faker::Alphanumeric.alphanumeric(number: 10),
-    password: "password",
-    password_confirmation: "password",
     github_handle: ["JensRavens"][i]
   )
 
@@ -78,4 +76,4 @@ logger.debug "Creating users..."
 end
 
 logger.debug "Creating admin user..."
-User.create!(email: "admin@nerdgeschoss.de", password: "password", roles: [:hr, :sprinter])
+User.create!(email: "admin@nerdgeschoss.de", roles: [:hr, :sprinter])

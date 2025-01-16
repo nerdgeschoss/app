@@ -1,0 +1,48 @@
+@use './variables';
+@use '../layout';
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('./fonts/inter.woff2') format('woff2');
+}
+@font-face {
+  font-family: Inter;
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('./fonts/inter-italic.woff2') format('woff2');
+}
+
+.text {
+  font-style: normal;
+  width: fit-content;
+  color: var(--text-primary-base);
+  hyphens: auto;
+  white-space: nowrap;
+
+  &--multiline {
+    white-space: normal;
+  }
+
+  &--tooltip {
+    @include variables.tooltip();
+  }
+
+  &--menu-semibold {
+    @include variables.desktop-menu-semibold();
+  }
+
+  &--menu-bold {
+    @include variables.desktop-menu-bold();
+  }
+
+  &--headline {
+    @include variables.mobile-headline();
+    @include layout.media-desktop {
+      @include variables.desktop-headline();
+    }
+  }
+}

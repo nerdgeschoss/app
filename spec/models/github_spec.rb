@@ -3,6 +3,12 @@
 require "rails_helper"
 
 RSpec.describe Github do
+  around do |example|
+    Config.stub(github_access_token: "TEST") do
+      example.run
+    end
+  end
+
   describe "#sprint_board_items" do
     it "returns project items" do
       body = <<~JSON

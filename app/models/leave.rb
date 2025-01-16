@@ -24,7 +24,7 @@ class Leave < ApplicationRecord
   belongs_to :user
 
   scope :chronologic, -> { order("UPPER(leaves.leave_during) ASC") }
-  scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC") }
+  scope :reverse_chronologic, -> { order("UPPER(leaves.leave_during) DESC", "leaves.id DESC") }
   scope :during, ->(range) { where("leaves.leave_during && daterange(?, ?)", range.min, range.max) }
   scope :future, -> { where("UPPER(leaves.leave_during) > NOW()") }
   scope :with_status, ->(status) { (status == :all) ? all : where(status:) }
@@ -69,8 +69,10 @@ class Leave < ApplicationRecord
   end
 
   def notify_hr_on_slack_about_new_request
-    Slack.instance.notify(channel: Config.slack_hr_channel_id!,
-      text: Leave::Notification.new(leave: self).hr_leave_request_message)
+    if Config.slack_hr_channel_id.present?
+      Slack.instance.notify(channel: Config.slack_hr_channel_id,
+        text: Leave::Notification.new(leave: self).hr_leave_request_message)
+    end
   end
 
   def notify_user_on_slack_about_status_change

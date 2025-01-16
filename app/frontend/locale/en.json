@@ -1,0 +1,81 @@
+{
+  "pages": {
+    "home": {
+      "hello": "Hello, %{name}!",
+      "upcoming_holidays": "Upcoming holidays",
+      "last_payments": "Last payments",
+      "remaining_holidays": "Remaining holidays",
+      "number_holidays_left": "You have %{count} days off left",
+      "payslip_archive": "archive",
+      "missing_retro": "Retrospective Notes Missing",
+      "missing_retro_description": "You did not yet leave a rating for sprint %{title}.",
+      "leave_retro_notes": "Rate the sprint now"
+    }
+  },
+  "sprints": {
+    "new": {
+      "title": "Title",
+      "sprint_from": "Sprint from",
+      "sprint_until": "Sprint until",
+      "working_days": "Working days",
+      "save": "Save"
+    }
+  },
+  "sprint_feedbacks": {
+    "edit_retro": {
+      "headline": "⭐️ Retrospective",
+      "skip": "Skip rating this sprint",
+      "rating": "Rating",
+      "text": "Text",
+      "save": "Save"
+    }
+  },
+  "users": {
+    "index": {
+      "title": "Users",
+      "number_holidays_left": "%{count} days off left",
+      "salary_since": "%{amount} since %{date}"
+    },
+    "show": {
+      "remaining_holidays": "Remaining holidays",
+      "salary_history": "Salary history",
+      "inventory": "Inventory",
+      "add_inventory": "add"
+    }
+  },
+  "leaves": {
+    "new": {
+      "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
+      "sick": "Sick",
+      "paid": "Paid",
+      "not_working": "Not working",
+      "days": "Days",
+      "user": "User",
+      "title": "Title",
+      "type": "Type",
+      "request": "Request leave"
+    },
+    "index": {
+      "title": "Leaves",
+      "subscribe": "Subscribe",
+      "request": "Request leave",
+      "more": "More"
+    }
+  },
+  "inventories": {
+    "new": {
+      "name": "Name",
+      "details": "Details",
+      "received_at": "Received at",
+      "save": "Save"
+    },
+    "edit": {
+      "name": "Name",
+      "details": "Details",
+      "received_at": "Received at",
+      "returned_at": "Returned at",
+      "save": "Save",
+      "delete": "Delete"
+    }
+  }
+}

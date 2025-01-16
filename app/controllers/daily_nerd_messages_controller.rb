@@ -6,18 +6,13 @@ class DailyNerdMessagesController < ApplicationController
 
   def create
     @daily_nerd_message = authorize DailyNerdMessage.new(daily_nerd_message_attributes.merge(sprint_feedback:))
-    if @daily_nerd_message.save
-      SlackPostDailyNerdJob.perform_later(daily_nerd_message: @daily_nerd_message)
-      sprint_feedback.add_daily_nerd_entry(@daily_nerd_message.created_at)
-      redirect_to sprints_path
-    else
-      render "new", status: :unprocessable_entity
-    end
+    @daily_nerd_message.save!
+    SlackPostDailyNerdJob.perform_later(daily_nerd_message: @daily_nerd_message)
+    sprint_feedback.add_daily_nerd_entry(@daily_nerd_message.created_at)
   end
 
   def update
     @daily_nerd_message.update!(daily_nerd_message_attributes)
-    redirect_to sprints_path
   end
 
   private

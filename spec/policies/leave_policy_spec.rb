@@ -46,7 +46,7 @@ RSpec.describe LeavePolicy do
 
     describe "permitted_attributes" do
       it "returns all attributes" do
-        expect(subject.permitted_attributes).to contain_exactly(:title, :days, :type, :user_id, :status)
+        expect(subject.permitted_attributes).to contain_exactly(:title, :type, :user_id, :status, days: [])
       end
     end
   end

@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import Rails from 'vite-plugin-rails';
-import sassGlobImports from 'vite-plugin-sass-glob-import';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [Rails(), sassGlobImports()],
+  plugins: [Rails(), react()],
 });

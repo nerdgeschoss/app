@@ -1,0 +1,10 @@
+@use '../layout';
+
+.columns {
+  display: grid;
+  gap: 16px;
+
+  @include layout.media-tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

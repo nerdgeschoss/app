@@ -5,16 +5,16 @@
 # Table name: sprint_feedbacks
 #
 #  id                     :uuid             not null, primary key
-#  billable_hours         :decimal(, )
+#  billable_hours         :decimal(, )      default(0.0), not null
 #  costs                  :decimal(, )
-#  daily_nerd_count       :integer
+#  daily_nerd_count       :integer          default(0), not null
 #  daily_nerd_entry_dates :datetime         default([]), not null, is an Array
 #  finished_storypoints   :integer          default(0), not null
 #  retro_rating           :integer
 #  retro_text             :string
 #  review_notes           :string
-#  skip_retro             :boolean          default(FALSE)
-#  tracked_hours          :decimal(, )
+#  skip_retro             :boolean          default(FALSE), not null
+#  tracked_hours          :decimal(, )      default(0.0), not null
 #  turnover               :decimal(, )
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -30,6 +30,7 @@ class SprintFeedback < ApplicationRecord
   validates :retro_rating, numericality: {only_integer: true, in: 1..5}, allow_nil: true
 
   scope :ordered, -> { joins(:user).order("users.email ASC") }
+  scope :reverse_chronologic, -> { joins(:sprint).order("LOWER(sprints.sprint_during) DESC") }
   scope :retro_missing, -> { where(retro_rating: nil, skip_retro: false) }
   scope :retro_not_skipped, -> { where(skip_retro: false) }
   scope :sprint_past, -> {
@@ -117,11 +118,16 @@ class SprintFeedback < ApplicationRecord
     turnover_per_storypoint / sprint.turnover_per_storypoint
   end
 
-  private
+  def finished_storypoints_per_day
+    return 0 if working_day_count.zero?
+    finished_storypoints.to_f / working_day_count
+  end
 
   def leaves
     @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end
+
+  private
 
   def count_days(type)
     leaves.select { |e| e.public_send(:"#{type}?") }
