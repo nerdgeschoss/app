@@ -9,6 +9,8 @@ import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
+import { Box } from '../../frontend/components/box/box';
+import { Stack } from '../../frontend/components/stack/stack';
 
 interface Form {
   userId: string;
@@ -41,18 +43,22 @@ export default function ({
     onSubmitError: handleError,
   });
   return (
-    <Form onSubmit={onSubmit}>
-      <TextField {...fields.name} label={t('inventories.new.name')} />
-      <TextField {...fields.details} label={t('inventories.new.details')} />
-      <DateField
-        {...fields.receivedAt}
-        label={t('inventories.new.received_at')}
-      />
-      <Button
-        title={t('inventories.new.save')}
-        disabled={!valid}
-        onClick={onSubmit}
-      />
-    </Form>
+    <Box>
+      <Form onSubmit={onSubmit}>
+        <Stack>
+          <TextField {...fields.name} label={t('inventories.new.name')} />
+          <TextField {...fields.details} label={t('inventories.new.details')} />
+          <DateField
+            {...fields.receivedAt}
+            label={t('inventories.new.received_at')}
+          />
+          <Button
+            title={t('inventories.new.save')}
+            disabled={!valid}
+            onClick={onSubmit}
+          />
+        </Stack>
+      </Form>
+    </Box>
   );
 }

@@ -4,6 +4,7 @@ import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
 import './checkbox.scss';
+import { Stack } from '../stack/stack';
 
 interface Props extends FormField<boolean> {
   label?: ReactNode;
@@ -40,7 +41,32 @@ export function Checkbox({
           { disabled }
         )}
       >
-        <div className="checkbox__content">
+        <Stack line="mobile" size={4}>
+          <input
+            id={inputId}
+            name={name}
+            className={classnames('checkbox__input')}
+            readOnly={readOnly}
+            checked={value}
+            type="checkbox"
+            onChange={(event) => {
+              if (readOnly) {
+                event.preventDefault();
+                return;
+              }
+              onChange?.(event.target.checked);
+            }}
+            onFocus={() => {
+              onFocus?.();
+            }}
+            onBlur={() => {
+              onBlur?.();
+            }}
+            placeholder={placeholder}
+            required={required}
+            disabled={disabled}
+            aria-label={ariaLabel}
+          />
           {label !== undefined && (
             <label
               className={classnames('checkbox__label', {
@@ -51,34 +77,7 @@ export function Checkbox({
               {label}
             </label>
           )}
-          <Text>
-            <input
-              id={inputId}
-              name={name}
-              className={classnames('checkbox__input')}
-              readOnly={readOnly}
-              checked={value}
-              type="checkbox"
-              onChange={(event) => {
-                if (readOnly) {
-                  event.preventDefault();
-                  return;
-                }
-                onChange?.(event.target.checked);
-              }}
-              onFocus={() => {
-                onFocus?.();
-              }}
-              onBlur={() => {
-                onBlur?.();
-              }}
-              placeholder={placeholder}
-              required={required}
-              disabled={disabled}
-              aria-label={ariaLabel}
-            />
-          </Text>
-        </div>
+        </Stack>
         {touched && errors && (
           <div className="checkbox__errors">
             {errors.map((error) => (

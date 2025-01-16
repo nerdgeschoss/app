@@ -23,6 +23,7 @@
   },
   "sprint_feedbacks": {
     "edit_retro": {
+      "headline": "⭐️ Retrospective",
       "skip": "Skip rating this sprint",
       "rating": "Rating",
       "text": "Text",

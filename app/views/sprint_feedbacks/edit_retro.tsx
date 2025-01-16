@@ -10,6 +10,9 @@ import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
 import { NumberField } from '../../frontend/components/number_field/number_field';
 import { Checkbox } from '../../frontend/components/checkbox/checkbox';
+import { Box } from '../../frontend/components/box/box';
+import { Text } from '../../frontend/components/text/text';
+import { CollapsePanel } from '../../frontend/components/collapse_panel/collapse_panel';
 
 export default function ({
   data: { feedback },
@@ -49,28 +52,31 @@ export default function ({
   });
 
   return (
-    <Stack>
-      <Checkbox
-        {...fields.skipRetro}
-        label={t('sprint_feedbacks.edit_retro.skip')}
-      />
-      {!fields.skipRetro.value && (
-        <>
-          <NumberField
-            {...fields.retroRating}
-            label={t('sprint_feedbacks.edit_retro.rating')}
-          />
-          <TextArea
-            {...fields.retroText}
-            label={t('sprint_feedbacks.edit_retro.text')}
-          />
-        </>
-      )}
-      <Button
-        title={t('sprint_feedbacks.edit_retro.save')}
-        disabled={!valid}
-        onClick={onSubmit}
-      />
-    </Stack>
+    <Box size={24} sizeHorizontal={32}>
+      <Stack>
+        <Text>{t('sprint_feedbacks.edit_retro.headline')}</Text>
+        <Checkbox
+          {...fields.skipRetro}
+          label={t('sprint_feedbacks.edit_retro.skip')}
+        />
+        <CollapsePanel open={!fields.skipRetro.value}>
+          <Stack>
+            <NumberField
+              {...fields.retroRating}
+              label={t('sprint_feedbacks.edit_retro.rating')}
+            />
+            <TextArea
+              {...fields.retroText}
+              label={t('sprint_feedbacks.edit_retro.text')}
+            />
+          </Stack>
+        </CollapsePanel>
+        <Button
+          title={t('sprint_feedbacks.edit_retro.save')}
+          disabled={!valid}
+          onClick={onSubmit}
+        />
+      </Stack>
+    </Box>
   );
 }

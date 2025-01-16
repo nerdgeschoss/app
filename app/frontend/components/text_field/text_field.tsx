@@ -51,33 +51,31 @@ export function TextField({
               {label}
             </label>
           )}
-          <Text>
-            <input
-              id={inputId}
-              name={name}
-              className={classnames('text-field__input')}
-              readOnly={readOnly}
-              value={value ?? ''}
-              type="text"
-              onChange={(event) => {
-                if (readOnly) {
-                  event.preventDefault();
-                  return;
-                }
-                onChange?.(event.target.value);
-              }}
-              onFocus={() => {
-                onFocus?.();
-              }}
-              onBlur={() => {
-                onBlur?.();
-              }}
-              placeholder={placeholder}
-              required={required}
-              disabled={disabled}
-              aria-label={ariaLabel}
-            />
-          </Text>
+          <input
+            id={inputId}
+            name={name}
+            className={classnames('text-field__input')}
+            readOnly={readOnly}
+            value={value ?? ''}
+            type="text"
+            onChange={(event) => {
+              if (readOnly) {
+                event.preventDefault();
+                return;
+              }
+              onChange?.(event.target.value);
+            }}
+            onFocus={() => {
+              onFocus?.();
+            }}
+            onBlur={() => {
+              onBlur?.();
+            }}
+            placeholder={placeholder}
+            required={required}
+            disabled={disabled}
+            aria-label={ariaLabel}
+          />
         </div>
         {touched && errors && (
           <div className="text-field__errors">

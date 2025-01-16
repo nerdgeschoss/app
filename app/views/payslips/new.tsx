@@ -10,6 +10,8 @@ import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useFormatter } from '../../frontend/util/dependencies';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
+import { Box } from '../../frontend/components/box/box';
+import { Stack } from '../../frontend/components/stack/stack';
 
 interface Form {
   userId: string;
@@ -45,18 +47,22 @@ export default function ({
     onSubmitError: handleError,
   });
   return (
-    <Form onSubmit={onSubmit}>
-      <SelectField
-        {...fields.userId}
-        label="User"
-        options={users.map((user) => ({
-          value: user.id,
-          label: user.displayName,
-        }))}
-      />
-      <DateField {...fields.month} label="Received at" />
-      <FileField {...fields.pdf} label="File" />
-      <Button title="create" disabled={!valid} onClick={onSubmit} />
-    </Form>
+    <Box>
+      <Form onSubmit={onSubmit}>
+        <Stack>
+          <SelectField
+            {...fields.userId}
+            label="User"
+            options={users.map((user) => ({
+              value: user.id,
+              label: user.displayName,
+            }))}
+          />
+          <DateField {...fields.month} label="Received at" />
+          <FileField {...fields.pdf} label="File" />
+          <Button title="create" disabled={!valid} onClick={onSubmit} />
+        </Stack>
+      </Form>
+    </Box>
   );
 }

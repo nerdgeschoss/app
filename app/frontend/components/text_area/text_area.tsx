@@ -51,32 +51,30 @@ export function TextArea({
               {label}
             </label>
           )}
-          <Text>
-            <textarea
-              id={inputId}
-              name={name}
-              className={classnames('text-area__input')}
-              readOnly={readOnly}
-              value={value ?? ''}
-              onChange={(event) => {
-                if (readOnly) {
-                  event.preventDefault();
-                  return;
-                }
-                onChange?.(event.target.value);
-              }}
-              onFocus={() => {
-                onFocus?.();
-              }}
-              onBlur={() => {
-                onBlur?.();
-              }}
-              placeholder={placeholder}
-              required={required}
-              disabled={disabled}
-              aria-label={ariaLabel}
-            />
-          </Text>
+          <textarea
+            id={inputId}
+            name={name}
+            className={classnames('text-area__input')}
+            readOnly={readOnly}
+            value={value ?? ''}
+            onChange={(event) => {
+              if (readOnly) {
+                event.preventDefault();
+                return;
+              }
+              onChange?.(event.target.value);
+            }}
+            onFocus={() => {
+              onFocus?.();
+            }}
+            onBlur={() => {
+              onBlur?.();
+            }}
+            placeholder={placeholder}
+            required={required}
+            disabled={disabled}
+            aria-label={ariaLabel}
+          />
         </div>
         {touched && errors && (
           <div className="text-area__errors">

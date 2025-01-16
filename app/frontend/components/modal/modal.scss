@@ -36,8 +36,8 @@ $animation_time: 0.35s;
   &__close {
     position: absolute;
     z-index: 999;
-    top: 10px;
-    right: 10px;
+    top: 32px;
+    right: 32px;
     background-image: url(./close.svg);
     background-size: contain;
     background-repeat: no-repeat;
@@ -75,6 +75,7 @@ $animation_time: 0.35s;
     border-radius: 16 0 0 16;
     transform: translate(100%, 0px);
     max-height: 90vh;
+    border-radius: 16px;
 
     @include layout.media-tablet {
       max-height: 100%;

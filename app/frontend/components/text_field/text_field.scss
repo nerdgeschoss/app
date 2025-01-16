@@ -3,22 +3,6 @@
   flex-direction: column;
   border-bottom: 1px solid var(--color-border);
 
-  &--boolean {
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 0;
-
-    .input__label {
-      font-size: 16px;
-    }
-
-    .input__input {
-      appearance: auto;
-    }
-  }
-
   &__label {
     font-size: 10px;
   }
@@ -26,5 +10,6 @@
   &__input {
     outline: none;
     border-bottom: 1px solid currentColor;
+    width: 100%;
   }
 }

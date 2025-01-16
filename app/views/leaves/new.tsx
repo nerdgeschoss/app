@@ -12,6 +12,8 @@ import { SelectOption } from '../../frontend/components/form_field/form_field';
 import { Text } from '../../frontend/components/text/text';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
+import { Box } from '../../frontend/components/box/box';
+import { Stack } from '../../frontend/components/stack/stack';
 
 interface Form {
   userId: string;
@@ -61,30 +63,36 @@ export default function ({
   const someDaysInPast = fields.days.value.some((date) => date < today);
 
   return (
-    <Form onSubmit={onSubmit}>
-      <CalendarField {...fields.days} label={t('leaves.new.days')} />
-      {someDaysInPast && <Text>{t('leaves.new.days_in_past_warning')}</Text>}
-      {permitUserSelect && (
-        <SelectField
-          {...fields.userId}
-          label={t('leaves.new.user')}
-          options={users.map((user) => ({
-            value: user.id,
-            label: user.displayName,
-          }))}
-        />
-      )}
-      <TextField {...fields.title} label={t('leaves.new.title')} />
-      <SelectField
-        {...fields.type}
-        label={t('leaves.new.type')}
-        options={leaveTypes}
-      />
-      <Button
-        title={t('leaves.new.request')}
-        disabled={!valid}
-        onClick={onSubmit}
-      />
-    </Form>
+    <Box>
+      <Form onSubmit={onSubmit}>
+        <Stack>
+          <CalendarField {...fields.days} label={t('leaves.new.days')} />
+          {someDaysInPast && (
+            <Text>{t('leaves.new.days_in_past_warning')}</Text>
+          )}
+          {permitUserSelect && (
+            <SelectField
+              {...fields.userId}
+              label={t('leaves.new.user')}
+              options={users.map((user) => ({
+                value: user.id,
+                label: user.displayName,
+              }))}
+            />
+          )}
+          <TextField {...fields.title} label={t('leaves.new.title')} />
+          <SelectField
+            {...fields.type}
+            label={t('leaves.new.type')}
+            options={leaveTypes}
+          />
+          <Button
+            title={t('leaves.new.request')}
+            disabled={!valid}
+            onClick={onSubmit}
+          />
+        </Stack>
+      </Form>
+    </Box>
   );
 }

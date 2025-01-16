@@ -10,6 +10,8 @@ import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { DateField } from '../../frontend/components/date_field/date_field';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
+import { Box } from '../../frontend/components/box/box';
+import { Stack } from '../../frontend/components/stack/stack';
 
 interface Form {
   name: string;
@@ -48,35 +50,42 @@ export default function ({
     onSubmitError: handleError,
   });
   return (
-    <Container>
+    <Box>
       <Form onSubmit={onSubmit}>
-        <TextField {...fields.name} label={t('inventories.edit.name')} />
-        <TextField {...fields.details} label={t('inventories.edit.details')} />
-        <DateField
-          {...fields.receivedAt}
-          label={t('inventories.edit.received_at')}
-        />
-        <DateField
-          {...fields.returnedAt}
-          label={t('inventories.edit.returned_at')}
-        />
-        <Button
-          title={t('inventories.edit.save')}
-          disabled={!valid}
-          onClick={onSubmit}
-        />
-        <Button
-          title={t('inventories.edit.delete')}
-          onClick={async () => {
-            await reaction.call({
-              path: `/inventories/${inventory.id}`,
-              method: 'DELETE',
-              refresh: true,
-            });
-            modal.close();
-          }}
-        />
+        <Stack>
+          <TextField {...fields.name} label={t('inventories.edit.name')} />
+          <TextField
+            {...fields.details}
+            label={t('inventories.edit.details')}
+          />
+          <DateField
+            {...fields.receivedAt}
+            label={t('inventories.edit.received_at')}
+          />
+          <DateField
+            {...fields.returnedAt}
+            label={t('inventories.edit.returned_at')}
+          />
+          <Stack line="mobile">
+            <Button
+              title={t('inventories.edit.save')}
+              disabled={!valid}
+              onClick={onSubmit}
+            />
+            <Button
+              title={t('inventories.edit.delete')}
+              onClick={async () => {
+                await reaction.call({
+                  path: `/inventories/${inventory.id}`,
+                  method: 'DELETE',
+                  refresh: true,
+                });
+                modal.close();
+              }}
+            />
+          </Stack>
+        </Stack>
       </Form>
-    </Container>
+    </Box>
   );
 }

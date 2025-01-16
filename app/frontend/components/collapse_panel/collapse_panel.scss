@@ -1,0 +1,17 @@
+.collapse-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &__content {
+    min-height: 0;
+  }
+
+  &--open {
+    // We only want to set overflow visible after the panel has been opened and the transition is done
+    overflow: var(--collapse-panel-overflow, hidden);
+    grid-template-rows: 1fr;
+  }
+}

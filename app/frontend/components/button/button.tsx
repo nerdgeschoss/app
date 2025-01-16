@@ -1,4 +1,6 @@
 import React from 'react';
+import { Text } from '../text/text';
+import './button.scss';
 
 interface Props {
   title: string;
@@ -17,7 +19,7 @@ export function Button({ title, disabled, onClick }: Props): JSX.Element {
       }}
       disabled={disabled}
     >
-      {title}
+      <Text>{title}</Text>
     </button>
   );
 }

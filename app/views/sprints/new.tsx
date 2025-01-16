@@ -11,6 +11,7 @@ import { useModalInfo } from '../../frontend/components/modal/modal';
 import { NumberField } from '../../frontend/components/number_field/number_field';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
+import { Box } from '../../frontend/components/box/box';
 
 export default function ({
   data: { sprint },
@@ -45,27 +46,29 @@ export default function ({
   });
 
   return (
-    <Form onSubmit={onSubmit}>
-      <Stack>
-        <TextField {...fields.title} label={t('sprints.new.title')} />
-        <DateField
-          {...fields.sprintFrom}
-          label={t('sprints.new.sprint_from')}
-        />
-        <DateField
-          {...fields.sprintUntil}
-          label={t('sprints.new.sprint_until')}
-        />
-        <NumberField
-          {...fields.workingDays}
-          label={t('sprints.new.working_days')}
-        />
-        <Button
-          title={t('sprints.new.save')}
-          disabled={!valid}
-          onClick={onSubmit}
-        />
-      </Stack>
-    </Form>
+    <Box>
+      <Form onSubmit={onSubmit}>
+        <Stack>
+          <TextField {...fields.title} label={t('sprints.new.title')} />
+          <DateField
+            {...fields.sprintFrom}
+            label={t('sprints.new.sprint_from')}
+          />
+          <DateField
+            {...fields.sprintUntil}
+            label={t('sprints.new.sprint_until')}
+          />
+          <NumberField
+            {...fields.workingDays}
+            label={t('sprints.new.working_days')}
+          />
+          <Button
+            title={t('sprints.new.save')}
+            disabled={!valid}
+            onClick={onSubmit}
+          />
+        </Stack>
+      </Form>
+    </Box>
   );
 }
