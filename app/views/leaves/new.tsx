@@ -19,7 +19,7 @@ interface Form {
   userId: string;
   days: Date[];
   title: string;
-  type: 'paid' | 'sick' | 'not_working';
+  type: 'paid' | 'sick' | 'non_working';
 }
 
 export default function ({
@@ -56,7 +56,7 @@ export default function ({
   const leaveTypes: SelectOption<Form['type']>[] = [
     { value: 'paid', label: t('leaves.new.paid') },
     { value: 'sick', label: t('leaves.new.sick') },
-    { value: 'not_working', label: t('leaves.new.not_working') },
+    { value: 'non_working', label: t('leaves.new.not_working') },
   ];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
