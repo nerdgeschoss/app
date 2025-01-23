@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
+import { isoDate } from '../../util/date';
 
 interface Props extends FormField<Date | null> {
   label?: ReactNode;
@@ -56,7 +57,7 @@ export function DateField({
               name={name}
               className={classnames('textfield__input')}
               readOnly={readOnly}
-              value={value?.toJSON().slice(0, 10) ?? ''}
+              value={value ? isoDate(value) : ''}
               type="date"
               onChange={(event) => {
                 if (readOnly) {

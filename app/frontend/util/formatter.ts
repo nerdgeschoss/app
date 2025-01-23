@@ -1,3 +1,4 @@
+import { sameDay } from './date';
 import type { Locale } from './i18n';
 
 export class Formatter {
@@ -106,6 +107,9 @@ export class Formatter {
     const endDate = this.parseDate(end);
     if (!startDate || !endDate) {
       return null;
+    }
+    if (sameDay(startDate, endDate)) {
+      return this.date(startDate);
     }
     if (startDate.getFullYear() === endDate.getFullYear()) {
       return `${this.dateWithoutYear(startDate)} - ${this.date(endDate)}`;

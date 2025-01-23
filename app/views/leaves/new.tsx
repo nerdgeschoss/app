@@ -14,6 +14,7 @@ import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
 import { Box } from '../../frontend/components/box/box';
 import { Stack } from '../../frontend/components/stack/stack';
+import { isoDate } from '../../frontend/util/date';
 
 interface Form {
   userId: string;
@@ -43,10 +44,16 @@ export default function ({
       type: 'required',
     },
     onSubmit: async ({ model }) => {
+      const params = {
+        leave: {
+          ...model,
+          days: model.days.map(isoDate),
+        },
+      };
       await reaction.call({
         path: '/leaves',
         method: 'POST',
-        params: { leave: model },
+        params,
         refresh: true,
       });
       modal.close();
