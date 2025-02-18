@@ -27,7 +27,7 @@ class Github
           repository:,
           issue_number: item.dig("content", "number"),
           status: item.dig("status", "name").presence,
-          sprint_title: item.dig("sprint", "title").presence,
+          sprint_title: item.dig("sprint", "title").presence || item.dig("sprint_backup", "text").presence,
           points: item.dig("points", "number")&.to_i
         )
       end
@@ -133,6 +133,11 @@ class Github
                 sprint: fieldValueByName(name: "Sprint") {
                   ... on ProjectV2ItemFieldIterationValue {
                     title
+                  }
+                }
+                sprint_backup: fieldValueByName(name: "SprintBackup") {
+                  ... on ProjectV2ItemFieldTextValue {
+                    text
                   }
                 }
                 points: fieldValueByName(name: "Points") {
