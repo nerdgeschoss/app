@@ -2,7 +2,7 @@
 
 class SprintFeedbackPolicy < ApplicationPolicy
   def show?
-    record.user == user || hr?
+    record.user == user || hr? || team_lead?
   end
 
   def create?
@@ -45,9 +45,19 @@ class SprintFeedbackPolicy < ApplicationPolicy
     def resolve
       if hr?
         scope.all
+      elsif user.team_lead_for.any?
+        users = User.in_team(user.team_lead_for.first)
+        scope.where(user_id: users)
       else
         scope.where(user_id: user.id)
       end
     end
+  end
+
+  private
+
+  def team_lead?
+    teams = user.team_lead_for
+    teams.any? { |team| record.user.team_member_of.include?(team) }
   end
 end

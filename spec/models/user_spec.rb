@@ -97,4 +97,19 @@ RSpec.describe User do
       expect(john.display_name).to eq "john@example.com"
     end
   end
+
+  describe "Teams" do
+    it "can be a team lead" do
+      john.roles = ["team-lead-nerdgeschoss", "sprinter"]
+      expect(john.team_lead_for).to eq ["nerdgeschoss"]
+    end
+
+    it "can be a team member" do
+      john.roles = ["sprinter", "team-nerdgeschoss", "team-lead-frontend"]
+      expect(john.team_member_of).to eq ["nerdgeschoss"]
+
+      john.save!
+      expect(User.in_team("nerdgeschoss")).to include(john)
+    end
+  end
 end

@@ -36,9 +36,12 @@ export default function ({
             }
             subtitle={
               <>
-                {t('users.index.number_holidays_left', {
-                  count: user.remainingHolidays,
-                })}
+                <Stack line="mobile" size={4} align="center">
+                  {t('users.index.number_holidays_left', {
+                    count: user.remainingHolidays,
+                  })}
+                  {user.teams.map(e => <Pill key={e}>{e}</Pill>)}
+                </Stack>
                 {user.currentSalary && (
                   <div>
                     {t('users.index.salary_since', {
