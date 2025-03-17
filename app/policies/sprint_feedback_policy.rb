@@ -46,7 +46,7 @@ class SprintFeedbackPolicy < ApplicationPolicy
       if hr?
         scope.all
       elsif user.team_lead_for.any?
-        users = User.in_team(user.team_lead_for.first)
+        users = User.in_team(user.team_lead_for)
         scope.where(user_id: users)
       else
         scope.where(user_id: user.id)

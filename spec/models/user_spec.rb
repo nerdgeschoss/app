@@ -111,5 +111,12 @@ RSpec.describe User do
       john.save!
       expect(User.in_team("nerdgeschoss")).to include(john)
     end
+
+    it "can be a member of multiple teams" do
+      john.update! roles: ["team-nerdgeschoss", "team-frontend"]
+      yuki = users(:yuki)
+      yuki.update! roles: ["team-nerdgeschoss"]
+      expect(User.in_team(["nerdgeschoss", "frontend"])).to include(john, yuki)
+    end
   end
 end
