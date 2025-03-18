@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User
-  module Team
+  module TeamBelonging
     extend ActiveSupport::Concern
 
     included do
@@ -9,13 +9,17 @@ class User
 
       def team_lead_for
         roles.filter_map do |role|
-          role.delete_prefix("team-lead-") if role.start_with?("team-lead-")
+          role.delete_prefix("team_lead-") if role.start_with?("team_lead-")
         end
+      end
+
+      def team_lead_of?(user)
+        team_lead_for.intersect?(user.team_member_of)
       end
 
       def team_member_of
         roles.filter_map do |role|
-          role.delete_prefix("team-") if role.start_with?("team-") && !role.start_with?("team-lead-")
+          role.delete_prefix("team-") if role.start_with?("team-")
         end
       end
     end

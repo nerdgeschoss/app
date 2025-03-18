@@ -57,7 +57,6 @@ class SprintFeedbackPolicy < ApplicationPolicy
   private
 
   def team_lead?
-    teams = user.team_lead_for
-    teams.any? { |team| record.user.team_member_of.include?(team) }
+    user.team_lead_of?(record.user)
   end
 end
