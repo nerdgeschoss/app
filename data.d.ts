@@ -229,6 +229,7 @@ export interface DataSchema {
       fullName: string;
       nickName: string | null;
       remainingHolidays: number;
+      teams: Array<string>;
       currentSalary: {
         brut: number;
         validFrom: string;

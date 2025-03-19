@@ -61,7 +61,20 @@ module Reaction
       def to_typescript(skip_root: false, array_content: false)
         name = self.name.to_s.camelize(:lower)
         if array && !array_content
-          "#{name}: Array<{#{to_typescript(skip_root: true, array_content: true)}}>"
+          content = to_typescript(skip_root: true, array_content: true)
+          "#{name}: Array<#{(type == Object) ? "{#{content}}" : content}>"
+        elsif array && type == String
+          "string"
+        elsif array && type == Integer
+          "number"
+        elsif array && type == Float
+          "number"
+        elsif array && type == Date
+          "string"
+        elsif array && type == Time
+          "string"
+        elsif array && type == Boolean
+          "boolean"
         elsif type == String
           "#{name}: string#{null ? " | null" : ""};"
         elsif type == Integer
