@@ -1,0 +1,56 @@
+.performance-progress {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    position: relative;
+    width: 150px;
+    height: 83px;
+  }
+
+  &__percentage {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    text-align: center;
+  }
+
+  svg {
+    width: 150px;
+    height: 83px;
+  }
+
+  &__billable,
+  &__tracked,
+  &__border-track {
+    fill: transparent;
+  }
+
+  &__billable {
+    stroke: #6a74ff;
+    stroke-width: 14px;
+    stroke-linecap: round;
+    stroke-dasharray: 408;
+  }
+  &__tracked {
+    stroke: #c3c7ff;
+    stroke-width: 14px;
+    stroke-linecap: round;
+    stroke-dasharray: 408;
+  }
+  &__border-track {
+    stroke: hsl(0, 0%, 93%);
+    stroke-width: 14px;
+    stroke-linecap: round;
+    stroke-dasharray: 408;
+    stroke-dashoffset: 204;
+  }
+  &__target-line {
+    stroke: #114f7b;
+    stroke-width: 3px;
+    stroke-linecap: round;
+  }
+}

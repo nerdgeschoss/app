@@ -3,8 +3,8 @@ import { Text } from '../text/text';
 import React from 'react';
 import './performance.scss';
 import classNames from 'classnames';
-import { useFormatter } from '../../util/dependencies';
 import { Link } from '../../sprinkles/history';
+import { PerformanceProgress } from '../performance_progress/performance_progress';
 
 interface Props {
   id: string;
@@ -38,10 +38,8 @@ export function Performance({
   days,
   workingDayCount,
   trackedHours,
+  billableHours,
 }: Props): JSX.Element {
-  const l = useFormatter();
-  const percentageOfRequiredHours =
-    workingDayCount > 0 ? trackedHours / (workingDayCount * 7.5) : 1.0;
   return (
     <Link href={`/sprint_feedbacks/${id}`}>
       <div className="performance">
@@ -62,32 +60,46 @@ export function Performance({
               </Stack>
             </div>
           </Stack>
-          <Stack size={2} align="center">
-            <Text>{l.percentage(percentageOfRequiredHours)}</Text>
-            <Text>{l.singleDigitNumber(trackedHours)} hrs</Text>
+          <Stack size={3} justify="center">
+            <PerformanceProgress
+              totalHours={workingDayCount * 7.5}
+              targetBillableHours={workingDayCount * 6}
+              trackedHours={trackedHours}
+              billableHours={billableHours}
+            />
           </Stack>
           <Stack size={3}>
             <div className="performance__icon-line">
-              {days.map((day) => (
-                <div
-                  key={day.id}
-                  className={classNames('performance__day', {
-                    'performance__day--sick': day.leave?.type === 'sick',
-                    'performance__day--vacation': day.leave?.type === 'paid',
-                    'performance__day--working': day.hasTimeEntries,
-                  })}
-                />
-              ))}
-            </div>
-            <div className="performance__icon-line">
-              {days.map((day) => (
-                <div
-                  key={day.id}
-                  className={classNames('performance__daily-nerd', {
-                    'performance__daily-nerd--written': day.hasDailyNerdMessage,
-                  })}
-                />
-              ))}
+              {days.map((day) => {
+                const isWeekend = new Date(day.day).getDay() % 6 === 0;
+
+                return (
+                  <div
+                    key={`${day.id}-container`}
+                    className="performance__day-container"
+                  >
+                    <div className="performance__daily-nerd-container">
+                      {!isWeekend && (
+                        <div
+                          className={classNames('performance__daily-nerd', {
+                            'performance__daily-nerd--written':
+                              day.hasDailyNerdMessage,
+                          })}
+                        />
+                      )}
+                    </div>
+                    <div
+                      className={classNames('performance__day', {
+                        'performance__day--sick': day.leave?.type === 'sick',
+                        'performance__day--vacation':
+                          day.leave?.type === 'paid',
+                        'performance__day--working': day.hasTimeEntries,
+                        'performance__day--weekend': isWeekend,
+                      })}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </Stack>
         </Stack>

@@ -12,21 +12,59 @@
 
   &__day {
     height: 16px;
-    width: 6px;
+    width: 10px;
     border-radius: 2px;
     background-color: #e8eefb;
 
     &--sick {
-      background-color: #2da9ff;
+      position: relative;
+      background-color: #e1e3ff;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -4px;
+        right: -4px;
+        bottom: -2px;
+        background: repeating-linear-gradient(
+          135deg,
+          transparent,
+          transparent 2px,
+          #ffffff 2px,
+          #ffffff 4px
+        );
+      }
+    }
+
+    &--weekend {
+      width: 3px;
     }
 
     &--vacation {
-      background-color: #1ed451;
+      border-radius: 2px;
+      border: 1px solid #4047b3;
+      background-color: unset;
     }
 
     &--working {
       background-color: #6a74ff;
     }
+  }
+
+  &__day-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__daily-nerd-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6px;
   }
 
   &__daily-nerd {
