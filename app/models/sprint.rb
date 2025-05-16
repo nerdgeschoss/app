@@ -62,6 +62,10 @@ class Sprint < ApplicationRecord
     sprint_feedbacks.filter_map(&:finished_storypoints).sum
   end
 
+  def finished_storypoints_per_day
+    (finished_storypoints.to_f / [total_working_days, 1].max).round(6)
+  end
+
   def turnover_per_storypoint
     (sprint_feedbacks.filter_map(&:turnover_per_storypoint).sum / [sprint_feedbacks.size, 1].max).round(2)
   end
@@ -92,7 +96,7 @@ class Sprint < ApplicationRecord
 
   def average_rating
     ratings = sprint_feedbacks.retro_not_skipped.filter_map(&:retro_rating)
-    return nil if ratings.empty?
+    return 0 if ratings.empty?
 
     ratings.sum / ratings.size.to_f
   end

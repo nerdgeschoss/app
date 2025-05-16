@@ -7,6 +7,10 @@ field :sprints, array: true, value: -> { @sprints } do
   field :title
   field :sprint_from, Time
   field :sprint_until, Time
+  field :finished_storypoints, Integer
+  field :finished_storypoints_per_day, Float
+  field :average_rating, Float
+  field :total_working_days, Integer
 
   field :performances, array: true, value: -> { sprint_feedbacks.select { helpers.policy(_1).show? }.sort_by { _1.user.display_name } } do
     field :id
