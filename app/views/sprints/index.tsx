@@ -31,9 +31,16 @@ export default function ({
           {sprints.map((sprint) => (
             <Card
               key={sprint.id}
-              title={sprint.title}
+              title={<div>{sprint.title} <small>({l.dateRange(sprint.sprintFrom, sprint.sprintUntil)})</small></div>}
               icon="🏃"
-              subtitle={l.dateRange(sprint.sprintFrom, sprint.sprintUntil)}
+              subtitle={<Stack line='mobile'>
+                <div>🔢 {sprint.finishedStorypoints} pts</div>
+                <div>🔢 {l.singleDigitNumber(sprint.finishedStorypointsPerDay)} pts/day</div>
+                <div>⭐️ {l.singleDigitNumber(sprint.averageRating)}/5</div>
+                <div>💻 {sprint.totalWorkingDays} days</div>
+                {sprint.turnoverPerStorypoint && <div>💸 {l.currency(sprint.turnoverPerStorypoint)} per point</div>}
+                {sprint.turnover && <div>💰 {l.currency(sprint.turnover)}</div>}
+              </Stack>}
             >
               <PerformanceGrid>
                 {sprint.performances.map((performance) => (

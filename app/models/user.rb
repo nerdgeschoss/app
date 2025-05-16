@@ -102,6 +102,10 @@ class User < ApplicationRecord
     salaries.sort_by(&:valid_from).select { _1.valid_from < date }.last
   end
 
+  def role?(role)
+    roles.include?(role.to_s)
+  end
+
   private
 
   def leaves_this_year

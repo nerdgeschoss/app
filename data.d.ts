@@ -182,6 +182,12 @@ export interface DataSchema {
       title: string;
       sprintFrom: string;
       sprintUntil: string;
+      finishedStorypoints: number;
+      finishedStorypointsPerDay: number;
+      averageRating: number;
+      totalWorkingDays: number;
+      turnoverPerStorypoint: number | null;
+      turnover: number | null;
       performances: Array<{
         id: string;
         workingDayCount: number;
