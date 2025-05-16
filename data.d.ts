@@ -189,9 +189,12 @@ export interface DataSchema {
         billableHours: number;
         retroRating: number | null;
         finishedStorypoints: number;
+        targetTotalHours: number;
+        targetBillableHours: number;
         days: Array<{
           id: string;
           day: string;
+          workingDay: boolean;
           hasDailyNerdMessage: boolean;
           leave: {
             id: string;

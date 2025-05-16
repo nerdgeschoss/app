@@ -13,9 +13,12 @@ interface Props {
   finishedStorypoints: number;
   trackedHours: number;
   billableHours: number;
+  targetTotalHours: number;
+  targetBillableHours: number;
   days: Array<{
     id: string;
     day: string;
+    workingDay: boolean;
     hasDailyNerdMessage: boolean;
     hasTimeEntries: boolean;
     leave: {
@@ -39,6 +42,8 @@ export function Performance({
   workingDayCount,
   trackedHours,
   billableHours,
+  targetTotalHours,
+  targetBillableHours
 }: Props): JSX.Element {
   return (
     <Link href={`/sprint_feedbacks/${id}`}>
@@ -62,8 +67,8 @@ export function Performance({
           </Stack>
           <Stack size={3} justify="center">
             <PerformanceProgress
-              totalHours={workingDayCount * 7.5}
-              targetBillableHours={workingDayCount * 6}
+              totalHours={targetTotalHours}
+              targetBillableHours={targetBillableHours}
               trackedHours={trackedHours}
               billableHours={billableHours}
             />
@@ -71,15 +76,13 @@ export function Performance({
           <Stack size={3}>
             <div className="performance__icon-line">
               {days.map((day) => {
-                const isWeekend = new Date(day.day).getDay() % 6 === 0;
-
                 return (
                   <div
                     key={`${day.id}-container`}
                     className="performance__day-container"
                   >
                     <div className="performance__daily-nerd-container">
-                      {!isWeekend && (
+                      {(
                         <div
                           className={classNames('performance__daily-nerd', {
                             'performance__daily-nerd--written':
@@ -94,7 +97,7 @@ export function Performance({
                         'performance__day--vacation':
                           day.leave?.type === 'paid',
                         'performance__day--working': day.hasTimeEntries,
-                        'performance__day--weekend': isWeekend,
+                        'performance__day--weekend': !day.workingDay,
                       })}
                     />
                   </div>

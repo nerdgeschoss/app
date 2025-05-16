@@ -127,6 +127,14 @@ class SprintFeedback < ApplicationRecord
     @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end
 
+  def target_total_hours
+    working_day_count * 7.5
+  end
+
+  def target_billable_hours
+    working_day_count * 6.0
+  end
+
   private
 
   def count_days(type)

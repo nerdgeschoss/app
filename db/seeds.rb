@@ -22,7 +22,7 @@ sprints = Sprint.all
 logger.debug "Creating users..."
 10.times do |i|
   first_name = Faker::Name.first_name
-  User.create!(
+  user = User.create!(
     email: "#{first_name.downcase}@nerdgeschoss.de",
     roles: ["sprinter"],
     first_name:,

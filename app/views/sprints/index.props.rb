@@ -15,9 +15,15 @@ field :sprints, array: true, value: -> { @sprints } do
     field :billable_hours, Float
     field :retro_rating, Integer, null: true
     field :finished_storypoints, Integer
+    field :target_total_hours, Float
+    field :target_billable_hours, Float
     field :days, array: true, value: -> { sprint.days.map { {day: _1, feedback: self} } } do
       field :id, value: -> { [self[:feedback].id, self[:day].to_s].join("-") }
       field :day, Date, value: -> { self[:day] }
+      field :working_day, Boolean, value: -> do
+        leave = self[:feedback].leaves.find { _1.days.include?(self[:day]) }
+        !self[:day].saturday? && !self[:day].sunday? && (leave.nil? || !leave.non_working?)
+      end
       field :has_daily_nerd_message, Boolean, value: -> { !!self[:feedback].daily_nerd_messages.find { _1.created_at.to_date == self[:day] } }
       field :leave, null: true, value: -> { self[:feedback].leaves.find { _1.days.include?(self[:day]) } } do
         field :id
