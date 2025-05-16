@@ -8,7 +8,6 @@ import { PerformanceProgress } from '../performance_progress/performance_progres
 
 interface Props {
   id: string;
-  workingDayCount: number;
   retroRating: number | null;
   finishedStorypoints: number;
   trackedHours: number;
@@ -39,11 +38,10 @@ export function Performance({
   finishedStorypoints,
   retroRating,
   days,
-  workingDayCount,
   trackedHours,
   billableHours,
   targetTotalHours,
-  targetBillableHours
+  targetBillableHours,
 }: Props): JSX.Element {
   return (
     <Link href={`/sprint_feedbacks/${id}`}>
@@ -82,14 +80,14 @@ export function Performance({
                     className="performance__day-container"
                   >
                     <div className="performance__daily-nerd-container">
-                      {(
+                      {
                         <div
                           className={classNames('performance__daily-nerd', {
                             'performance__daily-nerd--written':
                               day.hasDailyNerdMessage,
                           })}
                         />
-                      )}
+                      }
                     </div>
                     <div
                       className={classNames('performance__day', {
