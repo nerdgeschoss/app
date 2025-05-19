@@ -23,7 +23,7 @@ export function Card({
 }: Props): JSX.Element {
   const header = (
     <div className="card__header">
-      <div className="card__icon">{icon}</div>
+      {icon && <div className="card__icon">{icon}</div>}
       <div className="card__header-content">
         <div className="card__title">{title}</div>
         {subtitle && <div className="card__subtitle">{subtitle}</div>}

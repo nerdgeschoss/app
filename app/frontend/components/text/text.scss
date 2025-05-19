@@ -27,22 +27,139 @@
     white-space: normal;
   }
 
-  &--tooltip {
-    @include variables.tooltip();
+  &--body-bold {
+    @include variables.mobile-body-bold();
+
+    @include layout.media-desktop {
+      @include variables.desktop-body-bold();
+    }
   }
 
-  &--menu-semibold {
-    @include variables.desktop-menu-semibold();
+  &--body-regular {
+    @include variables.mobile-body-regular();
+
+    @include layout.media-desktop {
+      @include variables.desktop-body-regular();
+    }
+  }
+
+  &--body-secondary {
+    @include variables.mobile-body-secondary();
+  }
+
+  &--body-secondary-regular {
+    @include variables.desktop-body-secondary-regular();
+  }
+
+  &--button-bold {
+    @include variables.button-bold();
+  }
+
+  &--button-regular {
+    @include variables.button-regular();
+  }
+
+  &--caption-primary-bold {
+    @include variables.mobile-caption-primary-bold();
+    @include layout.media-desktop {
+      @include variables.desktop-caption-primary-bold();
+    }
+  }
+
+  &--caption-primary-regular {
+    @include variables.mobile-caption-primary-regular();
+    @include layout.media-desktop {
+      @include variables.desktop-caption-primary-regular();
+    }
+  }
+
+  &--caption-secondary-regular {
+    @include variables.mobile-caption-secondary-regular();
+    @include layout.media-desktop {
+      @include variables.desktop-caption-secondary-regular();
+    }
+  }
+
+  &--card-heading-bold {
+    @include variables.card-heading-bold();
+  }
+
+  &--card-heading-regular {
+    @include variables.card-heading-regular();
+  }
+
+  &--chart-label-primary-bold {
+    @include variables.chart-label-primary-bold();
+  }
+
+  &--chart-label-primary-regular {
+    @include variables.chart-label-primary-regular();
+  }
+
+  &--dropdown-bold {
+    @include variables.dropdown-bold();
+  }
+
+  &--dropdown-default {
+    @include variables.dropdown-default();
+  }
+
+  &--h1-bold {
+    @include variables.mobile-h1-bold();
+    @include layout.media-desktop {
+      @include variables.desktop-h1-bold();
+    }
+  }
+
+  &--h2-bold {
+    @include variables.mobile-h2-bold();
+    @include layout.media-desktop {
+      @include variables.desktop-h2-bold();
+    }
+  }
+
+  &--h3-bold {
+    @include variables.mobile-h3-bold();
+    @include layout.media-desktop {
+      @include variables.desktop-h3-bold();
+    }
+  }
+
+  &--h3-regular {
+    @include variables.mobile-h3-regular();
+    @include layout.media-desktop {
+      @include variables.desktop-h3-regular();
+    }
+  }
+
+  &--h4-regular {
+    @include variables.mobile-h4-regular();
+    @include layout.media-desktop {
+      @include variables.desktop-h4-regular();
+    }
+  }
+
+  &--h5-bold {
+    @include variables.desktop-h5-bold();
+  }
+
+  &--h5-regular {
+    @include variables.desktop-h5-regular();
   }
 
   &--menu-bold {
-    @include variables.desktop-menu-bold();
+    @include variables.menu-bold();
   }
 
-  &--headline {
-    @include variables.mobile-headline();
-    @include layout.media-desktop {
-      @include variables.desktop-headline();
-    }
+  &--menu-semibold {
+    @include variables.menu-semibold();
+  }
+
+  &--tooltip-primary {
+    @include variables.tooltip-primary();
+  }
+
+  &--tooltip-secondary {
+    @include variables.tooltip-secondary();
   }
 }

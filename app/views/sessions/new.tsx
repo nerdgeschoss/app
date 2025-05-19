@@ -28,7 +28,7 @@ export default function NewSession(): JSX.Element {
     <Container>
       <Form onSubmit={onSubmit}>
         <Stack>
-          <Text type="headline">Login</Text>
+          <Text type="h1-bold">Login</Text>
           <TextField {...fields.email} label="Email" />
           <Button title="Login" disabled={!valid} onClick={onSubmit} />
         </Stack>

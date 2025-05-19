@@ -19,7 +19,7 @@ export default function ({
     <Layout user={currentUser} container>
       <Stack>
         <Stack line="mobile" justify="space-between">
-          <Text type="headline">{feedback.sprint.title}</Text>
+          <Text type="h1-bold">{feedback.sprint.title}</Text>
         </Stack>
         <Card>
           <Stack>

@@ -1,5 +1,11 @@
+@use '../layout.scss';
+
 .performance-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(178px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+
+  @include layout.media-desktop {
+    grid-template-columns: repeat(auto-fill, minmax(186px, 1fr));
+  }
 }

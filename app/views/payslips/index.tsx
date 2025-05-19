@@ -21,7 +21,7 @@ export default function Home({
     <Layout user={currentUser} container>
       <Stack>
         <Stack line="mobile" justify="space-between">
-          <Text type="headline">
+          <Text type="h1-bold">
             {t('pages.home.hello', { name: currentUser.displayName })}
           </Text>
           <Button title="add" onClick={() => modal.present('/payslips/new')} />
