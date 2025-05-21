@@ -49,17 +49,17 @@ export function Performance({
         <Stack size={11}>
           <Stack justify="center" line="mobile" size={6}>
             <img src={user.avatarUrl} className="performance__avatar" />
-            <Text>{user.displayName}</Text>
+            <Text type="card-heading-bold">{user.displayName}</Text>
           </Stack>
           <Stack line="mobile" justify="space-between">
-            <Stack line="mobile">
+            <Stack line="mobile" size={8}>
               <span>🔢</span>
-              <Text>{finishedStorypoints}</Text>
+              <Text type="caption-primary-regular">{finishedStorypoints}</Text>
             </Stack>
             <div>
-              <Stack line="mobile">
+              <Stack line="mobile" size={8}>
                 <span>⭐</span>
-                <Text>{retroRating ?? '-'}</Text>
+                <Text type="caption-primary-regular">{retroRating ?? '-'}</Text>
               </Stack>
             </div>
           </Stack>
