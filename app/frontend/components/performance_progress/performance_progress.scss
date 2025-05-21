@@ -30,26 +30,26 @@
   }
 
   &__billable {
-    stroke: #6a74ff;
+    stroke: var(--chart-bg-billable);
     stroke-width: 14px;
     stroke-linecap: round;
     stroke-dasharray: 408;
   }
   &__tracked {
-    stroke: #c3c7ff;
+    stroke: var(--chart-bg-non-billable);
     stroke-width: 14px;
     stroke-linecap: round;
     stroke-dasharray: 408;
   }
   &__border-track {
-    stroke: hsl(0, 0%, 93%);
+    stroke: var(--chart-bg-default);
     stroke-width: 14px;
     stroke-linecap: round;
     stroke-dasharray: 408;
     stroke-dashoffset: 204;
   }
   &__target-line {
-    stroke: #114f7b;
+    stroke: var(--chart-bg-goal);
     stroke-width: 3px;
     stroke-linecap: round;
   }

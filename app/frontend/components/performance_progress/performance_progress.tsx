@@ -102,8 +102,20 @@ export function PerformanceProgress({
         </svg>
         <div className="performance-progress__percentage">
           <Stack align="center" size={1}>
-            <Text>{l.percentage(percentageOfRequiredHours)}</Text>
-            <Text>{l.singleDigitNumber(trackedHours)} hrs</Text>
+            <Text type="chart-label-primary-bold">
+              {l.percentage(percentageOfRequiredHours)}
+            </Text>
+            <Stack line="mobile" align="center" size={3}>
+              <Text type="chart-label-primary-regular">
+                {l.singleDigitNumber(trackedHours)}
+              </Text>
+              <Text
+                type="chart-label-primary-regular"
+                color="label-body-secondary"
+              >
+                hrs
+              </Text>
+            </Stack>
           </Stack>
         </div>
       </div>
