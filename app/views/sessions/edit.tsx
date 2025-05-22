@@ -35,7 +35,7 @@ export default function EditSession({
     <Container>
       <Form onSubmit={onSubmit}>
         <Stack>
-          <Text type="headline">Login</Text>
+          <Text type="h1-bold">Login</Text>
           <TextField {...fields.email} label="Email" disabled />
           <TextField
             {...fields.code}

@@ -23,7 +23,7 @@ logger.debug "Creating users..."
 10.times do |i|
   first_name = Faker::Name.first_name
   user = User.create!(
-    email: "#{first_name}@nerdgeschoss.de",
+    email: "#{first_name.downcase}@nerdgeschoss.de",
     roles: ["sprinter"],
     first_name:,
     last_name: Faker::Name.last_name,

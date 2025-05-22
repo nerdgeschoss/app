@@ -1,6 +1,6 @@
 .performance {
   border-radius: 16px;
-  border: 1px solid #6a74ff;
+  border: 1px solid var(--card-border-default);
   padding: 12px;
 
   &__avatar {
@@ -11,37 +11,76 @@
   }
 
   &__day {
-    height: 16px;
-    width: 6px;
+    height: 20px;
+    width: 10px;
     border-radius: 2px;
-    background-color: #e8eefb;
+    background-color: var(--icon-working-day-bg-empty);
 
     &--sick {
-      background-color: #2da9ff;
+      position: relative;
+      background-color: var(icon-working-day-bg-sick-leave);
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -4px;
+        right: -4px;
+        bottom: -2px;
+        background: repeating-linear-gradient(
+          135deg,
+          transparent,
+          transparent 2px,
+          var(--icon-working-day-fg-leave) 2px,
+          var(--icon-working-day-fg-leave) 4px
+        );
+      }
+    }
+
+    &--weekend {
+      width: 3px;
+      background-color: var(--icon-working-day-bg-non-working);
     }
 
     &--vacation {
-      background-color: #1ed451;
+      border-radius: 2px;
+      border: 1px solid #4047b3;
+      background-color: unset;
     }
 
     &--working {
-      background-color: #6a74ff;
+      background-color: var(--icon-working-day-bg-filled);
     }
+  }
+
+  &__day-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__daily-nerd-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6px;
   }
 
   &__daily-nerd {
     height: 6px;
-    width: 6px;
     border-radius: 3px;
-    background-color: #e8eefb;
 
     &--written {
-      background-color: #ff50f1;
+      width: 6px;
+      background-color: var(--icon-daily-nerd-filled);
     }
   }
 
   &__icon-line {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 2px;
   }
 }

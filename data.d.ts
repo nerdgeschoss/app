@@ -182,6 +182,12 @@ export interface DataSchema {
       title: string;
       sprintFrom: string;
       sprintUntil: string;
+      finishedStorypoints: number;
+      finishedStorypointsPerDay: number;
+      averageRating: number;
+      totalWorkingDays: number;
+      turnoverPerStorypoint: number | null;
+      turnover: number | null;
       performances: Array<{
         id: string;
         workingDayCount: number;
@@ -189,9 +195,12 @@ export interface DataSchema {
         billableHours: number;
         retroRating: number | null;
         finishedStorypoints: number;
+        targetTotalHours: number;
+        targetBillableHours: number;
         days: Array<{
           id: string;
           day: string;
+          workingDay: boolean;
           hasDailyNerdMessage: boolean;
           leave: {
             id: string;

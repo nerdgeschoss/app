@@ -24,7 +24,7 @@ export default function Home({
   return (
     <Layout user={currentUser} container>
       <Stack>
-        <Text type="headline">
+        <Text type="h1-bold">
           {t('pages.home.hello', { name: currentUser.displayName })}
         </Text>
         <Columns>

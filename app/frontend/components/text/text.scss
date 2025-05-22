@@ -27,22 +27,292 @@
     white-space: normal;
   }
 
-  &--tooltip {
-    @include variables.tooltip();
+  &--tooltip-primary {
+    font-size: 18px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 24px;
   }
-
-  &--menu-semibold {
-    @include variables.desktop-menu-semibold();
+  &--tooltip-secondary {
+    font-size: 10px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 14px;
   }
-
-  &--menu-bold {
-    @include variables.desktop-menu-bold();
-  }
-
-  &--headline {
-    @include variables.mobile-headline();
+  &--h1-bold {
+    font-size: 24px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: normal;
     @include layout.media-desktop {
-      @include variables.desktop-headline();
+      font-size: 40px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 700;
+      letter-spacing: normal;
+      line-height: normal;
     }
+  }
+  &--h2-bold {
+    font-size: 20px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: normal;
+    @include layout.media-desktop {
+      font-size: 28px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 700;
+      letter-spacing: normal;
+      line-height: 33.6px;
+    }
+  }
+  &--h3-regular {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 28px;
+    @include layout.media-desktop {
+      font-size: 22px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 400;
+      letter-spacing: normal;
+      line-height: 26.4px;
+    }
+  }
+  &--h3-bold {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 28px;
+    @include layout.media-desktop {
+      font-size: 22px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 700;
+      letter-spacing: normal;
+      line-height: 26.4px;
+    }
+  }
+  &--h4-regular {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 19.2px;
+    @include layout.media-desktop {
+      font-size: 20px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 400;
+      letter-spacing: normal;
+      line-height: 24px;
+    }
+  }
+  &--h5-regular {
+    font-size: 18px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: normal;
+  }
+  &--h5-bold {
+    font-size: 18px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 21.6px;
+  }
+  &--body-bold {
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 19.6px;
+    @include layout.media-desktop {
+      font-size: 16px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 700;
+      letter-spacing: normal;
+      line-height: 22.4px;
+    }
+  }
+  &--body-regular {
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 19.6px;
+    @include layout.media-desktop {
+      font-size: 16px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 400;
+      letter-spacing: normal;
+      line-height: 22.4px;
+    }
+  }
+  &--body-secondary-regular {
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 19.6px;
+  }
+  &--caption-primary-bold {
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 19.6px;
+    @include layout.media-desktop {
+      font-size: 14px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 700;
+      letter-spacing: normal;
+      line-height: normal;
+    }
+  }
+  &--caption-primary-regular {
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 19.6px;
+    @include layout.media-desktop {
+      font-size: 14px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 400;
+      letter-spacing: normal;
+      line-height: 19.6px;
+    }
+  }
+  &--caption-secondary-regular {
+    font-size: 12px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 500;
+    letter-spacing: normal;
+    line-height: normal;
+    @include layout.media-desktop {
+      font-size: 12px;
+      text-decoration: none;
+      font-family: 'Inter';
+      font-weight: 500;
+      letter-spacing: normal;
+      line-height: normal;
+    }
+  }
+  &--menu-semibold {
+    font-size: 18px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: normal;
+  }
+  &--menu-bold {
+    font-size: 18px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: normal;
+  }
+  &--chart-label-primary-bold {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 19.2px;
+  }
+  &--chart-label-primary-regular {
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 16.8px;
+  }
+  &--body-secondary {
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 19.6px;
+  }
+  &--card-heading-bold {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: normal;
+  }
+  &--card-heading-regular {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: normal;
+  }
+  &--button-bold {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 24px;
+  }
+  &--button-regular {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 24px;
+  }
+  &--dropdown-bold {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 700;
+    letter-spacing: normal;
+    line-height: 24px;
+  }
+  &--dropdown-default {
+    font-size: 16px;
+    text-decoration: none;
+    font-family: 'Inter';
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: normal;
   }
 }

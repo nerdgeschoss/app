@@ -17,7 +17,7 @@ export default function ({
   return (
     <Layout user={currentUser} container>
       <Stack>
-        <Text type="headline">{user.fullName}</Text>
+        <Text type="h1-bold">{user.fullName}</Text>
         <Columns>
           <Card
             title={t('users.show.remaining_holidays')}

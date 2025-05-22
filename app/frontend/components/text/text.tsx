@@ -13,7 +13,7 @@ interface Props {
 
 export function Text({
   children,
-  type = 'tooltip',
+  type = 'body-regular',
   color,
   multiline,
 }: Props): JSX.Element {

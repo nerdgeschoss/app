@@ -3,19 +3,21 @@ import { Text } from '../text/text';
 import React from 'react';
 import './performance.scss';
 import classNames from 'classnames';
-import { useFormatter } from '../../util/dependencies';
 import { Link } from '../../sprinkles/history';
+import { PerformanceProgress } from '../performance_progress/performance_progress';
 
 interface Props {
   id: string;
-  workingDayCount: number;
   retroRating: number | null;
   finishedStorypoints: number;
   trackedHours: number;
   billableHours: number;
+  targetTotalHours: number;
+  targetBillableHours: number;
   days: Array<{
     id: string;
     day: string;
+    workingDay: boolean;
     hasDailyNerdMessage: boolean;
     hasTimeEntries: boolean;
     leave: {
@@ -36,58 +38,69 @@ export function Performance({
   finishedStorypoints,
   retroRating,
   days,
-  workingDayCount,
   trackedHours,
+  billableHours,
+  targetTotalHours,
+  targetBillableHours,
 }: Props): JSX.Element {
-  const l = useFormatter();
-  const percentageOfRequiredHours =
-    workingDayCount > 0 ? trackedHours / (workingDayCount * 7.5) : 1.0;
   return (
     <Link href={`/sprint_feedbacks/${id}`}>
       <div className="performance">
         <Stack size={11}>
           <Stack justify="center" line="mobile" size={6}>
             <img src={user.avatarUrl} className="performance__avatar" />
-            <Text>{user.displayName}</Text>
+            <Text type="card-heading-bold">{user.displayName}</Text>
           </Stack>
           <Stack line="mobile" justify="space-between">
-            <Stack line="mobile">
+            <Stack line="mobile" size={8}>
               <span>🔢</span>
-              <Text>{finishedStorypoints}</Text>
+              <Text type="caption-primary-regular">{finishedStorypoints}</Text>
             </Stack>
             <div>
-              <Stack line="mobile">
+              <Stack line="mobile" size={8}>
                 <span>⭐</span>
-                <Text>{retroRating ?? '-'}</Text>
+                <Text type="caption-primary-regular">{retroRating ?? '-'}</Text>
               </Stack>
             </div>
           </Stack>
-          <Stack size={2} align="center">
-            <Text>{l.percentage(percentageOfRequiredHours)}</Text>
-            <Text>{l.singleDigitNumber(trackedHours)} hrs</Text>
+          <Stack size={3} justify="center">
+            <PerformanceProgress
+              totalHours={targetTotalHours}
+              targetBillableHours={targetBillableHours}
+              trackedHours={trackedHours}
+              billableHours={billableHours}
+            />
           </Stack>
           <Stack size={3}>
             <div className="performance__icon-line">
-              {days.map((day) => (
-                <div
-                  key={day.id}
-                  className={classNames('performance__day', {
-                    'performance__day--sick': day.leave?.type === 'sick',
-                    'performance__day--vacation': day.leave?.type === 'paid',
-                    'performance__day--working': day.hasTimeEntries,
-                  })}
-                />
-              ))}
-            </div>
-            <div className="performance__icon-line">
-              {days.map((day) => (
-                <div
-                  key={day.id}
-                  className={classNames('performance__daily-nerd', {
-                    'performance__daily-nerd--written': day.hasDailyNerdMessage,
-                  })}
-                />
-              ))}
+              {days.map((day) => {
+                return (
+                  <div
+                    key={`${day.id}-container`}
+                    className="performance__day-container"
+                  >
+                    <div className="performance__daily-nerd-container">
+                      {
+                        <div
+                          className={classNames('performance__daily-nerd', {
+                            'performance__daily-nerd--written':
+                              day.hasDailyNerdMessage,
+                          })}
+                        />
+                      }
+                    </div>
+                    <div
+                      className={classNames('performance__day', {
+                        'performance__day--sick': day.leave?.type === 'sick',
+                        'performance__day--vacation':
+                          day.leave?.type === 'paid',
+                        'performance__day--working': day.hasTimeEntries,
+                        'performance__day--weekend': !day.workingDay,
+                      })}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </Stack>
         </Stack>
