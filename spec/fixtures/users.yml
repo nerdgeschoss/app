@@ -25,6 +25,7 @@ john: &john
   hired_on: 2020-01-01
   slack_id: slack-john
   github_handle: john-github
+  harvest_email: john+harvest@example.com
 
 cigdem:
   email: cigdem@example.com
@@ -49,6 +50,7 @@ john_no_slack:
   email: john-no-slack@example.com
   slack_id: null
   github_handle: null
+  harvest_email: null
 
 admin:
   email: admin@example.com
