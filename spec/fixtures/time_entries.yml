@@ -32,3 +32,4 @@ entry_1:
   project_name: Some Project
   client_name: Some Client
   task: Programming
+  external_id: 'ext_12345'
