@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button } from '../../frontend/components/button/button';
 import { Stack } from '../../frontend/components/stack/stack';
-import { Text } from '../../frontend/components/text/text';
 import { TextField } from '../../frontend/components/text_field/text_field';
 import { Container } from '../../frontend/components/container/container';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
+import { Card } from '../../frontend/components/card/card';
 
 export default function NewSession(): JSX.Element {
   const reaction = useReaction();
@@ -26,13 +26,14 @@ export default function NewSession(): JSX.Element {
   });
   return (
     <Container>
-      <Form onSubmit={onSubmit}>
-        <Stack>
-          <Text type="h1-bold">Login</Text>
-          <TextField {...fields.email} label="Email" />
-          <Button title="Login" disabled={!valid} onClick={onSubmit} />
-        </Stack>
-      </Form>
+      <Card title="Login">
+        <Form onSubmit={onSubmit}>
+          <Stack>
+            <TextField {...fields.email} label="Email" />
+            <Button title="Login" disabled={!valid} onClick={onSubmit} />
+          </Stack>
+        </Form>
+      </Card>
     </Container>
   );
 }
