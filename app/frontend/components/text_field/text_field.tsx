@@ -58,31 +58,33 @@ export function TextField({
               </Text>
             </label>
           )}
-          <input
-            id={inputId}
-            name={name}
-            className={classnames('text-field__input')}
-            readOnly={readOnly}
-            value={value ?? ''}
-            type="text"
-            onChange={(event) => {
-              if (readOnly) {
-                event.preventDefault();
-                return;
-              }
-              onChange?.(event.target.value);
-            }}
-            onFocus={() => {
-              onFocus?.();
-            }}
-            onBlur={() => {
-              onBlur?.();
-            }}
-            placeholder={placeholder}
-            required={required}
-            disabled={disabled}
-            aria-label={ariaLabel}
-          />
+          <Text block>
+            <input
+              id={inputId}
+              name={name}
+              className={classnames('text-field__input')}
+              readOnly={readOnly}
+              value={value ?? ''}
+              type="text"
+              onChange={(event) => {
+                if (readOnly) {
+                  event.preventDefault();
+                  return;
+                }
+                onChange?.(event.target.value);
+              }}
+              onFocus={() => {
+                onFocus?.();
+              }}
+              onBlur={() => {
+                onBlur?.();
+              }}
+              placeholder={placeholder}
+              required={required}
+              disabled={disabled}
+              aria-label={ariaLabel}
+            />
+          </Text>
         </div>
         <Collapse open={touched && !!errors?.length}>
           <Spacer size={8} />

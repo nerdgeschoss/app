@@ -23,6 +23,11 @@
   hyphens: auto;
   white-space: nowrap;
 
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
   &--multiline {
     white-space: normal;
   }

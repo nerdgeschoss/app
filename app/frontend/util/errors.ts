@@ -62,6 +62,7 @@ const GENERIC_ERRORS = {
   'required-field': 'errors.required-field',
   'invalid-email-address': 'errors.invalid-email-address',
   'default-error': 'errors.default-error',
+  'invalid-code': 'errors.invalid-code',
 } as const;
 
 export function getErrorMessage(errorCode: string) {
