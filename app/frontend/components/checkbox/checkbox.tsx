@@ -4,7 +4,6 @@ import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
 import './checkbox.scss';
-import { Stack } from '../stack/stack';
 
 interface Props extends FormField<boolean> {
   label?: ReactNode;
@@ -41,7 +40,7 @@ export function Checkbox({
           { disabled }
         )}
       >
-        <Stack line="mobile" size={4}>
+        <div className="checkbox__content">
           <input
             id={inputId}
             name={name}
@@ -74,10 +73,10 @@ export function Checkbox({
               })}
               htmlFor={inputId}
             >
-              {label}
+              <Text>{label}</Text>
             </label>
           )}
-        </Stack>
+        </div>
         {touched && errors && (
           <div className="checkbox__errors">
             {errors.map((error) => (

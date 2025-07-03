@@ -8,11 +8,11 @@ import { TextArea } from '../../frontend/components/text_area/text_area';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
-import { NumberField } from '../../frontend/components/number_field/number_field';
 import { Checkbox } from '../../frontend/components/checkbox/checkbox';
 import { Box } from '../../frontend/components/box/box';
 import { Text } from '../../frontend/components/text/text';
 import { CollapsePanel } from '../../frontend/components/collapse_panel/collapse_panel';
+import { StarField } from '../../frontend/components/star_field/star_field';
 
 export default function ({
   data: { feedback },
@@ -20,7 +20,7 @@ export default function ({
   const t = useTranslate();
   const reaction = useReaction();
   const modal = useModalInfo();
-  const { fields, valid, onSubmit } = useForm({
+  const { model, fields, valid, onSubmit } = useForm({
     model: {
       retroRating: feedback.retroRating ?? 5,
       retroText: feedback.retroText ?? '',
@@ -28,9 +28,9 @@ export default function ({
     },
     validations: {
       retroRating: ({ model }) =>
-        model.skipRetro || model.retroRating ? [] : ['required'],
+        model.skipRetro || model.retroRating ? [] : ['required-field'],
       retroText: ({ model }) =>
-        model.skipRetro || model.retroText ? [] : ['required'],
+        model.skipRetro || model.retroText ? [] : ['required-field'],
     },
     onSubmit: async ({ model }) => {
       const sprint_feedback = model.skipRetro
@@ -61,7 +61,7 @@ export default function ({
         />
         <CollapsePanel open={!fields.skipRetro.value}>
           <Stack>
-            <NumberField
+            <StarField
               {...fields.retroRating}
               label={t('sprint_feedbacks.edit_retro.rating')}
             />
@@ -73,7 +73,6 @@ export default function ({
         </CollapsePanel>
         <Button
           title={t('sprint_feedbacks.edit_retro.save')}
-          disabled={!valid}
           onClick={onSubmit}
         />
       </Stack>

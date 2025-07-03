@@ -1,0 +1,58 @@
+import { ReactNode } from 'react';
+import { Text } from '../text/text';
+import classnames from 'classnames';
+import { FormField } from '../form_field/form_field';
+import './star_field.scss';
+
+interface Props extends FormField<number> {
+  label?: ReactNode;
+}
+
+export function StarField({
+  value,
+  label,
+  disabled,
+  inputId,
+  onChange,
+}: Props): JSX.Element {
+  return (
+    <div className="star-field">
+      {label && (
+        <label
+          className={classnames('text-field__label', {
+            'text-field__label--disabled': disabled,
+          })}
+          htmlFor={inputId}
+        >
+          <Text type="label-heading-primary" color="label-heading-primary">
+            {label}
+          </Text>
+        </label>
+      )}
+      <div className="star-field__stars">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <div
+            className={classnames('star-field__star', {
+              'star-field__star--active': star <= value,
+            })}
+            key={star}
+          >
+            <input
+              id={inputId ? `${inputId}-${star}` : undefined}
+              name={inputId}
+              className={classnames('star-field__input')}
+              type="radio"
+              disabled={disabled}
+              value={star}
+              checked={star <= value}
+              onClick={() => {
+                onChange?.(star);
+              }}
+            />
+            <span>⭐</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
