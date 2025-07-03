@@ -1,0 +1,40 @@
+@use '../layout';
+
+.spacer {
+  --size: 24px;
+
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  height: var(--size);
+
+  &--none {
+    height: 0;
+  }
+
+  &--display-mobile {
+    display: block;
+  }
+
+  &--horizontal {
+    height: auto;
+    width: var(--size);
+  }
+
+  @include layout.media-tablet {
+    height: var(--tablet-size);
+
+    &--display-tablet {
+      display: block;
+    }
+  }
+
+  @include layout.media-desktop {
+    &--display-desktop {
+      display: block;
+    }
+
+    height: var(--desktop-size);
+  }
+}

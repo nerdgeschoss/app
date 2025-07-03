@@ -11,9 +11,9 @@ import { Card } from '../../frontend/components/card/card';
 
 export default function NewSession(): JSX.Element {
   const reaction = useReaction();
-  const { fields, valid, onSubmit } = useForm({
+  const { fields, onSubmit } = useForm({
     model: { email: '' },
-    validations: { email: 'required' },
+    validations: { email: ['required', 'email'] },
     onSubmit: async ({ model }) => {
       await reaction.call({
         path: '/en/login',
@@ -24,13 +24,14 @@ export default function NewSession(): JSX.Element {
     },
     onSubmitError: handleError,
   });
+
   return (
     <Container>
-      <Card title="Login">
+      <Card title="Login" type="login-card">
         <Form onSubmit={onSubmit}>
           <Stack>
             <TextField {...fields.email} label="Email" />
-            <Button title="Login" disabled={!valid} onClick={onSubmit} />
+            <Button title="Login" onClick={onSubmit} />
           </Stack>
         </Form>
       </Card>

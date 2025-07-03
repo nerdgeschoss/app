@@ -7,9 +7,30 @@
     font-size: 10px;
   }
 
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   &__input {
-    outline: none;
-    border-bottom: 1px solid currentColor;
+    display: block;
     width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--div-default);
+    background: var(--input-default);
+    padding: 8px 12px;
+    &:focus,
+    &:focus-visible {
+      border: 1px solid var(--dropdown-border-default);
+      outline: none;
+    }
+  }
+
+  &__errors {
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--leaderboard-primary-border-second);
+    background: var(--leaderboard-primary-bg-second);
   }
 }

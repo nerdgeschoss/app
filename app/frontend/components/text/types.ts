@@ -137,4 +137,5 @@ export type TextType =
   | 'menu-bold'
   | 'menu-semibold'
   | 'tooltip-primary'
-  | 'tooltip-secondary';
+  | 'tooltip-secondary'
+  | 'label-heading-primary';
