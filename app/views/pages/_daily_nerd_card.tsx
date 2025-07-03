@@ -5,6 +5,8 @@ import { Button } from '../../frontend/components/button/button';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
+import { Form } from '../../frontend/components/form/form';
+import { Text } from '../../frontend/components/text/text';
 
 interface Props {
   id: string | null;
@@ -13,6 +15,7 @@ interface Props {
 
 export function DailyNerdCard({ id, message }: Props): JSX.Element {
   const reaction = useReaction();
+  const [editMode, setEditMode] = React.useState(!id);
 
   const { fields, onSubmit } = useForm({
     model: { message: message || '' },
@@ -35,21 +38,32 @@ export function DailyNerdCard({ id, message }: Props): JSX.Element {
           refresh: true,
         });
       }
+      setEditMode(false);
     },
   });
+
   return (
     <Card title="Daily Nerd" icon="📝">
-      <Stack gap={24} align="end">
-        <TextArea
-          {...fields.message}
-          label="Message"
-          placeholder="How was your day? What did you learn?"
-        />
-        <Button
-          title={id ? 'Update daily nerd' : 'Submit daily nerd'}
-          onClick={onSubmit}
-        />
-      </Stack>
+      {!editMode ? (
+        <Stack gap={24} align="end">
+          <Text type="label-body-primary" block>
+            Message:
+          </Text>
+          <Text block>{message}</Text>
+          <Button title="Update daily nerd" onClick={() => setEditMode(true)} />
+        </Stack>
+      ) : (
+        <Form onSubmit={onSubmit}>
+          <Stack gap={24} align="end">
+            <TextArea
+              {...fields.message}
+              label="Message"
+              placeholder="How was your day? What did you learn?"
+            />
+            <Button title="Submit daily nerd" disablePreventDefault />
+          </Stack>
+        </Form>
+      )}
     </Card>
   );
 }

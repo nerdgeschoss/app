@@ -35,7 +35,9 @@ export function Card({
     '--icon-size': `${iconSize}px`,
   } as React.CSSProperties;
 
-  const header = (
+  const hasHeader = title || subtitle || context || icon;
+
+  const header = hasHeader && (
     <div className="card__header" style={style}>
       <div className="card__header-content">
         <div className="card__title">
