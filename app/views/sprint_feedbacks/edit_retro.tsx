@@ -1,4 +1,3 @@
-import React from 'react';
 import { PageProps } from '../../../data.d';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { handleError } from '../../frontend/util/errors';

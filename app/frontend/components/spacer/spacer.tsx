@@ -1,14 +1,14 @@
-import "./spacer.scss";
+import './spacer.scss';
 
-import React from "react";
-import classnames from "classnames";
+import React from 'react';
+import classnames from 'classnames';
 
 interface Props {
   size?: number;
   tabletSize?: number;
   desktopSize?: number;
   horizontal?: boolean;
-  display?: "mobile" | "tablet" | "desktop";
+  display?: 'mobile' | 'tablet' | 'desktop';
 }
 
 export function Spacer({
@@ -16,25 +16,25 @@ export function Spacer({
   tabletSize,
   desktopSize,
   horizontal,
-  display = "mobile",
+  display = 'mobile',
 }: Props): JSX.Element {
   return (
     <hr
       className={classnames(
-        "spacer",
+        'spacer',
         `spacer--${size}`,
-        tabletSize ? `spacer--tablet-${tabletSize}` : "",
-        desktopSize ? `spacer--desktop-${desktopSize}` : "",
+        tabletSize ? `spacer--tablet-${tabletSize}` : '',
+        desktopSize ? `spacer--desktop-${desktopSize}` : '',
         display && `spacer--display-${display}`,
         {
-          "spacer--horizontal": horizontal,
-        },
+          'spacer--horizontal': horizontal,
+        }
       )}
       style={
         {
-          "--size": `${size}px`,
-          "--tablet-size": `${tabletSize || size}px`,
-          "--desktop-size": `${desktopSize || tabletSize || size}px`,
+          '--size': `${size}px`,
+          '--tablet-size': `${tabletSize || size}px`,
+          '--desktop-size': `${desktopSize || tabletSize || size}px`,
         } as React.CSSProperties
       }
     />
