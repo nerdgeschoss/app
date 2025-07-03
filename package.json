@@ -11,6 +11,7 @@
   "dependencies": {
     "@nerdgeschoss/react-use-form-library": "^0.0.70",
     "@nerdgeschoss/shimmer-component-collapse": "^0.0.5",
+    "@nerdgeschoss/shimmer-component-stack": "^0.0.5",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
     "@types/react-flatpickr": "^3.8.11",

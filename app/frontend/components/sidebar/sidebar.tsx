@@ -1,11 +1,11 @@
+import './sidebar.scss';
 import { Stack } from '../stack/stack';
 import { Text } from '../text/text';
-import React, { useState } from 'react';
-import logo from '../../../frontend/images/logo.svg';
-import './sidebar.scss';
+import { useState } from 'react';
 import classNames from 'classnames';
 import { Icon, IconName } from '../icon/icon';
 import { Link, usePath } from '../../sprinkles/history';
+import { Logo } from '../logo/logo';
 
 interface Props {
   user: {
@@ -61,7 +61,7 @@ export function Sidebar({ user }: Props): JSX.Element {
   return (
     <nav className={classNames('sidebar', { 'sidebar--expanded': expanded })}>
       <div className="sidebar__header">
-        <img className="sidebar__logo" src={logo} alt="logo" />
+        <Logo />
         <div
           className="sidebar__menu-toggle"
           onClick={() => setExpanded((expanded) => !expanded)}

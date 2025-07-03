@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../frontend/components/button/button';
-import { Stack } from '../../frontend/components/stack/stack';
+import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 import { TextField } from '../../frontend/components/text_field/text_field';
 import { Container } from '../../frontend/components/container/container';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
@@ -8,6 +8,7 @@ import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
 import { Card } from '../../frontend/components/card/card';
+import { Logo } from '../../frontend/components/logo/logo';
 
 export default function NewSession(): JSX.Element {
   const reaction = useReaction();
@@ -27,14 +28,17 @@ export default function NewSession(): JSX.Element {
 
   return (
     <Container>
-      <Card title="Login" type="login-card">
-        <Form onSubmit={onSubmit}>
-          <Stack>
-            <TextField {...fields.email} label="Email" />
-            <Button title="Login" onClick={onSubmit} />
-          </Stack>
-        </Form>
-      </Card>
+      <Stack gap={32} align="center">
+        <Logo />
+        <Card title="Login" type="login-card">
+          <Form onSubmit={onSubmit}>
+            <Stack gap={16}>
+              <TextField {...fields.email} label="Email" />
+              <Button title="Login" onClick={onSubmit} />
+            </Stack>
+          </Form>
+        </Card>
+      </Stack>
     </Container>
   );
 }
