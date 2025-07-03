@@ -29,7 +29,7 @@ export default function ({
   const t = useTranslate();
   const reaction = useReaction();
   const modal = useModalInfo();
-  const { fields, onSubmit, valid } = useForm<Form>({
+  const { fields, onSubmit } = useForm<Form>({
     model: {
       userId: currentUser.id,
       days: [],
@@ -39,7 +39,7 @@ export default function ({
     validations: {
       userId: 'required',
       days: ({ model }) =>
-        (model.days?.length ?? 0) === 0 ? ['required'] : [],
+        (model.days?.length ?? 0) === 0 ? ['required-field'] : [],
       title: 'required',
       type: 'required',
     },
@@ -70,7 +70,7 @@ export default function ({
   const someDaysInPast = fields.days.value.some((date) => date < today);
 
   return (
-    <Box>
+    <Box size={24}>
       <Form onSubmit={onSubmit}>
         <Stack>
           <CalendarField {...fields.days} label={t('leaves.new.days')} />
@@ -93,11 +93,7 @@ export default function ({
             label={t('leaves.new.type')}
             options={leaveTypes}
           />
-          <Button
-            title={t('leaves.new.request')}
-            disabled={!valid}
-            onClick={onSubmit}
-          />
+          <Button title={t('leaves.new.request')} onClick={onSubmit} />
         </Stack>
       </Form>
     </Box>

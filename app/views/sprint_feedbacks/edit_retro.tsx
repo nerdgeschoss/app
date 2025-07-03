@@ -20,7 +20,7 @@ export default function ({
   const t = useTranslate();
   const reaction = useReaction();
   const modal = useModalInfo();
-  const { model, fields, valid, onSubmit } = useForm({
+  const { fields, onSubmit } = useForm({
     model: {
       retroRating: feedback.retroRating ?? 5,
       retroText: feedback.retroText ?? '',

@@ -1,9 +1,12 @@
 import React, { ReactNode } from 'react';
 
-import { FormField } from '../form_field/form_field';
+import { FormField, useInputId } from '../form_field/form_field';
 import DatePickerImport, { DateTimePickerProps } from 'react-flatpickr';
 import './calendar-field.scss';
 import 'flatpickr/dist/flatpickr.min.css';
+import { FormError } from '../form_error/form_error';
+import classnames from 'classnames';
+import { Text } from '../text/text';
 
 interface Props extends FormField<Date[]> {
   label?: ReactNode;
@@ -14,9 +17,31 @@ const DatePicker = DatePickerImport as unknown as (
   props: DateTimePickerProps
 ) => JSX.Element;
 
-export function CalendarField({ value, onChange }: Props): JSX.Element {
+export function CalendarField({
+  label,
+  value,
+  touched,
+  errors,
+  disabled,
+  inputId,
+  onChange,
+}: Props): JSX.Element {
+  inputId = useInputId(inputId);
+
   return (
     <div className="calendar-field">
+      {label !== undefined && (
+        <label
+          className={classnames('text-field__label', {
+            'text-field__label--disabled': disabled,
+          })}
+          htmlFor={inputId}
+        >
+          <Text type="label-heading-primary" color="label-heading-primary">
+            {label}
+          </Text>
+        </label>
+      )}
       <DatePicker
         value={value}
         options={{
@@ -33,6 +58,7 @@ export function CalendarField({ value, onChange }: Props): JSX.Element {
         }}
         className="calendar-field__input"
       />
+      <FormError touched={touched} errors={errors} />
     </div>
   );
 }

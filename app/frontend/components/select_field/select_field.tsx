@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, SelectOption, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
+import { FormError } from '../form_error/form_error';
 
 interface Props<T extends string> extends FormField<T> {
   label?: ReactNode;
@@ -28,35 +29,37 @@ export function SelectField<T extends string>({
 }: Props<T>): JSX.Element {
   inputId = useInputId(inputId);
   return (
-    <div className="textfield__container">
+    <div className="text-field__container">
       <div
         className={classnames(
-          'textfield',
+          'text-field',
           {
-            'textfield--filled': !!value,
-            'textfield--readonly': readOnly,
-            'textfield--disabled': disabled,
-            'textfield--placeholder': placeholder,
+            'text-field--filled': !!value,
+            'text-field--readonly': readOnly,
+            'text-field--disabled': disabled,
+            'text-field--placeholder': placeholder,
           },
           { disabled }
         )}
       >
-        <div className="textfield__content">
+        <div className="text-field__content">
           {label !== undefined && (
             <label
-              className={classnames('textfield__label', {
-                'textfield__label--disabled': disabled,
+              className={classnames('text-field__label', {
+                'text-field__label--disabled': disabled,
               })}
               htmlFor={inputId}
             >
-              {label}
+              <Text type="label-heading-primary" color="label-heading-primary">
+                {label}
+              </Text>
             </label>
           )}
-          <Text>
+          <Text block>
             <select
               id={inputId}
               name={name}
-              className={classnames('textfield__input')}
+              className={classnames('text-field__input')}
               value={value ?? ''}
               onChange={(event) => {
                 if (readOnly) {
@@ -83,13 +86,7 @@ export function SelectField<T extends string>({
             </select>
           </Text>
         </div>
-        {touched && errors && (
-          <div className="textfield__errors">
-            {errors.map((error) => (
-              <Text key={error}>{error}</Text>
-            ))}
-          </div>
-        )}
+        <FormError touched={touched} errors={errors} />
       </div>
     </div>
   );
