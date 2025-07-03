@@ -34,16 +34,12 @@ export function TextField({
   return (
     <div className="text-field__container">
       <div
-        className={classnames(
-          'text-field',
-          {
-            'text-field--filled': !!value,
-            'text-field--readonly': readOnly,
-            'text-field--disabled': disabled,
-            'text-field--placeholder': placeholder,
-          },
-          { disabled }
-        )}
+        className={classnames('text-field', {
+          'text-field--filled': !!value,
+          'text-field--readonly': readOnly,
+          'text-field--disabled': disabled,
+          'text-field--placeholder': placeholder,
+        })}
       >
         <div className="text-field__content">
           {label !== undefined && (
@@ -58,11 +54,11 @@ export function TextField({
               </Text>
             </label>
           )}
-          <Text block>
+          <Text block color={disabled ? 'label-heading-secondary' : undefined}>
             <input
               id={inputId}
               name={name}
-              className={classnames('text-field__input')}
+              className="text-field__input"
               readOnly={readOnly}
               value={value ?? ''}
               type="text"

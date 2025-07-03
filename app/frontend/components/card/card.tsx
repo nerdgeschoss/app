@@ -3,6 +3,7 @@ import { Link } from '../../sprinkles/history';
 import './card.scss';
 import { Text } from '../text/text';
 import classnames from 'classnames';
+import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 
 interface Props {
   id?: string;
@@ -13,6 +14,7 @@ interface Props {
   context?: ReactNode;
   href?: string;
   type?: 'login-card';
+  iconSize?: number;
 }
 
 export function Card({
@@ -24,17 +26,23 @@ export function Card({
   context,
   href,
   type,
+  iconSize = 28,
 }: Props): JSX.Element {
   const cardClass = classnames('card', {
     'card--login': type === 'login-card',
   });
+  const style = {
+    '--icon-size': `${iconSize}px`,
+  } as React.CSSProperties;
 
   const header = (
-    <div className="card__header">
-      {icon && <div className="card__icon">{icon}</div>}
+    <div className="card__header" style={style}>
       <div className="card__header-content">
         <div className="card__title">
-          <Text>{title}</Text>
+          {icon && <div className="card__icon">{icon}</div>}
+          <Text type="label-heading-primary" color="label-heading-primary">
+            {title}
+          </Text>
         </div>
         {subtitle && <div className="card__subtitle">{subtitle}</div>}
       </div>
@@ -43,10 +51,10 @@ export function Card({
   );
 
   const content = (
-    <>
+    <Stack gap={24}>
       {header}
       {children && <div className="card__content">{children}</div>}
-    </>
+    </Stack>
   );
 
   if (href) {

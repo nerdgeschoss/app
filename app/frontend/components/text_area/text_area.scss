@@ -1,17 +1,71 @@
 .text-area {
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid var(--color-border);
+  border-radius: 4px;
+  border: 1px solid var(--input-textarea-border-default);
+  background: var(--input-textarea-background-base);
 
-  &__label {
-    font-size: 10px;
+  /* Makes sure that the textarea doesn't grow in width more than the parent */
+  word-break: break-word;
+
+  &__input-wrapper {
+    display: grid;
+    width: 100%;
+    align-items: unset;
+    &::after {
+      content: attr(data-replicated-value) ' ';
+
+      /* This is how textarea text behaves */
+      white-space: pre-wrap;
+
+      /* Hidden from view, clicks, and screen readers */
+      visibility: hidden;
+    }
+    & > textarea {
+      /* You could leave this, but after a user resizes, then it ruins the auto sizing */
+      resize: none;
+
+      /* Firefox shows scrollbar on growth, you can hide like this. */
+      overflow: hidden;
+    }
+    & > textarea,
+    &::after {
+      /* Place on top of each other */
+      grid-area: 1 / 1 / 2 / 2;
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      outline: none;
+      background-color: transparent;
+      line-height: 24px;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   &__input {
-    outline: none;
-    border-bottom: 1px solid currentColor;
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
+    color: inherit;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--div-default);
+    background: var(--input-default);
+
+    &:focus,
+    &:focus-visible {
+      border: 1px solid var(--dropdown-border-default);
+      outline: none;
+    }
+    &:hover {
+      background: var(--dropdown-bg-hover);
+    }
+  }
+
+  &__errors {
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--leaderboard-primary-border-second);
+    background: var(--leaderboard-primary-bg-second);
   }
 }
