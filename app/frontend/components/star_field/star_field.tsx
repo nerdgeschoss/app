@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Text } from '../text/text';
 import classnames from 'classnames';
-import { FormField } from '../form_field/form_field';
+import { FormField, useInputId } from '../form_field/form_field';
 import './star_field.scss';
 
 interface Props extends FormField<number> {
@@ -10,11 +10,14 @@ interface Props extends FormField<number> {
 
 export function StarField({
   value,
+  name,
   label,
   disabled,
   inputId,
   onChange,
 }: Props): JSX.Element {
+  inputId = useInputId(inputId);
+
   return (
     <div className="star-field">
       {label && (
@@ -39,7 +42,7 @@ export function StarField({
           >
             <input
               id={inputId ? `${inputId}-${star}` : undefined}
-              name={inputId}
+              name={name}
               className={classnames('star-field__input')}
               type="radio"
               disabled={disabled}

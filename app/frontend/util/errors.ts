@@ -59,8 +59,10 @@ export function handleError(error: unknown) {
 }
 
 const GENERIC_ERRORS = {
+  required: 'errors.required-field',
   'required-field': 'errors.required-field',
   'invalid-email-address': 'errors.invalid-email-address',
+  email: 'errors.invalid-email-address',
   'default-error': 'errors.default-error',
   'invalid-code': 'errors.invalid-code',
 } as const;

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Card } from '../../frontend/components/card/card';
 import { TextArea } from '../../frontend/components/text_area/text_area';
 import { Button } from '../../frontend/components/button/button';
@@ -15,7 +15,7 @@ interface Props {
 
 export function DailyNerdCard({ id, message }: Props): JSX.Element {
   const reaction = useReaction();
-  const [editMode, setEditMode] = React.useState(!id);
+  const [editMode, setEditMode] = useState(!id);
 
   const { fields, onSubmit } = useForm({
     model: { message: message || '' },

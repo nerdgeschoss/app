@@ -24,6 +24,7 @@ export function CalendarField({
   errors,
   disabled,
   inputId,
+  name,
   onChange,
 }: Props): JSX.Element {
   inputId = useInputId(inputId);
@@ -43,6 +44,7 @@ export function CalendarField({
         </label>
       )}
       <DatePicker
+        name={name}
         value={value}
         options={{
           inline: true,
