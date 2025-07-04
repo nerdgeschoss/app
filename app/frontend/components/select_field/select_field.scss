@@ -31,7 +31,7 @@
   }
 
   &--disabled {
-    .text-field__input {
+    .select-field__input {
       &:hover {
         background: var(--input-default);
       }

@@ -31,7 +31,7 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
-  color: var(--background-neutral-200, #333);
+  color: var(--background-neutral-200);
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -40,6 +40,6 @@ body {
     'kern' 1,
     'onum' 0,
     'liga' 1;
-  background: var(--background-neutral100, #fff);
+  background: var(--background-neutral100);
   caret-color: var(--color-tint);
 }

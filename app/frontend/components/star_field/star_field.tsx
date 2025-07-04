@@ -39,19 +39,21 @@ export function StarField({
             })}
             key={star}
           >
-            <input
-              id={inputId ? `${inputId}-${star}` : undefined}
-              name={name}
-              className={classnames('star-field__input')}
-              type="radio"
-              disabled={disabled}
-              value={star}
-              checked={star <= value}
-              onClick={() => {
-                onChange?.(star);
-              }}
-            />
-            <span>⭐</span>
+            <label htmlFor={inputId ? `${inputId}-${star}` : undefined}>
+              <input
+                id={inputId ? `${inputId}-${star}` : undefined}
+                name={name ? `${name}-${star}` : undefined}
+                className={classnames('star-field__input')}
+                type="radio"
+                disabled={disabled}
+                value={star}
+                checked={star <= value}
+                onClick={() => {
+                  onChange?.(star);
+                }}
+              />
+              <span>⭐</span>
+            </label>
           </div>
         ))}
       </div>
