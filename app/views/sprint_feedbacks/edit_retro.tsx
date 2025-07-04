@@ -62,6 +62,7 @@ export default function ({
           <Stack>
             <StarField
               {...fields.retroRating}
+              inputId="retro-rating"
               label={t('sprint_feedbacks.edit_retro.rating')}
             />
             <TextArea

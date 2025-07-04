@@ -27,7 +27,7 @@ RSpec.describe "Retrospectives" do
     visit sprint_feedback_path(feedback)
     click_on "leave feedback"
 
-    fill_in "Rating", with: "4"
+    choose "retro-rating-4"
     fill_in "Text", with: "I'm happy"
     click_on "Save"
 

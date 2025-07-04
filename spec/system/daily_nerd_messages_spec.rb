@@ -21,7 +21,7 @@ RSpec.describe "Daily Nerd messages" do
     fill_in "Message", with: "I'm a daily nerd"
     click_on "Submit daily nerd"
 
-    expect(page).to have_content "Update daily nerd"
+    expect(page).to have_content "I'm a daily nerd"
   end
 
   it "does not show the form, when there is no current sprint" do
@@ -41,7 +41,10 @@ RSpec.describe "Daily Nerd messages" do
     feedback.daily_nerd_messages.create!(message: "I'm a daily nerd")
 
     visit root_path
+    click_on "Update daily nerd"
     fill_in "Message", with: "updated nerd"
-    click_on "Update daily nerd message"
+
+    click_on "Submit daily nerd"
+    expect(page).to have_content "updated nerd"
   end
 end
