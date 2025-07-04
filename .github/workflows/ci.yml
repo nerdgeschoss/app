@@ -45,8 +45,8 @@ jobs:
         run: bundle exec annotaterb models --frozen
       - name: JS Lint
         run: yarn lint
-      - name: Install Playwright Browsers
-        run: npx --yes playwright install --with-deps chromium
+      - name: Install Playwright
+        run: yarn playwright install --with-deps chromium
       - name: Build
         run: bundle exec rails assets:precompile
       - name: Create PG Database

@@ -5,7 +5,7 @@ import './button.scss';
 interface Props {
   title: string;
   disabled?: boolean;
-  disablePreventDefault?: boolean; // This prop is not used in the component, but kept for compatibility
+  disablePreventDefault?: boolean;
   onClick?: () => void;
 }
 
