@@ -42,7 +42,7 @@ export function StarField({
             <label htmlFor={inputId ? `${inputId}-${star}` : undefined}>
               <input
                 id={inputId ? `${inputId}-${star}` : undefined}
-                name={name ? `${name}-${star}` : undefined}
+                name={name}
                 className={classnames('star-field__input')}
                 type="radio"
                 disabled={disabled}
