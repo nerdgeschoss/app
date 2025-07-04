@@ -57,3 +57,19 @@ export function useErrors(): DisplayedError[] {
 export function handleError(error: unknown) {
   ErrorManager.instance.handleError(error);
 }
+
+const GENERIC_ERRORS = {
+  required: 'errors.required-field',
+  'required-field': 'errors.required-field',
+  'invalid-email-address': 'errors.invalid-email-address',
+  email: 'errors.invalid-email-address',
+  'default-error': 'errors.default-error',
+  'invalid-code': 'errors.invalid-code',
+} as const;
+
+export function getErrorMessage(errorCode: string) {
+  return (
+    GENERIC_ERRORS[errorCode as keyof typeof GENERIC_ERRORS] ||
+    GENERIC_ERRORS['default-error']
+  );
+}

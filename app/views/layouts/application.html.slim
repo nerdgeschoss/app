@@ -2,4 +2,5 @@ doctype html
 html lang=I18n.locale
   = render "components/head"
   body class=Rails.env
-    = yield
+    main.app
+      = yield

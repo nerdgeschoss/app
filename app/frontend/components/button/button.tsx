@@ -5,15 +5,23 @@ import './button.scss';
 interface Props {
   title: string;
   disabled?: boolean;
+  disablePreventDefault?: boolean;
   onClick?: () => void;
 }
 
-export function Button({ title, disabled, onClick }: Props): JSX.Element {
+export function Button({
+  title,
+  disabled,
+  disablePreventDefault,
+  onClick,
+}: Props): JSX.Element {
   return (
     <button
       className="button"
       onClick={(event) => {
-        event.preventDefault();
+        if (!disablePreventDefault) {
+          event.preventDefault();
+        }
         if (disabled) return;
         onClick?.();
       }}

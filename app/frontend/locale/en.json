@@ -77,5 +77,11 @@
       "save": "Save",
       "delete": "Delete"
     }
+  },
+  "errors": {
+    "required-field": "This field is required.",
+    "invalid-email-address": "Please enter a valid email address.",
+    "default-error": "An unexpected error occurred. Please try again later.",
+    "invalid-code": "The code you entered is invalid. Please try again."
   }
 }

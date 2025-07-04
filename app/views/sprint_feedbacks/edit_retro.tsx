@@ -1,18 +1,17 @@
-import React from 'react';
 import { PageProps } from '../../../data.d';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { handleError } from '../../frontend/util/errors';
-import { Stack } from '../../frontend/components/stack/stack';
 import { Button } from '../../frontend/components/button/button';
 import { TextArea } from '../../frontend/components/text_area/text_area';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
-import { NumberField } from '../../frontend/components/number_field/number_field';
 import { Checkbox } from '../../frontend/components/checkbox/checkbox';
 import { Box } from '../../frontend/components/box/box';
 import { Text } from '../../frontend/components/text/text';
 import { CollapsePanel } from '../../frontend/components/collapse_panel/collapse_panel';
+import { StarField } from '../../frontend/components/star_field/star_field';
+import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 
 export default function ({
   data: { feedback },
@@ -20,7 +19,7 @@ export default function ({
   const t = useTranslate();
   const reaction = useReaction();
   const modal = useModalInfo();
-  const { fields, valid, onSubmit } = useForm({
+  const { fields, onSubmit } = useForm({
     model: {
       retroRating: feedback.retroRating ?? 5,
       retroText: feedback.retroText ?? '',
@@ -28,9 +27,9 @@ export default function ({
     },
     validations: {
       retroRating: ({ model }) =>
-        model.skipRetro || model.retroRating ? [] : ['required'],
+        model.skipRetro || model.retroRating ? [] : ['required-field'],
       retroText: ({ model }) =>
-        model.skipRetro || model.retroText ? [] : ['required'],
+        model.skipRetro || model.retroText ? [] : ['required-field'],
     },
     onSubmit: async ({ model }) => {
       const sprint_feedback = model.skipRetro
@@ -53,16 +52,17 @@ export default function ({
 
   return (
     <Box size={24} sizeHorizontal={32}>
-      <Stack>
+      <Stack gap={16}>
         <Text>{t('sprint_feedbacks.edit_retro.headline')}</Text>
         <Checkbox
           {...fields.skipRetro}
           label={t('sprint_feedbacks.edit_retro.skip')}
         />
         <CollapsePanel open={!fields.skipRetro.value}>
-          <Stack>
-            <NumberField
+          <Stack gap={16}>
+            <StarField
               {...fields.retroRating}
+              inputId="retro-rating"
               label={t('sprint_feedbacks.edit_retro.rating')}
             />
             <TextArea
@@ -73,7 +73,6 @@ export default function ({
         </CollapsePanel>
         <Button
           title={t('sprint_feedbacks.edit_retro.save')}
-          disabled={!valid}
           onClick={onSubmit}
         />
       </Stack>

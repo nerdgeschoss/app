@@ -28,18 +28,18 @@ a {
 }
 
 body {
-  font-family: var(--font-text);
+  font-family: 'Inter', sans-serif;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
-  color: var(--color-text);
+  color: var(--background-neutral-200);
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  font-size: var(--size-text);
   line-height: 1.5;
   font-feature-settings:
     'kern' 1,
     'onum' 0,
     'liga' 1;
-  background-color: var(--color-background);
+  background: var(--background-neutral-100);
   caret-color: var(--color-tint);
 }

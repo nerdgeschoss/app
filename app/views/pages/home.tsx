@@ -21,6 +21,7 @@ export default function Home({
 }: PageProps<'pages/home'>): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
+
   return (
     <Layout user={currentUser} container>
       <Stack>
