@@ -22,8 +22,8 @@ export function StarField({
     <div className="star-field">
       {label && (
         <div
-          className={classnames('text-field__label', {
-            'text-field__label--disabled': disabled,
+          className={classnames('star-field__label', {
+            'star-field__label--disabled': disabled,
           })}
         >
           <Text type="label-heading-primary" color="label-heading-primary">
