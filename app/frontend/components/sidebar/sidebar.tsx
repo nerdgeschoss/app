@@ -1,11 +1,11 @@
 import './sidebar.scss';
-import { Stack } from '../stack/stack';
 import { Text } from '../text/text';
 import { useState } from 'react';
 import classNames from 'classnames';
 import { Icon, IconName } from '../icon/icon';
 import { Link, usePath } from '../../sprinkles/history';
 import { Logo } from '../logo/logo';
+import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 
 interface Props {
   user: {
@@ -69,7 +69,7 @@ export function Sidebar({ user }: Props): JSX.Element {
       </div>
       <div className="sidebar__content">
         <div className="sidebar__links">
-          <Stack size={24} tabletSize={32} desktopSize={48}>
+          <Stack gap={24} gapTablet={32} gapDesktop={48}>
             {links.map((link) => (
               <Link href={link.path} key={link.name}>
                 <div
@@ -87,7 +87,7 @@ export function Sidebar({ user }: Props): JSX.Element {
           </Stack>
         </div>
         <div className="sidebar__footer">
-          <Stack line="mobile" align="center" size={10}>
+          <Stack line align="center" gap={10}>
             <img
               src={user.avatarUrl}
               className="sidebar__avatar"

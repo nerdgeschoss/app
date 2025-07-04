@@ -1,7 +1,6 @@
 import { PageProps } from '../../../data.d';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { handleError } from '../../frontend/util/errors';
-import { Stack } from '../../frontend/components/stack/stack';
 import { Button } from '../../frontend/components/button/button';
 import { TextArea } from '../../frontend/components/text_area/text_area';
 import { useForm } from '@nerdgeschoss/react-use-form-library';
@@ -12,6 +11,7 @@ import { Box } from '../../frontend/components/box/box';
 import { Text } from '../../frontend/components/text/text';
 import { CollapsePanel } from '../../frontend/components/collapse_panel/collapse_panel';
 import { StarField } from '../../frontend/components/star_field/star_field';
+import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 
 export default function ({
   data: { feedback },
@@ -52,14 +52,14 @@ export default function ({
 
   return (
     <Box size={24} sizeHorizontal={32}>
-      <Stack>
+      <Stack gap={16}>
         <Text>{t('sprint_feedbacks.edit_retro.headline')}</Text>
         <Checkbox
           {...fields.skipRetro}
           label={t('sprint_feedbacks.edit_retro.skip')}
         />
         <CollapsePanel open={!fields.skipRetro.value}>
-          <Stack>
+          <Stack gap={16}>
             <StarField
               {...fields.retroRating}
               inputId="retro-rating"
