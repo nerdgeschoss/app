@@ -1,3 +1,4 @@
+import './form_error.scss';
 import { Collapse } from '@nerdgeschoss/shimmer-component-collapse';
 import { type ReactElement } from 'react';
 import { Spacer } from '../spacer/spacer';
@@ -17,7 +18,7 @@ export function FormError({
   return (
     <Collapse open={touched && !!errors?.length}>
       <Spacer size={8} />
-      <div className="text-field__errors">
+      <div className="form-error">
         {errors?.map((error) => (
           <Text key={error}>{t(getErrorMessage(error))}</Text>
         ))}

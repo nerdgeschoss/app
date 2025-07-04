@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
-
+import './checkbox.scss';
+import { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
-import './checkbox.scss';
+import { FormError } from '../form_error/form_error';
 
 interface Props extends FormField<boolean> {
   label?: ReactNode;
@@ -77,13 +77,7 @@ export function Checkbox({
             </label>
           )}
         </div>
-        {touched && errors && (
-          <div className="checkbox__errors">
-            {errors.map((error) => (
-              <Text key={error}>{error}</Text>
-            ))}
-          </div>
-        )}
+        <FormError touched={touched} errors={errors} />
       </div>
     </div>
   );

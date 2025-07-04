@@ -1,13 +1,10 @@
 import React, { ReactNode } from 'react';
 
+import './text_area.scss';
 import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
-import './text_area.scss';
-import { Collapse } from '@nerdgeschoss/shimmer-component-collapse';
-import { Spacer } from '../spacer/spacer';
-import { getErrorMessage } from '../../util/errors';
-import { useTranslate } from '../../util/dependencies';
+import { FormError } from '../form_error/form_error';
 
 interface Props extends FormField<string> {
   label?: ReactNode;
@@ -29,7 +26,6 @@ export function TextArea({
   onBlur,
   onFocus,
 }: Props): JSX.Element {
-  const t = useTranslate();
   inputId = useInputId(inputId);
 
   return (
@@ -93,14 +89,7 @@ export function TextArea({
               />
             </div>
           </div>
-          <Collapse open={touched && !!errors?.length}>
-            <Spacer size={8} />
-            <div className="text-area__errors">
-              {errors?.map((error) => (
-                <Text key={error}>{t(getErrorMessage(error))}</Text>
-              ))}
-            </div>
-          </Collapse>
+          <FormError touched={touched} errors={errors} />
         </div>
       </div>
     </Text>
