@@ -33,8 +33,8 @@ export function CalendarField({
     <div className="calendar-field">
       {label !== undefined && (
         <label
-          className={classnames('text-field__label', {
-            'text-field__label--disabled': disabled,
+          className={classnames('calendar-field__label', {
+            'calendar-field__label--disabled': disabled,
           })}
           htmlFor={inputId}
         >
@@ -44,6 +44,7 @@ export function CalendarField({
         </label>
       )}
       <DatePicker
+        id={inputId}
         name={name}
         value={value}
         options={{

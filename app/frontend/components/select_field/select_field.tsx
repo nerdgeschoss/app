@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-
+import './select_field.scss';
+import { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, SelectOption, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
@@ -29,24 +29,24 @@ export function SelectField<T extends string>({
 }: Props<T>): JSX.Element {
   inputId = useInputId(inputId);
   return (
-    <div className="text-field__container">
+    <div className="select-field__container">
       <div
         className={classnames(
-          'text-field',
+          'select-field',
           {
-            'text-field--filled': !!value,
-            'text-field--readonly': readOnly,
-            'text-field--disabled': disabled,
-            'text-field--placeholder': placeholder,
+            'select-field--filled': !!value,
+            'select-field--readonly': readOnly,
+            'select-field--disabled': disabled,
+            'select-field--placeholder': placeholder,
           },
           { disabled }
         )}
       >
-        <div className="text-field__content">
+        <div className="select-field__content">
           {label !== undefined && (
             <label
-              className={classnames('text-field__label', {
-                'text-field__label--disabled': disabled,
+              className={classnames('select-field__label', {
+                'select-field__label--disabled': disabled,
               })}
               htmlFor={inputId}
             >
@@ -59,7 +59,7 @@ export function SelectField<T extends string>({
             <select
               id={inputId}
               name={name}
-              className={classnames('text-field__input')}
+              className={classnames('select-field__input')}
               value={value ?? ''}
               onChange={(event) => {
                 if (readOnly) {
