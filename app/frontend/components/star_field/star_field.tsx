@@ -21,16 +21,15 @@ export function StarField({
   return (
     <div className="star-field">
       {label && (
-        <label
+        <div
           className={classnames('text-field__label', {
             'text-field__label--disabled': disabled,
           })}
-          htmlFor={inputId}
         >
           <Text type="label-heading-primary" color="label-heading-primary">
             {label}
           </Text>
-        </label>
+        </div>
       )}
       <div className="star-field__stars">
         {[1, 2, 3, 4, 5].map((star) => (
