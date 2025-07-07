@@ -44,7 +44,7 @@ export function Card({
       <div className="card__header-content">
         <div className="card__title">
           {icon && <div className="card__icon">{icon}</div>}
-          <Text type="h5-bold" color="label-heading-primary" uppercase>
+          <Text type="h5-bold" color="label-heading-primary">
             {title}
           </Text>
         </div>
