@@ -21,12 +21,6 @@
       minmax(0, var(--container-width))
       minmax(40px, 1fr);
   }
-
-  &:after {
-    display: block;
-    content: '';
-    clear: both;
-  }
 }
 
 .container {

@@ -23,6 +23,10 @@
   hyphens: auto;
   white-space: nowrap;
 
+  &--uppercase {
+    text-transform: uppercase;
+  }
+
   &--block {
     display: block;
     width: 100%;

@@ -1,6 +1,7 @@
+import './layout.scss';
+import { ReactNode } from 'react';
 import { Container } from '../container/container';
 import { Sidebar } from '../sidebar/sidebar';
-import React, { ReactNode } from 'react';
 
 interface Props {
   user?: {
@@ -14,15 +15,19 @@ interface Props {
 
 export function Layout({ user, children, container }: Props): JSX.Element {
   return (
-    <>
-      {user && <Sidebar user={user} />}
-      {container ? (
-        <div className="content">
-          <Container>{children}</Container>
+    <div className="layout">
+      {user && (
+        <div className="layout__sidebar">
+          <Sidebar user={user} />
         </div>
-      ) : (
-        <div className="content">{children}</div>
       )}
-    </>
+      {container ? (
+        <main className="layout__content">
+          <Container>{children}</Container>
+        </main>
+      ) : (
+        <main className="layout__content">{children}</main>
+      )}
+    </div>
   );
 }

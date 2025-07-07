@@ -1,0 +1,22 @@
+@import './../layout.scss';
+
+.layout {
+  min-height: 100vh;
+  background-color: var(--main-background);
+  display: flex;
+  flex-direction: column;
+
+  &__sidebar {
+    grid-area: sidebar;
+  }
+
+  &__content {
+    grid-area: content;
+  }
+
+  @include media-desktop {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: 'sidebar content';
+  }
+}

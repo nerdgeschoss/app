@@ -60,13 +60,31 @@ export function Sidebar({ user }: Props): JSX.Element {
 
   return (
     <nav className={classNames('sidebar', { 'sidebar--expanded': expanded })}>
-      <div className="sidebar__header">
-        <Logo />
+      <header aria-label="sidebar-header" className="sidebar__header">
+        <div className="sidebar__brand">
+          <Logo />
+          <div className="sidebar__company">
+            <Text
+              type="label-heading-primary"
+              color="text-text-primary-base"
+              uppercase
+            >
+              Nerdgeschoss
+            </Text>
+          </div>
+        </div>
         <div
           className="sidebar__menu-toggle"
           onClick={() => setExpanded((expanded) => !expanded)}
-        />
-      </div>
+        >
+          <span className="sidebar__burger">
+            <Icon name="menu" size={24} color="icon-menu-default" />
+          </span>
+          <div className="sidebar__close">
+            <Icon name="close" size={24} color="icon-menu-default" />
+          </div>
+        </div>
+      </header>
       <div className="sidebar__content">
         <div className="sidebar__links">
           <Stack gap={24} gapTablet={32} gapDesktop={48}>
