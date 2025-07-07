@@ -32,6 +32,10 @@
     white-space: normal;
   }
 
+  &--uppercase {
+    text-transform: uppercase;
+  }
+
   &--tooltip-primary {
     font-size: 18px;
     text-decoration: none;
