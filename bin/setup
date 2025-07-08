@@ -19,7 +19,8 @@ FileUtils.chdir APP_ROOT do
   system("bundle check") || system!("bundle install")
 
   puts "\n== Installing node modules =="
-  system! "yarn install && npx -y playwright install chromium"
+  system! "yarn install"
+  system! "yarn playwright install chromium"
 
   puts "\n== Preparing database =="
   system! "bin/rails db:prepare"

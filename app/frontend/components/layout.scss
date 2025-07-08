@@ -40,3 +40,10 @@ $breakpoint-widescreen-large: 1440px;
     @content;
   }
 }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--main-background);
+}

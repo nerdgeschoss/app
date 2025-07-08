@@ -1,8 +1,9 @@
-import React, { ReactNode } from 'react';
-
+import './select_field.scss';
+import { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, SelectOption, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
+import { FormError } from '../form_error/form_error';
 
 interface Props<T extends string> extends FormField<T> {
   label?: ReactNode;
@@ -28,35 +29,37 @@ export function SelectField<T extends string>({
 }: Props<T>): JSX.Element {
   inputId = useInputId(inputId);
   return (
-    <div className="textfield__container">
+    <div className="select-field__container">
       <div
         className={classnames(
-          'textfield',
+          'select-field',
           {
-            'textfield--filled': !!value,
-            'textfield--readonly': readOnly,
-            'textfield--disabled': disabled,
-            'textfield--placeholder': placeholder,
+            'select-field--filled': !!value,
+            'select-field--readonly': readOnly,
+            'select-field--disabled': disabled,
+            'select-field--placeholder': placeholder,
           },
           { disabled }
         )}
       >
-        <div className="textfield__content">
+        <div className="select-field__content">
           {label !== undefined && (
             <label
-              className={classnames('textfield__label', {
-                'textfield__label--disabled': disabled,
+              className={classnames('select-field__label', {
+                'select-field__label--disabled': disabled,
               })}
               htmlFor={inputId}
             >
-              {label}
+              <Text type="label-heading-primary" color="label-heading-primary">
+                {label}
+              </Text>
             </label>
           )}
-          <Text>
+          <Text block>
             <select
               id={inputId}
               name={name}
-              className={classnames('textfield__input')}
+              className={classnames('select-field__input')}
               value={value ?? ''}
               onChange={(event) => {
                 if (readOnly) {
@@ -83,13 +86,7 @@ export function SelectField<T extends string>({
             </select>
           </Text>
         </div>
-        {touched && errors && (
-          <div className="textfield__errors">
-            {errors.map((error) => (
-              <Text key={error}>{error}</Text>
-            ))}
-          </div>
-        )}
+        <FormError touched={touched} errors={errors} />
       </div>
     </div>
   );

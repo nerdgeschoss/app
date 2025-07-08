@@ -9,6 +9,8 @@ interface Props {
   type?: TextType;
   color?: Color;
   multiline?: boolean;
+  block?: boolean;
+  uppercase?: boolean;
 }
 
 export function Text({
@@ -16,6 +18,8 @@ export function Text({
   type = 'body-regular',
   color,
   multiline,
+  block,
+  uppercase,
 }: Props): JSX.Element {
   const textColorVariable = color ? `var(--${color})` : 'inherit';
   if (typeof children === 'string' && multiline) {
@@ -25,6 +29,8 @@ export function Text({
     <div
       className={classNames('text', `text--${type}`, {
         'text--multiline': multiline,
+        'text--block': block,
+        'text--uppercase': uppercase,
       })}
       style={{ color: textColorVariable }}
     >

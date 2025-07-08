@@ -1,19 +1,28 @@
 .checkbox {
   &__input {
     display: block;
-    width: 20px;
-    height: 20px;
-    border: 1px solid currentColor;
+    width: 22px;
+    height: 22px;
+    border-radius: 200%;
+    border: 2px solid var(--div-default);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &:checked::before {
-      display: block;
-      content: 'X';
-      width: 10px;
-      height: 10px;
+    &:hover {
+      background-color: var(--dropdown-bg-hover);
+    }
+    &:checked:before {
+      content: '✔️';
+      font-size: 12px;
     }
   }
 
   &__content {
     display: flex;
+    align-items: center;
+    gap: 8px;
   }
 }

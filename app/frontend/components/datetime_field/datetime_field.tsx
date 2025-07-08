@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
-
+import { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';
+import { FormError } from '../form_error/form_error';
 
 interface Props extends FormField<Date | null> {
   label?: ReactNode;
@@ -78,13 +78,7 @@ export function DatetimeField({
             />
           </Text>
         </div>
-        {touched && errors && (
-          <div className="textfield__errors">
-            {errors.map((error) => (
-              <Text key={error}>{error}</Text>
-            ))}
-          </div>
-        )}
+        <FormError touched={touched} errors={errors} />
       </div>
     </div>
   );

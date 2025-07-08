@@ -23,8 +23,17 @@
   hyphens: auto;
   white-space: nowrap;
 
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
   &--multiline {
     white-space: normal;
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
   }
 
   &--tooltip-primary {
@@ -314,5 +323,21 @@
     font-weight: 400;
     letter-spacing: normal;
     line-height: normal;
+  }
+
+  &--label-heading-primary {
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &--label-body-primary {
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%;
   }
 }

@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField } from '../form_field/form_field';
 import classnames from 'classnames';
+import { FormError } from '../form_error/form_error';
 
 interface Props extends FormField<File | null> {
   label?: ReactNode;
@@ -72,13 +73,7 @@ export function FileField({
             />
           </Text>
         </div>
-        {touched && errors && (
-          <div className="textfield__errors">
-            {errors.map((error) => (
-              <Text key={error}>{error}</Text>
-            ))}
-          </div>
-        )}
+        <FormError touched={touched} errors={errors} />
       </div>
     </div>
   );

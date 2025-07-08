@@ -34,10 +34,9 @@ $animation_time: 0.35s;
   overflow: scroll;
 
   &__close {
-    position: absolute;
-    z-index: 999;
-    top: 32px;
-    right: 32px;
+    margin-left: auto;
+    margin-top: 32px;
+    margin-right: 32px;
     background-image: url(./close.svg);
     background-size: contain;
     background-repeat: no-repeat;
