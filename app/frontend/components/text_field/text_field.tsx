@@ -7,6 +7,7 @@ import { FormError } from '../form_error/form_error';
 
 interface Props extends FormField<string> {
   label?: ReactNode;
+  autoComplete?: string;
 }
 
 export function TextField({
@@ -21,6 +22,7 @@ export function TextField({
   label,
   touched,
   errors,
+  autoComplete,
   onChange,
   onBlur,
   onFocus,
@@ -74,6 +76,7 @@ export function TextField({
               required={required}
               disabled={disabled}
               aria-label={ariaLabel}
+              autoComplete={autoComplete}
             />
           </Text>
         </div>

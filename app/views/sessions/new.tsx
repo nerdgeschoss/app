@@ -33,7 +33,7 @@ export default function NewSession(): JSX.Element {
         <Card title="Login" type="login-card">
           <Form onSubmit={onSubmit}>
             <Stack gap={16}>
-              <TextField {...fields.email} label="Email" />
+              <TextField {...fields.email} label="Email" autoComplete="email" />
               <Button title="Login" onClick={onSubmit} />
             </Stack>
           </Form>
