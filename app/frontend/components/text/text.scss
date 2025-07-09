@@ -21,7 +21,10 @@
   width: fit-content;
   color: var(--text-primary-base);
   hyphens: auto;
-  white-space: nowrap;
+
+  &--no-wrap {
+    white-space: nowrap;
+  }
 
   &--block {
     display: block;
