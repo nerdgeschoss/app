@@ -15,6 +15,7 @@ interface Props {
   href?: string;
   type?: 'login-card';
   iconSize?: number;
+  withDivider?: boolean;
 }
 
 export function Card({
@@ -27,6 +28,7 @@ export function Card({
   href,
   type,
   iconSize = 28,
+  withDivider,
 }: Props): JSX.Element {
   const cardClass = classnames('card', {
     'card--login': type === 'login-card',
@@ -42,7 +44,7 @@ export function Card({
       <div className="card__header-content">
         <div className="card__title">
           {icon && <div className="card__icon">{icon}</div>}
-          <Text type="label-heading-primary" color="label-heading-primary">
+          <Text type="h5-bold" color="label-heading-primary">
             {title}
           </Text>
         </div>
@@ -55,6 +57,7 @@ export function Card({
   const content = (
     <Stack gap={24}>
       {header}
+      {withDivider && <div className="card__divider" />}
       {children && <div className="card__content">{children}</div>}
     </Stack>
   );

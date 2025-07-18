@@ -38,6 +38,7 @@ export default function ({
                 </Text>
               </Stack>
               <Card
+                withDivider
                 subtitle={
                   <Stack line="mobile" wrap justify="space-between">
                     <Stack line="mobile" fullWidth={'none'} wrap>

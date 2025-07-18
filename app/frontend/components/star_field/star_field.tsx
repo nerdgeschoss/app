@@ -45,7 +45,7 @@ export function StarField({
                 name={name}
                 className={classnames('star-field__input')}
                 type="radio"
-                disabled={disabled}´
+                disabled={disabled}
                 value={star}
                 checked={star <= value}
                 onClick={() => {

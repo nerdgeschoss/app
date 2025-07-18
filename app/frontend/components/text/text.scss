@@ -21,7 +21,15 @@
   width: fit-content;
   color: var(--text-primary-base);
   hyphens: auto;
-  white-space: nowrap;
+
+  &--no-wrap {
+    white-space: nowrap;
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
 
   &--uppercase {
     text-transform: uppercase;
@@ -34,6 +42,10 @@
 
   &--multiline {
     white-space: normal;
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
   }
 
   &--tooltip-primary {

@@ -11,6 +11,7 @@ interface Props {
   multiline?: boolean;
   block?: boolean;
   uppercase?: boolean;
+  noWrap?: boolean;
 }
 
 export function Text({
@@ -20,6 +21,7 @@ export function Text({
   multiline,
   block,
   uppercase,
+  noWrap,
 }: Props): JSX.Element {
   const textColorVariable = color ? `var(--${color})` : 'inherit';
   if (typeof children === 'string' && multiline) {
@@ -31,6 +33,7 @@ export function Text({
         'text--multiline': multiline,
         'text--block': block,
         'text--uppercase': uppercase,
+        'text--no-wrap': noWrap,
       })}
       style={{ color: textColorVariable }}
     >

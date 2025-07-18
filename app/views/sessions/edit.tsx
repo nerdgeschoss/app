@@ -52,6 +52,7 @@ export default function EditSession({
                   ...fields.code.errors,
                   ...(invalidCode ? ['invalid-code'] : []),
                 ]}
+                autoComplete="one-time-code"
               />
               <Button title="Login" onClick={onSubmit} />
             </Stack>
