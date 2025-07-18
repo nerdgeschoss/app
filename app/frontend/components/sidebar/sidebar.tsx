@@ -6,6 +6,7 @@ import { Icon, IconName } from '../icon/icon';
 import { Link, usePath } from '../../sprinkles/history';
 import { Logo } from '../logo/logo';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
+import { Collapse } from '@nerdgeschoss/shimmer-component-collapse';
 
 interface Props {
   user: {
@@ -58,47 +59,85 @@ export function Sidebar({ user }: Props): JSX.Element {
     },
   ];
 
+  const Links = (
+    <div className="sidebar__links">
+      <Stack gap={24} gapTablet={32} gapDesktop={48}>
+        {links.map((link) => (
+          <Link href={link.path} key={link.name}>
+            <div
+              className={classNames('sidebar__link', {
+                'sidebar__link--active': link.active,
+              })}
+            >
+              <Icon name={link.icon} size={24} desktopSize={32} />
+              <div className="sidebar__link-text">
+                <Text type="menu-semibold">{link.name}</Text>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </Stack>
+    </div>
+  );
+
+  const Footer = (
+    <div className="sidebar__footer">
+      <Stack line align="center" gap={10}>
+        <img src={user.avatarUrl} className="sidebar__avatar" alt="avatar" />
+        <div className="sidebar__footer-username">
+          <Text type="menu-semibold">{user.displayName}</Text>
+        </div>
+      </Stack>
+      <Link href="/logout">
+        <div className="sidebar__link">
+          <Icon name="logout" size={24} desktopSize={32} />
+          <div className="sidebar__link-text">
+            <Text type="menu-semibold">Logout</Text>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+
   return (
     <nav className={classNames('sidebar', { 'sidebar--expanded': expanded })}>
-      <div className="sidebar__header">
-        <Logo />
+      <header aria-label="sidebar-header" className="sidebar__header">
+        <div className="sidebar__brand">
+          <Link href="/">
+            <Logo />
+          </Link>
+          <div className="sidebar__company">
+            <Text
+              type="label-heading-primary"
+              color="text-text-primary-base"
+              uppercase
+            >
+              Nerdgeschoss
+            </Text>
+          </div>
+        </div>
         <div
           className="sidebar__menu-toggle"
           onClick={() => setExpanded((expanded) => !expanded)}
-        />
-      </div>
-      <div className="sidebar__content">
-        <div className="sidebar__links">
-          <Stack gap={24} gapTablet={32} gapDesktop={48}>
-            {links.map((link) => (
-              <Link href={link.path} key={link.name}>
-                <div
-                  className={classNames('sidebar__link', {
-                    'sidebar__link--active': link.active,
-                  })}
-                >
-                  <Icon name={link.icon} size={24} desktopSize={32} />
-                  <div className="sidebar__link-text">
-                    <Text type="menu-semibold">{link.name}</Text>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </Stack>
+        >
+          <span className="sidebar__burger">
+            <Icon name="menu" size={24} color="icon-menu-default" />
+          </span>
+          <div className="sidebar__close">
+            <Icon name="close" size={24} color="icon-menu-default" />
+          </div>
         </div>
-        <div className="sidebar__footer">
-          <Stack line align="center" gap={10}>
-            <img
-              src={user.avatarUrl}
-              className="sidebar__avatar"
-              alt="avatar"
-            />
-            <div className="sidebar__footer-username">
-              <Text type="menu-semibold">{user.displayName}</Text>
-            </div>
-          </Stack>
-        </div>
+      </header>
+      <div className="sidebar__collapse">
+        <Collapse open={expanded}>
+          <div className="sidebar__mobile">
+            {Links}
+            {Footer}
+          </div>
+        </Collapse>
       </div>
+      {Links}
+      {Footer}
     </nav>
   );
 }

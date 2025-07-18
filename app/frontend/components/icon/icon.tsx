@@ -10,7 +10,9 @@ export type IconName =
   | 'logout'
   | 'payslip'
   | 'sprint'
-  | 'user';
+  | 'user'
+  | 'menu'
+  | 'close';
 
 interface Props {
   name: IconName;
