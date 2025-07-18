@@ -103,7 +103,9 @@ export function Sidebar({ user }: Props): JSX.Element {
     <nav className={classNames('sidebar', { 'sidebar--expanded': expanded })}>
       <header aria-label="sidebar-header" className="sidebar__header">
         <div className="sidebar__brand">
-          <Logo />
+          <Link href="/">
+            <Logo />
+          </Link>
           <div className="sidebar__company">
             <Text
               type="label-heading-primary"
