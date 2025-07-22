@@ -12,7 +12,8 @@ export type IconName =
   | 'sprint'
   | 'user'
   | 'menu'
-  | 'close';
+  | 'close'
+  | 'tooltip-arrow';
 
 interface Props {
   name: IconName;

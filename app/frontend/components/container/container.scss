@@ -1,7 +1,7 @@
 @use '../layout';
 
 @mixin base-container {
-  --container-width: 1500px;
+  --container-width: 1116px;
   display: grid;
   grid-template-columns:
     minmax(16px, 1fr)
