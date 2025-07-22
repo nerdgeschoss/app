@@ -2,6 +2,15 @@
   background-color: var(--card-bg-default);
   padding: 16px;
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
   &__sprint-info {
     list-style: none;
@@ -18,5 +27,12 @@
 
   &__info-icon {
     padding-right: 4px;
+  }
+
+  &__turnover-info {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 }

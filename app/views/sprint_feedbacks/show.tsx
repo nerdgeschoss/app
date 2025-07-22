@@ -24,6 +24,8 @@ export default function ({
   const startDate = new Date(feedback.sprint.sprintFrom);
   const endDate = new Date(feedback.sprint.sprintUntil);
 
+  console.log(feedback);
+
   return (
     <Layout user={currentUser} container>
       <Stack size={16} tabletSize={32}>
@@ -31,7 +33,7 @@ export default function ({
           Sprints
         </Text>
         <Stack>
-          <Stack line="mobile">
+          <Stack line="mobile" align="center" size={8}>
             <Text type="h3-bold">{sprintTitle}</Text>
             <Text type="h4-regular" color="label-heading-secondary">
               {l.dateRange(startDate, endDate, {
