@@ -25,6 +25,7 @@
     padding: 16px;
 
     @include media-desktop {
+      height: auto;
       padding: 0;
       justify-content: center;
     }

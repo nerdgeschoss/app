@@ -15,7 +15,7 @@ export function Tooltip({ content, children }: Props): ReactElement {
       <div className="tooltip__anchor">
         <Icon name="tooltip-arrow" size={10} />
         <div className="tooltip__content">
-          <Text type="tooltip-primary" color="tooltip-label-default">
+          <Text type="tooltip-primary" color="tooltip-label-default" noWrap>
             {content}
           </Text>
         </div>
