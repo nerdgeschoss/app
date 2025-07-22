@@ -60,44 +60,6 @@ export function Sidebar({ user }: Props): JSX.Element {
     },
   ];
 
-  const Links = (
-    <div className="sidebar__links">
-      <Stack gap={24} gapTablet={32} gapDesktop={48}>
-        {links.map((link) => (
-          <Link href={link.path} key={link.name}>
-            <Tooltip content={link.name}>
-              <div
-                className={classNames('sidebar__link', {
-                  'sidebar__link--active': link.active,
-                })}
-              >
-                <Icon name={link.icon} size={24} desktopSize={32} />
-              </div>
-            </Tooltip>
-          </Link>
-        ))}
-      </Stack>
-    </div>
-  );
-
-  const Footer = (
-    <div className="sidebar__footer">
-      <Stack line align="center" gap={10}>
-        <img src={user.avatarUrl} className="sidebar__avatar" alt="avatar" />
-        <div className="sidebar__footer-username">
-          <Text type="menu-semibold">{user.displayName}</Text>
-        </div>
-      </Stack>
-      <Link href="/logout">
-        <Tooltip content="Logout">
-          <div className="sidebar__link">
-            <Icon name="logout" size={24} desktopSize={32} />
-          </div>
-        </Tooltip>
-      </Link>
-    </div>
-  );
-
   return (
     <nav className={classNames('sidebar', { 'sidebar--expanded': expanded })}>
       <header aria-label="sidebar-header" className="sidebar__header">
@@ -130,13 +92,86 @@ export function Sidebar({ user }: Props): JSX.Element {
       <div className="sidebar__collapse">
         <Collapse open={expanded}>
           <div className="sidebar__mobile">
-            {Links}
-            {Footer}
+            <div className="sidebar__links">
+              <Stack gap={24} gapTablet={32} gapDesktop={48}>
+                {links.map((link) => (
+                  <Link href={link.path} key={link.name}>
+                    <div
+                      className={classNames('sidebar__link', {
+                        'sidebar__link--active': link.active,
+                      })}
+                    >
+                      <Icon name={link.icon} size={24} desktopSize={32} />
+                      <div className="sidebar__link-text">
+                        <Text
+                          type="menu-semibold"
+                          color="text-text-primary-base"
+                        >
+                          {link.name}
+                        </Text>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </Stack>
+            </div>
+            <div className="sidebar__footer">
+              <Stack line align="center" gap={10}>
+                <img
+                  src={user.avatarUrl}
+                  className="sidebar__avatar"
+                  alt="avatar"
+                />
+                <div className="sidebar__footer-username">
+                  <Text type="menu-semibold">{user.displayName}</Text>
+                </div>
+              </Stack>
+              <Link href="/logout">
+                <div className="sidebar__link">
+                  <Icon name="logout" size={24} desktopSize={32} />
+                  <div className="sidebar__link-text">
+                    <Text type="menu-semibold" color="text-text-primary-base">
+                      Logout
+                    </Text>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </Collapse>
       </div>
-      {Links}
-      {Footer}
+      <div className="sidebar__links">
+        <Stack gap={24} gapTablet={32} gapDesktop={48}>
+          {links.map((link) => (
+            <Link href={link.path} key={link.name}>
+              <Tooltip content={link.name}>
+                <div
+                  className={classNames('sidebar__link', {
+                    'sidebar__link--active': link.active,
+                  })}
+                >
+                  <Icon name={link.icon} size={24} desktopSize={32} />
+                </div>
+              </Tooltip>
+            </Link>
+          ))}
+        </Stack>
+      </div>
+      <div className="sidebar__footer">
+        <Stack line align="center" gap={10}>
+          <img src={user.avatarUrl} className="sidebar__avatar" alt="avatar" />
+          <div className="sidebar__footer-username">
+            <Text type="menu-semibold">{user.displayName}</Text>
+          </div>
+        </Stack>
+        <Link href="/logout">
+          <Tooltip content="Logout">
+            <div className="sidebar__link">
+              <Icon name="logout" size={24} desktopSize={32} />
+            </div>
+          </Tooltip>
+        </Link>
+      </div>
     </nav>
   );
 }

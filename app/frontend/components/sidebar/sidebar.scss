@@ -1,6 +1,8 @@
 @import '../layout.scss';
 
 .sidebar {
+  --header-height: 72px;
+
   background-color: var(--navigation-bg-default);
   box-shadow: 0px 10px 10px 0px rgba(43, 124, 138, 0.03);
   position: sticky;
@@ -61,7 +63,7 @@
     gap: 56px;
     background-color: var(--navigation-bg-default);
     padding: 24px 16px;
-    height: calc(90vh - 72px);
+    height: calc(90vh - var(--header-height));
     box-shadow: 0px 10px 10px 0px rgba(43, 124, 138, 0.03);
   }
 
