@@ -47,9 +47,11 @@ export function Performance({
     <Link href={`/sprint_feedbacks/${id}`}>
       <div className="performance">
         <Stack size={11}>
-          <Stack justify="center" line="mobile" size={6}>
+          <Stack justify="center" align="center" line="mobile" size={6}>
             <img src={user.avatarUrl} className="performance__avatar" />
-            <Text type="card-heading-bold">{user.displayName}</Text>
+            <div className="performance__title">
+              <Text type="card-heading-bold">{user.displayName}</Text>
+            </div>
           </Stack>
           <Stack line="mobile" justify="space-between">
             <Stack line="mobile" size={8}>

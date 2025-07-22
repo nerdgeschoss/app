@@ -10,6 +10,11 @@
     flex-shrink: 0;
   }
 
+  &__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &__day {
     height: 20px;
     width: 10px;

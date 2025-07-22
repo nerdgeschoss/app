@@ -1,0 +1,22 @@
+.employee-card {
+  background-color: var(--card-bg-default);
+  padding: 16px;
+  border-radius: 12px;
+
+  &__sprint-info {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 8px;
+  }
+
+  &__info {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__info-icon {
+    padding-right: 4px;
+  }
+}

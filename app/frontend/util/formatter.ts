@@ -22,28 +22,20 @@ export class Formatter {
     }).format(value);
   }
 
-  date(value: Date | string): string | null {
-    const date = this.parseDate(value);
-
-    if (!date) {
-      return null;
-    }
-    return new Intl.DateTimeFormat(this.locale, {
+  date(
+    value: Date | string,
+    options: Intl.DateTimeFormatOptions = {
       month: '2-digit',
       day: '2-digit',
       year: 'numeric',
-    }).format(date);
-  }
-
-  dateWithoutYear(value: Date | string): string | null {
+    }
+  ): string | null {
     const date = this.parseDate(value);
+
     if (!date) {
       return null;
     }
-    return new Intl.DateTimeFormat(this.locale, {
-      month: '2-digit',
-      day: '2-digit',
-    }).format(date);
+    return new Intl.DateTimeFormat(this.locale, options).format(date);
   }
 
   dayName(value: Date | string): string | null {
@@ -102,7 +94,11 @@ export class Formatter {
     return new Intl.DateTimeFormat(this.locale, options).format(date);
   }
 
-  dateRange(start: Date | string, end: Date | string): string | null {
+  dateRange(
+    start: Date | string,
+    end: Date | string,
+    options?: Intl.DateTimeFormatOptions
+  ): string | null {
     const startDate = this.parseDate(start);
     const endDate = this.parseDate(end);
     if (!startDate || !endDate) {
@@ -112,9 +108,12 @@ export class Formatter {
       return this.date(startDate);
     }
     if (startDate.getFullYear() === endDate.getFullYear()) {
-      return `${this.dateWithoutYear(startDate)} - ${this.date(endDate)}`;
+      return `${this.date(startDate, {
+        ...options,
+        year: undefined,
+      })} - ${this.date(endDate, options)}`;
     } else {
-      return `${this.date(startDate)} - ${this.date(endDate)}`;
+      return `${this.date(startDate, options)} - ${this.date(endDate, options)}`;
     }
   }
 
