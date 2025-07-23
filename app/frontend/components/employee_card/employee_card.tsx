@@ -1,8 +1,10 @@
 import { useFormatter } from '../../util/dependencies';
 import { Divider } from '../divider/divider';
 import { IconTitle } from '../icon_title/icon_title';
+import { PerformanceLabels } from '../performance_labels/performance_labels';
 import { PerformanceProgress } from '../performance_progress/performance_progress';
 import { Property } from '../property/property';
+import { Stack } from '../stack/stack';
 import './employee_card.scss';
 import { type ReactElement } from 'react';
 
@@ -64,18 +66,27 @@ export function EmployeeCard({
             <Divider />
           </>
         )}
-        <IconTitle
-          icon="⏱️"
-          title="Sprint Overview"
-          color="var(--icon-header-series1)"
-        />
-        <PerformanceProgress
-          totalHours={targetTotalHours}
-          targetBillableHours={targetBillableHours}
-          trackedHours={trackedHours}
-          billableHours={billableHours}
-        />
-        <Divider />
+        <Stack size={24}>
+          <Stack size={32}>
+            <IconTitle
+              icon="⏱️"
+              title="Sprint Overview"
+              color="var(--icon-header-series1)"
+            />
+            <PerformanceProgress
+              totalHours={targetTotalHours}
+              targetBillableHours={targetBillableHours}
+              trackedHours={trackedHours}
+              billableHours={billableHours}
+            />
+          </Stack>
+          <PerformanceLabels
+            billableHours={billableHours}
+            trackedHours={trackedHours}
+            workingDayCount={workingDayCount}
+          />
+          <Divider />
+        </Stack>
         <IconTitle
           icon="⏱️"
           title="Daily Overview"
