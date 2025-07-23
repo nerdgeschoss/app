@@ -1,5 +1,5 @@
 import { type ReactElement } from 'react';
-import logo from '../../../frontend/images/logo.svg';
+import logo from '../../../frontend/images/logo.webp';
 import './logo.scss';
 
 export function Logo(): ReactElement {

@@ -109,7 +109,8 @@ export type Color =
   | 'tooltip-hours-bg-active'
   | 'tooltip-hours-border-default'
   | 'tooltip-hours-label-default'
-  | 'tooltip-label-default';
+  | 'tooltip-label-default'
+  | 'text-text-primary-base';
 
 export type TextType =
   | 'body-bold'

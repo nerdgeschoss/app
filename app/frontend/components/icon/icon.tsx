@@ -10,7 +10,10 @@ export type IconName =
   | 'logout'
   | 'payslip'
   | 'sprint'
-  | 'user';
+  | 'user'
+  | 'menu'
+  | 'close'
+  | 'tooltip-arrow';
 
 interface Props {
   name: IconName;

@@ -1,0 +1,31 @@
+.tooltip {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    .tooltip__anchor {
+      display: flex;
+    }
+  }
+
+  &__anchor {
+    position: absolute;
+    right: 0;
+    transform: translateX(100%);
+    padding-left: 2px;
+    display: none;
+  }
+
+  &__content {
+    top: 0;
+    background-color: var(--tooltip-bg-default);
+    display: flex;
+    padding: 9px 18px 11px 18px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 100px;
+    margin-left: -4px;
+  }
+}

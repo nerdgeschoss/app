@@ -1,6 +1,7 @@
 @import '../layout.scss';
 
-$icons: 'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user';
+$icons: 'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user', 'menu',
+  'close', 'tooltip-arrow';
 
 .icon {
   display: block;
