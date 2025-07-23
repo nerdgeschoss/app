@@ -10,13 +10,7 @@ interface Props {
 
 export function Property({ value, suffix, prefix }: Props): JSX.Element {
   return (
-    <Stack
-      className="property"
-      line="mobile"
-      size={3}
-      justify="center"
-      align="center"
-    >
+    <Stack className="property" line="mobile" size={3} align="center">
       {prefix && <span className="property__prefix">{prefix}</span>}
       <Text type="card-heading-bold">{value ?? '-'}</Text>
       {suffix && (

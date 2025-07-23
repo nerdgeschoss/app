@@ -13,6 +13,8 @@ field :feedback, value: -> { @feedback } do
   field :billable_hours, Float
   field :turnover_per_storypoint, Float, null: true, value: -> { turnover_per_storypoint if root(&:current_user).role?(:hr) }
   field :turnover, Float, null: true, value: -> { turnover if root(&:current_user).role?(:hr) }
+  field :target_total_hours, Float
+  field :target_billable_hours, Float
 
   field :permit_edit_retro_notes, Boolean, value: -> { helpers.policy(self).update? }
 

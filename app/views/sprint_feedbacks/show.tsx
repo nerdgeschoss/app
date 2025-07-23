@@ -24,8 +24,6 @@ export default function ({
   const startDate = new Date(feedback.sprint.sprintFrom);
   const endDate = new Date(feedback.sprint.sprintUntil);
 
-  console.log(feedback);
-
   return (
     <Layout user={currentUser} container>
       <Stack size={16} tabletSize={32}>
