@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LeavesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :team_overview
   before_action :assign_leave, only: [:update, :destroy]
 
   def index
@@ -35,6 +35,12 @@ class LeavesController < ApplicationController
 
   def destroy
     @leave.destroy!
+  end
+
+  def team_overview
+    @leaves = Leave.during(Date.today..1.year.from_now).chronologic.map(&:presenter)
+
+    render layout: false
   end
 
   private

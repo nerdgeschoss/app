@@ -81,4 +81,31 @@ RSpec.describe "Leaves" do
 
     expect(page).to have_content "Heads up: Some of the selected days are in the past."
   end
+
+  describe "Team Overview" do
+    it "shows the leaves for a team" do
+      travel_to "2025-01-01"
+
+      john = users(:john)
+      john.update!(roles: ["team-cowboys"])
+      john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2024-12-31"])
+      john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2025-01-01"])
+
+      cigdem = users(:cigdem)
+      cigdem.update!(roles: ["team-backglog-busters"])
+      cigdem.leaves.create!(type: :non_working, title: "Not Working", days: ["2025-01-01"])
+
+      yuki = users(:yuki)
+      yuki.update!(roles: ["team-cowboys"])
+      yuki.leaves.create!(type: :paid, title: "Holiday in the Alps", days: ["2025-01-01"])
+
+      visit team_overview_leaves_path(team_hash: "123")
+
+      expect(page).to have_content "John Doe"
+      expect(page).not_to have_content "Private Sickness"
+
+      expect(page).to have_content "Yuki Doe"
+      expect(page).not_to have_content "Holiday in the Alps"
+    end
+  end
 end

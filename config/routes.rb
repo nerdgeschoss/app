@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     resources :payslips
-    resources :leaves
+    resources :leaves do
+      get "team_overview/:team_hash", action: :team_overview, as: :team_overview, on: :collection
+    end
     resources :sprints
     resources :sprint_feedbacks do
       get "edit_retro", on: :member
