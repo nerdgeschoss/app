@@ -38,6 +38,9 @@ export interface Day {
       }>;
     } | null;
   }>;
+  dailyNerdMessage?: {
+    message: string;
+  } | null;
 }
 
 interface Props {

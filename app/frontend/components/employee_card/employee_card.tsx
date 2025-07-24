@@ -8,11 +8,11 @@ import { Day, PerformanceDays } from '../performance_days/performance_days';
 import { PerformanceLabels } from '../performance_labels/performance_labels';
 import { PerformanceProgress } from '../performance_progress/performance_progress';
 import { Property } from '../property/property';
-import { Stack } from '../stack/stack';
 import { StarField } from '../star_field/star_field';
-import { TextArea } from '../text_area/text_area';
+import { TextBox } from '../text_box/text_box';
 import './employee_card.scss';
 import React, { type ReactElement } from 'react';
+import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 
 interface Props {
   id: string;
@@ -81,8 +81,8 @@ export function EmployeeCard({
         )}
       </header>
       <section className="employee-card__section">
-        <Stack size={24}>
-          <Stack size={32}>
+        <Stack gap={24}>
+          <Stack gap={32}>
             <IconTitle
               icon="⏱️"
               title="Sprint Overview"
@@ -102,8 +102,8 @@ export function EmployeeCard({
           />
           <Divider />
         </Stack>
-        <Stack size={24}>
-          <Stack size={32}>
+        <Stack gap={24}>
+          <Stack gap={32}>
             <IconTitle
               icon="⏱️"
               title="Daily Overview"
@@ -113,8 +113,8 @@ export function EmployeeCard({
           </Stack>
           <Divider />
         </Stack>
-        <Stack size={16}>
-          <Stack size={24}>
+        <Stack gap={16}>
+          <Stack gap={24}>
             <IconTitle
               icon="⭐"
               title="Retrospective"
@@ -122,18 +122,20 @@ export function EmployeeCard({
             />
             <StarField value={retroRating || 0} />
           </Stack>
-          {retroText && <TextArea value={retroText} readOnly />}
-          <Button
-            title={retroText ? 'Edit feedback' : 'Leave feedback'}
-            onClick={() =>
-              modal.present(`/en/sprint_feedbacks/${id}/edit_retro`)
-            }
-          />
+          <Stack gap={16} align="end">
+            {retroText && <TextBox text={retroText} />}
+            <Button
+              title={retroText ? 'Edit feedback' : 'Leave feedback'}
+              onClick={() =>
+                modal.present(`/en/sprint_feedbacks/${id}/edit_retro`)
+              }
+            />
+          </Stack>
         </Stack>
       </section>
       <Divider />
       <section className="employee-card__section">
-        <Stack size={24}>
+        <Stack gap={24}>
           {days.map((day, index) => {
             return (
               <React.Fragment key={day.id}>
