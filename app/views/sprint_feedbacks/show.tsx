@@ -13,7 +13,6 @@ export default function ({
   data: { currentUser, feedback },
 }: PageProps<'sprint_feedbacks/show'>): JSX.Element {
   const l = useFormatter();
-  const hourGoal = feedback.workingDayCount * 7.5;
   const modal = useModal();
 
   const sprintTitle = feedback.sprint.title
@@ -46,31 +45,6 @@ export default function ({
             <Stack>
               <Stack line="desktop">
                 <Stack size={0}>
-                  <Text>⏱ Sprint Overview</Text>
-                  <Text>{l.percentage(feedback.trackedHours / hourGoal)}</Text>
-                  <Text>
-                    {l.singleDigitNumber(
-                      feedback.trackedHours / feedback.workingDayCount
-                    )}{' '}
-                    hrs
-                  </Text>
-                  <Stack line="mobile">
-                    <Text>
-                      Missing:{' '}
-                      {l.singleDigitNumber(hourGoal - feedback.trackedHours)}{' '}
-                      hrs
-                    </Text>
-                    <Text>Billable {feedback.billableHours} hrs</Text>
-                  </Stack>
-                  <Stack line="mobile">
-                    <Text>Goal {l.singleDigitNumber(hourGoal)} hrs</Text>
-                    <Text>Tracked {feedback.trackedHours} hrs</Text>
-                  </Stack>
-                </Stack>
-                <Stack size={0}>
-                  <Text>⏱ Daily Overview</Text>
-                </Stack>
-                <Stack size={0}>
                   <Text>⭐ Retrospective</Text>
                   <Text>{feedback.retroRating}/5</Text>
                   <Text multiline>{feedback.retroText}</Text>
@@ -88,14 +62,15 @@ export default function ({
                   )}
                 </Stack>
               </Stack>
-              {feedback.days.map((day) => (
-                <Card
-                  key={day.id}
-                  title={l.dayName(day.day)}
-                  subtitle={l.date(day.day)}
-                >
-                  <Stack>
-                    {day.timeEntries.length > 0 && (
+              {feedback.days
+                .filter((day) => day.timeEntries.length > 0)
+                .map((day) => (
+                  <Card
+                    key={day.id}
+                    title={l.dayName(day.day)}
+                    subtitle={l.date(day.day)}
+                  >
+                    <Stack>
                       <table className="table">
                         <thead>
                           <tr>
@@ -122,13 +97,12 @@ export default function ({
                           ))}
                         </tbody>
                       </table>
-                    )}
-                    {day.dailyNerdMessage && (
-                      <Text multiline>{day.dailyNerdMessage.message}</Text>
-                    )}
-                  </Stack>
-                </Card>
-              ))}
+                      {day.dailyNerdMessage && (
+                        <Text multiline>{day.dailyNerdMessage.message}</Text>
+                      )}
+                    </Stack>
+                  </Card>
+                ))}
             </Stack>
           </Card>
         </Stack>

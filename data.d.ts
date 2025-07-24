@@ -170,6 +170,9 @@ export interface DataSchema {
             totalHours: string;
           } | null;
         }>;
+        workingDay: boolean;
+        hasDailyNerdMessage: boolean;
+        hasTimeEntries: boolean;
       }>;
     };
   };

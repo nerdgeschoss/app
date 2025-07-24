@@ -141,4 +141,5 @@ export type TextType =
   | 'tooltip-secondary'
   | 'label-heading-primary'
   | 'label-body-primary'
-  | 'desktop-caption-primary-regular';
+  | 'desktop-caption-primary-regular'
+  | 'desktop-caption-secondary-regular';

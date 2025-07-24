@@ -57,3 +57,13 @@ admin:
   roles: ['hr']
   first_name: Admin
   last_name: User
+
+leo:
+  email: leo@nerdgeschoss.de
+  roles: ['sprinter']
+  first_name: Leo
+  last_name: Nerd
+  born_on: 1990-05-15
+  hired_on: 2021-03-01
+  slack_id: slack-leo
+  github_handle: leo-github

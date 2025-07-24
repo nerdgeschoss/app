@@ -1,6 +1,7 @@
 import { useFormatter } from '../../util/dependencies';
 import { Divider } from '../divider/divider';
 import { IconTitle } from '../icon_title/icon_title';
+import { Day, PerformanceDays } from '../performance_days/performance_days';
 import { PerformanceLabels } from '../performance_labels/performance_labels';
 import { PerformanceProgress } from '../performance_progress/performance_progress';
 import { Property } from '../property/property';
@@ -19,6 +20,7 @@ interface Props {
   targetBillableHours?: number;
   trackedHours?: number;
   billableHours?: number;
+  days: Day[];
 }
 
 export function EmployeeCard({
@@ -32,6 +34,7 @@ export function EmployeeCard({
   targetBillableHours = 0,
   trackedHours = 0,
   billableHours = 0,
+  days = [],
 }: Props): ReactElement {
   const l = useFormatter();
 
@@ -87,12 +90,17 @@ export function EmployeeCard({
           />
           <Divider />
         </Stack>
-        <IconTitle
-          icon="⏱️"
-          title="Daily Overview"
-          color="var(--icon-header-series2)"
-        />
-        <Divider />
+        <Stack size={24}>
+          <Stack size={32}>
+            <IconTitle
+              icon="⏱️"
+              title="Daily Overview"
+              color="var(--icon-header-series2)"
+            />
+            <PerformanceDays days={days} large />
+          </Stack>
+          <Divider />
+        </Stack>
         <IconTitle
           icon="⭐"
           title="Retrospective"
