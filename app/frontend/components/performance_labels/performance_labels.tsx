@@ -23,10 +23,7 @@ export function PerformanceLabels({
       <ul className="performance-labels__list">
         <li className="performance-labels__item performance-labels__item--billable">
           <span className="performance-labels__icon" />
-          <Text
-            type="desktop-caption-primary-regular"
-            color="label-caption-secondary"
-          >
+          <Text type="caption-primary-regular" color="label-caption-secondary">
             Billable
           </Text>
           <span className="performance-labels__value">
@@ -35,10 +32,7 @@ export function PerformanceLabels({
         </li>
         <li className="performance-labels__item performance-labels__item--tracked">
           <span className="performance-labels__icon" />
-          <Text
-            type="desktop-caption-primary-regular"
-            color="label-caption-secondary"
-          >
+          <Text type="caption-primary-regular" color="label-caption-secondary">
             Tracked
           </Text>
           <span className="performance-labels__value">
@@ -47,10 +41,7 @@ export function PerformanceLabels({
         </li>
         <li className="performance-labels__item performance-labels__item--goal">
           <span className="performance-labels__icon" />
-          <Text
-            type="desktop-caption-primary-regular"
-            color="label-caption-secondary"
-          >
+          <Text type="caption-primary-regular" color="label-caption-secondary">
             Goal
           </Text>
           <span className="performance-labels__value">
@@ -59,10 +50,7 @@ export function PerformanceLabels({
         </li>
         <li className="performance-labels__item performance-labels__item--missing">
           <span className="performance-labels__icon" />
-          <Text
-            type="desktop-caption-primary-regular"
-            color="label-caption-secondary"
-          >
+          <Text type="caption-primary-regular" color="label-caption-secondary">
             Missing
           </Text>
           <span className="performance-labels__value">

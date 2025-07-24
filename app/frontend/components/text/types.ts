@@ -110,7 +110,8 @@ export type Color =
   | 'tooltip-hours-border-default'
   | 'tooltip-hours-label-default'
   | 'tooltip-label-default'
-  | 'text-text-primary-base';
+  | 'text-text-primary-base'
+  | 'status-pill-done';
 
 export type TextType =
   | 'body-bold'
@@ -133,6 +134,7 @@ export type TextType =
   | 'h3-bold'
   | 'h3-regular'
   | 'h4-regular'
+  | 'h4-bold'
   | 'h5-bold'
   | 'h5-regular'
   | 'menu-bold'
@@ -141,5 +143,6 @@ export type TextType =
   | 'tooltip-secondary'
   | 'label-heading-primary'
   | 'label-body-primary'
-  | 'desktop-caption-primary-regular'
-  | 'desktop-caption-secondary-regular';
+  | 'caption-primary-regular'
+  | 'caption-secondary-regular'
+  | 'status-pill';

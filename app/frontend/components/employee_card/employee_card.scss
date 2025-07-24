@@ -1,15 +1,17 @@
 .employee-card {
   background-color: var(--card-bg-default);
-  padding: 16px;
+  padding: 16px 0px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   gap: 24px;
 
-  &__header {
+  &__header,
+  &__section {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding: 0 16px;
   }
 
   &__sprint-info {

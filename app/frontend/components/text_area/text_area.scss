@@ -61,4 +61,8 @@
       background: var(--dropdown-bg-hover);
     }
   }
+
+  &--readonly {
+    pointer-events: none;
+  }
 }

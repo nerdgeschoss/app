@@ -57,6 +57,11 @@ field :feedback, value: -> { @feedback } do
         field :id
         field :status
         field :total_hours
+        field :users, array: true do
+          field :id
+          field :display_name
+          field :avatar_url, value: -> { avatar_image(size: 120) }
+        end
       end
     end
     field :has_time_entries, Boolean, value: -> {

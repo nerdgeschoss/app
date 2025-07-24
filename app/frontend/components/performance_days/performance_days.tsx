@@ -1,8 +1,7 @@
-import classNames from 'classnames';
 import './performance_days.scss';
+import classNames from 'classnames';
 import { useFormatter } from '../../util/dependencies';
 import { Text } from '../text/text';
-import { Tooltip } from '../tooltip/tooltip';
 
 export interface Day {
   id: string;
@@ -18,6 +17,27 @@ export interface Day {
   billableHours?: number;
   targetHours?: number;
   targetBillableHours?: number;
+  timeEntries: Array<{
+    id: string;
+    notes: string | null;
+    type: string;
+    hours: string;
+    project: {
+      id: string;
+      name: string;
+    } | null;
+    task: {
+      id: string;
+      status: string;
+      totalHours: string;
+      users?: Array<{
+        id: string;
+        displayName?: string;
+        avatarUrl?: string;
+        email: string;
+      }>;
+    } | null;
+  }>;
 }
 
 interface Props {
@@ -26,7 +46,6 @@ interface Props {
 }
 
 export function PerformanceDays({ days, large }: Props): JSX.Element {
-  console.log(days);
   const l = useFormatter();
 
   return (
@@ -83,7 +102,7 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
             </div>
             <div className="performance-days__day-label">
               <Text
-                type="desktop-caption-secondary-regular"
+                type="caption-secondary-regular"
                 color="label-caption-secondary"
               >
                 {l.date(day.day, { weekday: 'narrow' })}
