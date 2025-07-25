@@ -17,6 +17,18 @@ sprint_start_date = 10.weeks.ago.beginning_of_week
     working_days: rand(5..10)
   )
 end
+
+# Create current sprint starting last Monday
+last_monday = Date.current.beginning_of_week
+# 10 working days = 2 weeks from Monday to Friday
+end_date = last_monday + 2.weeks - 3.days # This gives us the Friday of the second week
+
+current_sprint = Sprint.create!(
+  title: "Sprint 2025-15",
+  sprint_during: last_monday..end_date,
+  working_days: 10
+)
+
 sprints = Sprint.all
 
 logger.debug "Creating users..."
@@ -76,4 +88,88 @@ logger.debug "Creating users..."
 end
 
 logger.debug "Creating admin user..."
-User.create!(email: "admin@nerdgeschoss.de", roles: [:hr, :sprinter])
+admin_user = User.create!(email: "admin@nerdgeschoss.de", first_name: "Admin", roles: [:hr, :sprinter])
+
+logger.debug "Creating admin sprint feedback for current sprint..."
+admin_user.sprint_feedbacks.create!(
+  sprint: current_sprint,
+  daily_nerd_count: 0,
+  tracked_hours: 0.0,
+  billable_hours: 0.0,
+  finished_storypoints: 0
+)
+
+logger.debug "Creating project and time entries for current sprint..."
+# Create a project
+project = Project.create!(
+  name: "Employee Dashboard",
+  client_name: "Internal",
+  repositories: ["nerdgeschoss/employee-dashboard"],
+  harvest_ids: [12345]
+)
+
+# Get some random existing tasks and assign them to current sprint and project
+random_tasks = Task.limit(4).to_a
+random_tasks.each do |task|
+  task.update!(
+    sprint: current_sprint,
+    project_id: project.id
+  )
+end
+
+# Create time entries for the first day of the sprint (last Monday)
+first_day = last_monday
+
+# Time entry configuration: [hours, billable, notes_context]
+time_entries_config = [
+  [2.5, true, "development"],
+  [2.0, true, "design"],
+  [1.5, true, "devops"],
+  [1.5, false, "meeting"]
+]
+
+time_entries_config.each_with_index do |(hours, billable, context), index|
+  TimeEntry.create!(
+    external_id: "entry_#{SecureRandom.hex(8)}",
+    hours:,
+    rounded_hours: hours,
+    billable:,
+    project_name: billable ? project.name : "Internal",
+    client_name: billable ? project.client_name : "Internal",
+    task: random_tasks[index].title,
+    user: admin_user,
+    sprint: current_sprint,
+    project:,
+    task_id: random_tasks[index].id,
+    project_id: project.id,
+    created_at: first_day + (9 + index * 2).hours, # 9 AM, 11 AM, 1 PM, 3 PM
+    billable_rate: billable ? 100.0 : 0.0,
+    cost_rate: 80.0,
+    notes: Faker::Lorem.sentence(word_count: rand(8..15))
+  )
+end
+
+logger.debug "Updating admin sprint feedback with actual data..."
+# Update or create the admin user's sprint feedback with real data
+admin_sprint_feedback = admin_user.sprint_feedbacks.find_or_create_by(sprint: current_sprint) do |feedback|
+  feedback.daily_nerd_count = 0
+  feedback.tracked_hours = 0.0
+  feedback.billable_hours = 0.0
+  feedback.finished_storypoints = 0
+end
+
+admin_sprint_feedback.update!(
+  tracked_hours: 7.5,
+  billable_hours: 6.0,
+  finished_storypoints: 5,
+  retro_rating: 3,
+  retro_text: Faker::Lorem.paragraph(sentence_count: 3)
+)
+
+logger.debug "Creating daily nerd message for first day of sprint..."
+# Create a daily nerd message for the first day of the current sprint
+DailyNerdMessage.create!(
+  message: Faker::Quote.most_interesting_man_in_the_world,
+  sprint_feedback_id: admin_sprint_feedback.id,
+  created_at: first_day + 8.hours # 8 AM on first day
+)
