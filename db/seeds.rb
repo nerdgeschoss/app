@@ -57,7 +57,7 @@ logger.debug "Creating users..."
     end_date = start_date + rand(1..3).days
     user.leaves.create!(
       leave_during: start_date..end_date,
-      title: Faker::Lorem.words(number: 3).join(" "),
+      title: Faker::Quote.robin,
       type: ["paid", "sick"].sample,
       status: ["approved", "pending_approval"].sample,
       days: (start_date..end_date).to_a
@@ -70,12 +70,12 @@ logger.debug "Creating users..."
       daily_nerd_count: Faker::Number.between(from: 0, to: sprint.working_days),
       tracked_hours: Faker::Number.between(from: 20, to: sprint.working_days * 8.0),
       billable_hours: Faker::Number.between(from: 10, to: sprint.working_days * 6.0),
-      review_notes: [Faker::Lorem.sentence(word_count: 10), nil, nil].sample,
+      review_notes: [Faker::Quote.yoda, nil, nil].sample,
       finished_storypoints: 3
     )
     2.times do |i|
       user.tasks.create!(
-        title: Faker::Lorem.sentence(word_count: 5),
+        title: "#{Faker::Hacker.verb.capitalize} #{Faker::Hacker.noun}",
         status: ["Done", "Idea"][i],
         github_id: "PVTI_#{Faker::Alphanumeric.alphanumeric(number: 20)}",
         repository: "#{Faker::App.name}/#{Faker::App.name}",
@@ -145,7 +145,7 @@ time_entries_config.each_with_index do |(hours, billable, context), index|
     created_at: first_day + (9 + index * 2).hours, # 9 AM, 11 AM, 1 PM, 3 PM
     billable_rate: billable ? 100.0 : 0.0,
     cost_rate: 80.0,
-    notes: Faker::Lorem.sentence(word_count: rand(8..15))
+    notes: Faker::Quote.matz
   )
 end
 
@@ -163,13 +163,13 @@ admin_sprint_feedback.update!(
   billable_hours: 6.0,
   finished_storypoints: 5,
   retro_rating: 3,
-  retro_text: Faker::Lorem.paragraph(sentence_count: 3)
+  retro_text: Faker::Quote.matz
 )
 
 logger.debug "Creating daily nerd message for first day of sprint..."
 # Create a daily nerd message for the first day of the current sprint
 DailyNerdMessage.create!(
-  message: Faker::Quote.most_interesting_man_in_the_world,
+  message: Faker::Quote.matz,
   sprint_feedback_id: admin_sprint_feedback.id,
   created_at: first_day + 8.hours # 8 AM on first day
 )
