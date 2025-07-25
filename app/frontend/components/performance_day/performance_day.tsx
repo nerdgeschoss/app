@@ -14,6 +14,7 @@ import { Tooltip } from '../tooltip/tooltip';
 import { IconTitle } from '../icon_title/icon_title';
 import { TextBox } from '../text_box/text_box';
 import { Button } from '../button/button';
+import { Link } from '../../sprinkles/history';
 
 interface Props {
   day: Day;
@@ -24,9 +25,11 @@ export function PerformanceDay({ day }: Props): ReactElement {
   const [expanded, setExpanded] = useState(false);
   const isToday = new Date(day.day).getDate() === new Date().getDate();
 
-  if (expanded) {
-    console.log({ day });
-  }
+  const totalTrackedHours = day.trackedHours || 0;
+  const totalProjectHours = day.timeEntries.reduce(
+    (acc, entry) => acc + (parseFloat(entry.hours) || 0),
+    0
+  );
 
   return (
     <div
@@ -47,24 +50,48 @@ export function PerformanceDay({ day }: Props): ReactElement {
           })}
         </Text>
         <div className="performance-day__toggle">
-          <Icon
-            name="chevron-arrow"
-            size={10}
-            color="icon-arrow-secondary-active"
-          />
+          <div className="performance-day__label">
+            <Text type="button-hold" color="label-link-default">
+              {expanded ? 'Show Less' : 'Show More'}
+            </Text>
+          </div>
+          <div className="performance-day__icon">
+            <Icon
+              name="chevron-arrow"
+              size={10}
+              color="icon-arrow-secondary-active"
+            />
+          </div>
         </div>
       </header>
       <Collapse open={expanded}>
-        <Spacer size={8} />
-        <Stack gap={16}>
+        <Spacer size={8} desktopSize={24} />
+        <div className="performance-day__content">
           {day.timeEntries.length > 0 ? (
             <ul className="performance-day__table">
+              <li className="performance-day__row performance-day__table-head">
+                <div className="performance-day__cell">
+                  <Text type="caption-primary-bold">Project</Text>
+                </div>
+                <div className="performance-day__cell">
+                  <Text type="caption-primary-bold">Tracked</Text>
+                </div>
+                <div className="performance-day__cell">
+                  <Text type="caption-primary-bold">Users</Text>
+                </div>
+                <div className="performance-day__cell">
+                  <Text type="caption-primary-bold">Total</Text>
+                </div>
+                <div className="performance-day__cell">
+                  <Text type="caption-primary-bold">Source</Text>
+                </div>
+              </li>
               {day.timeEntries.map((entry) => {
                 const taskStatus = getPillType(entry.task?.status);
 
                 return (
                   <li className="performance-day__row" key={entry.id}>
-                    <div className="performance-day__entry-details">
+                    <div className="performance-day__cell performance-day__entry-details">
                       <Text type="caption-primary-bold">
                         {entry.project?.name}
                       </Text>
@@ -79,40 +106,55 @@ export function PerformanceDay({ day }: Props): ReactElement {
                         <StatusPill type={taskStatus} title={taskStatus} />
                       )}
                     </div>
-                    <div className="performance-day__tracked">
-                      <Text type="body-secondary-regular">
-                        {entry.hours}{' '}
-                        <span className="performance-day__unit">hrs</span>
-                      </Text>
-                    </div>
-                    {entry.task?.users && (
-                      <div className="performance-day__users">
-                        {entry.task.users.map((item) => {
-                          return (
-                            <Tooltip
-                              key={item.id}
-                              content={item.displayName || item.email}
-                            >
-                              <Avatar {...item} />
-                            </Tooltip>
-                          );
-                        })}
-                      </div>
-                    )}
-                    {entry.task?.totalHours && (
-                      <div className="performance-day__total">
+                    <div className="performance-day__cell performance-day__tracked performance-day__cell--justify-end">
+                      {entry.hours && (
                         <Text type="body-secondary-regular">
-                          {entry.task?.totalHours}{' '}
-                          <span className="performance-day__unit">hrs</span>
+                          {entry.hours} hrs
                         </Text>
-                      </div>
-                    )}
-                    <div className="performance-day__source">
+                      )}
+                    </div>
+                    <div className="performance-day__cell performance-day__users">
+                      {entry.task?.users?.map((item) => {
+                        return (
+                          <Tooltip
+                            key={item.id}
+                            content={item.displayName || item.email}
+                          >
+                            <Avatar {...item} />
+                          </Tooltip>
+                        );
+                      })}
+                    </div>
+                    <div className="performance-day__cell performance-day__total performance-day__cell--justify-end">
+                      {entry.task?.totalHours && (
+                        <Text type="body-secondary-regular">
+                          {entry.task.totalHours} hrs
+                        </Text>
+                      )}
+                    </div>
+                    <div className="performance-day__cell performance-day__source">
                       <Icon name="github" size={20} />
                     </div>
                   </li>
                 );
               })}
+              <li className="performance-day__row performance-day__table-footer">
+                <div className="performance-day__cell">
+                  <Text type="caption-primary-bold">Total</Text>
+                </div>
+                <div className="performance-day__cell performance-day__cell--justify-end">
+                  <Text type="caption-primary-bold">
+                    {l.singleDigitNumber(totalTrackedHours)} hrs
+                  </Text>
+                </div>
+                <div className="performance-day__cell" />
+                <div className="performance-day__cell performance-day__cell--justify-end">
+                  <Text type="caption-primary-bold">
+                    {l.singleDigitNumber(totalProjectHours)} hrs
+                  </Text>
+                </div>
+                <div className="performance-day__cell" />
+              </li>
             </ul>
           ) : (
             <Text>No time entries for this day.</Text>
@@ -124,24 +166,28 @@ export function PerformanceDay({ day }: Props): ReactElement {
               title="Daily Nerd"
               color="var(--icon-day-empty)"
             />
-            {(day.hasDailyNerdMessage || isToday) && (
-              <Stack gap={16} align="end">
-                {day.hasDailyNerdMessage && (
-                  <TextBox text={day.dailyNerdMessage?.message} />
-                )}
-                {isToday && (
-                  <Button
-                    title={
-                      day.hasDailyNerdMessage
-                        ? 'Update Daily Nerd'
-                        : 'Add Daily Nerd'
-                    }
-                  />
-                )}
-              </Stack>
-            )}
+            <Stack gap={16}>
+              {day.hasDailyNerdMessage ? (
+                <TextBox text={day.dailyNerdMessage?.message} />
+              ) : (
+                <Text>No daily nerd left for this day.</Text>
+              )}
+              {isToday && (
+                <Stack justify="end" gap={0}>
+                  <Link href="/">
+                    <Button
+                      title={
+                        day.hasDailyNerdMessage
+                          ? 'Update Daily Nerd'
+                          : 'Add Daily Nerd'
+                      }
+                    />
+                  </Link>
+                </Stack>
+              )}
+            </Stack>
           </Stack>
-        </Stack>
+        </div>
       </Collapse>
     </div>
   );

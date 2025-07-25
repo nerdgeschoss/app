@@ -145,4 +145,5 @@ export type TextType =
   | 'label-body-primary'
   | 'caption-primary-regular'
   | 'caption-secondary-regular'
-  | 'status-pill';
+  | 'status-pill'
+  | 'button-hold';

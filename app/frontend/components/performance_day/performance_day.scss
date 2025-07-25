@@ -1,3 +1,5 @@
+@use '../layout';
+
 .performance-day {
   &__header {
     display: flex;
@@ -6,6 +8,20 @@
   }
 
   &__toggle {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__label {
+    display: none;
+    @include layout.media-desktop {
+      display: block;
+    }
+  }
+
+  &__icon {
     transition: 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
     margin-left: auto;
 
@@ -17,8 +33,20 @@
   }
 
   &--expanded {
-    .performance-day__toggle {
+    .performance-day__icon {
       transform: rotate(180deg);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @include layout.media-desktop {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
     }
   }
 
@@ -42,12 +70,20 @@
     border-radius: 16px;
     border: 1px solid var(--div-default, #e8eefb);
     list-style: none;
+
+    @include layout.media-desktop {
+      display: grid;
+      grid-template-columns: 1fr repeat(4, auto);
+      gap: 0px;
+      padding: 0px;
+    }
   }
 
   &__row {
     width: 100%;
-    padding: 0px 16px 8px 16px;
+    padding: 0px 16px;
     &:not(:last-child) {
+      padding-bottom: 8px;
       border-bottom: 1px solid var(--div-default, #e8eefb);
     }
     display: grid;
@@ -57,25 +93,67 @@
       'entry-details users'
       'entry-details total'
       'entry-details source';
+
+    @include layout.media-desktop {
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+      padding: 0px;
+      grid-template-areas: unset;
+      align-items: center;
+      &:not(:last-child) {
+        padding-bottom: 0px;
+      }
+    }
+  }
+
+  &__table-head {
+    display: none;
+    @include layout.media-desktop {
+      display: grid;
+    }
+  }
+
+  &__cell {
+    @include layout.media-desktop {
+      padding: 16px;
+      &--justify-end {
+        justify-self: flex-end;
+      }
+    }
   }
 
   &__entry-details {
     grid-area: entry-details;
+    @include layout.media-desktop {
+      grid-area: unset;
+    }
   }
   &__tracked {
     grid-area: tracked;
     justify-self: flex-end;
+    @include layout.media-desktop {
+      grid-area: unset;
+    }
   }
   &__users {
     grid-area: users;
     justify-self: flex-end;
+    @include layout.media-desktop {
+      grid-area: unset;
+    }
   }
   &__total {
     grid-area: total;
     justify-self: flex-end;
+    @include layout.media-desktop {
+      grid-area: unset;
+    }
   }
   &__source {
     grid-area: source;
     justify-self: flex-end;
+    @include layout.media-desktop {
+      grid-area: unset;
+    }
   }
 }

@@ -6,8 +6,8 @@
   text-transform: capitalize;
 
   &--done {
-    background-color: var(--status-pill-done-background);
-    color: var(--status-pill-done);
-    border-color: var(--status-pill-done-border);
+    background-color: var(--pill-status-bg-done);
+    color: var(--pill-status-fg-done);
+    border-color: var(--pill-status-border-done);
   }
 }

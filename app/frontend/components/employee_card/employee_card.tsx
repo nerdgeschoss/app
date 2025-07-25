@@ -56,7 +56,7 @@ export function EmployeeCard({
           <Property prefix="⭐️" value={retroRating} suffix="/5" />
           <Property
             prefix="🔢"
-            value={finishedStorypointsPerDay}
+            value={l.singleDigitNumber(finishedStorypointsPerDay || 0)}
             suffix="pts/day"
           />
           <Property prefix="💻" value={workingDayCount} suffix="days" />
@@ -76,11 +76,13 @@ export function EmployeeCard({
                 suffix="Monthly total"
               />
             </div>
-            <Divider />
+            <div className="employee-card__horizontal-divider">
+              <Divider />
+            </div>
           </>
         )}
       </header>
-      <section className="employee-card__section">
+      <section className="employee-card__section employee-card__section--top">
         <Stack gap={24}>
           <Stack gap={32}>
             <IconTitle
@@ -100,19 +102,25 @@ export function EmployeeCard({
             trackedHours={trackedHours}
             workingDayCount={workingDayCount}
           />
-          <Divider />
+          <div className="employee-card__horizontal-divider">
+            <Divider />
+          </div>
         </Stack>
-        <Stack gap={24}>
-          <Stack gap={32}>
-            <IconTitle
-              icon="⏱️"
-              title="Daily Overview"
-              color="var(--icon-header-series2)"
-            />
-            <PerformanceDays days={days} large />
+        <div className="employee-card__daily-overview">
+          <Stack gap={24}>
+            <Stack gap={32}>
+              <IconTitle
+                icon="⏱️"
+                title="Daily Overview"
+                color="var(--icon-header-series2)"
+              />
+              <PerformanceDays days={days} large />
+            </Stack>
+            <div className="employee-card__horizontal-divider">
+              <Divider />
+            </div>
           </Stack>
-          <Divider />
-        </Stack>
+        </div>
         <Stack gap={16}>
           <Stack gap={24}>
             <IconTitle
@@ -134,7 +142,7 @@ export function EmployeeCard({
         </Stack>
       </section>
       <Divider />
-      <section className="employee-card__section">
+      <section className="employee-card__section employee-card__section--bottom">
         <Stack gap={24}>
           {days.map((day, index) => {
             return (

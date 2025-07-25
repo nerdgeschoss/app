@@ -95,9 +95,9 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
               })}
               style={
                 {
-                  '--tracked-hours': `${percentageTrackedHours}%`,
-                  '--billable-hours': `${percentageBillableHours}%`,
-                  '--target-billable-hours': `${percentageTargetBillableHours}%`,
+                  '--tracked-hours': `${Math.min(percentageTrackedHours, 100)}%`,
+                  '--billable-hours': `${Math.min(percentageBillableHours, 100)}%`,
+                  '--target-billable-hours': `${Math.min(percentageTargetBillableHours, 100)}%`,
                 } as React.CSSProperties
               }
             >
