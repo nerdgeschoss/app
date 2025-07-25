@@ -23,7 +23,8 @@ interface Props {
 export function PerformanceDay({ day }: Props): ReactElement {
   const l = useFormatter();
   const [expanded, setExpanded] = useState(false);
-  const isToday = new Date(day.day).getDate() === new Date().getDate();
+  const isToday =
+    new Date(day.day).toDateString() === new Date().toDateString();
 
   const totalTrackedHours = day.trackedHours || 0;
   const totalProjectHours = day.timeEntries.reduce(
@@ -189,7 +190,7 @@ export function PerformanceDay({ day }: Props): ReactElement {
                 <Text>No daily nerd left for this day.</Text>
               )}
               {isToday && (
-                <Stack justify="end" gap={0}>
+                <Stack align="end" gap={0}>
                   <Link href="/">
                     <Button
                       title={
