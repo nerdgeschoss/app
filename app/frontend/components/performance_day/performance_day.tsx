@@ -74,16 +74,16 @@ export function PerformanceDay({ day }: Props): ReactElement {
                   <Text type="caption-primary-bold">Project</Text>
                 </div>
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Tracked</Text>
+                  <Text type="caption-primary-bold">Source</Text>
                 </div>
                 <div className="performance-day__cell">
                   <Text type="caption-primary-bold">Users</Text>
                 </div>
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Total</Text>
+                  <Text type="caption-primary-bold">Tracked</Text>
                 </div>
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Source</Text>
+                  <Text type="caption-primary-bold">Total</Text>
                 </div>
               </li>
               {day.timeEntries.map((entry) => {
@@ -106,12 +106,8 @@ export function PerformanceDay({ day }: Props): ReactElement {
                         <StatusPill type={taskStatus} title={taskStatus} />
                       )}
                     </div>
-                    <div className="performance-day__cell performance-day__tracked performance-day__cell--justify-end">
-                      {entry.hours && (
-                        <Text type="body-secondary-regular">
-                          {entry.hours} hrs
-                        </Text>
-                      )}
+                    <div className="performance-day__cell performance-day__source">
+                      <Icon name="github" size={20} />
                     </div>
                     <div className="performance-day__cell performance-day__users">
                       {entry.task?.users?.map((item) => {
@@ -125,6 +121,23 @@ export function PerformanceDay({ day }: Props): ReactElement {
                         );
                       })}
                     </div>
+                    <div className="performance-day__cell performance-day__tracked performance-day__cell--justify-end">
+                      {entry.hours && (
+                        <>
+                          <Text type="body-secondary-regular">
+                            {entry.hours} hrs
+                          </Text>
+                          {entry.task?.totalHours && (
+                            <span className="performance-day__mobile-total">
+                              <span>/</span>
+                              <Text type="body-bold">
+                                {entry.task.totalHours} hrs
+                              </Text>
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </div>
                     <div className="performance-day__cell performance-day__total performance-day__cell--justify-end">
                       {entry.task?.totalHours && (
                         <Text type="body-secondary-regular">
@@ -132,28 +145,31 @@ export function PerformanceDay({ day }: Props): ReactElement {
                         </Text>
                       )}
                     </div>
-                    <div className="performance-day__cell performance-day__source">
-                      <Icon name="github" size={20} />
-                    </div>
                   </li>
                 );
               })}
               <li className="performance-day__row performance-day__table-footer">
-                <div className="performance-day__cell">
+                <div className="performance-day__cell performance-day__entry-details">
                   <Text type="caption-primary-bold">Total</Text>
                 </div>
-                <div className="performance-day__cell performance-day__cell--justify-end">
+                <div className="performance-day__cell performance-day__source" />
+                <div className="performance-day__cell performance-day__users" />
+                <div className="performance-day__cell performance-day__tracked performance-day__cell--justify-end">
                   <Text type="caption-primary-bold">
                     {l.singleDigitNumber(totalTrackedHours)} hrs
                   </Text>
+                  {totalProjectHours && (
+                    <span className="performance-day__mobile-total">
+                      <span>/</span>
+                      <Text type="body-bold">{totalProjectHours} hrs</Text>
+                    </span>
+                  )}
                 </div>
-                <div className="performance-day__cell" />
-                <div className="performance-day__cell performance-day__cell--justify-end">
+                <div className="performance-day__cell performance-day__total performance-day__cell--justify-end">
                   <Text type="caption-primary-bold">
                     {l.singleDigitNumber(totalProjectHours)} hrs
                   </Text>
                 </div>
-                <div className="performance-day__cell" />
               </li>
             </ul>
           ) : (

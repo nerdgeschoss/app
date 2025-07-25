@@ -91,7 +91,6 @@
     grid-template-areas:
       'entry-details tracked'
       'entry-details users'
-      'entry-details total'
       'entry-details source';
 
     @include layout.media-desktop {
@@ -131,10 +130,23 @@
   &__tracked {
     grid-area: tracked;
     justify-self: flex-end;
+    display: flex;
+    align-items: center;
     @include layout.media-desktop {
       grid-area: unset;
     }
   }
+
+  &__mobile-total {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding-left: 2px;
+    @include layout.media-desktop {
+      display: none;
+    }
+  }
+
   &__users {
     grid-area: users;
     justify-self: flex-end;
@@ -143,9 +155,10 @@
     }
   }
   &__total {
-    grid-area: total;
     justify-self: flex-end;
+    display: none;
     @include layout.media-desktop {
+      display: block;
       grid-area: unset;
     }
   }

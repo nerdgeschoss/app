@@ -75,7 +75,7 @@ logger.debug "Creating users..."
     )
     2.times do |i|
       user.tasks.create!(
-        title: "#{Faker::Hacker.verb.capitalize} #{Faker::Hacker.noun}",
+        title: ["Graphic Design", "Frontend Development", "Backend Development"].sample,
         status: ["Done", "Idea"][i],
         github_id: "PVTI_#{Faker::Alphanumeric.alphanumeric(number: 20)}",
         repository: "#{Faker::App.name}/#{Faker::App.name}",
@@ -145,7 +145,7 @@ time_entries_config.each_with_index do |(hours, billable, context), index|
     created_at: first_day + (9 + index * 2).hours, # 9 AM, 11 AM, 1 PM, 3 PM
     billable_rate: billable ? 100.0 : 0.0,
     cost_rate: 80.0,
-    notes: Faker::Quote.matz
+    notes: "##{random_tasks[index].issue_number} #{["fix", "implement", "update", "refactor", "add"].sample} #{["styling", "component", "API", "database", "layout", "functionality"].sample}"
   )
 end
 
