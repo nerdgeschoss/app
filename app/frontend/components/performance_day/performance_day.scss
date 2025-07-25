@@ -123,10 +123,21 @@
 
   &__entry-details {
     grid-area: entry-details;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     @include layout.media-desktop {
       grid-area: unset;
     }
   }
+
+  &__entry-data {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
   &__tracked {
     grid-area: tracked;
     justify-self: flex-end;

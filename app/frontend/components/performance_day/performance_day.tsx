@@ -27,10 +27,6 @@ export function PerformanceDay({ day }: Props): ReactElement {
     new Date(day.day).toDateString() === new Date().toDateString();
 
   const totalTrackedHours = day.trackedHours || 0;
-  const totalProjectHours = day.timeEntries.reduce(
-    (acc, entry) => acc + (parseFloat(entry.hours) || 0),
-    0
-  );
 
   return (
     <div
@@ -93,16 +89,18 @@ export function PerformanceDay({ day }: Props): ReactElement {
                 return (
                   <li className="performance-day__row" key={entry.id}>
                     <div className="performance-day__cell performance-day__entry-details">
-                      <Text type="caption-primary-bold">
-                        {entry.project?.name}
-                      </Text>
-                      <Text type="body-secondary-regular">{entry.type}</Text>
-                      <Text
-                        type="body-secondary-regular"
-                        color="label-heading-secondary"
-                      >
-                        {entry.notes}
-                      </Text>
+                      <div className="performance-day__entry-data">
+                        <Text type="caption-primary-bold">
+                          {entry.project?.name}
+                        </Text>
+                        <Text type="body-secondary-regular">{entry.type}</Text>
+                        <Text
+                          type="body-secondary-regular"
+                          color="label-heading-secondary"
+                        >
+                          {entry.notes}
+                        </Text>
+                      </div>
                       {taskStatus && (
                         <StatusPill type={taskStatus} title={taskStatus} />
                       )}
@@ -159,20 +157,8 @@ export function PerformanceDay({ day }: Props): ReactElement {
                   <Text type="caption-primary-bold">
                     {l.hours(totalTrackedHours)} hrs
                   </Text>
-                  {totalProjectHours && (
-                    <span className="performance-day__mobile-total">
-                      <span>/</span>
-                      <Text type="body-bold">
-                        {l.hours(totalProjectHours)} hrs
-                      </Text>
-                    </span>
-                  )}
                 </div>
-                <div className="performance-day__cell performance-day__total performance-day__cell--justify-end">
-                  <Text type="caption-primary-bold">
-                    {l.hours(totalProjectHours)} hrs
-                  </Text>
-                </div>
+                <div className="performance-day__cell performance-day__total performance-day__cell--justify-end"></div>
               </li>
             </ul>
           ) : (

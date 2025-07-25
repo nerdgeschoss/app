@@ -71,10 +71,18 @@
     }
   }
 
+  &__day-label {
+    display: none;
+  }
+
   &--large {
     gap: 12px;
 
     .performance-days {
+      &__day-label {
+        display: block;
+      }
+
       &__day {
         height: 191px;
         width: 13px;
