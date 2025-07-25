@@ -11,7 +11,7 @@ export default function ({
   const l = useFormatter();
 
   const sprintTitle = feedback.sprint.title
-    .replace('Sprint ', '🏃🏻 ')
+    .replace('Sprint ', '')
     .split('-')
     .join(' -  ');
 
@@ -26,7 +26,7 @@ export default function ({
         </Text>
         <Stack>
           <Stack line="mobile" align="center" size={8}>
-            <Text type="h3-bold">{sprintTitle}</Text>
+            <Text type="h3-bold">🏃🏻 {sprintTitle}</Text>
             <Text type="h4-regular" color="label-heading-secondary">
               {l.dateRange(startDate, endDate, {
                 month: 'long',

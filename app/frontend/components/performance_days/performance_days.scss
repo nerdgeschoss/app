@@ -35,7 +35,7 @@
 
     &--sick {
       position: relative;
-      background-color: var(icon-working-day-bg-sick-leave);
+      background-color: var(--icon-working-day-bg-sick-leave);
       overflow: hidden;
 
       &::before {

@@ -173,3 +173,14 @@ DailyNerdMessage.create!(
   sprint_feedback_id: admin_sprint_feedback.id,
   created_at: first_day + 8.hours # 8 AM on first day
 )
+
+logger.debug "Creating sick day for admin user..."
+# Create a sick day for the second day of the sprint (Tuesday)
+second_day = first_day + 1.day
+admin_user.leaves.create!(
+  leave_during: second_day..second_day,
+  title: "Sick leave",
+  type: "sick",
+  status: "approved",
+  days: [second_day]
+)

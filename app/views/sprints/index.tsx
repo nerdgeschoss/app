@@ -34,7 +34,11 @@ export default function ({
               <Stack line="mobile" align="center">
                 <Text type="h3-bold">🏃 {sprint.title}</Text>
                 <Text type="h4-regular" color="label-heading-secondary">
-                  {l.dateRange(sprint.sprintFrom, sprint.sprintUntil)}
+                  {l.dateRange(sprint.sprintFrom, sprint.sprintUntil, {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </Text>
               </Stack>
               <Card
