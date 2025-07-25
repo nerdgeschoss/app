@@ -7,6 +7,7 @@ import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 import { Form } from '../../frontend/components/form/form';
 import { Text } from '../../frontend/components/text/text';
+import { TextBox } from '../../frontend/components/text_box/text_box';
 
 interface Props {
   id: string | null;
@@ -49,7 +50,7 @@ export function DailyNerdCard({ id, message }: Props): JSX.Element {
           <Text type="label-body-primary" block>
             Message:
           </Text>
-          <Text block>{message}</Text>
+          <TextBox text={message || "Don't forget to write one!"} />
           <Button title="Update daily nerd" onClick={() => setEditMode(true)} />
         </Stack>
       ) : (
