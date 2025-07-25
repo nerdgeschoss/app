@@ -126,13 +126,13 @@ export function PerformanceDay({ day }: Props): ReactElement {
                       {entry.hours && (
                         <>
                           <Text type="body-secondary-regular">
-                            {entry.hours} hrs
+                            {l.hours(entry.hours)} hrs
                           </Text>
                           {entry.task?.totalHours && (
                             <span className="performance-day__mobile-total">
                               <span>/</span>
                               <Text type="body-bold">
-                                {entry.task.totalHours} hrs
+                                {l.hours(entry.task.totalHours)} hrs
                               </Text>
                             </span>
                           )}
@@ -142,7 +142,7 @@ export function PerformanceDay({ day }: Props): ReactElement {
                     <div className="performance-day__cell performance-day__total performance-day__cell--justify-end">
                       {entry.task?.totalHours && (
                         <Text type="body-secondary-regular">
-                          {entry.task.totalHours} hrs
+                          {l.hours(entry.task.totalHours)} hrs
                         </Text>
                       )}
                     </div>
@@ -157,18 +157,20 @@ export function PerformanceDay({ day }: Props): ReactElement {
                 <div className="performance-day__cell performance-day__users" />
                 <div className="performance-day__cell performance-day__tracked performance-day__cell--justify-end">
                   <Text type="caption-primary-bold">
-                    {l.singleDigitNumber(totalTrackedHours)} hrs
+                    {l.hours(totalTrackedHours)} hrs
                   </Text>
                   {totalProjectHours && (
                     <span className="performance-day__mobile-total">
                       <span>/</span>
-                      <Text type="body-bold">{totalProjectHours} hrs</Text>
+                      <Text type="body-bold">
+                        {l.hours(totalProjectHours)} hrs
+                      </Text>
                     </span>
                   )}
                 </div>
                 <div className="performance-day__cell performance-day__total performance-day__cell--justify-end">
                   <Text type="caption-primary-bold">
-                    {l.singleDigitNumber(totalProjectHours)} hrs
+                    {l.hours(totalProjectHours)} hrs
                   </Text>
                 </div>
               </li>

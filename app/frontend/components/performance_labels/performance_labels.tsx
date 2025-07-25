@@ -27,7 +27,7 @@ export function PerformanceLabels({
             Billable
           </Text>
           <span className="performance-labels__value">
-            {l.singleDigitNumber(billableHours || 0)} hrs
+            {l.hours(billableHours || 0)} hrs
           </span>
         </li>
         <li className="performance-labels__item performance-labels__item--tracked">
@@ -36,7 +36,7 @@ export function PerformanceLabels({
             Tracked
           </Text>
           <span className="performance-labels__value">
-            {l.singleDigitNumber(trackedHours || 0)} hrs
+            {l.hours(trackedHours || 0)} hrs
           </span>
         </li>
         <li className="performance-labels__item performance-labels__item--goal">
@@ -45,7 +45,7 @@ export function PerformanceLabels({
             Goal
           </Text>
           <span className="performance-labels__value">
-            {l.singleDigitNumber(hourGoal)} hrs
+            {l.hours(hourGoal)} hrs
           </span>
         </li>
         <li className="performance-labels__item performance-labels__item--missing">
@@ -54,7 +54,7 @@ export function PerformanceLabels({
             Missing
           </Text>
           <span className="performance-labels__value">
-            {l.singleDigitNumber(missing)} hrs
+            {l.hours(missing)} hrs
           </span>
         </li>
       </ul>
