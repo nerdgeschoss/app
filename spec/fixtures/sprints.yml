@@ -13,33 +13,3 @@ empty:
   title: S2023-02
   sprint_during: '[2023-01-23, 2023-02-03]'
   working_days: 10
-
-s2025_00:
-  title: S2025-00
-  sprint_during: '[2025-04-21, 2025-05-06]'
-  working_days: 10
-
-s2025_01:
-  title: S2025-01
-  sprint_during: '[2025-05-05, 2025-05-20]'
-  working_days: 10
-
-s2025_02:
-  title: S2025-02
-  sprint_during: '[2025-05-19, 2025-06-03]'
-  working_days: 10
-
-s2025_03:
-  title: S2025-03
-  sprint_during: '[2025-06-02, 2025-06-17]'
-  working_days: 10
-
-s2025_04:
-  title: S2025-04
-  sprint_during: '[2025-06-16, 2025-07-01]'
-  working_days: 10
-
-sprint_2025_15:
-  title: Sprint 2025-15
-  sprint_during: '[2025-07-21, 2025-08-03]'
-  working_days: 10

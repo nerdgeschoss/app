@@ -28,15 +28,6 @@ in_progress:
   title: "Fix bug Y"
   sprint: empty
   status: "in_progress"
-
-leo_task:
-  title: "Rerum atque quae eos ipsam."
-  sprint: s2025_00
-  status: "Done"
-  github_id: "PVTI_96f2du1uis3a8yzjk0h1"
-  repository: "Bamity/Rank"
-  issue_number: 301
-  story_points: 3
   github_id: "789012"
   repository: "AnotherRepo"
   issue_number: 2
