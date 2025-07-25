@@ -33,3 +33,53 @@ entry_1:
   client_name: Some Client
   task: Programming
   external_id: 'ext_12345'
+
+leo_entry_1:
+  external_id: leo_2025-07-21_001
+  hours: 3.5
+  rounded_hours: 3.5
+  billable: t
+  project_name: Employee Dashboard
+  client_name: Client name
+  task: Frontend Development
+  user: leo
+  sprint: sprint_2025_15
+  project: my_example_project
+  task_object: leo_task
+
+leo_entry_2:
+  external_id: leo_2025-07-21_002
+  hours: 1.0
+  rounded_hours: 1.0
+  billable: t
+  project_name: Employee Dashboard
+  client_name: Client name
+  task: Frontend Development
+  user: leo
+  sprint: sprint_2025_15
+  project: my_example_project
+  task_object: leo_task
+
+leo_entry_3:
+  external_id: leo_2025-07-21_003
+  hours: 2.0
+  rounded_hours: 2.0
+  billable: t
+  project_name: Employee Dashboard
+  client_name: Client name
+  task: Bug Fixing
+  user: leo
+  sprint: sprint_2025_15
+  project: my_example_project
+
+leo_entry_4:
+  external_id: leo_2025-07-21_004
+  hours: 1.5
+  rounded_hours: 1.5
+  billable: f
+  project_name: Internal
+  client_name: Client name
+  task: Team Meeting
+  user: leo
+  sprint: sprint_2025_15
+  project: my_example_project
