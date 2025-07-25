@@ -1,0 +1,57 @@
+.performance-labels {
+  display: flex;
+  justify-content: center;
+
+  &__list {
+    list-style: none;
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    column-gap: 24px;
+    row-gap: 16px;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 8px;
+
+    &--billable,
+    &--tracked,
+    &--missing {
+      .performance-labels__icon {
+        display: block;
+        width: 14px;
+        aspect-ratio: 1;
+        background-color: var(--chart-bg-billable);
+        border-radius: 50%;
+      }
+    }
+
+    &--tracked {
+      .performance-labels__icon {
+        background-color: var(--chart-bg-non-billable);
+      }
+    }
+
+    &--goal {
+      .performance-labels__icon {
+        display: block;
+        height: 3px;
+        width: 14px;
+        background-color: var(--chart-bg-goal);
+        border-radius: 4px;
+      }
+    }
+
+    &--missing {
+      .performance-labels__icon {
+        background-color: var(--chart-bg-default);
+      }
+    }
+  }
+
+  &__value {
+    grid-column: 2 / 3;
+  }
+}

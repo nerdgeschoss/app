@@ -131,6 +131,8 @@ export interface DataSchema {
       trackedHours: number;
       billableHours: number;
       permitEditRetroNotes: boolean;
+      turnoverPerStorypoint: number | null;
+      turnover: number | null;
       sprint: {
         id: string;
         title: string;
@@ -168,6 +170,9 @@ export interface DataSchema {
             totalHours: string;
           } | null;
         }>;
+        workingDay: boolean;
+        hasDailyNerdMessage: boolean;
+        hasTimeEntries: boolean;
       }>;
     };
   };

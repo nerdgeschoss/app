@@ -25,7 +25,7 @@ RSpec.describe "Retrospectives" do
 
   it "shows the feedback form on the sprints page" do
     visit sprint_feedback_path(feedback)
-    click_on "leave feedback"
+    click_on "Leave feedback"
 
     find("#retro-rating-4").click
     fill_in "Text", with: "I'm happy"
@@ -33,17 +33,17 @@ RSpec.describe "Retrospectives" do
 
     expect(page).not_to have_selector ".modal"
 
-    expect(page).to have_content "4/5"
+    expect(page).to have_selector ".star-field__star--active", count: 4
     expect(page).to have_content "I'm happy"
   end
 
   it "allows skipping the retro" do
     visit sprint_feedback_path(feedback)
-    click_on "leave feedback"
+    click_on "Leave feedback"
 
     check "Skip rating this sprint"
     click_on "Save"
 
-    expect(page).to have_content "/5"
+    expect(page).to have_selector ".star-field__star--active", count: 0
   end
 end

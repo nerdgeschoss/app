@@ -51,6 +51,7 @@ export function StarField({
                 onClick={() => {
                   onChange?.(star);
                 }}
+                readOnly={!onChange}
               />
               <span>⭐</span>
             </label>
