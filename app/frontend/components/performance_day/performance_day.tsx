@@ -1,5 +1,5 @@
 import { Collapse } from '@nerdgeschoss/shimmer-component-collapse';
-import { useFormatter } from '../../util/dependencies';
+import { useFormatter, useTranslate } from '../../util/dependencies';
 import { Icon } from '../icon/icon';
 import { Day } from '../performance_days/performance_days';
 import { Text } from '../text/text';
@@ -22,6 +22,8 @@ interface Props {
 
 export function PerformanceDay({ day }: Props): ReactElement {
   const l = useFormatter();
+  const t = useTranslate();
+
   const [expanded, setExpanded] = useState(false);
   const isToday =
     new Date(day.day).toDateString() === new Date().toDateString();
@@ -49,7 +51,9 @@ export function PerformanceDay({ day }: Props): ReactElement {
         <div className="performance-day__toggle">
           <div className="performance-day__label">
             <Text type="button-hold" color="label-link-default">
-              {expanded ? 'Show Less' : 'Show More'}
+              {expanded
+                ? t('performance_day.show_less')
+                : t('performance_day.show_more')}
             </Text>
           </div>
           <div className="performance-day__icon">
@@ -64,23 +68,33 @@ export function PerformanceDay({ day }: Props): ReactElement {
       <Collapse open={expanded}>
         <Spacer size={8} desktopSize={24} />
         <div className="performance-day__content">
-          {day.timeEntries.length > 0 ? (
+          {day.timeEntries?.length ? (
             <ul className="performance-day__table">
               <li className="performance-day__row performance-day__table-head">
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Project</Text>
+                  <Text type="caption-primary-bold">
+                    {t('performance_day.project')}
+                  </Text>
                 </div>
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Source</Text>
+                  <Text type="caption-primary-bold">
+                    {t('performance_day.source')}
+                  </Text>
                 </div>
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Users</Text>
+                  <Text type="caption-primary-bold">
+                    {t('performance_day.users')}
+                  </Text>
                 </div>
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Tracked</Text>
+                  <Text type="caption-primary-bold">
+                    {t('performance_day.tracked')}
+                  </Text>
                 </div>
                 <div className="performance-day__cell">
-                  <Text type="caption-primary-bold">Total</Text>
+                  <Text type="caption-primary-bold">
+                    {t('performance_day.total')}
+                  </Text>
                 </div>
               </li>
               {day.timeEntries.map((entry) => {
@@ -149,33 +163,35 @@ export function PerformanceDay({ day }: Props): ReactElement {
               })}
               <li className="performance-day__row performance-day__table-footer">
                 <div className="performance-day__cell performance-day__entry-details">
-                  <Text type="caption-primary-bold">Total</Text>
+                  <Text type="caption-primary-bold">
+                    {t('performance_day.total')}
+                  </Text>
                 </div>
                 <div className="performance-day__cell performance-day__source" />
                 <div className="performance-day__cell performance-day__users" />
                 <div className="performance-day__cell performance-day__tracked performance-day__cell--justify-end">
                   <Text type="caption-primary-bold">
-                    {l.hours(totalTrackedHours)} hrs
+                    {l.hours(totalTrackedHours)} {t('performance_day.hrs')}
                   </Text>
                 </div>
                 <div className="performance-day__cell performance-day__total performance-day__cell--justify-end"></div>
               </li>
             </ul>
           ) : (
-            <Text>No time entries for this day.</Text>
+            <Text>{t('performance_day.no_entries')}</Text>
           )}
 
           <Stack gap={24}>
             <IconTitle
               icon="✍️"
-              title="Daily Nerd"
+              title={t('performance_day.daily_nerd')}
               color="var(--icon-day-empty)"
             />
             <Stack gap={16}>
               {day.hasDailyNerdMessage ? (
                 <TextBox text={day.dailyNerdMessage?.message} />
               ) : (
-                <Text>No daily nerd left for this day.</Text>
+                <Text>{t('performance_day.no_daily_nerd')}</Text>
               )}
               {isToday && (
                 <Stack align="end" gap={0}>
@@ -183,8 +199,8 @@ export function PerformanceDay({ day }: Props): ReactElement {
                     <Button
                       title={
                         day.hasDailyNerdMessage
-                          ? 'Update Daily Nerd'
-                          : 'Add Daily Nerd'
+                          ? t('performance_day.update_daily_nerd')
+                          : t('performance_day.add_daily_nerd')
                       }
                     />
                   </Link>

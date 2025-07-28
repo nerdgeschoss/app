@@ -1,4 +1,4 @@
-import { useFormatter } from '../../util/dependencies';
+import { useFormatter, useTranslate } from '../../util/dependencies';
 import { Button } from '../button/button';
 import { Divider } from '../divider/divider';
 import { IconTitle } from '../icon_title/icon_title';
@@ -47,19 +47,28 @@ export function EmployeeCard({
 }: Props): ReactElement {
   const l = useFormatter();
   const modal = useModal();
+  const t = useTranslate();
 
   return (
     <div className="employee-card">
       <header className="employee-card__header">
         <div className="employee-card__sprint-info">
-          <Property prefix="🔢" value={finishedStorypoints} suffix="pts" />
+          <Property
+            prefix="🔢"
+            value={finishedStorypoints}
+            suffix={t('employee_card.points')}
+          />
           <Property prefix="⭐️" value={retroRating} suffix="/5" />
           <Property
             prefix="🔢"
             value={l.singleDigitNumber(finishedStorypointsPerDay || 0)}
-            suffix="pts/day"
+            suffix={t('employee_card.points_per_day')}
           />
-          <Property prefix="💻" value={workingDayCount} suffix="days" />
+          <Property
+            prefix="💻"
+            value={workingDayCount}
+            suffix={t('employee_card.days')}
+          />
         </div>
         <Divider />
         {turnover !== null && turnoverPerStorypoint !== null && (
@@ -68,12 +77,12 @@ export function EmployeeCard({
               <Property
                 prefix="💸"
                 value={l.currency(turnoverPerStorypoint)}
-                suffix="Per Point"
+                suffix={t('employee_card.per_point')}
               />
               <Property
                 prefix="💰"
                 value={l.currency(turnover)}
-                suffix="Monthly total"
+                suffix={t('employee_card.monthly_total')}
               />
             </div>
             <div className="employee-card__horizontal-divider">
@@ -87,7 +96,7 @@ export function EmployeeCard({
           <Stack gap={32}>
             <IconTitle
               icon="⏱️"
-              title="Sprint Overview"
+              title={t('employee_card.sprint_overview')}
               color="var(--icon-header-series1)"
             />
             <PerformanceProgress
@@ -111,7 +120,7 @@ export function EmployeeCard({
             <Stack gap={32}>
               <IconTitle
                 icon="⏱️"
-                title="Daily Overview"
+                title={t('employee_card.daily_overview')}
                 color="var(--icon-header-series2)"
               />
               <PerformanceDays days={days} large />
@@ -125,7 +134,7 @@ export function EmployeeCard({
           <Stack gap={24}>
             <IconTitle
               icon="⭐"
-              title="Retrospective"
+              title={t('employee_card.retrospective')}
               color="var(--icon-header-series2-2)"
             />
             <StarField value={retroRating || 0} />
@@ -133,7 +142,11 @@ export function EmployeeCard({
           <Stack gap={16} align="end">
             {retroText && <TextBox text={retroText} />}
             <Button
-              title={retroText ? 'Edit feedback' : 'Leave feedback'}
+              title={
+                retroText
+                  ? t('employee_card.edit_feedback')
+                  : t('employee_card.leave_feedback')
+              }
               onClick={() =>
                 modal.present(`/en/sprint_feedbacks/${id}/edit_retro`)
               }

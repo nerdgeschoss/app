@@ -17,7 +17,7 @@ export interface Day {
   billableHours?: number;
   targetHours?: number;
   targetBillableHours?: number;
-  timeEntries: Array<{
+  timeEntries?: Array<{
     id: string;
     notes: string | null;
     type: string;
