@@ -23,7 +23,7 @@ export default function ({
           <Stack line="mobile" align="center" size={8}>
             <Text type="h3-bold">🏃🏻 {feedback.sprint.title}</Text>
             <Text type="h4-regular" color="label-heading-secondary">
-              {l.dateRange(startDate, endDate)}
+              {l.dateRangeLong(startDate, endDate)}
             </Text>
           </Stack>
           <EmployeeCard {...feedback} />
