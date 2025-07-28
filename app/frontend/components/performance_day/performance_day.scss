@@ -1,17 +1,18 @@
 @use '../layout';
 
 .performance-day {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @include layout.media-desktop {
+    gap: 24px;
+  }
+
   &__header {
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-
-  &__toggle {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
   }
 
   &__label {
