@@ -45,18 +45,14 @@ en:
         Hi, *%{user}*!
         Your %{type} leave request for %{leave_during} has been %{status}.
   performance_day:
-    add_daily_nerd: Add Daily Nerd
     daily_nerd: Daily Nerd
     hrs: hrs
     no_daily_nerd: No daily nerd left for this day.
     no_entries: No entries for this day.
     project: Project
-    show_less: Show Less
-    show_more: Show More
     source: Source
     total: Total
     tracked: Tracked
-    update_daily_nerd: Update Daily Nerd
     users: Users
   performance_labels:
     billable: Billable

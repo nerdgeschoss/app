@@ -35,7 +35,11 @@ export class Formatter {
     if (!date) {
       return null;
     }
-    return new Intl.DateTimeFormat(this.locale).format(date);
+    return new Intl.DateTimeFormat(this.locale, {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    }).format(date);
   }
 
   dayName(value: Date | string): string | null {
