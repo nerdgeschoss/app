@@ -23,7 +23,10 @@ export function PerformanceDay({ day }: Props): ReactElement {
   const totalTrackedHours = day.trackedHours || 0;
 
   return (
-    <div className={classnames('performance-day')}>
+    <div
+      id={`performance-day-${day.id}`}
+      className={classnames('performance-day')}
+    >
       <header className="performance-day__header">
         <Text type="h4-bold">{l.dayName(day.day)}</Text>
         <Text type="caption-primary-regular" color="label-heading-secondary">
@@ -89,7 +92,15 @@ export function PerformanceDay({ day }: Props): ReactElement {
                     )}
                   </div>
                   <div className="performance-day__cell performance-day__source">
-                    <Icon name="github" size={20} />
+                    {entry.task?.githubUrl && (
+                      <a
+                        href={entry.task.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Icon name="github" size={20} />
+                      </a>
+                    )}
                   </div>
                   <div className="performance-day__cell performance-day__users">
                     {entry.task?.users?.map((item) => {

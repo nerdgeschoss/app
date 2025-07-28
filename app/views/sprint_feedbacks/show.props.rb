@@ -59,6 +59,7 @@ field :feedback, value: -> { @feedback } do
         field :status
         field :total_hours
         field :repository
+        field :github_url, null: true
         field :users, array: true do
           field :id
           field :display_name

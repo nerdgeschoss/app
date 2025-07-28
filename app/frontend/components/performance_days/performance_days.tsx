@@ -31,6 +31,7 @@ export interface Day {
       status: string;
       totalHours: string;
       repository: string | null;
+      githubUrl: string | null;
       users?: Array<{
         id: string;
         displayName?: string;
@@ -72,7 +73,11 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
           targetHours > 0 ? (targetBillableHours * 100) / targetHours : 0;
 
         return (
-          <div key={day.id} className="performance-days__day-container">
+          <a
+            key={day.id}
+            href={`#performance-day-${day.id}`}
+            className="performance-days__day-container"
+          >
             <div className="performance-days__daily-nerd-container">
               {
                 <div
@@ -109,7 +114,7 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
                 {l.narrowWeek(day.day)}
               </Text>
             </div>
-          </div>
+          </a>
         );
       })}
     </div>
