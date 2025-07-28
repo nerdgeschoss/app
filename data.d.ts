@@ -135,6 +135,7 @@ export interface DataSchema {
       permitEditRetroNotes: boolean;
       turnoverPerStorypoint: number | null;
       turnover: number | null;
+      hourGoal: number | null;
       sprint: {
         id: string;
         title: string;
@@ -146,36 +147,7 @@ export interface DataSchema {
         displayName: string;
         avatarUrl: string;
       };
-      days: Array<{
-        id: string;
-        day: string;
-        dailyNerdMessage: {
-          id: string;
-          message: string;
-        } | null;
-        leave: {
-          id: string;
-          type: string;
-        } | null;
-        timeEntries: Array<{
-          id: string;
-          notes: string | null;
-          type: string;
-          hours: string;
-          project: {
-            id: string;
-            name: string;
-          } | null;
-          task: {
-            id: string;
-            status: string;
-            totalHours: string;
-          } | null;
-        }>;
-        workingDay: boolean;
-        hasDailyNerdMessage: boolean;
-        hasTimeEntries: boolean;
-      }>;
+      days: Day[];
     };
   };
   'sprints/index': {

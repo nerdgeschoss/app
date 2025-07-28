@@ -24,6 +24,7 @@ interface Props {
   turnover: number | null;
   targetTotalHours?: number;
   targetBillableHours?: number;
+  hourGoal: number | null;
   trackedHours?: number;
   billableHours?: number;
   days: Day[];
@@ -44,6 +45,7 @@ export function EmployeeCard({
   billableHours = 0,
   days = [],
   retroText,
+  hourGoal,
 }: Props): ReactElement {
   const l = useFormatter();
   const modal = useModal();
@@ -109,7 +111,7 @@ export function EmployeeCard({
           <PerformanceLabels
             billableHours={billableHours}
             trackedHours={trackedHours}
-            workingDayCount={workingDayCount}
+            hourGoal={hourGoal}
           />
           <div className="employee-card__horizontal-divider">
             <Divider />

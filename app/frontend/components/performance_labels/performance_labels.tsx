@@ -6,19 +6,18 @@ import { type ReactElement } from 'react';
 interface Props {
   billableHours: number | null;
   trackedHours: number | null;
-  workingDayCount: number | null;
+  hourGoal: number | null;
 }
 
 export function PerformanceLabels({
   billableHours,
   trackedHours,
-  workingDayCount,
+  hourGoal,
 }: Props): ReactElement {
   const l = useFormatter();
   const t = useTranslate();
 
-  const hourGoal = (workingDayCount || 0) * 7.5;
-  const missing = hourGoal - (trackedHours || 0);
+  const missing = (hourGoal || 0) - (trackedHours || 0);
 
   return (
     <div className="performance-labels">
@@ -47,7 +46,7 @@ export function PerformanceLabels({
             {t('performance_labels.goal')}
           </Text>
           <span className="performance-labels__value">
-            {l.hours(hourGoal)} {t('performance_labels.hrs')}
+            {l.hours(hourGoal || 0)} {t('performance_labels.hrs')}
           </span>
         </li>
         <li className="performance-labels__item performance-labels__item--missing">
