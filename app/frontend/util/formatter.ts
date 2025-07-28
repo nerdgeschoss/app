@@ -29,20 +29,13 @@ export class Formatter {
     return `${hours}:${minutes.toString().padStart(2, '0')}`;
   }
 
-  date(
-    value: Date | string,
-    options: Intl.DateTimeFormatOptions = {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric',
-    }
-  ): string | null {
+  date(value: Date | string): string | null {
     const date = this.parseDate(value);
 
     if (!date) {
       return null;
     }
-    return new Intl.DateTimeFormat(this.locale, options).format(date);
+    return new Intl.DateTimeFormat(this.locale).format(date);
   }
 
   dayName(value: Date | string): string | null {
@@ -101,11 +94,40 @@ export class Formatter {
     return new Intl.DateTimeFormat(this.locale, options).format(date);
   }
 
-  dateRange(
-    start: Date | string,
-    end: Date | string,
-    options?: Intl.DateTimeFormatOptions
-  ): string | null {
+  dateLongMonth(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(date);
+  }
+
+  narrowWeek(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      weekday: 'narrow',
+    }).format(date);
+  }
+
+  dateLongMonthNoYear(value: Date | string) {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  }
+
+  dateRange(start: Date | string, end: Date | string): string | null {
     const startDate = this.parseDate(start);
     const endDate = this.parseDate(end);
     if (!startDate || !endDate) {
@@ -115,12 +137,9 @@ export class Formatter {
       return this.date(startDate);
     }
     if (startDate.getFullYear() === endDate.getFullYear()) {
-      return `${this.date(startDate, {
-        ...options,
-        year: undefined,
-      })} - ${this.date(endDate, options)}`;
+      return `${this.dateLongMonthNoYear(startDate)} - ${this.dateLongMonth(endDate)}`;
     } else {
-      return `${this.date(startDate, options)} - ${this.date(endDate, options)}`;
+      return `${this.dateLongMonth(startDate)} - ${this.dateLongMonth(endDate)}`;
     }
   }
 

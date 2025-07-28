@@ -105,7 +105,7 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
                 type="caption-secondary-regular"
                 color="label-caption-secondary"
               >
-                {l.date(day.day, { weekday: 'narrow' })}
+                {l.narrowWeek(day.day)}
               </Text>
             </div>
           </div>

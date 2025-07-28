@@ -42,11 +42,7 @@ export function PerformanceDay({ day }: Props): ReactElement {
       >
         <Text type="h4-bold">{l.dayName(day.day)}</Text>
         <Text type="caption-primary-regular" color="label-heading-secondary">
-          {l.date(day.day, {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          })}
+          {l.dateLongMonth(day.day)}
         </Text>
         <div className="performance-day__toggle">
           <div className="performance-day__label">
