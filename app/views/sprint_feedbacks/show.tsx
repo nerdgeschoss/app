@@ -10,11 +10,6 @@ export default function ({
 }: PageProps<'sprint_feedbacks/show'>): JSX.Element {
   const l = useFormatter();
 
-  const sprintTitle = feedback.sprint.title
-    .replace('Sprint ', '')
-    .split('-')
-    .join(' -  ');
-
   const startDate = new Date(feedback.sprint.sprintFrom);
   const endDate = new Date(feedback.sprint.sprintUntil);
 
@@ -26,13 +21,9 @@ export default function ({
         </Text>
         <Stack>
           <Stack line="mobile" align="center" size={8}>
-            <Text type="h3-bold">🏃🏻 {sprintTitle}</Text>
+            <Text type="h3-bold">🏃🏻 {feedback.sprint.title}</Text>
             <Text type="h4-regular" color="label-heading-secondary">
-              {l.dateRange(startDate, endDate, {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              {l.dateRange(startDate, endDate)}
             </Text>
           </Stack>
           <EmployeeCard {...feedback} />

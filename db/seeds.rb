@@ -24,7 +24,7 @@ last_monday = Date.current.beginning_of_week
 end_date = last_monday + 2.weeks - 3.days # This gives us the Friday of the second week
 
 current_sprint = Sprint.create!(
-  title: "Sprint 2025-15",
+  title: "2025-15",
   sprint_during: last_monday..end_date,
   working_days: 10
 )
@@ -70,6 +70,7 @@ logger.debug "Creating users..."
       daily_nerd_count: Faker::Number.between(from: 0, to: sprint.working_days),
       tracked_hours: Faker::Number.between(from: 20, to: sprint.working_days * 8.0),
       billable_hours: Faker::Number.between(from: 10, to: sprint.working_days * 6.0),
+      hour_goal: 75,
       review_notes: [Faker::Quote.yoda, nil, nil].sample,
       finished_storypoints: 3
     )
@@ -96,7 +97,8 @@ admin_user.sprint_feedbacks.create!(
   daily_nerd_count: 0,
   tracked_hours: 0.0,
   billable_hours: 0.0,
-  finished_storypoints: 0
+  finished_storypoints: 0,
+  hour_goal: 75
 )
 
 logger.debug "Creating project and time entries for current sprint..."
@@ -156,6 +158,7 @@ admin_sprint_feedback = admin_user.sprint_feedbacks.find_or_create_by(sprint: cu
   feedback.tracked_hours = 0.0
   feedback.billable_hours = 0.0
   feedback.finished_storypoints = 0
+  feedback.hour_goal = 75
 end
 
 admin_sprint_feedback.update!(
