@@ -4,7 +4,7 @@ import React from 'react';
 import './performance.scss';
 import { Link } from '../../sprinkles/history';
 import { PerformanceProgress } from '../performance_progress/performance_progress';
-import { PerformanceDays } from '../performance_days/performance_days';
+import { Day, PerformanceDays } from '../performance_days/performance_days';
 
 interface Props {
   id: string;
@@ -14,17 +14,7 @@ interface Props {
   billableHours: number;
   targetTotalHours: number;
   targetBillableHours: number;
-  days: Array<{
-    id: string;
-    day: string;
-    workingDay: boolean;
-    hasDailyNerdMessage: boolean;
-    hasTimeEntries: boolean;
-    leave: {
-      id: string;
-      type: string;
-    } | null;
-  }>;
+  days: Day[];
   user: {
     id: string;
     displayName: string;

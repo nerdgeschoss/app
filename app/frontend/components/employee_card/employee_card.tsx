@@ -148,7 +148,7 @@ export function EmployeeCard({
                   : t('employee_card.leave_feedback')
               }
               onClick={() =>
-                modal.present(`/en/sprint_feedbacks/${id}/edit_retro`)
+                modal.present(`/sprint_feedbacks/${id}/edit_retro`)
               }
             />
           </Stack>

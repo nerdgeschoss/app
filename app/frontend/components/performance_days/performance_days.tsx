@@ -15,9 +15,9 @@ export interface Day {
   } | null;
   trackedHours?: number;
   billableHours?: number;
-  targetHours?: number;
-  targetBillableHours?: number;
-  timeEntries?: Array<{
+  targetHours: number | null;
+  targetBillableHours: number | null;
+  timeEntries: Array<{
     id: string;
     notes: string | null;
     type: string;
@@ -37,14 +37,14 @@ export interface Day {
         email: string;
       }>;
     } | null;
-  }>;
-  dailyNerdMessage?: {
+  }> | null;
+  dailyNerdMessage: {
     message: string;
   } | null;
 }
 
 interface Props {
-  days: Array<Day>;
+  days: Day[];
   large?: boolean;
 }
 

@@ -1,3 +1,5 @@
+import type { Day } from './day';
+
 export interface DataSchema {
   'components/_current_user': {
     currentUser: {
@@ -202,17 +204,7 @@ export interface DataSchema {
         finishedStorypoints: number;
         targetTotalHours: number;
         targetBillableHours: number;
-        days: Array<{
-          id: string;
-          day: string;
-          workingDay: boolean;
-          hasDailyNerdMessage: boolean;
-          leave: {
-            id: string;
-            type: string;
-          } | null;
-          hasTimeEntries: boolean;
-        }>;
+        days: Day[];
         user: {
           id: string;
           displayName: string;
