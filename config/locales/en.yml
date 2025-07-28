@@ -9,9 +9,24 @@ en:
       month_long: "%B"
       month_year: "%B %Y"
       weekday: "%A"
+  employee_card:
+    daily_overview: Daily Overview
+    days: days
+    edit_feedback: Edit feedback
+    leave_feedback: Leave feedback
+    monthly_total: Monthly total
+    per_point: Per point
+    points: pts
+    points_per_day: pts/day
+    retrospective: Retrospective
+    sprint_overview: Sprint Overview
   errors:
+    default-error: An unexpected error occurred. Please try again later.
+    invalid-code: The code you entered is invalid. Please try again.
+    invalid-email-address: Please enter a valid email address.
     messages:
       not_saved: Not saved
+    required-field: This field is required.
   leave:
     status:
       pending_approval: pending approval
@@ -29,6 +44,26 @@ en:
       status_change_content: |-
         Hi, *%{user}*!
         Your %{type} leave request for %{leave_during} has been %{status}.
+  performance_day:
+    add_daily_nerd: Add Daily Nerd
+    daily_nerd: Daily Nerd
+    hrs: hrs
+    no_daily_nerd: No daily nerd left for this day.
+    no_entries: No entries for this day.
+    project: Project
+    show_less: Show Less
+    show_more: Show More
+    source: Source
+    total: Total
+    tracked: Tracked
+    update_daily_nerd: Update Daily Nerd
+    users: Users
+  performance_labels:
+    billable: Billable
+    goal: Goal
+    hrs: hrs
+    missing: Missing
+    tracked: Tracked
   sprints:
     notifications:
       anniversary_line: "\n🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"
