@@ -30,6 +30,7 @@ export interface Day {
       id: string;
       status: string;
       totalHours: string;
+      repository: string | null;
       users?: Array<{
         id: string;
         displayName?: string;

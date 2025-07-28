@@ -67,6 +67,12 @@ export function PerformanceDay({ day }: Props): ReactElement {
                 <li className="performance-day__row" key={entry.id}>
                   <div className="performance-day__cell performance-day__entry-details">
                     <div className="performance-day__entry-data">
+                      <Text
+                        type="caption-secondary-regular"
+                        color="label-heading-secondary"
+                      >
+                        {entry.task?.repository}
+                      </Text>
                       <Text type="caption-primary-bold">
                         {entry.project?.name}
                       </Text>
