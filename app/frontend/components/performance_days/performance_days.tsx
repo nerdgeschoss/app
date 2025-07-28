@@ -71,10 +71,7 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
           targetHours > 0 ? (targetBillableHours * 100) / targetHours : 0;
 
         return (
-          <div
-            key={`${day.id}-container`}
-            className="performance-days__day-container"
-          >
+          <div key={day.id} className="performance-days__day-container">
             <div className="performance-days__daily-nerd-container">
               {
                 <div
