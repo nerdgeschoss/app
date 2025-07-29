@@ -120,7 +120,7 @@ export class Formatter {
     }).format(date);
   }
 
-  dateLonghNoYear(value: Date | string) {
+  dateLongNoYear(value: Date | string) {
     const date = this.parseDate(value);
     if (!date) {
       return null;
@@ -152,7 +152,7 @@ export class Formatter {
       return this.date(startDate);
     }
     if (startDate.getFullYear() === endDate.getFullYear()) {
-      return `${this.dateLonghNoYear(startDate)} - ${this.dateLongMonth(endDate)}`;
+      return `${this.dateLongNoYear(startDate)} - ${this.dateLongMonth(endDate)}`;
     } else {
       return `${this.dateLongMonth(startDate)} - ${this.dateLongMonth(endDate)}`;
     }

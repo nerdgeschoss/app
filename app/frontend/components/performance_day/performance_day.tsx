@@ -118,13 +118,14 @@ export function PerformanceDay({ day }: Props): ReactElement {
                     {entry.hours && (
                       <>
                         <Text type="body-secondary-regular">
-                          {l.hours(entry.hours)} hrs
+                          {l.hours(entry.hours)} {t('performance_day.hrs')}
                         </Text>
                         {entry.task?.totalHours && (
                           <span className="performance-day__mobile-total">
                             <span>/</span>
                             <Text type="body-bold">
-                              {l.hours(entry.task.totalHours)} hrs
+                              {l.hours(entry.task.totalHours)}{' '}
+                              {t('performance_day.hrs')}
                             </Text>
                           </span>
                         )}
@@ -134,7 +135,8 @@ export function PerformanceDay({ day }: Props): ReactElement {
                   <div className="performance-day__cell performance-day__total performance-day__cell--justify-end">
                     {entry.task?.totalHours && (
                       <Text type="body-secondary-regular">
-                        {l.hours(entry.task.totalHours)} hrs
+                        {l.hours(entry.task.totalHours)}{' '}
+                        {t('performance_day.hrs')}
                       </Text>
                     )}
                   </div>

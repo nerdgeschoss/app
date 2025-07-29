@@ -22,6 +22,7 @@
     }
   },
   "sprint_feedbacks": {
+    "sprints": "Sprints",
     "edit_retro": {
       "headline": "⭐️ Retrospective",
       "skip": "Skip rating this sprint",
