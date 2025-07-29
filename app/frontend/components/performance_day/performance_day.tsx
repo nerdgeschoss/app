@@ -63,7 +63,7 @@ export function PerformanceDay({ day }: Props): ReactElement {
                 </Text>
               </div>
             </li>
-            {day.timeEntries.map((entry) => {
+            {day.timeEntries?.map((entry) => {
               const taskStatus = getPillType(entry.task?.status);
 
               return (
@@ -114,7 +114,13 @@ export function PerformanceDay({ day }: Props): ReactElement {
                       );
                     })}
                   </div>
-                  <div className="performance-day__cell performance-day__tracked performance-day__cell--justify-end">
+                  <div
+                    className={classnames(
+                      'performance-day__cell',
+                      'performance-day__tracked',
+                      'performance-day__cell--justify-end'
+                    )}
+                  >
                     {entry.hours && (
                       <>
                         <Text type="body-secondary-regular">
