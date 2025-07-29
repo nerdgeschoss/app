@@ -47,6 +47,7 @@ class LeavesController < ApplicationController
       .chronologic
       .map(&:presenter)
 
+    response.headers.delete "X-Frame-Options"
     render layout: false
   end
 
