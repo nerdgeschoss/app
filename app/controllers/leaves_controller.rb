@@ -37,8 +37,15 @@ class LeavesController < ApplicationController
     @leave.destroy!
   end
 
+  # Generate the params[:team_hash] with e.g. `Rails.application.message_verifier(:team_name).generate("laic")`
   def team_overview
-    @leaves = Leave.during(Date.today..1.year.from_now).chronologic.map(&:presenter)
+    team_name = Rails.application.message_verifier(:team_name).verify(params[:team_hash])
+
+    @leaves = Leave
+      .of_team(team_name)
+      .during(Date.today..1.year.from_now)
+      .chronologic
+      .map(&:presenter)
 
     render layout: false
   end

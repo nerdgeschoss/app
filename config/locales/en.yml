@@ -29,6 +29,15 @@ en:
       status_change_content: |-
         Hi, *%{user}*!
         Your %{type} leave request for %{leave_during} has been %{status}.
+    team_overview:
+      name: Name
+      days: Days
+      type: Type
+      leave_type:
+        non_working: Non-working day
+        paid: On vacation
+        sick: On sick leave
+        unpaid: Away
   sprints:
     notifications:
       anniversary_line: "\n🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"

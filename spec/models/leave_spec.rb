@@ -29,6 +29,21 @@ RSpec.describe Leave do
     end
   end
 
+  describe ".of_team" do
+    it "returns leaves of users in a team" do
+      john = users(:john)
+      john.update!(roles: ["team-code-cowboys"])
+      john.leaves.create!(type: :sick, title: "Sick", days: ["2024-12-31"])
+      john.leaves.create!(type: :sick, title: "Sick", days: ["2025-01-01"])
+
+      cigdem = users(:cigdem)
+      cigdem.update!(roles: ["team-backlog-busters"])
+      leave = cigdem.leaves.create!(type: :non_working, title: "Not Working", days: ["2025-01-01"])
+
+      expect(Leave.of_team("backlog-busters")).to eq [leave]
+    end
+  end
+
   describe "auto-approving" do
     it "works for single day sick leaves" do
       expect(holiday).to be_pending_approval

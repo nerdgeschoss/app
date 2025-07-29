@@ -33,7 +33,7 @@ class Leave::Presenter
   end
 
   def to_ics
-    chunks.map do |range|
+    grouped_days.map do |range|
       event = Icalendar::Event.new
       event.dtstart = Icalendar::Values::Date.new range.first
       event.dtstart.ical_params = {"VALUE" => "DATE"}
@@ -46,7 +46,7 @@ class Leave::Presenter
     end
   end
 
-  def chunks
+  def grouped_days
     leave.days.sort.slice_when { |prev, curr| prev.next_day != curr }
   end
 end

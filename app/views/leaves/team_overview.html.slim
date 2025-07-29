@@ -21,18 +21,19 @@ html
         border: 1px solid #ccc;
       }
 
-
   body
     table
       tr
-        th Name
-        th Days
-        th Type
+        th = t(".name")
+        th = t(".days")
+        th = t(".type")
 
       - @leaves.each do |leave|
         tr
           td = leave.user.full_name
-          td = leave.chunks.to_a.inspect
+          td
+            = leave.days.map { |day| day.strftime("%d.%m.%y") }.join(", ")
+
           td
             => leave.unicode_emoji
-            = I18n.t(leave.type)
+            = t(leave.type, scope: "leaves.team_overview.leave_type")

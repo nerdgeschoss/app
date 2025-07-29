@@ -87,25 +87,38 @@ RSpec.describe "Leaves" do
       travel_to "2025-01-01"
 
       john = users(:john)
-      john.update!(roles: ["team-cowboys"])
+      john.update!(roles: ["team-code-cowboys"])
+      john.leaves.delete_all
+      puts "john.leaves.size #{john.leaves.size.inspect}"
       john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2024-12-31"])
-      john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2025-01-01"])
+      john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2025-01-01", "2025-01-02"])
 
       cigdem = users(:cigdem)
-      cigdem.update!(roles: ["team-backglog-busters"])
+      cigdem.update!(roles: ["team-backlog-busters"])
       cigdem.leaves.create!(type: :non_working, title: "Not Working", days: ["2025-01-01"])
 
       yuki = users(:yuki)
-      yuki.update!(roles: ["team-cowboys"])
-      yuki.leaves.create!(type: :paid, title: "Holiday in the Alps", days: ["2025-01-01"])
+      yuki.update!(roles: ["team-code-cowboys"])
+      yuki.leaves.create!(type: :paid, title: "Holiday in the Alps", days: ["2025-01-03"])
 
-      visit team_overview_leaves_path(team_hash: "123")
+      team_hash = Rails.application.message_verifier(:team_name).generate("code-cowboys")
+      visit team_overview_leaves_path(team_hash:)
 
-      expect(page).to have_content "John Doe"
-      expect(page).not_to have_content "Private Sickness"
+      within "table tr:nth-child(2)" do
+        expect(page).to have_content "John Doe"
+        expect(page).to have_content "01.01.25, 02.01.25"
+        expect(page).to have_content "On sick leave"
+        expect(page).not_to have_content "Private Sickness"
+      end
 
-      expect(page).to have_content "Yuki Doe"
-      expect(page).not_to have_content "Holiday in the Alps"
+      expect(page).not_to have_content "Cigdem"
+
+      within "table tr:nth-child(3)" do
+        expect(page).to have_content "Yuki Doe"
+        expect(page).to have_content "03.01.25"
+        expect(page).to have_content "On vacation"
+        expect(page).not_to have_content "Holiday in the Alps"
+      end
     end
   end
 end
