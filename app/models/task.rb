@@ -94,4 +94,10 @@ class Task < ApplicationRecord
   def total_costs
     time_entries.sum(&:costs)
   end
+
+  def github_url
+    return nil unless repository.present? && issue_number.present?
+
+    "https://github.com/#{repository}/issues/#{issue_number}"
+  end
 end

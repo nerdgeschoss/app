@@ -1,3 +1,5 @@
+import type { Day } from './day';
+
 export interface DataSchema {
   'components/_current_user': {
     currentUser: {
@@ -131,6 +133,9 @@ export interface DataSchema {
       trackedHours: number;
       billableHours: number;
       permitEditRetroNotes: boolean;
+      turnoverPerStorypoint: number | null;
+      turnover: number | null;
+      hourGoal: number | null;
       sprint: {
         id: string;
         title: string;
@@ -142,33 +147,7 @@ export interface DataSchema {
         displayName: string;
         avatarUrl: string;
       };
-      days: Array<{
-        id: string;
-        day: string;
-        dailyNerdMessage: {
-          id: string;
-          message: string;
-        } | null;
-        leave: {
-          id: string;
-          type: string;
-        } | null;
-        timeEntries: Array<{
-          id: string;
-          notes: string | null;
-          type: string;
-          hours: string;
-          project: {
-            id: string;
-            name: string;
-          } | null;
-          task: {
-            id: string;
-            status: string;
-            totalHours: string;
-          } | null;
-        }>;
-      }>;
+      days: Day[];
     };
   };
   'sprints/index': {
@@ -197,17 +176,7 @@ export interface DataSchema {
         finishedStorypoints: number;
         targetTotalHours: number;
         targetBillableHours: number;
-        days: Array<{
-          id: string;
-          day: string;
-          workingDay: boolean;
-          hasDailyNerdMessage: boolean;
-          leave: {
-            id: string;
-            type: string;
-          } | null;
-          hasTimeEntries: boolean;
-        }>;
+        days: Day[];
         user: {
           id: string;
           displayName: string;

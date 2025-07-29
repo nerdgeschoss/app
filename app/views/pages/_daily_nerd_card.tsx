@@ -7,6 +7,8 @@ import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 import { Form } from '../../frontend/components/form/form';
 import { Text } from '../../frontend/components/text/text';
+import { TextBox } from '../../frontend/components/text_box/text_box';
+import { useTranslate } from '../../frontend/util/dependencies';
 
 interface Props {
   id: string | null;
@@ -15,6 +17,8 @@ interface Props {
 
 export function DailyNerdCard({ id, message }: Props): JSX.Element {
   const reaction = useReaction();
+  const t = useTranslate();
+
   const [editMode, setEditMode] = useState(!id);
 
   const { fields, onSubmit } = useForm({
@@ -43,24 +47,27 @@ export function DailyNerdCard({ id, message }: Props): JSX.Element {
   });
 
   return (
-    <Card title="Daily Nerd" icon="📝">
+    <Card title={t('daily_nerd_card.title')} icon="📝">
       {!editMode ? (
         <Stack gap={24} align="end">
           <Text type="label-body-primary" block>
             Message:
           </Text>
-          <Text block>{message}</Text>
-          <Button title="Update daily nerd" onClick={() => setEditMode(true)} />
+          <TextBox text={message || t('daily_nerd_card.placeholder')} />
+          <Button
+            title={t('daily_nerd_card.update')}
+            onClick={() => setEditMode(true)}
+          />
         </Stack>
       ) : (
         <Form onSubmit={onSubmit}>
           <Stack gap={24} align="end">
             <TextArea
               {...fields.message}
-              label="Message"
-              placeholder="How was your day? What did you learn?"
+              label={t('daily_nerd_card.message_label')}
+              placeholder={t('daily_nerd_card.placeholder')}
             />
-            <Button title="Submit daily nerd" disablePreventDefault />
+            <Button title={t('daily_nerd_card.submit')} disablePreventDefault />
           </Stack>
         </Form>
       )}

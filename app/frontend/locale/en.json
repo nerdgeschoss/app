@@ -22,6 +22,7 @@
     }
   },
   "sprint_feedbacks": {
+    "sprints": "Sprints",
     "edit_retro": {
       "headline": "⭐️ Retrospective",
       "skip": "Skip rating this sprint",
@@ -83,5 +84,47 @@
     "invalid-email-address": "Please enter a valid email address.",
     "default-error": "An unexpected error occurred. Please try again later.",
     "invalid-code": "The code you entered is invalid. Please try again."
+  },
+  "employee_card": {
+    "points": "pts",
+    "points_per_day": "pts/day",
+    "days": "days",
+    "per_point": "Per point",
+    "monthly_total": "Monthly total",
+    "sprint_overview": "Sprint Overview",
+    "daily_overview": "Daily Overview",
+    "retrospective": "Retrospective",
+    "edit_feedback": "Edit feedback",
+    "leave_feedback": "Leave feedback"
+  },
+  "performance_day": {
+    "show_less": "Show Less",
+    "show_more": "Show More",
+    "project": "Project",
+    "source": "Source",
+    "users": "Users",
+    "tracked": "Tracked",
+    "total": "Total",
+    "hrs": "hrs",
+    "no_entries": "No entries for this day.",
+    "daily_nerd": "Daily Nerd",
+    "no_daily_nerd": "No daily nerd left for this day.",
+    "update_daily_nerd": "Update Daily Nerd",
+    "add_daily_nerd": "Add Daily Nerd"
+  },
+  "performance_labels": {
+    "hrs": "hrs",
+    "billable": "Billable",
+    "tracked": "Tracked",
+    "goal": "Goal",
+    "missing": "Missing"
+  },
+  "daily_nerd_card": {
+    "title": "Daily Nerd",
+    "reminder": "Don't forget to write one!",
+    "update": "Update daily nerd",
+    "message_label": "Message",
+    "placeholder": "How was your day? What did you learn?",
+    "submit": "Submit daily nerd"
   }
 }

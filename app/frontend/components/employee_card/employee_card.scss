@@ -1,0 +1,97 @@
+@use '../layout';
+
+.employee-card {
+  background-color: var(--card-bg-default);
+  padding: 16px 0px 24px;
+  border-radius: 12px;
+
+  @include layout.media-desktop {
+    padding: 24px 0px 32px;
+  }
+
+  &__header,
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 16px;
+  }
+
+  &__header {
+    padding: 0 16px;
+
+    @include layout.media-desktop {
+      padding: 0 32px;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--div-default);
+    }
+  }
+
+  &__section--top {
+    padding: 24px 16px;
+
+    @include layout.media-desktop {
+      padding: 24px 32px 32px;
+      display: grid;
+      grid-template-columns: 2fr 3fr 3fr;
+      gap: 32px;
+    }
+  }
+
+  &__section--bottom {
+    padding-top: 24px;
+
+    @include layout.media-desktop {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+  }
+
+  &__horizontal-divider {
+    @include layout.media-desktop {
+      display: none;
+    }
+  }
+
+  &__sprint-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 8px;
+    @include layout.media-desktop {
+      display: flex;
+      gap: 24px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__info-icon {
+    padding-right: 4px;
+  }
+
+  &__turnover-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    @include layout.media-desktop {
+      flex-direction: row;
+      gap: 24px;
+    }
+  }
+
+  &__daily-overview {
+    @include layout.media-desktop {
+      padding: 0 32px;
+      border-right: 1px solid var(--div-default);
+      border-left: 1px solid var(--div-default);
+    }
+  }
+}

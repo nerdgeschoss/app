@@ -8,12 +8,14 @@ import { Logo } from '../logo/logo';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 import { Collapse } from '@nerdgeschoss/shimmer-component-collapse';
 import { Tooltip } from '../tooltip/tooltip';
+import { Avatar } from '../avatar/avatar';
 
 interface Props {
   user: {
     id: string;
-    displayName: string;
+    displayName?: string;
     avatarUrl: string;
+    email: string;
   };
 }
 
@@ -159,7 +161,12 @@ export function Sidebar({ user }: Props): JSX.Element {
       </div>
       <div className="sidebar__footer">
         <Stack line align="center" gap={10}>
-          <img src={user.avatarUrl} className="sidebar__avatar" alt="avatar" />
+          <Avatar
+            avatarUrl={user.avatarUrl}
+            displayName={user.displayName}
+            email={user.email}
+            large
+          />
           <div className="sidebar__footer-username">
             <Text type="menu-semibold">{user.displayName}</Text>
           </div>
