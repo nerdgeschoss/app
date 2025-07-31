@@ -89,7 +89,7 @@ RSpec.describe "Leaves" do
       john = users(:john)
       john.update!(roles: ["team-code-cowboys"])
       john.leaves.delete_all
-      puts "john.leaves.size #{john.leaves.size.inspect}"
+
       john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2024-12-30"])
       john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2025-01-01", "2025-01-02"])
 
