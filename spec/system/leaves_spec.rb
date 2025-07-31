@@ -81,4 +81,44 @@ RSpec.describe "Leaves" do
 
     expect(page).to have_content "Heads up: Some of the selected days are in the past."
   end
+
+  describe "Team Overview" do
+    it "shows the leaves for a team" do
+      travel_to "2025-01-01"
+
+      john = users(:john)
+      john.update!(roles: ["team-code-cowboys"])
+      john.leaves.delete_all
+
+      john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2024-12-30"])
+      john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2025-01-01", "2025-01-02"])
+
+      cigdem = users(:cigdem)
+      cigdem.update!(roles: ["team-backlog-busters"])
+      cigdem.leaves.create!(type: :non_working, title: "Not Working", days: ["2025-01-01"])
+
+      yuki = users(:yuki)
+      yuki.update!(roles: ["team-code-cowboys"])
+      yuki.leaves.create!(type: :paid, title: "Holiday in the Alps", days: ["2025-01-03"])
+
+      team_hash = Rails.application.message_verifier(:team_name).generate("code-cowboys")
+      visit team_overview_leaves_path(team_hash:)
+
+      within "table tr:nth-child(2)" do
+        expect(page).to have_content "John Doe"
+        expect(page).to have_content "01.01.25, 02.01.25"
+        expect(page).to have_content "On sick leave"
+        expect(page).not_to have_content "Private Sickness"
+      end
+
+      expect(page).not_to have_content "Cigdem"
+
+      within "table tr:nth-child(3)" do
+        expect(page).to have_content "Yuki Doe"
+        expect(page).to have_content "03.01.25"
+        expect(page).to have_content "On vacation"
+        expect(page).not_to have_content "Holiday in the Alps"
+      end
+    end
+  end
 end
