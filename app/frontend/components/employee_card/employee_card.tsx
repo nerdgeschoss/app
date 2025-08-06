@@ -4,7 +4,7 @@ import { Divider } from '../divider/divider';
 import { IconTitle } from '../icon_title/icon_title';
 import { useModal } from '../modal/modal';
 import { PerformanceDay } from '../performance_day/performance_day';
-import { Day, PerformanceDays } from '../performance_days/performance_days';
+import { PerformanceDays } from '../performance_days/performance_days';
 import { PerformanceLabels } from '../performance_labels/performance_labels';
 import { PerformanceProgress } from '../performance_progress/performance_progress';
 import { Property } from '../property/property';
@@ -13,21 +13,21 @@ import { TextBox } from '../text_box/text_box';
 import './employee_card.scss';
 import React, { type ReactElement } from 'react';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
+import type { DataSchema } from '../../../../data.d.ts';
 
 interface Props {
   id: string;
-  finishedStorypoints: number | null;
-  finishedStorypointsPerDay: number | null;
+  finishedStorypoints: number;
+  finishedStorypointsPerDay: number;
   retroRating: number | null;
-  workingDayCount: number | null;
+  workingDayCount: number;
   turnoverPerStorypoint: number | null;
   turnover: number | null;
-  targetTotalHours?: number;
-  targetBillableHours?: number;
-  hourGoal: number | null;
-  trackedHours?: number;
-  billableHours?: number;
-  days: Day[];
+  targetTotalHours: number;
+  targetBillableHours: number;
+  trackedHours: number;
+  billableHours: number;
+  days: DataSchema['sprint_feedbacks/show']['feedback']['days'];
   retroText: string | null;
 }
 
@@ -39,13 +39,12 @@ export function EmployeeCard({
   workingDayCount,
   turnoverPerStorypoint,
   turnover,
-  targetTotalHours = 0,
-  targetBillableHours = 0,
-  trackedHours = 0,
-  billableHours = 0,
-  days = [],
+  targetTotalHours,
+  targetBillableHours,
+  trackedHours,
+  billableHours,
+  days,
   retroText,
-  hourGoal,
 }: Props): ReactElement {
   const l = useFormatter();
   const modal = useModal();
@@ -63,7 +62,7 @@ export function EmployeeCard({
           <Property prefix="⭐️" value={retroRating} suffix="/5" />
           <Property
             prefix="🔢"
-            value={l.singleDigitNumber(finishedStorypointsPerDay || 0)}
+            value={l.singleDigitNumber(finishedStorypointsPerDay)}
             suffix={t('employee_card.points_per_day')}
           />
           <Property
@@ -111,7 +110,7 @@ export function EmployeeCard({
           <PerformanceLabels
             billableHours={billableHours}
             trackedHours={trackedHours}
-            hourGoal={hourGoal}
+            targetTotalHours={targetTotalHours}
           />
           <div className="employee-card__horizontal-divider">
             <Divider />

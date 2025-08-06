@@ -2,51 +2,24 @@ import './performance_days.scss';
 import classNames from 'classnames';
 import { useFormatter } from '../../util/dependencies';
 import { Text } from '../text/text';
-
-export interface Day {
-  id: string;
-  day: string;
-  workingDay: boolean;
-  hasDailyNerdMessage: boolean;
-  hasTimeEntries: boolean;
-  leave: {
-    id: string;
-    type: string;
-  } | null;
-  trackedHours?: number;
-  billableHours?: number;
-  targetHours: number | null;
-  targetBillableHours: number | null;
-  timeEntries: Array<{
-    id: string;
-    notes: string | null;
-    type: string;
-    hours: string;
-    project: {
-      id: string;
-      name: string;
-    } | null;
-    task: {
-      id: string;
-      status: string;
-      totalHours: string;
-      repository: string | null;
-      githubUrl: string | null;
-      users?: Array<{
-        id: string;
-        displayName?: string;
-        avatarUrl?: string;
-        email: string;
-      }>;
-    } | null;
-  }> | null;
-  dailyNerdMessage: {
-    message: string;
-  } | null;
-}
+import { LeaveType } from '../../util/types';
 
 interface Props {
-  days: Day[];
+  days: Array<{
+    id: string;
+    trackedHours?: number;
+    targetTotalHours?: number;
+    billableHours?: number;
+    targetBillableHours?: number;
+    hasDailyNerdMessage: boolean;
+    leave: {
+      id: string;
+      type: LeaveType;
+    } | null;
+    hasTimeEntries: boolean;
+    workingDay: boolean;
+    day: string;
+  }>;
   large?: boolean;
 }
 
@@ -60,17 +33,19 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
       })}
     >
       {days.map((day) => {
-        const trackedHours = day.trackedHours || 0;
-        const targetHours = day.targetHours || 0;
-        const billableHours = day.billableHours || 0;
-        const targetBillableHours = day.targetBillableHours || 0;
+        const trackedHours = day.trackedHours ?? 0;
+        const targetTotalHours = day.targetTotalHours ?? 0;
+        const billableHours = day.billableHours ?? 0;
+        const targetBillableHours = day.targetBillableHours ?? 0;
 
         const percentageTrackedHours =
-          targetHours > 0 ? (trackedHours * 100) / targetHours : 0;
+          targetTotalHours > 0 ? (trackedHours * 100) / targetTotalHours : 0;
         const percentageBillableHours =
-          targetHours > 0 ? (billableHours * 100) / targetHours : 0;
+          targetTotalHours > 0 ? (billableHours * 100) / targetTotalHours : 0;
         const percentageTargetBillableHours =
-          targetHours > 0 ? (targetBillableHours * 100) / targetHours : 0;
+          targetTotalHours > 0
+            ? (targetBillableHours * 100) / targetTotalHours
+            : 0;
 
         return (
           <a

@@ -28,6 +28,7 @@ field :feedback, value: -> { @feedback } do
   field :user do
     field :id
     field :display_name
+    field :email
     field :avatar_url, value: -> { avatar_image(size: 120) }
   end
 
@@ -60,6 +61,7 @@ field :feedback, value: -> { @feedback } do
         field :users, array: true do
           field :id
           field :display_name
+          field :email
           field :avatar_url, value: -> { avatar_image(size: 120) }
         end
       end
@@ -69,7 +71,7 @@ field :feedback, value: -> { @feedback } do
     field :has_daily_nerd_message, Boolean, value: -> { has_daily_nerd_message? }
     field :tracked_hours, Float
     field :billable_hours, Float
-    field :target_hours, Float
+    field :target_total_hours, Float
     field :target_billable_hours, Float
   end
 end

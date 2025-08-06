@@ -43,7 +43,7 @@ class SprintFeedback::Day
     @billable_hours ||= time_entries.filter(&:billable?).sum(&:hours)
   end
 
-  def target_hours
+  def target_total_hours
     working_day? ? SprintFeedback::DEFAULT_HOURLY_GOAL : 0
   end
 

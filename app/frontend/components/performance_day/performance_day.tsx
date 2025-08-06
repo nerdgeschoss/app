@@ -1,7 +1,6 @@
 import './performance_day.scss';
 import { useFormatter, useTranslate } from '../../util/dependencies';
 import { Icon } from '../icon/icon';
-import { Day } from '../performance_days/performance_days';
 import { Text } from '../text/text';
 import { type ReactElement } from 'react';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
@@ -11,9 +10,10 @@ import { Avatar } from '../avatar/avatar';
 import { Tooltip } from '../tooltip/tooltip';
 import { IconTitle } from '../icon_title/icon_title';
 import { TextBox } from '../text_box/text_box';
+import type { DataSchema } from '../../../../data.d.ts';
 
 interface Props {
-  day: Day;
+  day: DataSchema['sprint_feedbacks/show']['feedback']['days'][number];
 }
 
 export function PerformanceDay({ day }: Props): ReactElement {
@@ -103,13 +103,13 @@ export function PerformanceDay({ day }: Props): ReactElement {
                     )}
                   </div>
                   <div className="performance-day__cell performance-day__users">
-                    {entry.task?.users?.map((item) => {
+                    {entry.task?.users?.map((user) => {
                       return (
                         <Tooltip
-                          key={item.id}
-                          content={item.displayName || item.email}
+                          key={user.id}
+                          content={user.displayName || user.email}
                         >
-                          <Avatar {...item} />
+                          <Avatar {...user} />
                         </Tooltip>
                       );
                     })}
