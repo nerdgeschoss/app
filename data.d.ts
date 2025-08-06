@@ -1,5 +1,3 @@
-import type { Day } from './day';
-
 export interface DataSchema {
   'components/_current_user': {
     currentUser: {
@@ -132,10 +130,12 @@ export interface DataSchema {
       workingDayCount: number;
       trackedHours: number;
       billableHours: number;
-      permitEditRetroNotes: boolean;
+      hourGoal: number | null;
       turnoverPerStorypoint: number | null;
       turnover: number | null;
-      hourGoal: number | null;
+      targetTotalHours: number;
+      targetBillableHours: number;
+      permitEditRetroNotes: boolean;
       sprint: {
         id: string;
         title: string;
@@ -147,7 +147,47 @@ export interface DataSchema {
         displayName: string;
         avatarUrl: string;
       };
-      days: Day[];
+      days: Array<{
+        id: string;
+        day: string;
+        dailyNerdMessage: {
+          id: string;
+          message: string;
+        } | null;
+        leave: {
+          id: string;
+          type: string;
+        } | null;
+        timeEntries: Array<{
+          id: string;
+          notes: string | null;
+          type: string;
+          hours: string;
+          project: {
+            id: string;
+            name: string;
+          } | null;
+          task: {
+            id: string;
+            status: string;
+            totalHours: string;
+            repository: string;
+            githubUrl: string | null;
+            users: Array<{
+              id: string;
+              displayName: string;
+              avatarUrl: string;
+            }>;
+          } | null;
+        }>;
+        hasTimeEntries: boolean;
+        workingDay: boolean;
+        hasDailyNerdMessage: boolean;
+        trackedHours: number;
+        billableHours: number;
+        targetHours: number;
+        targetBillableHours: number;
+      }>;
     };
   };
   'sprints/index': {
@@ -176,7 +216,17 @@ export interface DataSchema {
         finishedStorypoints: number;
         targetTotalHours: number;
         targetBillableHours: number;
-        days: Day[];
+        days: Array<{
+          id: string;
+          day: string;
+          workingDay: boolean;
+          hasDailyNerdMessage: boolean;
+          leave: {
+            id: string;
+            type: string;
+          } | null;
+          hasTimeEntries: boolean;
+        }>;
         user: {
           id: string;
           displayName: string;
