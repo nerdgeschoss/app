@@ -33,7 +33,7 @@ class Leave::Presenter
   end
 
   def to_ics
-    leave.days.sort.slice_when { |prev, curr| prev.next_day != curr }.map do |range|
+    grouped_days.map do |range|
       event = Icalendar::Event.new
       event.dtstart = Icalendar::Values::Date.new range.first
       event.dtstart.ical_params = {"VALUE" => "DATE"}
@@ -44,5 +44,9 @@ class Leave::Presenter
       event.url = Rails.application.routes.url_helpers.leaves_url(id: leave.id)
       event
     end
+  end
+
+  def grouped_days
+    leave.days.sort.slice_when { |prev, curr| prev.next_day != curr }
   end
 end

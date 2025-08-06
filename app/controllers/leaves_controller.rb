@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LeavesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :team_overview
   before_action :assign_leave, only: [:update, :destroy]
 
   def index
@@ -35,6 +35,20 @@ class LeavesController < ApplicationController
 
   def destroy
     @leave.destroy!
+  end
+
+  # Generate the params[:team_hash] with e.g. `Rails.application.message_verifier(:team_name).generate("laic")`
+  def team_overview
+    team_name = Rails.application.message_verifier(:team_name).verify(params[:team_hash])
+
+    @leaves = Leave
+      .of_team(team_name)
+      .during(Date.today..1.year.from_now)
+      .chronologic
+      .map(&:presenter)
+
+    response.headers.delete "X-Frame-Options"
+    render layout: false
   end
 
   private
