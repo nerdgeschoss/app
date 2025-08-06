@@ -47,7 +47,7 @@ field :feedback, value: -> { @feedback } do
       field :id
       field :notes, null: true
       field :type, value: -> { task }
-      field :hours
+      field :hours, Float
       field :project, null: true do
         field :id
         field :name
@@ -55,7 +55,7 @@ field :feedback, value: -> { @feedback } do
       field :task, null: true, value: -> { task_object } do
         field :id
         field :status
-        field :total_hours
+        field :total_hours, Float
         field :repository
         field :github_url, null: true
         field :users, array: true do

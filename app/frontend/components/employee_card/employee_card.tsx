@@ -124,7 +124,13 @@ export function EmployeeCard({
                 title={t('employee_card.daily_overview')}
                 color="var(--icon-header-series2)"
               />
-              <PerformanceDays days={days.map(e => ({ ...e, href: `#performance-day-${e.id}` }))} large />
+              <PerformanceDays
+                days={days.map((e) => ({
+                  ...e,
+                  href: `#performance-day-${e.id}`,
+                }))}
+                large
+              />
             </Stack>
             <div className="employee-card__horizontal-divider">
               <Divider />

@@ -169,7 +169,7 @@ export interface DataSchema {
           id: string;
           notes: string | null;
           type: string;
-          hours: string;
+          hours: number;
           project: {
             id: string;
             name: string;
@@ -177,7 +177,7 @@ export interface DataSchema {
           task: {
             id: string;
             status: string;
-            totalHours: string;
+            totalHours: number;
             repository: string;
             githubUrl: string | null;
             users: Array<{
