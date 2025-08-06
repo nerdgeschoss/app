@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_28_130548) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_06_114157) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -279,7 +279,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_28_130548) do
     t.integer "retro_rating"
     t.string "retro_text"
     t.boolean "skip_retro", default: false, null: false
-    t.decimal "hour_goal"
     t.index ["sprint_id", "user_id"], name: "index_sprint_feedbacks_on_sprint_id_and_user_id", unique: true
     t.index ["sprint_id"], name: "index_sprint_feedbacks_on_sprint_id"
     t.index ["user_id"], name: "index_sprint_feedbacks_on_user_id"
