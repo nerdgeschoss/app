@@ -1,0 +1,13 @@
+.status-pill {
+  display: inline-flex;
+  padding: 2px 10px;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  text-transform: capitalize;
+
+  &--done {
+    background-color: var(--pill-status-bg-done);
+    color: var(--pill-status-fg-done);
+    border-color: var(--pill-status-border-done);
+  }
+}

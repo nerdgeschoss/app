@@ -13,7 +13,9 @@ export type IconName =
   | 'user'
   | 'menu'
   | 'close'
-  | 'tooltip-arrow';
+  | 'tooltip-arrow'
+  | 'chevron-arrow'
+  | 'github';
 
 interface Props {
   name: IconName;

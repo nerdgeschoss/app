@@ -22,6 +22,13 @@ export class Formatter {
     }).format(value);
   }
 
+  hours(value: number): string {
+    return new Intl.NumberFormat(this.locale, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+    }).format(value);
+  }
+
   date(value: Date | string): string | null {
     const date = this.parseDate(value);
 
@@ -32,17 +39,6 @@ export class Formatter {
       month: '2-digit',
       day: '2-digit',
       year: 'numeric',
-    }).format(date);
-  }
-
-  dateWithoutYear(value: Date | string): string | null {
-    const date = this.parseDate(value);
-    if (!date) {
-      return null;
-    }
-    return new Intl.DateTimeFormat(this.locale, {
-      month: '2-digit',
-      day: '2-digit',
     }).format(date);
   }
 
@@ -102,6 +98,66 @@ export class Formatter {
     return new Intl.DateTimeFormat(this.locale, options).format(date);
   }
 
+  dateLongMonth(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(date);
+  }
+
+  narrowWeek(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      weekday: 'narrow',
+    }).format(date);
+  }
+
+  dateLongNoYear(value: Date | string) {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
+      day: 'numeric',
+    }).format(date);
+  }
+
+  dateNoYear(value: Date | string) {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: '2-digit',
+      day: 'numeric',
+    }).format(date);
+  }
+
+  dateRangeLong(start: Date | string, end: Date | string): string | null {
+    const startDate = this.parseDate(start);
+    const endDate = this.parseDate(end);
+    if (!startDate || !endDate) {
+      return null;
+    }
+    if (sameDay(startDate, endDate)) {
+      return this.date(startDate);
+    }
+    if (startDate.getFullYear() === endDate.getFullYear()) {
+      return `${this.dateLongNoYear(startDate)} - ${this.dateLongMonth(endDate)}`;
+    } else {
+      return `${this.dateLongMonth(startDate)} - ${this.dateLongMonth(endDate)}`;
+    }
+  }
+
   dateRange(start: Date | string, end: Date | string): string | null {
     const startDate = this.parseDate(start);
     const endDate = this.parseDate(end);
@@ -112,7 +168,7 @@ export class Formatter {
       return this.date(startDate);
     }
     if (startDate.getFullYear() === endDate.getFullYear()) {
-      return `${this.dateWithoutYear(startDate)} - ${this.date(endDate)}`;
+      return `${this.dateNoYear(startDate)} - ${this.date(endDate)}`;
     } else {
       return `${this.date(startDate)} - ${this.date(endDate)}`;
     }

@@ -23,6 +23,9 @@
 #
 
 class SprintFeedback < ApplicationRecord
+  DEFAULT_HOURLY_GOAL = 7.5
+  DEFAULT_BILLABLE_HOURLY_GOAL = 6.0
+
   belongs_to :sprint
   belongs_to :user
   has_many :daily_nerd_messages, dependent: :destroy
@@ -128,11 +131,15 @@ class SprintFeedback < ApplicationRecord
   end
 
   def target_total_hours
-    working_day_count * 7.5
+    working_day_count * DEFAULT_HOURLY_GOAL
   end
 
   def target_billable_hours
-    working_day_count * 6.0
+    working_day_count * DEFAULT_BILLABLE_HOURLY_GOAL
+  end
+
+  def days
+    @days ||= sprint.days.map { |day| SprintFeedback::Day.new(self, day) }
   end
 
   private

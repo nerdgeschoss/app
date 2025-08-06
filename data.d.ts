@@ -4,6 +4,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
   };
   'inventories/edit': {
@@ -25,6 +26,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     feedUrl: string;
     activeFilter: string;
@@ -51,6 +53,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     permitUserSelect: boolean;
     users: Array<{ id: string; displayName: string }>;
@@ -60,6 +63,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     upcomingLeaves: Array<{
       id: string;
@@ -83,6 +87,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     payslips: Array<{
       id: string;
@@ -107,6 +112,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     feedback: {
       id: string;
@@ -120,6 +126,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     feedback: {
       id: string;
@@ -130,6 +137,10 @@ export interface DataSchema {
       workingDayCount: number;
       trackedHours: number;
       billableHours: number;
+      turnoverPerStorypoint: number | null;
+      turnover: number | null;
+      targetTotalHours: number;
+      targetBillableHours: number;
       permitEditRetroNotes: boolean;
       sprint: {
         id: string;
@@ -140,6 +151,7 @@ export interface DataSchema {
       user: {
         id: string;
         displayName: string;
+        email: string;
         avatarUrl: string;
       };
       days: Array<{
@@ -157,7 +169,7 @@ export interface DataSchema {
           id: string;
           notes: string | null;
           type: string;
-          hours: string;
+          hours: number;
           project: {
             id: string;
             name: string;
@@ -165,9 +177,24 @@ export interface DataSchema {
           task: {
             id: string;
             status: string;
-            totalHours: string;
+            totalHours: number;
+            repository: string;
+            githubUrl: string | null;
+            users: Array<{
+              id: string;
+              displayName: string;
+              email: string;
+              avatarUrl: string;
+            }>;
           } | null;
         }>;
+        hasTimeEntries: boolean;
+        workingDay: boolean;
+        hasDailyNerdMessage: boolean;
+        trackedHours: number;
+        billableHours: number;
+        targetTotalHours: number;
+        targetBillableHours: number;
       }>;
     };
   };
@@ -176,6 +203,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     sprints: Array<{
       id: string;
@@ -230,6 +258,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     filter: string;
     users: Array<{
@@ -250,6 +279,7 @@ export interface DataSchema {
       id: string;
       displayName: string;
       avatarUrl: string;
+      email: string;
     };
     user: {
       id: string;

@@ -2,9 +2,10 @@ import { Stack } from '../stack/stack';
 import { Text } from '../text/text';
 import React from 'react';
 import './performance.scss';
-import classNames from 'classnames';
 import { Link } from '../../sprinkles/history';
 import { PerformanceProgress } from '../performance_progress/performance_progress';
+import { PerformanceDays } from '../performance_days/performance_days';
+import { LeaveType } from '../../util/types';
 
 interface Props {
   id: string;
@@ -16,14 +17,18 @@ interface Props {
   targetBillableHours: number;
   days: Array<{
     id: string;
-    day: string;
-    workingDay: boolean;
+    trackedHours?: number;
+    targetTotalHours?: number;
+    billableHours?: number;
+    targetBillableHours?: number;
     hasDailyNerdMessage: boolean;
-    hasTimeEntries: boolean;
     leave: {
       id: string;
-      type: string;
+      type: LeaveType;
     } | null;
+    hasTimeEntries: boolean;
+    workingDay: boolean;
+    day: string;
   }>;
   user: {
     id: string;
@@ -47,9 +52,11 @@ export function Performance({
     <Link href={`/sprint_feedbacks/${id}`}>
       <div className="performance">
         <Stack size={11}>
-          <Stack justify="center" line="mobile" size={6}>
+          <Stack justify="center" align="center" line="mobile" size={6}>
             <img src={user.avatarUrl} className="performance__avatar" />
-            <Text type="card-heading-bold">{user.displayName}</Text>
+            <div className="performance__title">
+              <Text type="card-heading-bold">{user.displayName}</Text>
+            </div>
           </Stack>
           <Stack line="mobile" justify="space-between">
             <Stack line="mobile" size={8}>
@@ -71,38 +78,7 @@ export function Performance({
               billableHours={billableHours}
             />
           </Stack>
-          <Stack size={3}>
-            <div className="performance__icon-line">
-              {days.map((day) => {
-                return (
-                  <div
-                    key={`${day.id}-container`}
-                    className="performance__day-container"
-                  >
-                    <div className="performance__daily-nerd-container">
-                      {
-                        <div
-                          className={classNames('performance__daily-nerd', {
-                            'performance__daily-nerd--written':
-                              day.hasDailyNerdMessage,
-                          })}
-                        />
-                      }
-                    </div>
-                    <div
-                      className={classNames('performance__day', {
-                        'performance__day--sick': day.leave?.type === 'sick',
-                        'performance__day--vacation':
-                          day.leave?.type === 'paid',
-                        'performance__day--working': day.hasTimeEntries,
-                        'performance__day--weekend': !day.workingDay,
-                      })}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </Stack>
+          <PerformanceDays days={days} />
         </Stack>
       </div>
     </Link>

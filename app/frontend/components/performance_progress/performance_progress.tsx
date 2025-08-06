@@ -107,7 +107,7 @@ export function PerformanceProgress({
             </Text>
             <Stack line="mobile" align="center" size={3}>
               <Text type="chart-label-primary-regular">
-                {l.singleDigitNumber(trackedHours)}
+                {l.hours(trackedHours)}
               </Text>
               <Text
                 type="chart-label-primary-regular"

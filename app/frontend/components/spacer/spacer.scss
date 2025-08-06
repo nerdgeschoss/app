@@ -35,6 +35,8 @@
       display: block;
     }
 
-    height: var(--desktop-size);
+    & {
+      height: var(--desktop-size);
+    }
   }
 }

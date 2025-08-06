@@ -12,14 +12,16 @@ export function Tooltip({ content, children }: Props): ReactElement {
   return (
     <div className="tooltip">
       <div className="tooltip__main">{children}</div>
-      <div className="tooltip__anchor">
-        <Icon name="tooltip-arrow" size={10} />
-        <div className="tooltip__content">
-          <Text type="tooltip-primary" color="tooltip-label-default" noWrap>
-            {content}
-          </Text>
+      {content && (
+        <div className="tooltip__anchor">
+          <Icon name="tooltip-arrow" size={10} />
+          <div className="tooltip__content">
+            <Text type="tooltip-primary" color="tooltip-label-default" noWrap>
+              {content}
+            </Text>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

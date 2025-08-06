@@ -11,6 +11,10 @@ field :feedback, value: -> { @feedback } do
   field :working_day_count, Integer
   field :tracked_hours, Float
   field :billable_hours, Float
+  field :turnover_per_storypoint, Float, null: true, value: -> { turnover_per_storypoint if root(&:current_user).role?(:hr) }
+  field :turnover, Float, null: true, value: -> { turnover if root(&:current_user).role?(:hr) }
+  field :target_total_hours, Float
+  field :target_billable_hours, Float
 
   field :permit_edit_retro_notes, Boolean, value: -> { helpers.policy(self).update? }
 
@@ -24,27 +28,26 @@ field :feedback, value: -> { @feedback } do
   field :user do
     field :id
     field :display_name
+    field :email
     field :avatar_url, value: -> { avatar_image(size: 120) }
   end
 
-  field :days, array: true, value: -> { sprint.days.map { {day: _1, feedback: self} } } do
-    field :id, value: -> { [self[:feedback].id, self[:day].to_s].join("-") }
-    field :day, Date, value: -> { self[:day] }
-    field :daily_nerd_message, null: true, value: -> { self[:feedback].daily_nerd_messages.find { _1.created_at.to_date == self[:day] } } do
+  field :days, array: true do
+    field :id
+    field :day, Date
+    field :daily_nerd_message, null: true do
       field :id
       field :message
     end
-    field :leave, null: true, value: -> { self[:feedback].leaves.find { _1.days.include?(self[:day]) } } do
+    field :leave, null: true do
       field :id
       field :type
     end
-    field :time_entries, array: true, value: -> {
-      self[:feedback].sprint.time_entries.filter { _1.created_at.to_date == self[:day] && _1.user_id == self[:feedback].user_id }
-    } do
+    field :time_entries, array: true do
       field :id
       field :notes, null: true
       field :type, value: -> { task }
-      field :hours
+      field :hours, Float
       field :project, null: true do
         field :id
         field :name
@@ -52,8 +55,23 @@ field :feedback, value: -> { @feedback } do
       field :task, null: true, value: -> { task_object } do
         field :id
         field :status
-        field :total_hours
+        field :total_hours, Float
+        field :repository
+        field :github_url, null: true
+        field :users, array: true do
+          field :id
+          field :display_name
+          field :email
+          field :avatar_url, value: -> { avatar_image(size: 120) }
+        end
       end
     end
+    field :has_time_entries, Boolean, value: -> { has_time_entries? }
+    field :working_day, Boolean, value: -> { working_day? }
+    field :has_daily_nerd_message, Boolean, value: -> { has_daily_nerd_message? }
+    field :tracked_hours, Float
+    field :billable_hours, Float
+    field :target_total_hours, Float
+    field :target_billable_hours, Float
   end
 end

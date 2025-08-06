@@ -8,6 +8,7 @@ interface Props {
     id: string;
     displayName: string;
     avatarUrl: string;
+    email: string;
   };
   children: ReactNode;
   container?: boolean;

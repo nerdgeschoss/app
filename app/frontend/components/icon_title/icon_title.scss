@@ -1,0 +1,16 @@
+.icon-title {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  &__icon {
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 14px;
+    background-color: var(--background-color);
+  }
+}
