@@ -23,13 +23,11 @@ export function Link({
   href,
   children,
   className,
-  target,
 }: {
   id?: string;
   href: string;
   children: ReactNode;
   className?: string;
-  target?: string;
 }): JSX.Element {
   const history = useReaction().history;
   return (
@@ -41,8 +39,6 @@ export function Link({
         history.navigate(href);
       }}
       className={className}
-      target={target}
-      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
     >
       {children}
     </a>
