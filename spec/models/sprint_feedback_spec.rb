@@ -62,4 +62,18 @@ RSpec.describe SprintFeedback do
       expect(feedback.holiday_count).to eq 2
     end
   end
+
+  context "with information about specific days" do
+    it "has a list of days" do
+      expect(feedback.days.count).to eq 12
+    end
+
+    it "has information about the daily nerd on a day" do
+      feedback.daily_nerd_messages.create!(
+        message: "This is a daily nerd message",
+        created_at: feedback.days.first.day
+      )
+      expect(feedback.days.first.daily_nerd_message.message).to eq "This is a daily nerd message"
+    end
+  end
 end
