@@ -44,6 +44,14 @@ en:
       status_change_content: |-
         Hi, *%{user}*!
         Your %{type} leave request for %{leave_during} has been %{status}.
+    team_overview:
+      days: Days
+      leave_type:
+        non_working: Non-working day
+        paid: On vacation
+        sick: On sick leave
+      name: Name
+      type: Type
   performance_day:
     daily_nerd: Daily Nerd
     hrs: hrs
@@ -60,15 +68,6 @@ en:
     hrs: hrs
     missing: Missing
     tracked: Tracked
-    team_overview:
-      days: Days
-      leave_type:
-        non_working: Non-working day
-        paid: On vacation
-        sick: On sick leave
-        unpaid: Away
-      name: Name
-      type: Type
   sprints:
     notifications:
       anniversary_line: "\n🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"

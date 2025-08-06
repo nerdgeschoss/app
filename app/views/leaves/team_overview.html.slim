@@ -36,4 +36,7 @@ html
 
           td
             => leave.unicode_emoji
+            / i18n-tasks-use t("leaves.team_overview.leave_type.sick")
+            / i18n-tasks-use t("leaves.team_overview.leave_type.paid")
+            / i18n-tasks-use t("leaves.team_overview.leave_type.non_working")
             = t(leave.type, scope: "leaves.team_overview.leave_type")

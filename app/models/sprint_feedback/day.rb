@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SprintFeedback::Day
   attr_reader :sprint_feedback, :day
 
