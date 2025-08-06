@@ -23,7 +23,10 @@ export class Formatter {
   }
 
   hours(value: number): string {
-    return this.singleDigitNumber(value);
+    return new Intl.NumberFormat(this.locale, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1,
+    }).format(value);
   }
 
   date(value: Date | string): string | null {

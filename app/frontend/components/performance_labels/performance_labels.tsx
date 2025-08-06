@@ -17,7 +17,7 @@ export function PerformanceLabels({
   const l = useFormatter();
   const t = useTranslate();
 
-  const missing = targetTotalHours - trackedHours;
+  const missing = Math.max(targetTotalHours - trackedHours, 0);
 
   return (
     <div className="performance-labels">
