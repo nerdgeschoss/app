@@ -95,7 +95,7 @@ class Sprint < ApplicationRecord
   end
 
   def average_rating
-    ratings = sprint_feedbacks.retro_not_skipped.filter_map(&:retro_rating)
+    ratings = sprint_feedbacks.filter_map { !_1.skip_retro && _1.retro_rating }
     return 0 if ratings.empty?
 
     ratings.sum / ratings.size.to_f
