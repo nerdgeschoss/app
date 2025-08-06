@@ -138,7 +138,7 @@ export function EmployeeCard({
               title={t('employee_card.retrospective')}
               color="var(--icon-header-series2-2)"
             />
-            <StarField value={retroRating || 0} />
+            {retroRating !== null && <StarField value={retroRating} />}
           </Stack>
           <Stack gap={16} align="end">
             {retroText && <TextBox text={retroText} />}
