@@ -130,7 +130,6 @@ export interface DataSchema {
       workingDayCount: number;
       trackedHours: number;
       billableHours: number;
-      hourGoal: number | null;
       turnoverPerStorypoint: number | null;
       turnover: number | null;
       targetTotalHours: number;
