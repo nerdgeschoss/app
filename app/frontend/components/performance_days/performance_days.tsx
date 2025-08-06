@@ -7,6 +7,7 @@ import { LeaveType } from '../../util/types';
 interface Props {
   days: Array<{
     id: string;
+    href?: string;
     trackedHours?: number;
     targetTotalHours?: number;
     billableHours?: number;
@@ -47,50 +48,61 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
             ? (targetBillableHours * 100) / targetTotalHours
             : 0;
 
-        return (
-          <a
-            key={day.id}
-            href={`#performance-day-${day.id}`}
-            className="performance-days__day-container"
-          >
-            <div className="performance-days__daily-nerd-container">
-              {
-                <div
-                  className={classNames('performance-days__daily-nerd', {
-                    'performance-days__daily-nerd--written':
-                      day.hasDailyNerdMessage,
-                  })}
-                />
-              }
-            </div>
+        const content = <>
+          <div className="performance-days__daily-nerd-container">
+            {
+              <div
+                className={classNames('performance-days__daily-nerd', {
+                  'performance-days__daily-nerd--written':
+                    day.hasDailyNerdMessage,
+                })}
+              />
+            }
+          </div>
 
-            <div
-              className={classNames('performance-days__day', {
-                'performance-days__day--sick': day.leave?.type === 'sick',
-                'performance-days__day--vacation': day.leave?.type === 'paid',
-                'performance-days__day--working': day.hasTimeEntries,
-                'performance-days__day--weekend': !day.workingDay,
-              })}
-              style={
-                {
-                  '--tracked-hours': `${Math.min(percentageTrackedHours, 100)}%`,
-                  '--billable-hours': `${Math.min(percentageBillableHours, 100)}%`,
-                  '--target-billable-hours': `${Math.min(percentageTargetBillableHours, 100)}%`,
-                } as React.CSSProperties
-              }
+          <div
+            className={classNames('performance-days__day', {
+              'performance-days__day--sick': day.leave?.type === 'sick',
+              'performance-days__day--vacation': day.leave?.type === 'paid',
+              'performance-days__day--working': day.hasTimeEntries,
+              'performance-days__day--weekend': !day.workingDay,
+            })}
+            style={
+              {
+                '--tracked-hours': `${Math.min(percentageTrackedHours, 100)}%`,
+                '--billable-hours': `${Math.min(percentageBillableHours, 100)}%`,
+                '--target-billable-hours': `${Math.min(percentageTargetBillableHours, 100)}%`,
+              } as React.CSSProperties
+            }
+          >
+            <div className="performance-days__target" />
+          </div>
+          <div className="performance-days__day-label">
+            <Text
+              type="caption-secondary-regular"
+              color="label-caption-secondary"
             >
-              <div className="performance-days__target" />
-            </div>
-            <div className="performance-days__day-label">
-              <Text
-                type="caption-secondary-regular"
-                color="label-caption-secondary"
-              >
-                {l.narrowWeek(day.day)}
-              </Text>
-            </div>
-          </a>
-        );
+              {l.narrowWeek(day.day)}
+            </Text>
+          </div>
+        </>;
+        if (day.href) {
+          return (
+            <a
+              key={day.id}
+              href={day.href}
+              className="performance-days__day-container"
+            >
+              {content}
+            </a>
+          );
+        }
+        return <div
+          key={day.id}
+          className="performance-days__day-container"
+        >
+          {content}
+        </div>;
       })}
     </div>
   );
