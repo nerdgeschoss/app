@@ -22,11 +22,8 @@ export class Formatter {
     }).format(value);
   }
 
-  hours(value: number | string): string {
-    const numValue = Number(value);
-    const hours = Math.floor(numValue);
-    const minutes = Math.round((numValue - hours) * 60);
-    return `${hours}:${minutes.toString().padStart(2, '0')}`;
+  hours(value: number): string {
+    return this.singleDigitNumber(value);
   }
 
   date(value: Date | string): string | null {
