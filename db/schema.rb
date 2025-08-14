@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_06_114157) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_14_103153) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -322,7 +322,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_114157) do
     t.string "external_id"
     t.decimal "hours", null: false
     t.decimal "rounded_hours", null: false
-    t.string "billable", null: false
     t.string "project_name", null: false
     t.string "client_name", null: false
     t.string "task", null: false
@@ -336,6 +335,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_114157) do
     t.uuid "project_id"
     t.uuid "task_id"
     t.uuid "invoice_id"
+    t.boolean "billable", default: false, null: false
     t.index ["external_id"], name: "index_time_entries_on_external_id", unique: true
     t.index ["invoice_id"], name: "index_time_entries_on_invoice_id"
     t.index ["project_id"], name: "index_time_entries_on_project_id"

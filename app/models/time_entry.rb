@@ -5,7 +5,7 @@
 # Table name: time_entries
 #
 #  id            :uuid             not null, primary key
-#  billable      :string           not null
+#  billable      :boolean          default(FALSE), not null
 #  billable_rate :decimal(, )
 #  client_name   :string           not null
 #  cost_rate     :decimal(, )
