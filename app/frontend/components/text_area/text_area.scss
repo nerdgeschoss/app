@@ -20,6 +20,8 @@
       visibility: hidden;
     }
     & > textarea {
+      min-height: 90px;
+      field-sizing: content;
       /* You could leave this, but after a user resizes, then it ruins the auto sizing */
       resize: none;
 
