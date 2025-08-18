@@ -21,6 +21,7 @@
   width: fit-content;
   color: var(--text-primary-base);
   hyphens: auto;
+  flex-shrink: 0;
 
   &--no-wrap {
     white-space: nowrap;

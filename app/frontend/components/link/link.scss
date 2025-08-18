@@ -1,0 +1,16 @@
+.link {
+  color: var(--label-link-default);
+
+  &:hover {
+    color: var(--label-link-hover);
+  }
+
+  &:active,
+  &:focus {
+    color: var(--label-link-active);
+  }
+
+  &--disabled {
+    color: var(--label-link-disabled);
+  }
+}
