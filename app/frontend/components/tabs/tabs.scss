@@ -1,0 +1,17 @@
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  &__item {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    &--active {
+      border-radius: 60px;
+      border: 1px solid var(--tab-border-active, #2ca8ff);
+      background: var(--tab-bg-active, #fff);
+    }
+  }
+}

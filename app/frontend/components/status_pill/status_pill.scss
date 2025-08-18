@@ -10,4 +10,14 @@
     color: var(--pill-status-fg-done);
     border-color: var(--pill-status-border-done);
   }
+  &--review {
+    background-color: var(--pill-status-bg-review);
+    color: var(--pill-status-fg-review);
+    border-color: var(--pill-status-border-review);
+  }
+  &--rejected {
+    background-color: var(--pill-status-bg-rejected);
+    color: var(--pill-status-fg-rejected);
+    border-color: var(--pill-status-border-rejected);
+  }
 }

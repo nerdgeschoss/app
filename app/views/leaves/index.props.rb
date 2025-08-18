@@ -8,6 +8,8 @@ field :permit_user_select, Boolean, value: -> { helpers.policy(Leave).show_all_u
 field :users, array: true, value: -> { User.currently_employed } do
   field :id
   field :display_name
+  field :email
+  field :avatar_url, value: -> { avatar_image(size: 80) }
 end
 field :leaves, array: true, value: -> { @leaves } do
   field :id

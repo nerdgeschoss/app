@@ -3,8 +3,14 @@ import classnames from 'classnames';
 import { type ReactElement } from 'react';
 import { Text } from '../text/text';
 
-const PILL_STATUS = ['todo', 'in_progress', 'review', 'done'] as const;
-type PillStatus = (typeof PILL_STATUS)[number];
+const PILL_STATUS = [
+  'todo',
+  'in_progress',
+  'review',
+  'done',
+  'rejected',
+] as const;
+export type PillStatus = (typeof PILL_STATUS)[number];
 
 export function getPillType(type?: string): PillStatus | null {
   return (

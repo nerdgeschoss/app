@@ -35,19 +35,10 @@
 
     @include layout.media-desktop {
       padding: 24px 32px 32px;
-      display: grid;
-      grid-template-columns: 2fr 3fr 3fr;
-      gap: 32px;
 
       &:not(:last-child) {
         border-bottom: 1px solid var(--div-default);
       }
-    }
-  }
-
-  &__horizontal-divider {
-    @include layout.media-desktop {
-      display: none;
     }
   }
 }

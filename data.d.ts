@@ -41,6 +41,8 @@ export interface DataSchema {
       user: {
         id: string;
         displayName: string;
+        email: string;
+        avatarUrl?: string;
       };
       permitUpdate: boolean;
       permitDestroy: boolean;
