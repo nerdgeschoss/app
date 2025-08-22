@@ -13,6 +13,7 @@
 #  notes         :string
 #  project_name  :string           not null
 #  rounded_hours :decimal(, )      not null
+#  start_at      :datetime
 #  task          :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -45,5 +46,9 @@ class TimeEntry < ApplicationRecord
 
   def costs
     billable_rate * rounded_hours
+  end
+
+  def end_at
+    start_at ? start_at + hours.hours : nil
   end
 end

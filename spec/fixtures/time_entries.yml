@@ -11,6 +11,7 @@
 #  notes         :string
 #  project_name  :string           not null
 #  rounded_hours :decimal(, )      not null
+#  start_at      :datetime
 #  task          :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -25,6 +26,8 @@
 entry_1:
   hours: 1.2
   rounded_hours: 1.5
+  created_at: 2023-01-24 10:00:00
+  start_at: 2023-01-24 10:00:00
   billable: t
   billable_rate: 100.0
   user: john

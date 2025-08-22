@@ -174,6 +174,15 @@ export class Formatter {
     }
   }
 
+  timeRange(start: Date | string, end: Date | string): string | null {
+    const startDate = this.parseDate(start);
+    const endDate = this.parseDate(end);
+    if (!startDate || !endDate) {
+      return null;
+    }
+    return `${this.time(startDate)} - ${this.time(endDate)}`;
+  }
+
   parseDate(value?: string | Date | null): Date | null {
     if (!value) {
       return null;

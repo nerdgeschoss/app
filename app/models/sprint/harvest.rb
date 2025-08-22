@@ -18,6 +18,7 @@ module Sprint::Harvest
         {
           external_id: e.id,
           created_at: e.date,
+          start_at: e.start_at,
           hours: e.hours,
           rounded_hours: e.rounded_hours,
           billable: e.billable,

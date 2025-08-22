@@ -45,6 +45,8 @@ field :feedback, value: -> { @feedback } do
     end
     field :time_entries, array: true do
       field :id
+      field :start_at, Date, null: true
+      field :end_at, Date, null: true
       field :notes, null: true
       field :type, value: -> { task }
       field :hours, Float
