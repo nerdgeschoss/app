@@ -86,6 +86,14 @@ export function PerformanceDay({ day }: Props): ReactElement {
                       >
                         {entry.notes}
                       </Text>
+                      {entry.startAt && entry.endAt && (
+                        <Text
+                          type="body-secondary-regular"
+                          color="label-heading-secondary"
+                        >
+                          {l.timeRange(entry.startAt, entry.endAt)}
+                        </Text>
+                      )}
                     </div>
                     {taskStatus && (
                       <StatusPill type={taskStatus} title={taskStatus} />

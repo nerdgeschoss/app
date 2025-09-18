@@ -167,6 +167,8 @@ export interface DataSchema {
         } | null;
         timeEntries: Array<{
           id: string;
+          startAt: string | null;
+          endAt: string | null;
           notes: string | null;
           type: string;
           hours: number;
