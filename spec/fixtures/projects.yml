@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: projects
+#
+#  id                 :uuid             not null, primary key
+#  archived           :boolean          default(FALSE), not null
+#  client_name        :string           not null
+#  framework_versions :jsonb            not null
+#  name               :string           not null
+#  repository         :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  harvest_id         :bigint
+#
+customer_project:
+  name: Customer Project
+  client_name: Some Client
+  repository: nerdgeschoss/customer-project
+  framework_versions:
+    ruby: '3.1'
+    rails: '7.0'

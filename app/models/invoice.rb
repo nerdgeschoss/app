@@ -17,6 +17,7 @@
 #
 class Invoice < ApplicationRecord
   belongs_to :project
+  has_many :time_entries, dependent: :nullify
 
   class << self
     def sync_with_harvest

@@ -34,4 +34,10 @@ Rails.application.routes.draw do
     get "logout", to: "sessions#destroy"
     root "pages#home"
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :projects, only: :update
+    end
+  end
 end
