@@ -1,0 +1,39 @@
+name: Report Dependencies
+on:
+  push:
+    branches: [master]
+
+jobs:
+  report-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract and send dependency versions
+        run: |
+          if [ ! -f Gemfile.lock ]; then
+            echo "Gemfile.lock not found" >&2
+            exit 1
+          fi
+          if [ ! -f yarn.lock ]; then
+            echo "yarn.lock not found" >&2
+            exit 1
+          fi
+
+          rails_version=$(grep -E '^ +rails \(' Gemfile.lock | head -n1 | sed -E 's/.*rails \(([^)]+)\).*/\1/')
+          puma_version=$(grep -E '^ +puma \(' Gemfile.lock | head -n1 | sed -E 's/.*puma \(([^)]+)\).*/\1/')
+          react_version=$(grep -A1 '^react@' yarn.lock | grep -E 'version "' | head -n1 | sed -E 's/.*version "([^"]+)".*/\1/')
+
+          if [ -z "$rails_version" ] || [ -z "$puma_version" ] || [ -z "$react_version" ]; then
+            echo "Could not extract versions" >&2
+            exit 1
+          fi
+
+          json=$(printf '{"framework_versions":{"rails":"%s","puma":"%s","react":"%s"}}' "$rails_version" "$puma_version" "$react_version")
+          echo "Payload: $json"
+
+          curl -sS -X PATCH \
+            -H "Content-Type: application/json" \
+            -d "$json" \
+            https://app.nerdgeschoss.de/api/v1/projects/eyJfcmFpbHMiOnsiZGF0YSI6ImQ4ZTU1ZDk5LTFiOGUtNDlhNi1hMmZiLWY5MjVlMjY2MGE3OSIsInB1ciI6InByb2plY3QifX0--f71ca2960de401b809b87ff74a5d48e52674d5c81dd946b8b99409900ee3d1f2
