@@ -7,7 +7,7 @@ module Sprint::Harvest
     def sync_with_harvest
       user_ids_by_email = User.pluck(:email, :id).to_h.merge(User.where.not(harvest_email: nil).pluck(:harvest_email, :id).to_h)
       invoice_ids_by_harvest_id = Invoice.pluck(:harvest_id, :id).to_h
-      project_ids_for_harvest = Project.pluck(:harvest_ids, :id).flat_map { |harvest_ids, project_id| harvest_ids.map { |harvest_id| [harvest_id, project_id] } }.to_h
+      project_ids_for_harvest = Project.pluck(:harvest_id, :id).to_h
       harvest_entries = HarvestApi.instance.time_entries(from: sprint_from, to: sprint_until)
 
       deleted_ids = time_entries.pluck(:external_id) - harvest_entries.map(&:id)

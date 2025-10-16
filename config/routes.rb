@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       resources :leaves, only: :index
     end
     resources :daily_nerd_messages, only: [:create, :update]
+    resources :projects, only: :index
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     get "confirm_login", to: "sessions#edit"

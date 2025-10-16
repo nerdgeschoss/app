@@ -6,7 +6,7 @@ class HarvestApi
   TimeEntry = Struct.new(:id, :date, :hours, :rounded_hours, :billable, :project, :project_id, :invoice_id, :client, :task, :billable_rate, :cost_rate, :notes, :user, :response, :start_at, keyword_init: true)
   User = Struct.new(:id, :first_name, :last_name, :email, :weekly_capacity, keyword_init: true)
   Invoice = Struct.new(:id, :reference, :amount, :state, :sent_at, :paid_at, :project_id, :project_name, :client_name, keyword_init: true)
-  Project = Struct.new(:id, :name, :client_name, keyword_init: true)
+  Project = Struct.new(:id, :name, :client_name, :archived, keyword_init: true)
 
   def me
     OpenStruct.new(get("users/me"))
@@ -48,7 +48,7 @@ class HarvestApi
   end
 
   def projects
-    get_all("projects").map { Project.new(**_1.slice(:id, :name).merge(client_name: _1.dig(:client, :name))) }
+    get_all("projects").map { Project.new(**_1.slice(:id, :name).merge(client_name: _1.dig(:client, :name), archived: !_1.dig(:is_active))) }
   end
 
   private

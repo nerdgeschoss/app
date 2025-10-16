@@ -17,7 +17,7 @@ export default function ({
     <Layout user={currentUser} container>
       <Stack>
         <Text type="h1-bold">{t('users.index.title')}</Text>
-        <Stack line="mobile">
+        <Stack line="mobile" size={4}>
           {['employee', 'sprinter', 'hr', 'archive'].map((e) => (
             <Link key={e} href={`/users?filter=${e}`}>
               <Pill active={e === filter}>{e}</Pill>

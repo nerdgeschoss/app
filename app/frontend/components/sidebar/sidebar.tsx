@@ -55,6 +55,12 @@ export function Sidebar({ user }: Props): JSX.Element {
       active: path.startsWith('/payslips'),
     },
     {
+      name: 'Projects',
+      path: '/projects',
+      icon: 'project',
+      active: path.startsWith('/projects'),
+    },
+    {
       name: 'Users',
       path: '/users',
       icon: 'user',

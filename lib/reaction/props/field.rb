@@ -44,6 +44,8 @@ module Reaction
           value.iso8601
         elsif type == Boolean
           !!value
+        elsif type == JSON
+          value.as_json
         elsif type == Object
           fields.map do |name, field|
             field_value = if field.value_override
@@ -87,6 +89,8 @@ module Reaction
           "#{name}: string#{null ? " | null" : ""};"
         elsif type == Boolean
           "#{name}: boolean#{null ? " | null" : ""};"
+        elsif type == JSON
+          "#{name}: any#{null ? " | null" : ""};"
         elsif type == Object
           if skip_root
             fields.map { |name, field| field.to_typescript }.join("\n")

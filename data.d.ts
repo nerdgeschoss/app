@@ -105,6 +105,26 @@ export interface DataSchema {
     users: Array<{ id: string; displayName: string }>;
     defaultMonth: string;
   };
+  'projects/index': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+    };
+    projects: Array<{
+      id: string;
+      name: string;
+      clientName: string;
+      openInvoiceCount: number;
+      harvestInvoiceUrl: string | null;
+      repository: string | null;
+      githubUrl: string | null;
+      frameworkVersions: any;
+    }>;
+    filter: string;
+    nextPageUrl: string | null;
+  };
   'sessions/edit': { email: string };
   'sessions/new': {};
   'sprint_feedbacks/edit_retro': {

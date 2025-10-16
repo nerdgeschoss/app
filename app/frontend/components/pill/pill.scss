@@ -2,19 +2,23 @@
   font-size: 0.9em;
   text-align: center;
   white-space: nowrap;
-  font-weight: 600;
-  height: 24px;
   line-height: 24px;
-  padding: 0 10px;
-  background-color: var(--text-primary-base);
-  color: white;
-  border-radius: 16px;
+  padding: 8px 16px;
+  color: var(--tab-label-default);
+  background-color: transparent;
+  border-radius: 60px;
+  border: 1px solid transparent;
 
   &:hover {
-    background-color: var(--text-primary-weaker);
+    color: var(--tab-label-hover);
+    background-color: var(--tab-bg-hover);
+    border-color: var(--tab-border-hover);
   }
 
   &--active {
-    background-color: var(--text-primary-weak);
+    font-weight: 700;
+    color: var(--tab-label-active);
+    background-color: var(--tab-bg-active);
+    border-color: var(--tab-border-active);
   }
 }
