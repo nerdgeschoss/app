@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Project
   module Harvest
     extend ActiveSupport::Concern
