@@ -1,7 +1,7 @@
 name: Report Dependencies
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   report-versions:
