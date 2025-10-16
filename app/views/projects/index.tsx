@@ -22,7 +22,7 @@ export default function ({
       <Stack>
         <Text type="h1-bold">{t('projects.index.title')}</Text>
         <Stack line="mobile" size={4}>
-          {['active', 'archived'].map((e) => (
+          {['active', 'internal', 'archived'].map((e) => (
             <Link key={e} href={`/projects?filter=${e}`}>
               <Pill active={e === filter}>{e}</Pill>
             </Link>

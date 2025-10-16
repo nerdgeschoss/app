@@ -24,6 +24,8 @@ class Project < ApplicationRecord
 
   scope :alphabetical, -> { order(name: :asc) }
   scope :active, -> { where(archived: false) }
+  scope :customers, -> { where.not(client_name: "nerdgeschoss") }
+  scope :internal, -> { where(client_name: "nerdgeschoss") }
   scope :archived, -> { where(archived: true) }
 
   def github_url

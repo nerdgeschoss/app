@@ -9,7 +9,9 @@ class ProjectsController < ApplicationController
       .page(params[:page]).per(40)
     case @filter
     when "active"
-      @projects = @projects.active
+      @projects = @projects.active.customers
+    when "internal"
+      @projects = @projects.active.internal
     when "archived"
       @projects = @projects.archived
     end
