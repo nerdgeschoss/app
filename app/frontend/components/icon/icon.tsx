@@ -15,6 +15,7 @@ export type IconName =
   | 'close'
   | 'tooltip-arrow'
   | 'chevron-arrow'
+  | 'project'
   | 'github';
 
 interface Props {

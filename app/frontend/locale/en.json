@@ -31,6 +31,12 @@
       "save": "Save"
     }
   },
+  "projects": {
+    "index": {
+      "title": "Projects",
+      "open_invoices": "open invoices"
+    }
+  },
   "users": {
     "index": {
       "title": "Users",

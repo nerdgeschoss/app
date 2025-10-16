@@ -26,11 +26,18 @@ Rails.application.routes.draw do
       resources :leaves, only: :index
     end
     resources :daily_nerd_messages, only: [:create, :update]
+    resources :projects, only: :index
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     get "confirm_login", to: "sessions#edit"
     post "confirm_login", to: "sessions#update"
     get "logout", to: "sessions#destroy"
     root "pages#home"
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :projects, only: :update
+    end
   end
 end

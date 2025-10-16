@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_22_082634) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_16_111635) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -102,12 +102,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_082634) do
   end
 
   create_table "projects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "client_name"
+    t.string "name", null: false
+    t.string "client_name", null: false
     t.string "repositories", default: [], array: true
     t.bigint "harvest_ids", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "repository"
+    t.boolean "archived", default: false, null: false
+    t.bigint "harvest_id"
+    t.jsonb "framework_versions", default: {}, null: false
+    t.index ["archived"], name: "index_projects_on_archived"
   end
 
   create_table "salaries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

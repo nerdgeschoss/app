@@ -33,9 +33,7 @@
   "features": {
     "ghcr.io/devcontainers/features/desktop-lite:1": {}
   },
-  "forwardPorts": [
-    6080
-  ],
+  "forwardPorts": [5432, 6080],
   "portsAttributes": {
     "6080": {
       "label": "playwright"

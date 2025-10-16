@@ -9,9 +9,7 @@ interface Props {
 
 export function Pill({ children, active }: Props): JSX.Element {
   return (
-    <div
-      className={classNames('pill', 'pill-test', { 'pill--active': active })}
-    >
+    <div className={classNames('pill', { 'pill--active': active })}>
       {children}
     </div>
   );
