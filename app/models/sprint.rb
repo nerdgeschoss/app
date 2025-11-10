@@ -18,6 +18,7 @@ class Sprint < ApplicationRecord
 
   has_many :sprint_feedbacks, dependent: :delete_all
   has_many :time_entries, dependent: :delete_all
+  has_many :tasks, dependent: :nullify
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
@@ -60,6 +61,16 @@ class Sprint < ApplicationRecord
 
   def finished_storypoints
     sprint_feedbacks.filter_map(&:finished_storypoints).sum
+  end
+
+  def storypoints_per_department
+    tasks.reduce(Hash.new(0.0)) do |acc, task|
+      involved_teams = (task.labels & ["design", "frontend", "backend"])
+      involved_teams.each do |team|
+        acc[team] += task.story_points.to_f / involved_teams.size
+      end
+      acc
+    end.map { |team, points| [team, points] }
   end
 
   def finished_storypoints_per_day

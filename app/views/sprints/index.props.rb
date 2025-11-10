@@ -14,6 +14,21 @@ field :sprints, array: true, value: -> { @sprints } do
   field :turnover_per_storypoint, Float, null: true, value: -> { turnover_per_storypoint if root(&:current_user).role?(:hr) }
   field :turnover, Float, null: true, value: -> { turnover if root(&:current_user).role?(:hr) }
 
+  field :storypoints_per_department, array: true do
+    field :team, value: -> { first }
+    field :points, Float, value: -> { second }
+  end
+
+  field :retro_notes, array: true, value: -> { sprint_feedbacks.sort_by { _1.user.display_name } } do
+    field :id
+    field :retro_text, null: true
+    field :retro_rating, Integer, null: true
+    field :user do
+      field :id
+      field :display_name
+    end
+  end
+
   field :performances, array: true, value: -> { sprint_feedbacks.select { helpers.policy(_1).show? }.sort_by { _1.user.display_name } } do
     field :id
     field :working_day_count, Integer
