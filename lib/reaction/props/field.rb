@@ -39,7 +39,7 @@ module Reaction
         elsif type == Float
           value.to_f
         elsif type == Date
-          value.to_s
+          value.to_date.to_s
         elsif type == Time
           value.iso8601
         elsif type == Boolean
