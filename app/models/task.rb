@@ -41,7 +41,8 @@ class Task < ApplicationRecord
           repository: gt.repository,
           issue_number: gt.issue_number,
           story_points: gt.points,
-          project_id: project_ids_by_repository[gt.repository]
+          project_id: project_ids_by_repository[gt.repository],
+          labels: gt.labels
         }
       end
 
