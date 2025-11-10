@@ -64,13 +64,24 @@ class Sprint < ApplicationRecord
   end
 
   def storypoints_per_department
+    teams = ["design", "frontend", "backend"]
+    working_days_per_department = sprint_feedbacks.group_by { (_1.user.team_member_of & teams).first }.transform_values do |feedbacks|
+      feedbacks.sum(&:working_day_count)
+    end
     tasks.reduce(Hash.new(0.0)) do |acc, task|
-      involved_teams = (task.labels & ["design", "frontend", "backend"])
+      involved_teams = (task.labels & teams)
       involved_teams.each do |team|
         acc[team] += task.story_points.to_f / involved_teams.size
       end
       acc
-    end.map { |team, points| [team, points] }
+    end.map do |team, points|
+      {
+        team:,
+        points:,
+        working_days: working_days_per_department[team] || 0,
+        points_per_working_day: (points / [working_days_per_department[team] || 1, 1].max)
+      }
+    end.sort_by { _1[:team] }
   end
 
   def finished_storypoints_per_day

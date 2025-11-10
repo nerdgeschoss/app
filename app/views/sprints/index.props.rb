@@ -15,8 +15,10 @@ field :sprints, array: true, value: -> { @sprints } do
   field :turnover, Float, null: true, value: -> { turnover if root(&:current_user).role?(:hr) }
 
   field :storypoints_per_department, array: true do
-    field :team, value: -> { first }
-    field :points, Float, value: -> { second }
+    field :team
+    field :points, Float
+    field :working_days, Integer
+    field :points_per_working_day, Float
   end
 
   field :retro_notes, array: true, value: -> { sprint_feedbacks.sort_by { _1.user.display_name } } do
