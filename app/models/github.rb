@@ -5,7 +5,7 @@ class Github
 
   class QueryExecutionError < StandardError; end
 
-  SprintBoardItem = Struct.new(:id, :title, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, keyword_init: true)
+  SprintBoardItem = Struct.new(:id, :title, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, :labels, keyword_init: true)
 
   def sprint_board_items
     all_data = []
@@ -28,7 +28,8 @@ class Github
           issue_number: item.dig("content", "number"),
           status: item.dig("status", "name").presence,
           sprint_title: item.dig("sprint", "title").presence || item.dig("sprint_backup", "text").presence,
-          points: item.dig("points", "number")&.to_i
+          points: item.dig("points", "number")&.to_i,
+          labels: item.dig("content", "labels", "nodes").to_a.filter_map { |node| node.dig("name") }
         )
       end
 
@@ -101,6 +102,11 @@ class Github
                           login
                         }
                       }
+                      labels(first: 50) {
+                        nodes {
+                          name
+                        }
+                      }
                     }
                     ... on PullRequest {
                       assignees(first: 10) {
@@ -115,6 +121,11 @@ class Github
                         name
                         owner {
                           login
+                        }
+                      }
+                      labels(first: 50) {
+                        nodes {
+                          name
                         }
                       }
                     }

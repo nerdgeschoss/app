@@ -36,7 +36,8 @@ RSpec.describe Task do
           issue_number: 157,
           sprint_title: "S2023-02",
           status: "Done",
-          points: 3
+          points: 3,
+          labels: ["backend"]
         ),
         Github::SprintBoardItem.new(
           id: "I_123",
@@ -46,7 +47,8 @@ RSpec.describe Task do
           issue_number: 166,
           sprint_title: "S2023-02",
           status: "Todo",
-          points: 3
+          points: 3,
+          labels: ["frontend"]
         )
       ]
     end
@@ -61,6 +63,7 @@ RSpec.describe Task do
       expect(task.issue_number).to eq 157
       expect(task.story_points).to eq 3
       expect(task.users).to eq [users(:john)]
+      expect(task.labels).to eq ["backend"]
     end
 
     it "updates existing tasks" do

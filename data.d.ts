@@ -238,6 +238,21 @@ export interface DataSchema {
       totalWorkingDays: number;
       turnoverPerStorypoint: number | null;
       turnover: number | null;
+      storypointsPerDepartment: Array<{
+        team: string;
+        points: number;
+        workingDays: number;
+        pointsPerWorkingDay: number;
+      }>;
+      retroNotes: Array<{
+        id: string;
+        retroText: string | null;
+        retroRating: number | null;
+        user: {
+          id: string;
+          displayName: string;
+        };
+      }>;
       performances: Array<{
         id: string;
         workingDayCount: number;

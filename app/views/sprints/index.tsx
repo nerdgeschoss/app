@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageProps } from '../../../data.d';
-import { useFormatter } from '../../frontend/util/dependencies';
+import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { Layout } from '../../frontend/components/layout/layout';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Text } from '../../frontend/components/text/text';
@@ -11,21 +11,29 @@ import { Button } from '../../frontend/components/button/button';
 import { useModal } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Property } from '../../frontend/components/property/property';
+import { Pill } from '../../frontend/components/pill/pill';
 
 export default function ({
   data: { currentUser, sprints, nextPageUrl, permitCreateSprint },
 }: PageProps<'sprints/index'>): JSX.Element {
   const l = useFormatter();
+  const t = useTranslate();
   const reaction = useReaction();
   const modal = useModal();
+  const [displayMode, setDisplayMode] = useState<
+    'performance' | 'retro' | 'points'
+  >('performance');
 
   return (
     <Layout user={currentUser} container>
       <Stack>
         <Stack line="mobile" justify="space-between">
-          <Text type="h1-bold">Sprints</Text>
+          <Text type="h1-bold">{t('sprints.index.title')}</Text>
           {permitCreateSprint && (
-            <Button title="add" onClick={() => modal.present('/sprints/new')} />
+            <Button
+              title={t('sprints.index.create_sprint')}
+              onClick={() => modal.present('/sprints/new')}
+            />
           )}
         </Stack>
         <Stack size={32}>
@@ -103,17 +111,93 @@ export default function ({
                   </Stack>
                 }
               >
-                <PerformanceGrid>
-                  {sprint.performances.map((performance) => (
-                    <Performance key={performance.id} {...performance} />
-                  ))}
-                </PerformanceGrid>
+                <Stack size={16}>
+                  <Stack line="mobile" size={4}>
+                    {(['performance', 'retro', 'points'] as const).map((e) => (
+                      <div onClick={() => setDisplayMode(e)} key={e}>
+                        <Pill active={e === displayMode}>
+                          {t(`sprints.index.statistic.${e}`)}
+                        </Pill>
+                      </div>
+                    ))}
+                  </Stack>
+                  {displayMode === 'performance' && (
+                    <PerformanceGrid>
+                      {sprint.performances.map((performance) => (
+                        <Performance key={performance.id} {...performance} />
+                      ))}
+                    </PerformanceGrid>
+                  )}
+                  {displayMode === 'retro' && (
+                    <Stack>
+                      {sprint.retroNotes.map((retro) => (
+                        <Stack key={retro.id}>
+                          <Stack line="mobile">
+                            <Text type="card-heading-bold">
+                              {retro.user.displayName}
+                            </Text>
+                            <Stack line="mobile" size={8}>
+                              <span>⭐</span>
+                              <Text type="caption-primary-regular">
+                                {retro.retroRating ?? '-'}
+                              </Text>
+                            </Stack>
+                          </Stack>
+                          {retro.retroText && (
+                            <Text multiline type="body-regular">
+                              {retro.retroText}
+                            </Text>
+                          )}
+                        </Stack>
+                      ))}
+                    </Stack>
+                  )}
+                  {displayMode === 'points' && (
+                    <Stack>
+                      {sprint.storypointsPerDepartment.map((points) => (
+                        <Stack
+                          key={points.team}
+                          line="mobile"
+                          justify="space-between"
+                        >
+                          <Text type="body-regular">{points.team}</Text>
+                          <Text type="body-regular">
+                            {l.singleDigitNumber(points.points)} pts
+                          </Text>
+                          <Text type="body-regular">
+                            {points.workingDays} days
+                          </Text>
+                          <Text type="body-regular">
+                            {l.singleDigitNumber(points.pointsPerWorkingDay)}{' '}
+                            pts/day
+                          </Text>
+                        </Stack>
+                      ))}
+                      <Stack line="mobile" justify="space-between">
+                        <Text type="body-regular">
+                          {t('sprints.index.total')}
+                        </Text>
+                        <Text type="body-regular">
+                          {l.singleDigitNumber(
+                            sprint.storypointsPerDepartment.reduce(
+                              (acc, points) => acc + points.points,
+                              0
+                            )
+                          )}{' '}
+                          pts
+                        </Text>
+                        <Text type="body-regular"> </Text>
+                        <Text type="body-regular"> </Text>
+                      </Stack>
+                    </Stack>
+                  )}
+                </Stack>
               </Card>
             </Stack>
           ))}
           {nextPageUrl && (
             <Button
-              title="more"
+              title={t('sprints.index.more')}
               onClick={() =>
                 reaction.history.extendPageContentWithPagination(
                   nextPageUrl,
