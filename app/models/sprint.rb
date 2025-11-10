@@ -68,12 +68,11 @@ class Sprint < ApplicationRecord
     working_days_per_department = sprint_feedbacks.group_by { (_1.user.team_member_of & teams).first }.transform_values do |feedbacks|
       feedbacks.sum(&:working_day_count)
     end
-    tasks.reduce(Hash.new(0.0)) do |acc, task|
+    tasks.each_with_object(Hash.new(0.0)) do |task, acc|
       involved_teams = (task.labels & teams)
       involved_teams.each do |team|
         acc[team] += task.story_points.to_f / involved_teams.size
       end
-      acc
     end.map do |team, points|
       {
         team:,

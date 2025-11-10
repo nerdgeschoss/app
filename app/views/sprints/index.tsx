@@ -19,9 +19,9 @@ export default function ({
   const l = useFormatter();
   const reaction = useReaction();
   const modal = useModal();
-  const [displayMode, setDisplayMode] = useState<'performance' | 'retro' | 'points'>(
-    'performance'
-  );
+  const [displayMode, setDisplayMode] = useState<
+    'performance' | 'retro' | 'points'
+  >('performance');
 
   return (
     <Layout user={currentUser} container>
@@ -132,10 +132,16 @@ export default function ({
                             </Text>
                             <Stack line="mobile" size={8}>
                               <span>⭐</span>
-                              <Text type="caption-primary-regular">{retro.retroRating ?? '-'}</Text>
+                              <Text type="caption-primary-regular">
+                                {retro.retroRating ?? '-'}
+                              </Text>
                             </Stack>
                           </Stack>
-                          {retro.retroText && <Text multiline type="body-regular">{retro.retroText}</Text>}
+                          {retro.retroText && (
+                            <Text multiline type="body-regular">
+                              {retro.retroText}
+                            </Text>
+                          )}
                         </Stack>
                       ))}
                     </Stack>
@@ -143,16 +149,35 @@ export default function ({
                   {displayMode === 'points' && (
                     <Stack>
                       {sprint.storypointsPerDepartment.map((points) => (
-                        <Stack key={points.team} line="mobile" justify="space-between">
+                        <Stack
+                          key={points.team}
+                          line="mobile"
+                          justify="space-between"
+                        >
                           <Text type="body-regular">{points.team}</Text>
-                          <Text type="body-regular">{l.singleDigitNumber(points.points)} pts</Text>
-                          <Text type="body-regular">{points.workingDays} days</Text>
-                          <Text type="body-regular">{l.singleDigitNumber(points.pointsPerWorkingDay)} pts/day</Text>
+                          <Text type="body-regular">
+                            {l.singleDigitNumber(points.points)} pts
+                          </Text>
+                          <Text type="body-regular">
+                            {points.workingDays} days
+                          </Text>
+                          <Text type="body-regular">
+                            {l.singleDigitNumber(points.pointsPerWorkingDay)}{' '}
+                            pts/day
+                          </Text>
                         </Stack>
                       ))}
                       <Stack line="mobile" justify="space-between">
                         <Text type="body-regular">Total</Text>
-                        <Text type="body-regular">{l.singleDigitNumber(sprint.storypointsPerDepartment.reduce((acc, points) => acc + points.points, 0))} pts</Text>
+                        <Text type="body-regular">
+                          {l.singleDigitNumber(
+                            sprint.storypointsPerDepartment.reduce(
+                              (acc, points) => acc + points.points,
+                              0
+                            )
+                          )}{' '}
+                          pts
+                        </Text>
                         <Text type="body-regular"> </Text>
                         <Text type="body-regular"> </Text>
                       </Stack>
