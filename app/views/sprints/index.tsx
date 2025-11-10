@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PageProps } from '../../../data.d';
-import { useFormatter } from '../../frontend/util/dependencies';
+import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { Layout } from '../../frontend/components/layout/layout';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Text } from '../../frontend/components/text/text';
@@ -17,6 +17,7 @@ export default function ({
   data: { currentUser, sprints, nextPageUrl, permitCreateSprint },
 }: PageProps<'sprints/index'>): JSX.Element {
   const l = useFormatter();
+  const t = useTranslate();
   const reaction = useReaction();
   const modal = useModal();
   const [displayMode, setDisplayMode] = useState<
@@ -27,9 +28,12 @@ export default function ({
     <Layout user={currentUser} container>
       <Stack>
         <Stack line="mobile" justify="space-between">
-          <Text type="h1-bold">Sprints</Text>
+          <Text type="h1-bold">{t('sprints.index.title')}</Text>
           {permitCreateSprint && (
-            <Button title="add" onClick={() => modal.present('/sprints/new')} />
+            <Button
+              title={t('sprints.index.create_sprint')}
+              onClick={() => modal.present('/sprints/new')}
+            />
           )}
         </Stack>
         <Stack size={32}>
@@ -111,7 +115,9 @@ export default function ({
                   <Stack line="mobile" size={4}>
                     {(['performance', 'retro', 'points'] as const).map((e) => (
                       <div onClick={() => setDisplayMode(e)} key={e}>
-                        <Pill active={e === displayMode}>{e}</Pill>
+                        <Pill active={e === displayMode}>
+                          {t(`sprints.index.statistic.${e}`)}
+                        </Pill>
                       </div>
                     ))}
                   </Stack>
@@ -168,7 +174,9 @@ export default function ({
                         </Stack>
                       ))}
                       <Stack line="mobile" justify="space-between">
-                        <Text type="body-regular">Total</Text>
+                        <Text type="body-regular">
+                          {t('sprints.index.total')}
+                        </Text>
                         <Text type="body-regular">
                           {l.singleDigitNumber(
                             sprint.storypointsPerDepartment.reduce(
@@ -189,7 +197,7 @@ export default function ({
           ))}
           {nextPageUrl && (
             <Button
-              title="more"
+              title={t('sprints.index.more')}
               onClick={() =>
                 reaction.history.extendPageContentWithPagination(
                   nextPageUrl,

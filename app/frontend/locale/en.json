@@ -19,6 +19,17 @@
       "sprint_until": "Sprint until",
       "working_days": "Working days",
       "save": "Save"
+    },
+    "index": {
+      "title": "Sprints",
+      "create_sprint": "add",
+      "total": "Total",
+      "more": "More",
+      "statistic": {
+        "performance": "Performance",
+        "retro": "Retrospective",
+        "points": "Points"
+      }
     }
   },
   "sprint_feedbacks": {
