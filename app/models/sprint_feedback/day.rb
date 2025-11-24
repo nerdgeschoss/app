@@ -21,7 +21,7 @@ class SprintFeedback::Day
   end
 
   def time_entries
-    @time_entries ||= sprint_feedback.sprint.time_entries.filter { _1.created_at.to_date == day && _1.user_id == sprint_feedback.user_id }
+    @time_entries ||= sprint_feedback.sprint.time_entries.filter { _1.created_at.to_date == day && _1.user_id == sprint_feedback.user_id }.sort_by { _1.start_at || Time.zone.now }
   end
 
   def has_time_entries?
