@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Leaves ICS Feed" do
+RSpec.describe "Projects" do
   fixtures :all
 
   it "updates project dependencies" do
