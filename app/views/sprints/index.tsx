@@ -133,10 +133,10 @@ export default function ({
                       {sprint.retroNotes.map((retro) => (
                         <Stack key={retro.id}>
                           <Stack line="mobile">
-                            <Text type="card-heading-bold">
+                            <Text type="card-heading-bold" noWrap>
                               {retro.user.displayName}
                             </Text>
-                            <Stack line="mobile" size={8}>
+                            <Stack line="mobile" size={8} align="center">
                               <span>⭐</span>
                               <Text type="caption-primary-regular">
                                 {retro.retroRating ?? '-'}

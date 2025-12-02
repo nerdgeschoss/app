@@ -78,6 +78,12 @@
       "subscribe": "Subscribe",
       "request": "Request leave",
       "more": "More"
+    },
+    "types": {
+      "all": "All",
+      "pending_approval": "Pending",
+      "rejected": "Rejected",
+      "approved": "Approved"
     }
   },
   "inventories": {

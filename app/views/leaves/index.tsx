@@ -19,6 +19,13 @@ export default function ({
   const reaction = useReaction();
   const modal = useModal();
 
+  const translations = {
+    all: t('leaves.types.all'),
+    pending_approval: t('leaves.types.pending_approval'),
+    rejected: t('leaves.types.rejected'),
+    approved: t('leaves.types.approved'),
+  } as const;
+
   return (
     <Layout user={currentUser} container>
       <Stack>
@@ -31,9 +38,9 @@ export default function ({
           />
         </Stack>
         <Stack line="mobile">
-          {['all', 'pending_approval', 'rejected'].map((e) => (
-            <Link key={e} href={`/leaves?status=${e}`}>
-              <Pill active={e === activeFilter}>{e}</Pill>
+          {Object.entries(translations).map(([key, label]) => (
+            <Link key={key} href={`/leaves?status=${key}`}>
+              <Pill active={key === activeFilter}>{label}</Pill>
             </Link>
           ))}
         </Stack>
@@ -52,7 +59,11 @@ export default function ({
                       leave.days[leave.days.length - 1]?.day
                     )}
                   </Text>
-                  <Text>{leave.status}</Text>
+                  <Text>
+                    {leave.status in translations
+                      ? translations[leave.status as keyof typeof translations]
+                      : leave.status}
+                  </Text>
                 </>
               }
               context={
