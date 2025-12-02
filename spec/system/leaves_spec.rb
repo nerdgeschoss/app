@@ -41,7 +41,7 @@ RSpec.describe "Leaves" do
     end
     message = Slack.instance.last_message
     expect(message.channel).to eq "slack-john"
-    expect(message.text).to include "Approved"
+    expect(message.text).to include "approved"
   end
 
   it "automatically approves a single day sick leave and changes the slack status" do
