@@ -23,7 +23,7 @@ RSpec.describe "Leaves" do
     end
     expect(page).not_to have_selector ".modal"
     expect(page).to have_content "John / My Holiday"
-    expect(page).to have_content "pending_approval"
+    expect(page).to have_content "Pending"
     expect(page).not_to have_content "👍" # only admins can approve
     screenshot "user leaves"
   end
@@ -33,7 +33,7 @@ RSpec.describe "Leaves" do
     login :admin
     visit leaves_path
     expect(page).to have_content "John / Holiday"
-    expect(page).to have_content "pending_approval"
+    expect(page).to have_content "Pending"
     screenshot "leave approval"
     within "#leave_#{leave.id}" do
       click_on "👍"
@@ -41,7 +41,7 @@ RSpec.describe "Leaves" do
     end
     message = Slack.instance.last_message
     expect(message.channel).to eq "slack-john"
-    expect(message.text).to include "approved"
+    expect(message.text).to include "Approved"
   end
 
   it "automatically approves a single day sick leave and changes the slack status" do
@@ -59,7 +59,7 @@ RSpec.describe "Leaves" do
       click_on "Request leave"
     end
     expect(page).to have_content "John / Fever"
-    expect(page).to have_content "approved"
+    expect(page).to have_content "Approved"
     screenshot "sick leave approval"
   end
 
