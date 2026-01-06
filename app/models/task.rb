@@ -23,6 +23,7 @@ class Task < ApplicationRecord
   has_many :task_users, dependent: :delete_all
   has_many :users, through: :task_users
   has_many :time_entries, dependent: :nullify
+
   belongs_to :project, optional: true
 
   class << self
