@@ -6,6 +6,7 @@
 #
 #  id           :uuid             not null, primary key
 #  issue_number :bigint
+#  labels       :string           default([]), not null, is an Array
 #  repository   :string
 #  status       :citext
 #  story_points :integer
@@ -22,6 +23,7 @@ RSpec.describe Task do
   fixtures :all
 
   describe ".sync_with_github" do
+    let(:project) { projects :customer_project }
     before do
       allow_any_instance_of(Github).to receive(:sprint_board_items).and_return(sprint_board_items)
     end
@@ -32,7 +34,7 @@ RSpec.describe Task do
           id: "I_kwDOHqBmEs5py4Jr",
           title: "APP-777 - Implement Banner and QR Code",
           assignee_logins: ["john-github"],
-          repository: "nerdgeschoss/project",
+          repository: project.repository,
           issue_number: 157,
           sprint_title: "S2023-02",
           status: "Done",
@@ -59,11 +61,12 @@ RSpec.describe Task do
       expect(task.sprint).to eq sprints :empty
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
       expect(task.status).to eq "Done"
-      expect(task.repository).to eq "nerdgeschoss/project"
+      expect(task.repository).to eq project.repository
       expect(task.issue_number).to eq 157
       expect(task.story_points).to eq 3
       expect(task.users).to eq [users(:john)]
       expect(task.labels).to eq ["backend"]
+      expect(task.project).to eq project
     end
 
     it "updates existing tasks" do
@@ -73,7 +76,6 @@ RSpec.describe Task do
       task.reload
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
       expect(task.users).to eq [users(:john)]
-      expect(task.repository).to eq "nerdgeschoss/project"
       expect(task.issue_number).to eq 157
       expect(task.sprint).to eq sprints :empty
       expect(task.story_points).to eq 3

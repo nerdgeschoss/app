@@ -6,6 +6,7 @@
 #
 #  id           :uuid             not null, primary key
 #  issue_number :bigint
+#  labels       :string           default([]), not null, is an Array
 #  repository   :string
 #  status       :citext
 #  story_points :integer
@@ -23,10 +24,12 @@ class Task < ApplicationRecord
   has_many :users, through: :task_users
   has_many :time_entries, dependent: :nullify
 
+  belongs_to :project, optional: true
+
   class << self
     def sync_with_github
       user_ids_by_handle = User.pluck(:github_handle, :id).to_h
-      project_ids_by_repository = Project.pluck(:repositories, :id).flat_map { |repositories, project_id| repositories.map { |repository| [repository, project_id] } }.to_h
+      project_ids_by_repository = Project.pluck(:repository, :id).to_h
       sprint_ids_by_title = Sprint.pluck(:title, :id).to_h
       github_tasks = Github.new.sprint_board_items
       current_github_ids = pluck(:github_id)

@@ -15,7 +15,6 @@
 #  harvest_id         :bigint
 #
 class Project < ApplicationRecord
-  self.ignored_columns += ["repositories", "harvest_ids"]
   include Harvest
 
   has_many :invoices, dependent: :destroy

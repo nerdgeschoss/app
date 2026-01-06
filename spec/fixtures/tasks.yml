@@ -4,6 +4,7 @@
 #
 #  id           :uuid             not null, primary key
 #  issue_number :bigint
+#  labels       :string           default([]), not null, is an Array
 #  repository   :string
 #  status       :citext
 #  story_points :integer

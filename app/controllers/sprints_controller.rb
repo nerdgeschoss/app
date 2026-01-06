@@ -5,7 +5,7 @@ class SprintsController < ApplicationController
 
   def index
     @sprints = policy_scope(Sprint.reverse_chronologic)
-      .includes(:time_entries, sprint_feedbacks: [:daily_nerd_messages, user: :leaves])
+      .includes(:time_entries, :tasks, sprint_feedbacks: [:daily_nerd_messages, user: :leaves])
       .page(params[:page]).per(20)
   end
 
