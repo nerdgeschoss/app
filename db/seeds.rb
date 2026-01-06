@@ -106,8 +106,8 @@ logger.debug "Creating project and time entries for current sprint..."
 project = Project.create!(
   name: "Employee Dashboard",
   client_name: "Internal",
-  repositories: ["nerdgeschoss/employee-dashboard"],
-  harvest_ids: [12345]
+  repository: "nerdgeschoss/employee-dashboard",
+  harvest_id: 12345
 )
 
 # Get some random existing tasks and assign them to current sprint and project
