@@ -6,8 +6,12 @@ field :projects, array: true, value: -> { @projects } do
   field :id
   field :name
   field :client_name
-  field :open_invoice_count, Integer, value: -> { invoices.count { _1.state == "open" } }
-  field :harvest_invoice_url, null: true
+  field :open_invoice_amount, Float, null: true, value: -> { open_invoice_amount if helpers.policy(self).financial_details? }
+  field :open_invoice_count, Integer, null: true, value: -> { open_invoice_count if helpers.policy(self).financial_details? }
+  field :last_invoiced, Date, null: true, value: -> { last_invoiced if helpers.policy(self).financial_details? }
+  field :invoiced_revenue, Float, null: true, value: -> { invoiced_revenue if helpers.policy(self).financial_details? }
+  field :uninvoiced_revenue, Float, null: true, value: -> { uninvoiced_revenue if helpers.policy(self).financial_details? }
+  field :harvest_url, null: true, value: -> { harvest_invoice_url if helpers.policy(self).financial_details? }
   field :repository, null: true
   field :github_url, null: true
   field :framework_versions, JSON

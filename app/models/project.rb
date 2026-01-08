@@ -34,4 +34,24 @@ class Project < ApplicationRecord
   def harvest_invoice_url
     "https://nerdgeschoss.harvestapp.com/projects/#{harvest_id}?tab=invoices" if harvest_id.present?
   end
+
+  def open_invoice_amount
+    invoices.sum { |invoice| invoice.open? ? invoice.amount : 0.0 }
+  end
+
+  def open_invoice_count
+    invoices.count(&:open?)
+  end
+
+  def last_invoiced
+    invoices.filter_map(&:sent_at).max
+  end
+
+  def invoiced_revenue
+    invoices.reject(&:draft?).sum(&:amount)
+  end
+
+  def uninvoiced_revenue
+    @uninvoiced_revenue ||= time_entries.where(invoice_id: nil, billable: true, created_at: Date.parse("2025-01-01")..).sum("billable_rate * rounded_hours")
+  end
 end

@@ -116,8 +116,12 @@ export interface DataSchema {
       id: string;
       name: string;
       clientName: string;
-      openInvoiceCount: number;
-      harvestInvoiceUrl: string | null;
+      openInvoiceAmount: number | null;
+      openInvoiceCount: number | null;
+      lastInvoiced: string | null;
+      invoicedRevenue: number | null;
+      uninvoicedRevenue: number | null;
+      harvestUrl: string | null;
       repository: string | null;
       githubUrl: string | null;
       frameworkVersions: any;

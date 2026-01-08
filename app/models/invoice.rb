@@ -41,4 +41,12 @@ class Invoice < ApplicationRecord
       upsert_all(invoices, unique_by: :harvest_id) if invoices.any?
     end
   end
+
+  def open?
+    state == "open"
+  end
+
+  def draft?
+    state == "draft"
+  end
 end
