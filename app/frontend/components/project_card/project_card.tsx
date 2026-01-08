@@ -1,4 +1,4 @@
-import { useFormatter } from '../../util/dependencies';
+import { useFormatter, useTranslate } from '../../util/dependencies';
 import { Card } from '../card/card';
 import { Divider } from '../divider/divider';
 import { Grid } from '../grid/grid';
@@ -34,6 +34,7 @@ export function ProjectCard({
   harvestUrl,
 }: Props): JSX.Element {
   const l = useFormatter();
+  const t = useTranslate();
   return (
     <Card>
       <Stack size={16}>
@@ -46,13 +47,17 @@ export function ProjectCard({
         <Divider />
         <Stack line="mobile">
           {githubUrl && (
-            <IconLink title="GitHub" icon="github" href={githubUrl} />
+            <IconLink
+              title={t('projects.index.github')}
+              icon="github"
+              href={githubUrl}
+            />
           )}
         </Stack>
         <Grid gap={8} horizontalGap={24} minColumnWidth={230}>
           {openInvoiceAmount !== null && openInvoiceAmount > 0 && (
             <DetailLine
-              label="Open Invoices"
+              label={t('projects.index.open_invoices')}
               value={`${l.currency(openInvoiceAmount)} (${openInvoiceCount})`}
               icon="harvest"
               iconUrl={harvestUrl ?? undefined}
@@ -60,18 +65,21 @@ export function ProjectCard({
           )}
           {invoicedRevenue !== null && invoicedRevenue > 0 && (
             <DetailLine
-              label="Invoiced Revenue"
+              label={t('projects.index.invoiced_revenue')}
               value={l.currency(invoicedRevenue)}
             />
           )}
           {uninvoicedRevenue !== null && uninvoicedRevenue > 0 && (
             <DetailLine
-              label="Uninvoiced Revenue"
+              label={t('projects.index.uninvoiced_revenue')}
               value={l.currency(uninvoicedRevenue)}
             />
           )}
           {lastInvoiced && (
-            <DetailLine label="Last Invoiced" value={l.date(lastInvoiced)} />
+            <DetailLine
+              label={t('projects.index.last_invoiced')}
+              value={l.date(lastInvoiced)}
+            />
           )}
         </Grid>
         {Object.keys(frameworkVersions).length > 0 && (
