@@ -58,7 +58,11 @@ export function ProjectCard({
           {openInvoiceAmount !== null && openInvoiceAmount > 0 && (
             <DetailLine
               label={t('projects.index.open_invoices')}
-              value={`${l.currency(openInvoiceAmount)} (${openInvoiceCount})`}
+              value={
+                (openInvoiceCount ?? 0) > 1
+                  ? `${l.currency(openInvoiceAmount)} (${openInvoiceCount})`
+                  : l.currency(openInvoiceAmount)
+              }
               icon="harvest"
               iconUrl={harvestUrl ?? undefined}
             />
