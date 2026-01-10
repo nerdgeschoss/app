@@ -37,3 +37,4 @@ entry_1:
   client_name: Some Client
   task: Programming
   external_id: 'ext_12345'
+  invoiced: f
