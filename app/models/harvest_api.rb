@@ -3,7 +3,7 @@
 class HarvestApi
   include Singleton
 
-  TimeEntry = Struct.new(:id, :date, :hours, :rounded_hours, :billable, :project, :project_id, :invoice_id, :client, :task, :billable_rate, :cost_rate, :notes, :user, :response, :start_at, keyword_init: true)
+  TimeEntry = Struct.new(:id, :date, :hours, :rounded_hours, :billable, :project, :project_id, :invoice_id, :client, :task, :billable_rate, :cost_rate, :notes, :user, :response, :start_at, :invoiced, keyword_init: true)
   User = Struct.new(:id, :first_name, :last_name, :email, :weekly_capacity, keyword_init: true)
   Invoice = Struct.new(:id, :reference, :amount, :state, :sent_at, :paid_at, :project_id, :project_name, :client_name, keyword_init: true)
   Project = Struct.new(:id, :name, :client_name, :archived, keyword_init: true)
@@ -30,6 +30,7 @@ class HarvestApi
             user: emails_by_id[e.dig(:user, :id)],
             task: e.dig(:task, :name),
             invoice_id: e.dig(:invoice, :id),
+            invoiced: e[:locked_reason] == "Item Invoiced" || e.dig(:invoice, :id).present?,
             response: e
           )
       )

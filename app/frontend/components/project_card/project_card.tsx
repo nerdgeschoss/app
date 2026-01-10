@@ -1,3 +1,4 @@
+import { Link } from '../../sprinkles/history';
 import { useFormatter, useTranslate } from '../../util/dependencies';
 import { Card } from '../card/card';
 import { Divider } from '../divider/divider';
@@ -18,6 +19,8 @@ interface Props {
   openInvoiceCount: number | null;
   invoicedRevenue: number | null;
   uninvoicedRevenue: number | null;
+  tasksInSprint: number | null;
+  sprintName: string | null;
   lastInvoiced: string | null;
 }
 
@@ -29,6 +32,8 @@ export function ProjectCard({
   openInvoiceAmount,
   openInvoiceCount,
   lastInvoiced,
+  tasksInSprint,
+  sprintName,
   invoicedRevenue,
   uninvoicedRevenue,
   harvestUrl,
@@ -41,7 +46,9 @@ export function ProjectCard({
         <Stack size={4}>
           <Text type="h5-bold">{name}</Text>
           <Text type="caption-primary-regular" color="label-caption-secondary">
-            {clientName}
+            <Link href={`/projects?customer=${encodeURIComponent(clientName)}`}>
+              {clientName}
+            </Link>
           </Text>
         </Stack>
         <Divider />
@@ -83,6 +90,12 @@ export function ProjectCard({
             <DetailLine
               label={t('projects.index.last_invoiced')}
               value={l.date(lastInvoiced)}
+            />
+          )}
+          {sprintName && tasksInSprint !== null && tasksInSprint > 0 && (
+            <DetailLine
+              label={`Tasks in Sprint ${sprintName}`}
+              value={tasksInSprint}
             />
           )}
         </Grid>

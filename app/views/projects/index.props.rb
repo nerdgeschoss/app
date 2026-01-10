@@ -2,6 +2,10 @@
 
 render "components/current_user"
 
+field :current_sprint, null: true, value: -> { @current_sprint } do
+  field :id
+  field :title
+end
 field :projects, array: true, value: -> { @projects } do
   field :id
   field :name
@@ -11,6 +15,7 @@ field :projects, array: true, value: -> { @projects } do
   field :last_invoiced, Date, null: true, value: -> { last_invoiced if helpers.policy(self).financial_details? }
   field :invoiced_revenue, Float, null: true, value: -> { invoiced_revenue if helpers.policy(self).financial_details? }
   field :uninvoiced_revenue, Float, null: true, value: -> { uninvoiced_revenue if helpers.policy(self).financial_details? }
+  field :tasks_in_sprint, Integer, value: -> { tasks_in_sprint(root { @current_sprint }) }, null: true
   field :harvest_url, null: true, value: -> { harvest_invoice_url if helpers.policy(self).financial_details? }
   field :repository, null: true
   field :github_url, null: true

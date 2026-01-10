@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: projects
+#
+#  id                 :uuid             not null, primary key
+#  archived           :boolean          default(FALSE), not null
+#  client_name        :string           not null
+#  framework_versions :jsonb            not null
+#  name               :string           not null
+#  repository         :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  harvest_id         :bigint
+#
 require "rails_helper"
 
 RSpec.describe Project do

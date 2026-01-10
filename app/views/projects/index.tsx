@@ -12,7 +12,7 @@ import { Link } from '../../frontend/sprinkles/history';
 import { Pill } from '../../frontend/components/pill/pill';
 
 export default function ({
-  data: { currentUser, projects, nextPageUrl, filter },
+  data: { currentUser, projects, nextPageUrl, currentSprint, filter },
 }: PageProps<'projects/index'>): JSX.Element {
   const t = useTranslate();
   const reaction = useReaction();
@@ -30,7 +30,11 @@ export default function ({
         </Stack>
         <Grid minColumnWidth={500}>
           {projects.map((project) => (
-            <ProjectCard key={project.id} {...project} />
+            <ProjectCard
+              key={project.id}
+              sprintName={currentSprint?.title ?? null}
+              {...project}
+            />
           ))}
         </Grid>
         {nextPageUrl && (

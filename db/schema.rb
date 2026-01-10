@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_06_102916) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_10_152830) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -341,6 +341,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_06_102916) do
     t.uuid "invoice_id"
     t.boolean "billable", default: false, null: false
     t.datetime "start_at"
+    t.boolean "invoiced", default: false, null: false
     t.index ["external_id"], name: "index_time_entries_on_external_id", unique: true
     t.index ["invoice_id"], name: "index_time_entries_on_invoice_id"
     t.index ["project_id"], name: "index_time_entries_on_project_id"

@@ -52,6 +52,11 @@ class Project < ApplicationRecord
   end
 
   def uninvoiced_revenue
-    @uninvoiced_revenue ||= time_entries.where(invoice_id: nil, billable: true, created_at: Date.parse("2025-01-01")..).sum("billable_rate * rounded_hours")
+    @uninvoiced_revenue ||= time_entries.where(invoiced: false, billable: true, created_at: Date.parse("2025-01-01")..).sum("billable_rate * rounded_hours")
+  end
+
+  def tasks_in_sprint(sprint)
+    return nil unless sprint
+    tasks.where(sprint:).count
   end
 end

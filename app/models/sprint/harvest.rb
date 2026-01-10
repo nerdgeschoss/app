@@ -22,6 +22,7 @@ module Sprint::Harvest
           hours: e.hours,
           rounded_hours: e.rounded_hours,
           billable: e.billable,
+          invoiced: e.invoiced,
           project_name: e.project,
           project_id:,
           client_name: e.client,
