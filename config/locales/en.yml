@@ -9,17 +9,6 @@ en:
       month_long: "%B"
       month_year: "%B %Y"
       weekday: "%A"
-  employee_card:
-    daily_overview: Daily Overview
-    days: days
-    edit_feedback: Edit feedback
-    leave_feedback: Leave feedback
-    monthly_total: Monthly total
-    per_point: Per point
-    points: pts
-    points_per_day: pts/day
-    retrospective: Retrospective
-    sprint_overview: Sprint Overview
   errors:
     default-error: An unexpected error occurred. Please try again later.
     invalid-code: The code you entered is invalid. Please try again.
@@ -52,22 +41,6 @@ en:
         sick: On sick leave
       name: Name
       type: Type
-  performance_day:
-    daily_nerd: Daily Nerd
-    hrs: hrs
-    no_daily_nerd: No daily nerd left for this day.
-    no_entries: No entries for this day.
-    project: Project
-    source: Source
-    total: Total
-    tracked: Tracked
-    users: Users
-  performance_labels:
-    billable: Billable
-    goal: Goal
-    hrs: hrs
-    missing: Missing
-    tracked: Tracked
   sprints:
     notifications:
       anniversary_line: "\n🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"

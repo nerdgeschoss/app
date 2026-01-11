@@ -16,7 +16,12 @@ export type IconName =
   | 'tooltip-arrow'
   | 'chevron-arrow'
   | 'project'
-  | 'github';
+  | 'github'
+  | 'harvest'
+  | 'react'
+  | 'puma'
+  | 'rails'
+  | 'expo';
 
 interface Props {
   name: IconName;
@@ -24,6 +29,7 @@ interface Props {
   tabletSize?: number;
   desktopSize?: number;
   color?: Color;
+  fullColor?: boolean;
 }
 
 export function Icon({
@@ -32,10 +38,13 @@ export function Icon({
   tabletSize,
   desktopSize,
   color,
+  fullColor,
 }: Props): JSX.Element {
   return (
     <span
-      className={classnames('icon', `icon--${name}`)}
+      className={classnames('icon', `icon--${name}`, {
+        'icon--full-color': fullColor,
+      })}
       style={
         {
           '--icon-size': `${size}px`,

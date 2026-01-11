@@ -2,16 +2,20 @@
 
 class ProjectPolicy < ApplicationPolicy
   def index?
-    hr?
+    employee?
   end
 
   def show?
+    employee?
+  end
+
+  def financial_details?
     hr?
   end
 
   class Scope < Scope
     def resolve
-      if hr?
+      if employee?
         scope.all
       else
         scope.none

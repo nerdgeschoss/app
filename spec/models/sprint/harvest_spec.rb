@@ -37,7 +37,8 @@ RSpec.describe Sprint::Harvest do
             billable_rate: 100.0,
             cost_rate: 80.0,
             notes: "Worked on feature X",
-            user: "john@example.com"
+            user: "john@example.com",
+            invoiced: false
           )
         ]
       )
@@ -68,7 +69,8 @@ RSpec.describe Sprint::Harvest do
             billable_rate: 100.0,
             cost_rate: 80.0,
             notes: "Worked on feature X",
-            user: "john+harvest@example.com"
+            user: "john+harvest@example.com",
+            invoiced: false
           )
         ]
       )

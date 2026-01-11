@@ -39,6 +39,17 @@ class Invoice < ApplicationRecord
         }
       end
       upsert_all(invoices, unique_by: :harvest_id) if invoices.any?
+
+      # remove invoices that aren't in Harvest anymore
+      where(harvest_id: pluck(:harvest_id) - invoices.pluck(:harvest_id)).destroy_all
     end
+  end
+
+  def open?
+    state == "open"
+  end
+
+  def draft?
+    state == "draft"
   end
 end

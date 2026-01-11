@@ -59,6 +59,10 @@ class ApplicationPolicy
     def hr?
       role?(:hr) || role?(:admin)
     end
+
+    def employee?
+      role?(:hr) || role?(:admin) || role?(:sprinter)
+    end
   end
 
   protected
@@ -69,5 +73,9 @@ class ApplicationPolicy
 
   def hr?
     role?(:hr) || role?(:admin)
+  end
+
+  def employee?
+    role?(:hr) || role?(:admin) || role?(:sprinter)
   end
 end

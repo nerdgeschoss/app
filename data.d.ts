@@ -112,12 +112,21 @@ export interface DataSchema {
       avatarUrl: string;
       email: string;
     };
+    currentSprint: {
+      id: string;
+      title: string;
+    } | null;
     projects: Array<{
       id: string;
       name: string;
       clientName: string;
-      openInvoiceCount: number;
-      harvestInvoiceUrl: string | null;
+      openInvoiceAmount: number | null;
+      openInvoiceCount: number | null;
+      lastInvoiced: string | null;
+      invoicedRevenue: number | null;
+      uninvoicedRevenue: number | null;
+      tasksInSprint: number | null;
+      harvestUrl: string | null;
       repository: string | null;
       githubUrl: string | null;
       frameworkVersions: any;

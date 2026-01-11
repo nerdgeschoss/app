@@ -8,6 +8,7 @@
 #  client_name   :string           not null
 #  cost_rate     :decimal(, )
 #  hours         :decimal(, )      not null
+#  invoiced      :boolean          default(FALSE), not null
 #  notes         :string
 #  project_name  :string           not null
 #  rounded_hours :decimal(, )      not null
@@ -36,3 +37,4 @@ entry_1:
   client_name: Some Client
   task: Programming
   external_id: 'ext_12345'
+  invoiced: f

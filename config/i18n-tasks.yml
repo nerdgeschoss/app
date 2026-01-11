@@ -13,6 +13,7 @@ search:
     - app/assets/builds
     - app/javascript/lib
     - app/views/**/*.tsx
+    - app/frontend/**/*.tsx
 
 ignore_unused:
   - errors.*

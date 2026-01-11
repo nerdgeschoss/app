@@ -45,7 +45,11 @@
   "projects": {
     "index": {
       "title": "Projects",
-      "open_invoices": "open invoices"
+      "github": "GitHub",
+      "open_invoices": "Open Invoices",
+      "invoiced_revenue": "Invoiced Revenue",
+      "uninvoiced_revenue": "Uninvoiced Revenue",
+      "last_invoiced": "Last Invoiced"
     }
   },
   "users": {

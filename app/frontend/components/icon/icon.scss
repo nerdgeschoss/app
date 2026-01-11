@@ -1,7 +1,8 @@
 @import '../layout.scss';
 
 $icons: 'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user', 'menu',
-  'close', 'tooltip-arrow', 'chevron-arrow', 'github', 'project';
+  'close', 'tooltip-arrow', 'chevron-arrow', 'github', 'project', 'harvest',
+  'puma', 'react', 'rails', 'expo';
 
 .icon {
   display: block;
@@ -26,5 +27,19 @@ $icons: 'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user', 'menu',
 
   @include media-desktop {
     width: var(--icon-desktop-size);
+  }
+}
+
+.icon--full-color {
+  background-color: transparent;
+  mask-image: none;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  @each $icon in $icons {
+    &.icon--#{$icon} {
+      background-image: url('./icons/#{$icon}.svg');
+    }
   }
 }
