@@ -7,8 +7,11 @@ class ProjectsController < ApplicationController
     @filter = params[:filter].presence || "active"
     @current_sprint = Sprint.current.take
     @customer_name = params[:customer].presence
+    @presentation_mode = params[:presentation_mode] == "true"
+    @hide_financials = @presentation_mode || !policy(Project).financial_details?
     @projects = policy_scope(Project.alphabetical)
       .page(params[:page]).per(40)
+    @projects = @projects.includes(:invoices) if !@hide_financials
     @projects = @projects.where(client_name: @customer_name) if @customer_name
     case @filter
     when "active"
