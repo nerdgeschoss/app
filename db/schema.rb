@@ -369,6 +369,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_13_110638) do
     t.integer "yearly_holidays", default: 30, null: false
     t.string "harvest_email"
     t.string "api_token"
+    t.string "ssh_key"
     t.index ["api_token"], name: "index_users_on_api_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["harvest_email"], name: "index_users_on_harvest_email", unique: true

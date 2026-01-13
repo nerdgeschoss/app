@@ -43,6 +43,10 @@ class Github
     all_data
   end
 
+  def ssh_key_for_user_name(user_name)
+    HTTParty.get("https://github.com/#{user_name}.keys").body
+  end
+
   private
 
   def execute_query(after_cursor: nil)

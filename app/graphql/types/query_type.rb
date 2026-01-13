@@ -7,9 +7,11 @@ module Types
       current_user
     end
 
-    field :users, Types::UserType.connection_type, null: false
-    def users
-      policy_scope(User.all)
+    field :users, Types::UserType.connection_type, null: false do
+      argument :team, String, required: false
+    end
+    def users(team: nil)
+      policy_scope(User.all).in_team(team)
     end
 
     field :user, Types::UserType, null: false do

@@ -23,6 +23,7 @@
 
 class User < ApplicationRecord
   include TeamBelonging
+  include SshManaging
 
   self.ignored_columns = ["encrypted_password", "reset_password_sent_at", "reset_password_token", "remember_created_at"]
 
