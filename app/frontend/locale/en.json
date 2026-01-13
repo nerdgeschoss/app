@@ -62,7 +62,8 @@
       "remaining_holidays": "Remaining holidays",
       "salary_history": "Salary history",
       "inventory": "Inventory",
-      "add_inventory": "add"
+      "add_inventory": "add",
+      "api_token": "API Token"
     }
   },
   "leaves": {

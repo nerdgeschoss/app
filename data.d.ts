@@ -332,6 +332,7 @@ export interface DataSchema {
       id: string;
       fullName: string;
       remainingHolidays: number | null;
+      apiToken: string | null;
     };
     salaries: Array<{
       id: string;

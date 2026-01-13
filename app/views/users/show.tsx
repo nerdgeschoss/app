@@ -89,6 +89,11 @@ export default function ({
               </Stack>
             </Card>
           )}
+          {user.apiToken && (
+            <Card title={t('users.show.api_token')} icon="🔑">
+              {user.apiToken}
+            </Card>
+          )}
         </Columns>
       </Stack>
     </Layout>
