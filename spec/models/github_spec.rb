@@ -89,4 +89,21 @@ RSpec.describe Github do
         assignee_logins: [], repository: nil, issue_number: nil, sprint_title: nil, status: nil, points: nil
     end
   end
+
+  describe "#ssh_key_for_user_name" do
+    it "fetches the SSH keys for a given user" do
+      stub_request(:get, "https://github.com/someuser.keys")
+        .to_return(status: 200, body: "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArD1... user@host\n")
+      keys = Github.new.ssh_key_for_user_name("someuser")
+      expect(keys).to eq("ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArD1... user@host\n")
+    end
+
+    it "throws if the user does not exist" do
+      stub_request(:get, "https://github.com/nonexistentuser.keys")
+        .to_return(status: 404, body: "")
+      expect {
+        Github.new.ssh_key_for_user_name("nonexistentuser")
+      }.to raise_error(Github::UnknonUserError)
+    end
+  end
 end

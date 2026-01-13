@@ -100,6 +100,12 @@ RSpec.describe User do
     end
   end
 
+  it "automatically fetches ssh keys from github" do
+    john.github_handle = "someuser"
+    expect_any_instance_of(Github).to receive(:ssh_key_for_user_name).with("someuser").and_return("ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArD1... user@host\n")
+    expect(john.ssh_key).to eq "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArD1... user@host\n"
+  end
+
   describe "Teams" do
     it "can be a team lead" do
       john.roles = ["team_lead-nerdgeschoss", "sprinter"]
