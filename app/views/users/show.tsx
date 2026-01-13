@@ -46,7 +46,7 @@ export default function ({
               </Stack>
             </Card>
           )}
-          {inventories.length > 0 && (
+          {(inventories.length > 0 || permitEditInventory) && (
             <Card
               title={t('users.show.inventory')}
               icon="💻"
