@@ -70,7 +70,6 @@ logger.debug "Creating users..."
       daily_nerd_count: Faker::Number.between(from: 0, to: sprint.working_days),
       tracked_hours: Faker::Number.between(from: 20, to: sprint.working_days * 8.0),
       billable_hours: Faker::Number.between(from: 10, to: sprint.working_days * 6.0),
-      hour_goal: 75,
       review_notes: [Faker::Quote.yoda, nil, nil].sample,
       finished_storypoints: 3
     )
@@ -97,8 +96,7 @@ admin_user.sprint_feedbacks.create!(
   daily_nerd_count: 0,
   tracked_hours: 0.0,
   billable_hours: 0.0,
-  finished_storypoints: 0,
-  hour_goal: 75
+  finished_storypoints: 0
 )
 
 logger.debug "Creating project and time entries for current sprint..."
