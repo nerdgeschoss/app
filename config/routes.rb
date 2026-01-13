@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
   mount MissionControl::Jobs::Engine, at: "/jobs"
+  post "/graphql", to: "graphql#execute"
   get "sitemaps/*path", to: "shimmer/sitemaps#show"
   resources :files, only: :show, controller: "shimmer/files"
   resource :manifest, only: :show

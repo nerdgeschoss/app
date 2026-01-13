@@ -42,6 +42,7 @@ gem "yael"
 gem "redcarpet"
 gem "faker"
 gem "ruby-vips"
+gem "graphql"
 
 # Assets
 gem "sprockets-rails"
@@ -69,6 +70,7 @@ group :development, :test do
   gem "rubocop-performance"
   gem "rubocop-rspec"
   gem "rubocop-rake"
+  gem "rubocop-graphql"
   gem "webmock", require: false
   gem "debug"
   gem "pundit-matchers"

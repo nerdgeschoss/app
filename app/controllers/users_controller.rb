@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   def index
     @filter = params[:filter].presence || "employee"
     @users = policy_scope(User.alphabetically)
+    @hide_financials = !policy(User).financial_details?
     case @filter
     when "employee"
       @users = @users.currently_employed
@@ -22,6 +23,7 @@ class UsersController < ApplicationController
   def show
     @salaries = @user.salaries.chronologic
     @inventories = @user.inventories
+    @hide_financials = !policy(@user).financial_details?
   end
 
   def edit

@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+module Types
+  class QueryType < Types::BaseObject
+    field :viewer, Types::ViewerType
+    def viewer
+      current_user
+    end
+
+    field :users, Types::UserType.connection_type, null: false
+    def users
+      policy_scope(User.all)
+    end
+
+    field :user, Types::UserType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def user(id:)
+      authorize User.find(id), :show
+    end
+  end
+end

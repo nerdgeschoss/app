@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_10_152830) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_13_110638) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -368,6 +368,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_10_152830) do
     t.string "nick_name"
     t.integer "yearly_holidays", default: 30, null: false
     t.string "harvest_email"
+    t.string "api_token"
+    t.index ["api_token"], name: "index_users_on_api_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["harvest_email"], name: "index_users_on_harvest_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

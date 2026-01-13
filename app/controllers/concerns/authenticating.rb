@@ -6,6 +6,7 @@ module Authenticating
   included do
     before_action do
       Current.cookies = cookies
+      Current.api_token = request.headers["Authorization"]&.split("Bearer ")&.last
     end
 
     helper_method :current_user

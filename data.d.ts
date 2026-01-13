@@ -112,6 +112,7 @@ export interface DataSchema {
       avatarUrl: string;
       email: string;
     };
+    presentationMode: boolean;
     currentSprint: {
       id: string;
       title: string;
@@ -312,7 +313,7 @@ export interface DataSchema {
       avatarUrl: string;
       fullName: string;
       nickName: string | null;
-      remainingHolidays: number;
+      remainingHolidays: number | null;
       teams: Array<string>;
       currentSalary: {
         brut: number;
@@ -330,7 +331,7 @@ export interface DataSchema {
     user: {
       id: string;
       fullName: string;
-      remainingHolidays: number;
+      remainingHolidays: number | null;
     };
     salaries: Array<{
       id: string;

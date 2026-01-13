@@ -5,6 +5,7 @@
 # Table name: users
 #
 #  id              :uuid             not null, primary key
+#  api_token       :string
 #  born_on         :date
 #  email           :string           default(""), not null
 #  first_name      :string
