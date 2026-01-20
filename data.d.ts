@@ -70,6 +70,7 @@ export interface DataSchema {
       startDate: string;
       endDate: string;
       title: string;
+      days: Array<{ day: string }>;
     }>;
     payslips: Array<{ id: string; month: string; url: string }>;
     remainingHolidays: number;

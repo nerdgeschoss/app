@@ -57,7 +57,9 @@ export default function ({
                     {l.dateRange(
                       leave.days[0]?.day,
                       leave.days[leave.days.length - 1]?.day
-                    )}
+                    )}{' '}
+                    ({leave.days.length + ' day'}
+                    {leave.days.length !== 1 ? 's' : ''})
                   </Text>
                   <Text>
                     {leave.status in translations

@@ -7,6 +7,9 @@ field :upcoming_leaves, array: true, value: -> { @upcoming_leaves } do
   field :start_date, Date, value: -> { leave_during.min }
   field :end_date, Date, value: -> { leave_during.max }
   field :title
+  field :days, array: true, value: -> { days.sort } do
+    field :day, Date, value: -> { self }
+  end
 end
 
 field :payslips, array: true, value: -> { @payslips } do
