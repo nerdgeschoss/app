@@ -10,6 +10,7 @@ field :upcoming_leaves, array: true, value: -> { @upcoming_leaves } do
   field :days, array: true, value: -> { days.sort } do
     field :day, Date, value: -> { self }
   end
+  field :number_of_days
 end
 
 field :payslips, array: true, value: -> { @payslips } do

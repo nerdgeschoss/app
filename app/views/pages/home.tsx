@@ -53,8 +53,7 @@ export default function Home({
               subtitle={upcomingLeaves.map((leave) => (
                 <div key={leave.id}>
                   {l.dateRange(leave.startDate, leave.endDate)} (
-                  {leave.days.length + ' day'}
-                  {leave.days.length !== 1 ? 's' : ''}): {leave.title}
+                  {leave.numberOfDays}): {leave.title}
                 </div>
               ))}
             />

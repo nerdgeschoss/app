@@ -19,6 +19,9 @@ en:
   leave:
     status:
       pending_approval: pending approval
+    number_of_days:
+      one: 1 day
+      other: "%{count} days"
   leaves:
     notifications:
       here: here

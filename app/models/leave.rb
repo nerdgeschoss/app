@@ -49,6 +49,10 @@ class Leave < ApplicationRecord
     @presenter ||= Leave::Presenter.new(self)
   end
 
+  def number_of_days
+    I18n.t("leave.number_of_days", count: days.size)
+  end
+
   def handle_incoming_request
     case type
     when "sick"
