@@ -115,6 +115,7 @@ export interface DataSchema {
       avatarUrl: string;
       email: string;
     };
+    presentationMode: boolean;
     currentSprint: {
       id: string;
       title: string;
