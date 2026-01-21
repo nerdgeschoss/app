@@ -38,6 +38,7 @@ export interface DataSchema {
       title: string;
       status: string;
       days: Array<{ day: string }>;
+      numberOfDays: string;
       user: {
         id: string;
         displayName: string;
@@ -70,6 +71,8 @@ export interface DataSchema {
       startDate: string;
       endDate: string;
       title: string;
+      days: Array<{ day: string }>;
+      numberOfDays: string;
     }>;
     payslips: Array<{ id: string; month: string; url: string }>;
     remainingHolidays: number;
@@ -112,6 +115,7 @@ export interface DataSchema {
       avatarUrl: string;
       email: string;
     };
+    presentationMode: boolean;
     currentSprint: {
       id: string;
       title: string;

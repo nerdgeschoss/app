@@ -52,7 +52,8 @@ export default function Home({
               title={t('pages.home.upcoming_holidays')}
               subtitle={upcomingLeaves.map((leave) => (
                 <div key={leave.id}>
-                  {l.dateRange(leave.startDate, leave.endDate)}: {leave.title}
+                  {l.dateRange(leave.startDate, leave.endDate)} (
+                  {leave.numberOfDays}): {leave.title}
                 </div>
               ))}
             />

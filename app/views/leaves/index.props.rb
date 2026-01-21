@@ -17,6 +17,7 @@ field :leaves, array: true, value: -> { @leaves } do
   field :days, array: true, value: -> { days.sort } do
     field :day, Date, value: -> { self }
   end
+  field :number_of_days
   field :user do
     field :id
     field :display_name
