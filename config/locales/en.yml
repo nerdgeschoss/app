@@ -17,11 +17,11 @@ en:
       not_saved: Not saved
     required-field: This field is required.
   leave:
-    status:
-      pending_approval: pending approval
     number_of_days:
       one: 1 day
       other: "%{count} days"
+    status:
+      pending_approval: pending approval
   leaves:
     notifications:
       here: here
