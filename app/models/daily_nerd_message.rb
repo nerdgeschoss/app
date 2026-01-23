@@ -12,6 +12,7 @@
 #
 class DailyNerdMessage < ApplicationRecord
   belongs_to :sprint_feedback
+  has_one :user, through: :sprint_feedback
 
   validates :message, presence: true
 
