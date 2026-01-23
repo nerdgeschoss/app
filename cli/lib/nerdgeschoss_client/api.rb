@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NerdgeschossClient
   class API
     attr_accessor :token, :base_url
