@@ -6,8 +6,9 @@ module NerdgeschossClient
     User = Struct.new(:id, :email, :display_name, :full_name, :teams, :salaries, :github_handle, :hired_on, :slack_id, keyword_init: true)
     Salary = Struct.new(:id, :brut, :valid_from, keyword_init: true)
     Sprint = Struct.new(:id, :title, :sprint_from, :sprint_until, :total_working_days, :total_holidays, :total_sick_days, :daily_nerd_percentage, :tracked_hours, :billable_hours, :finished_storypoints, :average_rating, :sprint_feedbacks, :tasks, keyword_init: true)
-    SprintFeedback = Struct.new(:id, :user, :billable_hours, :finished_storypoints, :retro_rating, :retro_text, :tracked_hours, :daily_nerd_percentage, :billable_per_day, :tracked_per_day, :working_day_count, :holiday_count, :sick_day_count, :non_working_day_count, keyword_init: true)
+    SprintFeedback = Struct.new(:id, :user, :billable_hours, :finished_storypoints, :retro_rating, :retro_text, :tracked_hours, :daily_nerd_percentage, :billable_per_day, :tracked_per_day, :working_day_count, :holiday_count, :sick_day_count, :non_working_day_count, :leaves, keyword_init: true)
     Task = Struct.new(:id, :issue_number, :title, :status, :labels, :repository, :story_points, keyword_init: true)
+    Leave = Struct.new(:id, :title, :days, :status, :type, keyword_init: true)
 
     def initialize(token: Credentials.new.auth_token, base_url: BASE_URL)
       @token = token
@@ -160,6 +161,15 @@ module NerdgeschossClient
                 holidayCount
                 sickDayCount
                 nonWorkingDayCount
+                leaves {
+                  nodes {
+                    id
+                    title
+                    days
+                    status
+                    type
+                  }
+                }
                 user {
                   id
                   email
@@ -212,6 +222,15 @@ module NerdgeschossClient
             holiday_count: feedback_data.holiday_count,
             sick_day_count: feedback_data.sick_day_count,
             non_working_day_count: feedback_data.non_working_day_count,
+            leaves: feedback_data.leaves.nodes.map { |leave_data|
+              Leave.new(
+                id: leave_data.id,
+                title: leave_data.title,
+                days: leave_data.days,
+                status: leave_data.status,
+                type: leave_data.type
+              )
+            },
             user: User.new(
               id: feedback_data.user.id,
               email: feedback_data.user.email,

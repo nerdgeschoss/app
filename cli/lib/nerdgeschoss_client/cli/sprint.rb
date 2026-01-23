@@ -84,6 +84,15 @@ module NerdgeschossClient
                   display_name: feedback.user.display_name,
                   full_name: feedback.user.full_name
                 },
+                leaves: feedback.leaves.map { |leave|
+                  {
+                    id: leave.id,
+                    title: leave.title,
+                    days: leave.days,
+                    status: leave.status,
+                    type: leave.type
+                  }
+                },
                 billable_hours: feedback.billable_hours,
                 finished_storypoints: feedback.finished_storypoints,
                 retro_rating: feedback.retro_rating,
@@ -122,6 +131,10 @@ module NerdgeschossClient
             puts "    Tracked Hours: #{feedback.tracked_hours&.round(1)} (#{feedback.tracked_per_day&.round(1)}/day)"
             puts "    Billable Hours: #{feedback.billable_hours&.round(1)} (#{feedback.billable_per_day&.round(1)}/day)"
             puts "    Finished Storypoints: #{feedback.finished_storypoints}"
+            puts "    Leaves:" if feedback.leaves.any?
+            feedback.leaves.each do |leave|
+              puts "      #{leave.title}: #{leave.days} days (#{leave.status}, #{leave.type})"
+            end
           end
           puts ""
           puts "Retrospective" if retros.any?

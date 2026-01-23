@@ -16,5 +16,6 @@ module Types
     field :holiday_count, Integer, null: false
     field :sick_day_count, Integer, null: false
     field :non_working_day_count, Integer, null: false
+    field :leaves, LeaveType.connection_type, null: false
   end
 end
