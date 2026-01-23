@@ -5,6 +5,7 @@
 # Table name: users
 #
 #  id              :uuid             not null, primary key
+#  api_token       :string
 #  born_on         :date
 #  email           :string           default(""), not null
 #  first_name      :string
@@ -22,6 +23,7 @@
 
 class User < ApplicationRecord
   include TeamBelonging
+  include SshManaging
 
   self.ignored_columns = ["encrypted_password", "reset_password_sent_at", "reset_password_token", "remember_created_at"]
 
@@ -38,6 +40,8 @@ class User < ApplicationRecord
   has_many :task_users, dependent: :delete_all
   has_many :tasks, through: :task_users
   has_many :inventories, dependent: :destroy
+
+  has_secure_token :api_token
 
   def avatar_image(size: 180)
     hash = Digest::MD5.hexdigest(email.to_s.downcase)
@@ -105,6 +109,11 @@ class User < ApplicationRecord
 
   def role?(role)
     roles.include?(role.to_s)
+  end
+
+  def api_token
+    regenerate_api_token if super.blank?
+    super
   end
 
   private

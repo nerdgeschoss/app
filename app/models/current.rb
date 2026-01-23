@@ -2,9 +2,14 @@
 
 class Current < ActiveSupport::CurrentAttributes
   attribute :cookies
+  attribute :api_token
 
   def user
-    @user ||= User.find_by(id: cookies.encrypted[:auth])
+    @user ||= if cookies.encrypted[:auth]
+      User.find_by(id: cookies.encrypted[:auth])
+    elsif api_token
+      User.find_by(api_token:)
+    end
   end
 
   def user=(user)

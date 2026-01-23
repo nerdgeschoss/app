@@ -5,7 +5,7 @@ class User
     extend ActiveSupport::Concern
 
     included do
-      scope :in_team, ->(team) { Array.wrap(team).map { with_role("team-#{_1}") }.reduce(:or) }
+      scope :in_team, ->(team) { Array.wrap(team).map { with_role("team-#{_1}") }.reduce(:or) if team.present? }
 
       def team_lead_for
         roles.filter_map do |role|

@@ -5,6 +5,7 @@
 # Table name: users
 #
 #  id              :uuid             not null, primary key
+#  api_token       :string
 #  born_on         :date
 #  email           :string           default(""), not null
 #  first_name      :string
@@ -97,6 +98,12 @@ RSpec.describe User do
       john.first_name = nil
       expect(john.display_name).to eq "john@example.com"
     end
+  end
+
+  it "automatically fetches ssh keys from github" do
+    john.github_handle = "someuser"
+    expect_any_instance_of(Github).to receive(:ssh_key_for_user_name).with("someuser").and_return("ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArD1... user@host\n")
+    expect(john.ssh_key).to eq "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArD1... user@host\n"
   end
 
   describe "Teams" do

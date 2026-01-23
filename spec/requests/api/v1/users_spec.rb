@@ -21,7 +21,7 @@ RSpec.describe "Users" do
     end
 
     it "rejects unauthorized requests" do
-      get "/api/v1/users/emails", headers: {"Content-Type" => "application/json", "Accept" => "application/json"}
+      get "/api/v1/users/emails"
 
       expect(response).to have_http_status :unauthorized
     end

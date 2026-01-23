@@ -37,9 +37,10 @@ export default function ({
             subtitle={
               <>
                 <Stack line="mobile" size={4} align="center">
-                  {t('users.index.number_holidays_left', {
-                    count: user.remainingHolidays,
-                  })}
+                  {user.remainingHolidays !== null &&
+                    t('users.index.number_holidays_left', {
+                      count: user.remainingHolidays,
+                    })}
                   {user.teams.map((e) => (
                     <Pill key={e}>{e}</Pill>
                   ))}

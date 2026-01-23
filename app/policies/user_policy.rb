@@ -2,7 +2,7 @@
 
 class UserPolicy < ApplicationPolicy
   def show?
-    hr? || user == record
+    employee?
   end
 
   def create?
@@ -21,6 +21,10 @@ class UserPolicy < ApplicationPolicy
     hr? || user == record
   end
 
+  def financial_details?
+    hr? || user == record
+  end
+
   def permitted_attributes
     [:first_name, :last_name, :nick_name]
   end
@@ -29,8 +33,12 @@ class UserPolicy < ApplicationPolicy
     def resolve
       if hr?
         scope.all
-      else
+      elsif employee?
+        scope.currently_employed
+      elsif user
         scope.where(id: user.id)
+      else
+        scope.none
       end
     end
   end

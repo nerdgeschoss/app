@@ -124,16 +124,18 @@ export function Sidebar({ user }: Props): JSX.Element {
               </Stack>
             </div>
             <div className="sidebar__footer">
-              <Stack line align="center" gap={10}>
-                <img
-                  src={user.avatarUrl}
-                  className="sidebar__avatar"
-                  alt="avatar"
-                />
-                <div className="sidebar__footer-username">
-                  <Text type="menu-semibold">{user.displayName}</Text>
-                </div>
-              </Stack>
+              <Link href={`/users/${user.id}`}>
+                <Stack line align="center" gap={10}>
+                  <img
+                    src={user.avatarUrl}
+                    className="sidebar__avatar"
+                    alt="avatar"
+                  />
+                  <div className="sidebar__footer-username">
+                    <Text type="menu-semibold">{user.displayName}</Text>
+                  </div>
+                </Stack>
+              </Link>
               <Link href="/logout">
                 <div className="sidebar__link">
                   <Icon name="logout" size={24} desktopSize={32} />
@@ -166,17 +168,19 @@ export function Sidebar({ user }: Props): JSX.Element {
         </Stack>
       </div>
       <div className="sidebar__footer">
-        <Stack line align="center" gap={10}>
-          <Avatar
-            avatarUrl={user.avatarUrl}
-            displayName={user.displayName}
-            email={user.email}
-            large
-          />
-          <div className="sidebar__footer-username">
-            <Text type="menu-semibold">{user.displayName}</Text>
-          </div>
-        </Stack>
+        <Link href={`/users/${user.id}`}>
+          <Stack line align="center" gap={10}>
+            <Avatar
+              avatarUrl={user.avatarUrl}
+              displayName={user.displayName}
+              email={user.email}
+              large
+            />
+            <div className="sidebar__footer-username">
+              <Text type="menu-semibold">{user.displayName}</Text>
+            </div>
+          </Stack>
+        </Link>
         <Link href="/logout">
           <Tooltip content="Logout">
             <div className="sidebar__link">
