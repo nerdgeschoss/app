@@ -10,6 +10,7 @@ require_relative "nerdgeschoss_client/api"
 require_relative "nerdgeschoss_client/cli/base"
 require_relative "nerdgeschoss_client/cli/auth"
 require_relative "nerdgeschoss_client/cli/user"
+require_relative "nerdgeschoss_client/cli/sprint"
 require_relative "nerdgeschoss_client/cli/main"
 
 module NerdgeschossClient

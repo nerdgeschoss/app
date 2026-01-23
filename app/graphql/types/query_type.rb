@@ -20,9 +20,20 @@ module Types
     field :user, Types::UserType, null: false do
       argument :id, ID, required: true
     end
-
     def user(id:)
       authorize User.find(id), :show
+    end
+
+    field :sprints, Types::SprintType.connection_type, null: false
+    def sprints
+      policy_scope(Sprint.all.reverse_chronologic.includes(sprint_feedbacks: [user: :leaves]))
+    end
+
+    field :sprint, Types::SprintType, null: false do
+      argument :id, ID, required: true
+    end
+    def sprint(id:)
+      authorize Sprint.find(id), :show
     end
   end
 end

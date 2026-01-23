@@ -8,6 +8,9 @@ module NerdgeschossClient
 
       desc "user", "Manage Users"
       subcommand "user", NerdgeschossClient::CLI::UserCommands
+
+      desc "sprint", "Manage Sprints"
+      subcommand "sprint", NerdgeschossClient::CLI::SprintCommands
     end
   end
 end
