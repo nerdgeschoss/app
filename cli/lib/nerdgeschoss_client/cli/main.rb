@@ -11,6 +11,9 @@ module NerdgeschossClient
 
       desc "sprint", "Manage Sprints"
       subcommand "sprint", NerdgeschossClient::CLI::SprintCommands
+
+      desc "daily_nerd", "Manage Daily Nerd Messages"
+      subcommand "daily_nerd", NerdgeschossClient::CLI::DailyNerdCommands
     end
   end
 end

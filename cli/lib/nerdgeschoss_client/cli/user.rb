@@ -29,9 +29,8 @@ module NerdgeschossClient
       desc "info", "displays information about the given user identified by email or display name"
       method_option :json, type: :boolean, default: false, desc: "Output as JSON"
       def info(name)
-        user = api.users.find { _1.display_name.casecmp(name).zero? || _1.email.casecmp(name).zero? }
-        raise PresentableError, "User '#{name}' not found." unless user
-        user = api.user(id: user.id)
+        user_id = lookup_user(name)
+        user = api.user(id: user_id)
         if options[:json]
           puts JSON.pretty_generate({
             id: user.id,

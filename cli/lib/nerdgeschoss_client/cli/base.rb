@@ -30,6 +30,12 @@ module NerdgeschossClient
         def credentials
           @credentials ||= Credentials.new
         end
+
+        def lookup_user(name_or_email)
+          id = api.users.find { _1.display_name.casecmp(name_or_email).zero? || _1.email.casecmp(name_or_email).zero? }&.id
+          raise PresentableError, "User '#{options[:user]}' not found" unless id
+          id
+        end
       end
     end
   end

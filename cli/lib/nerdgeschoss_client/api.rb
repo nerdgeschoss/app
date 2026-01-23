@@ -9,6 +9,7 @@ module NerdgeschossClient
     SprintFeedback = Struct.new(:id, :user, :billable_hours, :finished_storypoints, :retro_rating, :retro_text, :tracked_hours, :daily_nerd_percentage, :billable_per_day, :tracked_per_day, :working_day_count, :holiday_count, :sick_day_count, :non_working_day_count, :leaves, keyword_init: true)
     Task = Struct.new(:id, :issue_number, :title, :status, :labels, :repository, :story_points, keyword_init: true)
     Leave = Struct.new(:id, :title, :days, :status, :type, keyword_init: true)
+    DailyNerdMessage = Struct.new(:id, :message, :created_at, :user, keyword_init: true)
 
     def initialize(token: Credentials.new.auth_token, base_url: BASE_URL)
       @token = token
@@ -239,6 +240,40 @@ module NerdgeschossClient
             )
           )
         })
+    end
+
+    def daily_nerd_messages(user_id: nil, from_date: nil, to_date: nil)
+      query = <<~GRAPHQL
+        query DailyNerdMessages($userId: ID, $fromDate: ISO8601Date, $toDate: ISO8601Date) {
+          dailyNerdMessages(userId: $userId, fromDate: $fromDate, toDate: $toDate) {
+            nodes {
+              id
+              message
+              createdAt
+              user {
+                id
+                email
+                displayName
+                fullName
+              }
+            }
+          }
+        }
+      GRAPHQL
+      result = execute query, variables: {userId: user_id, fromDate: from_date, toDate: to_date}
+      result.data.daily_nerd_messages.nodes.map do |message_data|
+        DailyNerdMessage.new(
+          id: message_data.id,
+          message: message_data.message,
+          created_at: message_data.created_at,
+          user: User.new(
+            id: message_data.user.id,
+            email: message_data.user.email,
+            display_name: message_data.user.display_name,
+            full_name: message_data.user.full_name
+          )
+        )
+      end
     end
 
     private
