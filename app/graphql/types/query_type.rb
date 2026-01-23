@@ -9,9 +9,12 @@ module Types
 
     field :users, Types::UserType.connection_type, null: false do
       argument :team, String, required: false
+      argument :archive, Boolean, required: false, default_value: false
     end
-    def users(team: nil)
-      policy_scope(User.all).in_team(team)
+    def users(team: nil, archive: false)
+      scope = policy_scope(User.all).in_team(team)
+      scope = scope.currently_employed unless archive
+      scope
     end
 
     field :user, Types::UserType, null: false do
