@@ -5,6 +5,7 @@
 #  id                 :uuid             not null, primary key
 #  archived           :boolean          default(FALSE), not null
 #  client_name        :string           not null
+#  deploy_key         :string
 #  framework_versions :jsonb            not null
 #  name               :string           not null
 #  repository         :string

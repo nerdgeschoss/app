@@ -21,5 +21,13 @@ module Types
     def user(id:)
       authorize User.find(id), :show
     end
+
+    field :project, Types::ProjectType, null: false do
+      argument :id, ID, required: true
+    end
+    def project(id:)
+      project = Project.find_by(repository: id) || Project.find(id)
+      authorize project, :show
+    end
   end
 end

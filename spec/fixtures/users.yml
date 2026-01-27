@@ -13,6 +13,7 @@
 #  last_name       :string
 #  nick_name       :string
 #  roles           :string           default([]), not null, is an Array
+#  ssh_key         :string
 #  yearly_holidays :integer          default(30), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
