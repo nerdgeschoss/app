@@ -26,6 +26,11 @@ class Task < ApplicationRecord
 
   belongs_to :project, optional: true
 
+  scope :github, ->(descriptor) do
+    repository, issue_number = descriptor.split("#") if descriptor.present?
+    where(repository:, issue_number:) if repository.present? && issue_number.present?
+  end
+
   class << self
     def sync_with_github
       user_ids_by_handle = User.pluck(:github_handle, :id).to_h
@@ -39,6 +44,7 @@ class Task < ApplicationRecord
         {
           sprint_id: sprint_ids_by_title[gt.sprint_title],
           title: gt.title,
+          description: gt.description,
           status: gt.status,
           github_id: gt.id,
           repository: gt.repository,

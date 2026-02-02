@@ -14,6 +14,9 @@ module NerdgeschossClient
 
       desc "daily_nerd", "Manage Daily Nerd Messages"
       subcommand "daily_nerd", NerdgeschossClient::CLI::DailyNerdCommands
+
+      desc "task", "Manage Tasks"
+      subcommand "task", NerdgeschossClient::CLI::TaskCommands
     end
   end
 end

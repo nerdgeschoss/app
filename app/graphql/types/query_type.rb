@@ -36,6 +36,18 @@ module Types
       authorize Sprint.find(id), :show
     end
 
+    field :tasks, Types::TaskType.connection_type, null: false do
+      argument :sprint_id, ID, required: false
+      argument :search, String, required: false
+      argument :github, String, required: false
+    end
+    def tasks(sprint_id: nil, search: nil, github: nil)
+      scope = policy_scope(Task.all).github(github)
+      scope = scope.where(sprint_id:) if sprint_id
+      scope = scope.where("title ILIKE ?", "%#{search}%") if search.present?
+      scope
+    end
+
     field :daily_nerd_messages, Types::DailyNerdMessageType.connection_type, null: false do
       argument :user_id, ID, required: false
       argument :from_date, GraphQL::Types::ISO8601Date, required: false

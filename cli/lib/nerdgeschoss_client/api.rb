@@ -9,7 +9,7 @@ module NerdgeschossClient
     Salary = Struct.new(:id, :brut, :valid_from, keyword_init: true)
     Sprint = Struct.new(:id, :title, :sprint_from, :sprint_until, :total_working_days, :total_holidays, :total_sick_days, :daily_nerd_percentage, :tracked_hours, :billable_hours, :finished_storypoints, :average_rating, :sprint_feedbacks, :tasks, keyword_init: true)
     SprintFeedback = Struct.new(:id, :user, :billable_hours, :finished_storypoints, :retro_rating, :retro_text, :tracked_hours, :daily_nerd_percentage, :billable_per_day, :tracked_per_day, :working_day_count, :holiday_count, :sick_day_count, :non_working_day_count, :leaves, keyword_init: true)
-    Task = Struct.new(:id, :issue_number, :title, :status, :labels, :repository, :story_points, keyword_init: true)
+    Task = Struct.new(:id, :issue_number, :title, :description, :status, :labels, :repository, :story_points, keyword_init: true)
     Leave = Struct.new(:id, :title, :days, :status, :type, keyword_init: true)
     DailyNerdMessage = Struct.new(:id, :message, :created_at, :user, keyword_init: true)
 
@@ -92,6 +92,39 @@ module NerdgeschossClient
           Salary.new(id: salary_data.id, brut: salary_data.brut, valid_from: salary_data.valid_from)
         }
       )
+    end
+
+    def tasks(sprint_id: nil, search: nil, github: nil)
+      query = <<~GRAPHQL
+        query AllTasks($sprintId: ID, $search: String, $github: String) {
+          tasks(sprintId: $sprintId, search: $search, github: $github) {
+            nodes {
+              id
+              issueNumber
+              title
+              description
+              status
+              labels
+              repository
+              storyPoints
+            }
+          }
+        }
+      GRAPHQL
+      result = execute query, variables: {sprintId: sprint_id, search:, github:}
+
+      result.data.tasks.nodes.map do |task_data|
+        Task.new(
+          id: task_data.id,
+          issue_number: task_data.issue_number,
+          title: task_data.title,
+          description: task_data.description,
+          status: task_data.status,
+          labels: task_data.labels,
+          repository: task_data.repository,
+          story_points: task_data.story_points
+        )
+      end
     end
 
     def sprints

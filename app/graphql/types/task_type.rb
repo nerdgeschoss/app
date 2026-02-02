@@ -5,6 +5,7 @@ module Types
     field :id, ID, null: false
     field :issue_number, Integer, null: false
     field :title, String, null: false
+    field :description, String, null: true
     field :status, String, null: false
     field :labels, [String], null: false
     field :repository, String, null: false
