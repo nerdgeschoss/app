@@ -98,12 +98,10 @@ RSpec.describe Github do
       expect(keys).to eq("ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArD1... user@host\n")
     end
 
-    it "throws if the user does not exist" do
+    it "returns nil if the user does not exist" do
       stub_request(:get, "https://github.com/nonexistentuser.keys")
         .to_return(status: 404, body: "")
-      expect {
-        Github.new.ssh_key_for_user_name("nonexistentuser")
-      }.to raise_error(Github::UnknonUserError)
+      expect(Github.new.ssh_key_for_user_name("nonexistentuser")).to be_nil
     end
   end
 end
