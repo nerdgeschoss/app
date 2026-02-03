@@ -44,7 +44,9 @@ class Github
   end
 
   def ssh_key_for_user_name(user_name)
-    HTTParty.get("https://github.com/#{user_name}.keys").body.presence
+    HTTParty.get("https://github.com/#{user_name}.keys", raise_on: (400..599).to_a).body.presence
+  rescue HTTParty::ResponseError
+    nil
   end
 
   private

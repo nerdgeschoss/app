@@ -100,8 +100,14 @@ RSpec.describe Github do
 
     it "returns nil if the user does not exist" do
       stub_request(:get, "https://github.com/nonexistentuser.keys")
-        .to_return(status: 404, body: "")
+        .to_return(status: 404, body: "not found")
       expect(Github.new.ssh_key_for_user_name("nonexistentuser")).to be_nil
+    end
+
+    it "returns nil if there is no key associated" do
+      stub_request(:get, "https://github.com/someuser.keys")
+        .to_return(status: 200, body: "")
+      expect(Github.new.ssh_key_for_user_name("someuser")).to be_nil
     end
   end
 end
