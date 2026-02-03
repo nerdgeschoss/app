@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_13_110638) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_27_154918) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -110,6 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_13_110638) do
     t.boolean "archived", default: false, null: false
     t.bigint "harvest_id"
     t.jsonb "framework_versions", default: {}, null: false
+    t.string "deploy_key"
     t.index ["archived"], name: "index_projects_on_archived"
   end
 
