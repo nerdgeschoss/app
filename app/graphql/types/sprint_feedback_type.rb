@@ -6,6 +6,7 @@ module Types
 
     field :id, ID, null: false, description: "UUID."
     field :user, Types::UserType, null: false, description: "The team member."
+    field :sprint, Types::SprintType, null: false, description: "The sprint this feedback belongs to."
     field :billable_hours, Float, null: false, description: "Billable hours tracked during this sprint. Decimal hours."
     field :finished_storypoints, Integer, null: false, description: "Story points completed by this user in this sprint."
     field :retro_rating, Integer, null: true,
@@ -28,5 +29,7 @@ module Types
       description: "Non-working days (e.g. conference, training) during the sprint."
     field :leaves, LeaveType.connection_type, null: false,
       description: "Leave requests overlapping this sprint."
+    field :daily_nerd_messages, Types::DailyNerdMessageType.connection_type, null: false,
+      description: "Daily standup messages posted during this sprint."
   end
 end

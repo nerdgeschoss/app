@@ -5,6 +5,7 @@ module Types
     description "A leave request tracking specific days off and their approval status."
 
     field :id, ID, null: false, description: "UUID."
+    field :user, Types::UserType, null: false, description: "The employee who requested the leave."
     field :title, String, null: false, description: "Reason provided by the employee (e.g. 'Family vacation')."
     field :days, [GraphQL::Types::ISO8601Date], null: false,
       description: "Calendar dates covered by this leave. May be non-contiguous."

@@ -13,5 +13,8 @@ module Types
     field :repository, String, null: false, description: "GitHub repository in 'owner/repo' format."
     field :story_points, Integer, null: true, description: "Estimated effort. Null if no estimate set."
     field :sprint, Types::SprintType, null: true, description: "Assigned sprint. Null for unscheduled backlog items."
+    field :time_entries, Types::TimeEntryType.connection_type, null: false, description: "Time entries logged against this task."
+    field :users, Types::UserType.connection_type, null: false, description: "Team members assigned to this task."
+    field :project, Types::ProjectType, null: true, description: "Project this task belongs to. Null if unlinked."
   end
 end
