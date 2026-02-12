@@ -1,24 +1,12 @@
 # frozen_string_literal: true
 
-class SprintPolicy < ApplicationPolicy
-  def show?
+class TaskPolicy < ApplicationPolicy
+  def index?
     employee?
   end
 
-  def create?
-    hr?
-  end
-
-  def destroy?
-    hr?
-  end
-
-  def overview?
-    hr?
-  end
-
-  def show_revenue?
-    hr?
+  def show?
+    employee?
   end
 
   class Scope < Scope
