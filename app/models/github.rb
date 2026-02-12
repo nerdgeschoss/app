@@ -5,9 +5,7 @@ class Github
 
   class QueryExecutionError < StandardError; end
 
-  class UnknonUserError < StandardError; end
-
-  SprintBoardItem = Struct.new(:id, :title, :description, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, :labels, keyword_init: true)
+SprintBoardItem = Struct.new(:id, :title, :description, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, :labels, keyword_init: true)
 
   def sprint_board_items
     all_data = []
@@ -47,9 +45,9 @@ class Github
   end
 
   def ssh_key_for_user_name(user_name)
-    key = HTTParty.get("https://github.com/#{user_name}.keys").body
-    raise UnknonUserError.new("GitHub user '#{user_name}' not found") if key.blank?
-    key
+    HTTParty.get("https://github.com/#{user_name}.keys", raise_on: (400..599).to_a).body.presence
+  rescue HTTParty::ResponseError
+    nil
   end
 
   private
