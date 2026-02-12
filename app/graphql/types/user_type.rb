@@ -25,5 +25,9 @@ module Types
       description: "Paid vacation days remaining this year. Requires 'financial_details' permission."
     field :salaries, SalaryType.connection_type, null: false, required_permission: :financial_details,
       description: "Salary history, most recent first. Requires 'financial_details' permission."
+    field :leaves, LeaveType.connection_type, null: false, required_permission: :financial_details,
+      description: "Recorded leaves (vacation, sick days, etc.). Requires 'financial_details' permission."
+    field :payslips, PayslipType.connection_type, null: false, required_permission: :financial_details,
+      description: "Payslips for the current year. Most recent first. Requires 'financial_details' permission."
   end
 end

@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: daily_nerd_messages
+#
+#  id                 :uuid             not null, primary key
+#  message            :string           not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  sprint_feedback_id :uuid             not null
+#
+
+johns_message:
+  sprint_feedback: sprint_feedback_john
+  message: "Worked on feature X today"
+  created_at: 2023-01-24 09:00:00
+
+johns_second_message:
+  sprint_feedback: sprint_feedback_john
+  message: "Continued work on feature X"
+  created_at: 2023-01-25 09:00:00

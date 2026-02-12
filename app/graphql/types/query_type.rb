@@ -31,6 +31,12 @@ module Types
       authorize User.find(id), :show
     end
 
+    field :projects, Types::ProjectType.connection_type, null: false,
+      description: "Paginated list of projects. Results are scoped by the caller's role."
+    def projects
+      policy_scope(Project.all)
+    end
+
     field :project, Types::ProjectType, null: false,
       description: "Look up a project by repository name or ID." do
       argument :id, ID, required: true,
@@ -68,6 +74,29 @@ module Types
       scope = policy_scope(Task.all).github(github)
       scope = scope.where(sprint_id:) if sprint_id
       scope = scope.where("title ILIKE ?", "%#{search}%") if search.present?
+      scope
+    end
+
+    field :time_entries, Types::TimeEntryType.connection_type, null: false,
+      description: "Time entries from Harvest. Supports filtering by user, project, task, and date range." do
+      argument :user_id, ID, required: false,
+        description: "Filter to entries logged by a specific user."
+      argument :project_id, ID, required: false,
+        description: "Filter to entries for a specific project."
+      argument :task_id, ID, required: false,
+        description: "Filter to entries linked to a specific task."
+      argument :from_date, GraphQL::Types::ISO8601DateTime, required: false,
+        description: "Inclusive lower bound. Only entries created on or after this datetime."
+      argument :to_date, GraphQL::Types::ISO8601DateTime, required: false,
+        description: "Inclusive upper bound. Only entries created on or before this datetime."
+    end
+    def time_entries(user_id: nil, project_id: nil, task_id: nil, from_date: nil, to_date: nil)
+      scope = policy_scope(TimeEntry.all)
+      scope = scope.where(user_id:) if user_id
+      scope = scope.where(project_id:) if project_id
+      scope = scope.where(task_id:) if task_id
+      scope = scope.where(created_at: from_date..) if from_date
+      scope = scope.where(created_at: ..to_date) if to_date
       scope
     end
 

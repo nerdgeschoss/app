@@ -30,5 +30,7 @@ module Types
       description: "Per-user performance records. One entry per team member."
     field :tasks, Types::TaskType.connection_type, null: false,
       description: "GitHub tasks assigned to this sprint."
+    field :time_entries, Types::TimeEntryType.connection_type, null: false,
+      description: "All time entries logged during this sprint."
   end
 end
