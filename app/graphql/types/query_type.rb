@@ -2,14 +2,20 @@
 
 module Types
   class QueryType < Types::BaseObject
-    field :viewer, Types::ViewerType
+    description "Root queries for the team management API."
+
+    field :viewer, Types::ViewerType,
+      description: "The currently authenticated user."
     def viewer
       current_user
     end
 
-    field :users, Types::UserType.connection_type, null: false do
-      argument :team, String, required: false
-      argument :archive, Boolean, required: false, default_value: false
+    field :users, Types::UserType.connection_type, null: false,
+      description: "Paginated list of team members. Results are scoped by the caller's role." do
+      argument :team, String, required: false,
+        description: "Filter by team name (e.g. 'frontend'). Matches users with the 'team-<name>' role."
+      argument :archive, Boolean, required: false, default_value: false,
+        description: "When true, includes users who are no longer employed. Defaults to false."
     end
     def users(team: nil, archive: false)
       scope = policy_scope(User.all).in_team(team)
@@ -17,29 +23,36 @@ module Types
       scope
     end
 
-    field :user, Types::UserType, null: false do
-      argument :id, ID, required: true
+    field :user, Types::UserType, null: false,
+      description: "Look up a single user by ID. Requires employee-level access." do
+      argument :id, ID, required: true, description: "UUID of the user."
     end
     def user(id:)
       authorize User.find(id), :show
     end
 
-    field :sprints, Types::SprintType.connection_type, null: false
+    field :sprints, Types::SprintType.connection_type, null: false,
+      description: "All sprints in reverse chronological order. Eager-loads feedback and leave data."
     def sprints
       policy_scope(Sprint.all.reverse_chronologic.includes(sprint_feedbacks: [user: :leaves]))
     end
 
-    field :sprint, Types::SprintType, null: false do
-      argument :id, ID, required: true
+    field :sprint, Types::SprintType, null: false,
+      description: "Look up a single sprint by ID." do
+      argument :id, ID, required: true, description: "UUID of the sprint."
     end
     def sprint(id:)
       authorize Sprint.find(id), :show
     end
 
-    field :tasks, Types::TaskType.connection_type, null: false do
-      argument :sprint_id, ID, required: false
-      argument :search, String, required: false
-      argument :github, String, required: false
+    field :tasks, Types::TaskType.connection_type, null: false,
+      description: "GitHub tasks from the sprint project board. Supports filtering by sprint, text search, and GitHub reference." do
+      argument :sprint_id, ID, required: false,
+        description: "Filter to tasks in this sprint. Omit to return tasks across all sprints."
+      argument :search, String, required: false,
+        description: "Case-insensitive substring match on the task title."
+      argument :github, String, required: false,
+        description: "GitHub reference in 'repository#number' format (e.g. 'nerdgeschoss/app#42'). Filters to exact match."
     end
     def tasks(sprint_id: nil, search: nil, github: nil)
       scope = policy_scope(Task.all).github(github)
@@ -48,10 +61,14 @@ module Types
       scope
     end
 
-    field :daily_nerd_messages, Types::DailyNerdMessageType.connection_type, null: false do
-      argument :user_id, ID, required: false
-      argument :from_date, GraphQL::Types::ISO8601Date, required: false
-      argument :to_date, GraphQL::Types::ISO8601Date, required: false
+    field :daily_nerd_messages, Types::DailyNerdMessageType.connection_type, null: false,
+      description: "Daily standup ('daily nerd') messages, ordered newest first." do
+      argument :user_id, ID, required: false,
+        description: "Filter to messages from a specific user."
+      argument :from_date, GraphQL::Types::ISO8601Date, required: false,
+        description: "Inclusive lower bound. Only messages created on or after this date."
+      argument :to_date, GraphQL::Types::ISO8601Date, required: false,
+        description: "Inclusive upper bound. Only messages created on or before this date."
     end
     def daily_nerd_messages(user_id: nil, from_date: nil, to_date: nil)
       scope = policy_scope(DailyNerdMessage.all.includes(:user).order(created_at: :desc))

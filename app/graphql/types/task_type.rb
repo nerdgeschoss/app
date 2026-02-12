@@ -2,14 +2,16 @@
 
 module Types
   class TaskType < Types::BaseObject
-    field :id, ID, null: false
-    field :issue_number, Integer, null: false
-    field :title, String, null: false
-    field :description, String, null: true
-    field :status, String, null: false
-    field :labels, [String], null: false
-    field :repository, String, null: false
-    field :story_points, Integer, null: true
-    field :sprint, Types::SprintType, null: true
+    description "A GitHub issue synced from the sprint project board."
+
+    field :id, ID, null: false, description: "Internal UUID. For GitHub identifier, use repository + issue_number."
+    field :issue_number, Integer, null: false, description: "GitHub issue number within its repository."
+    field :title, String, null: false, description: "Issue title from GitHub."
+    field :description, String, null: true, description: "Issue body from GitHub. Null if empty."
+    field :status, String, null: false, description: "Board column (e.g. 'Todo', 'In Progress', 'Done')."
+    field :labels, [String], null: false, description: "GitHub labels (e.g. ['frontend', 'bug'])."
+    field :repository, String, null: false, description: "GitHub repository in 'owner/repo' format."
+    field :story_points, Integer, null: true, description: "Estimated effort. Null if no estimate set."
+    field :sprint, Types::SprintType, null: true, description: "Assigned sprint. Null for unscheduled backlog items."
   end
 end
