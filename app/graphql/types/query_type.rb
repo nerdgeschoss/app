@@ -31,12 +31,61 @@ module Types
       authorize User.find(id), :show
     end
 
-    field :project, Types::ProjectType, null: false do
-      argument :id, ID, required: true
+    field :project, Types::ProjectType, null: false,
+      description: "Look up a project by repository name or ID." do
+      argument :id, ID, required: true,
+        description: "Repository identifier (e.g. 'nerdgeschoss/app') or UUID. Tries repository match first, falls back to ID."
     end
     def project(id:)
       project = Project.find_by(repository: id) || Project.find(id)
       authorize project, :show
+    end
+
+    field :sprints, Types::SprintType.connection_type, null: false,
+      description: "All sprints in reverse chronological order. Eager-loads feedback and leave data."
+    def sprints
+      policy_scope(Sprint.all.reverse_chronologic.includes(sprint_feedbacks: [user: :leaves]))
+    end
+
+    field :sprint, Types::SprintType, null: false,
+      description: "Look up a single sprint by ID." do
+      argument :id, ID, required: true, description: "UUID of the sprint."
+    end
+    def sprint(id:)
+      authorize Sprint.find(id), :show
+    end
+
+    field :tasks, Types::TaskType.connection_type, null: false,
+      description: "GitHub tasks from the sprint project board. Supports filtering by sprint, text search, and GitHub reference." do
+      argument :sprint_id, ID, required: false,
+        description: "Filter to tasks in this sprint. Omit to return tasks across all sprints."
+      argument :search, String, required: false,
+        description: "Case-insensitive substring match on the task title."
+      argument :github, String, required: false,
+        description: "GitHub reference in 'repository#number' format (e.g. 'nerdgeschoss/app#42'). Filters to exact match."
+    end
+    def tasks(sprint_id: nil, search: nil, github: nil)
+      scope = policy_scope(Task.all).github(github)
+      scope = scope.where(sprint_id:) if sprint_id
+      scope = scope.where("title ILIKE ?", "%#{search}%") if search.present?
+      scope
+    end
+
+    field :daily_nerd_messages, Types::DailyNerdMessageType.connection_type, null: false,
+      description: "Daily standup ('daily nerd') messages, ordered newest first." do
+      argument :user_id, ID, required: false,
+        description: "Filter to messages from a specific user."
+      argument :from_date, GraphQL::Types::ISO8601Date, required: false,
+        description: "Inclusive lower bound. Only messages created on or after this date."
+      argument :to_date, GraphQL::Types::ISO8601Date, required: false,
+        description: "Inclusive upper bound. Only messages created on or before this date."
+    end
+    def daily_nerd_messages(user_id: nil, from_date: nil, to_date: nil)
+      scope = policy_scope(DailyNerdMessage.all.includes(:user).order(created_at: :desc))
+      scope = scope.where(sprint_feedback_id: User.find(user_id).sprint_feedbacks) if user_id
+      scope = scope.where("created_at >= ?", from_date) if from_date
+      scope = scope.where("created_at <= ?", to_date) if to_date
+      scope
     end
   end
 end
