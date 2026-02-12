@@ -5,7 +5,7 @@ class Github
 
   class QueryExecutionError < StandardError; end
 
-SprintBoardItem = Struct.new(:id, :title, :description, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, :labels, keyword_init: true)
+  SprintBoardItem = Struct.new(:id, :title, :description, :assignee_logins, :repository, :issue_number, :sprint_title, :status, :points, :labels, keyword_init: true)
 
   def sprint_board_items
     all_data = []
