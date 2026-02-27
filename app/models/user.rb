@@ -80,7 +80,8 @@ class User < ApplicationRecord
   end
 
   def used_holidays
-    leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count
+    year = Time.zone.today.year
+    leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count { _1.year == year }
   end
 
   def notify!(message)
