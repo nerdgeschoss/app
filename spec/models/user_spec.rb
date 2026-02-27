@@ -83,6 +83,17 @@ RSpec.describe User do
     end
   end
 
+  describe "#used_holidays" do
+    it "only counts days within the current year for cross-year leaves" do
+      travel_to "2025-01-15" do
+        # john has a cross-year leave (2024-12-30 to 2025-01-02),
+        # only the 2 days in 2025 should count, not the 2 days in 2024.
+        # Plus john_vacation (1 day) and john_vacation_pending (1 day) = 4 days in 2025.
+        expect(john.used_holidays).to eq 4
+      end
+    end
+  end
+
   describe "#display_name" do
     it "returns the nick name if present" do
       john.nick_name = "Johnny Boy"

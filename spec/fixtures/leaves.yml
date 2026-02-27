@@ -35,3 +35,11 @@ john_vacation_pending:
   days: [2025-01-05]
   leave_during: '[2025-01-05, 2025-01-06)'
   user: john
+
+john_cross_year_vacation:
+  title: New Year Vacation
+  type: paid
+  status: approved
+  days: [2024-12-30, 2024-12-31, 2025-01-01, 2025-01-02]
+  leave_during: '[2024-12-30, 2025-01-03)'
+  user: john
