@@ -175,6 +175,7 @@ export interface DataSchema {
       targetTotalHours: number;
       targetBillableHours: number;
       permitEditRetroNotes: boolean;
+      permitDownloadJson: boolean;
       sprint: {
         id: string;
         title: string;

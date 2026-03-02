@@ -17,6 +17,7 @@ field :feedback, value: -> { @feedback } do
   field :target_billable_hours, Float
 
   field :permit_edit_retro_notes, Boolean, value: -> { helpers.policy(self).update? }
+  field :permit_download_json, Boolean, value: -> { root(&:current_user).role?(:hr) }
 
   field :sprint do
     field :id

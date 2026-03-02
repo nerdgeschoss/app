@@ -4,6 +4,8 @@ import { Layout } from '../../frontend/components/layout/layout';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Text } from '../../frontend/components/text/text';
 import { EmployeeCard } from '../../frontend/components/employee_card/employee_card';
+import { Button } from '../../frontend/components/button/button';
+import { downloadFile } from '../../frontend/util/download';
 
 export default function ({
   data: { currentUser, feedback },
@@ -26,6 +28,19 @@ export default function ({
                 feedback.sprint.sprintUntil
               )}
             </Text>
+            {feedback.permitDownloadJson && (
+              <Button
+                title={t('sprint_feedbacks.download_json')}
+                onClick={() =>
+                  downloadFile(
+                    new Blob([JSON.stringify(feedback, null, 2)], {
+                      type: 'application/json',
+                    }),
+                    `sprint-feedback-${feedback.sprint.title}-${feedback.user.displayName}.json`
+                  )
+                }
+              />
+            )}
           </Stack>
           <EmployeeCard {...feedback} />
         </Stack>
