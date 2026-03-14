@@ -7,6 +7,12 @@ class SprintsController < ApplicationController
     @sprints = policy_scope(Sprint.reverse_chronologic)
       .includes(:time_entries, :tasks, sprint_feedbacks: [:daily_nerd_messages, user: :leaves])
       .page(params[:page]).per(20)
+
+    render Views::Sprints::Index.new(
+      sprints: @sprints,
+      permit_create_sprint: policy(Sprint).create?,
+      show_financials: current_user.role?(:hr)
+    )
   end
 
   def new

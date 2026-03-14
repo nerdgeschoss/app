@@ -6,7 +6,7 @@ class Components::Sidebar < Components::Base
   LinkInfo = Data.define(:name, :path, :icon).freeze
 
   def view_template
-    nav(class: "sidebar") do
+    nav(class: "sidebar", data: {controller: "sidebar"}) do
       render_header
       render_collapse_menu
       render_desktop_links
@@ -47,7 +47,7 @@ class Components::Sidebar < Components::Base
           text(type: :"label-heading-primary", color: "text-text-primary-base", uppercase: true) { "Nerdgeschoss" }
         end
       end
-      div(class: "sidebar__menu-toggle", onclick: "this.closest('nav').classList.toggle('sidebar--expanded')") do
+      div(class: "sidebar__menu-toggle", data: {action: "click->sidebar#toggle"}) do
         span(class: "sidebar__burger") { icon(name: :menu, size: 24, color: "icon-menu-default") }
         div(class: "sidebar__close") { icon(name: :close, size: 24, color: "icon-menu-default") }
       end

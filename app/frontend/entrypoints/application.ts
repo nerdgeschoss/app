@@ -1,7 +1,14 @@
 import '@hotwired/turbo';
+import { Application } from '@hotwired/stimulus';
+import SidebarController from '../../components/sidebar/sidebar_controller';
+
+const application = Application.start();
+application.register('sidebar', SidebarController);
+
 import '../components/reset.scss';
 import '../../components/stack/stack.scss';
 import '../../components/logo/logo.scss';
+import '../../components/container/container.scss';
 import '../../components/card/card.scss';
 import '../../components/text/text.scss';
 import '../../components/form_error/form_error.scss';
