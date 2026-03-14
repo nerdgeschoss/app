@@ -18,6 +18,7 @@ class Components::TextField < Components::Base
           render_label if @label
           text(block: true, color: @disabled ? "label-heading-secondary" : nil) do
             input(
+              id: input_id,
               name: @name,
               class: "text-field__input",
               readonly: @readonly,
@@ -46,8 +47,12 @@ class Components::TextField < Components::Base
     classes.join(" ")
   end
 
+  def input_id
+    @name&.gsub(/[\[\]]/, "_")&.gsub(/_+$/, "")
+  end
+
   def render_label
-    label(class: label_classes) do
+    label(class: label_classes, for: input_id) do
       text(type: :"label-heading-primary", color: "label-heading-primary") { @label }
     end
   end

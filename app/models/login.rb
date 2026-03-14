@@ -8,32 +8,29 @@ class Login
   attribute :code, :string
 
   validates :email, presence: true
+  validate :code_matches, if: :code
 
-  def request_code(cookies)
-    generate_code
-    cookies.encrypted[:auth_challenge] = {
-      value: [email, code],
+  def initialize(cookies:, **attrs)
+    email, = cookies.encrypted[:auth_challenge]
+    super(email: attrs[:email] || email, **attrs.except(:email))
+    @cookies = cookies
+  end
+
+  def request_code
+    correct_code = generate_code
+    @cookies.encrypted[:auth_challenge] = {
+      value: [email, correct_code],
       expires: 15.minutes.from_now,
       httponly: true
     }
     user = User.find_by(email:)
-    UserMailer.login_code(user, code).deliver_later if user
+    UserMailer.login_code(user, correct_code).deliver_later if user
   end
 
-  def self.from_cookie(cookies)
-    email, code = cookies.encrypted[:auth_challenge]
-    return nil unless email.present?
-    new(email:, code:)
-  end
-
-  def verify(submitted_code, cookies)
-    if code == submitted_code
-      cookies.delete(:auth_challenge)
-      true
-    else
-      errors.add(:code, "is invalid")
-      false
-    end
+  def verify
+    return false unless valid?
+    @cookies.delete(:auth_challenge)
+    true
   end
 
   def user
@@ -42,8 +39,17 @@ class Login
 
   private
 
+  def code_matches
+    errors.add(:code, "is invalid") unless code == correct_code
+  end
+
+  def correct_code
+    _, code = @cookies.encrypted[:auth_challenge]
+    code
+  end
+
   def generate_code
-    self.code = dev_login? ? "999999" : SecureRandom.random_number(10**6).to_s.rjust(6, "0")
+    dev_login? ? "999999" : SecureRandom.random_number(10**6).to_s.rjust(6, "0")
   end
 
   def dev_login?

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Views::Sessions::New < Views::Base
-  include Phlex::Rails::Helpers::FormWith
-
   prop :login, Login
 
   def view_template
@@ -10,10 +8,10 @@ class Views::Sessions::New < Views::Base
       stack(size: 32, align: :center) do
         render Logo.new
         render Card.new(title: "Login", type: :"login-card") do
-          form_with(model: @login, url: helpers.login_path) do |f|
+          simple_form_for(@login, url: login_path) do |f|
             stack(size: 16) do
-              render TextField.new(name: "login[email]", label: "Email", auto_complete: "email")
-              render Button.new(title: "Login")
+              f.input :email, autocomplete: "email"
+              f.submit "Login"
             end
           end
         end
