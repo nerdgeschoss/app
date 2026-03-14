@@ -1,0 +1,54 @@
+# frozen_string_literal: true
+
+class Components::Card < Components::Base
+  prop :id, _Nilable(String), default: nil
+  prop :icon, _Nilable(String), default: nil
+  prop :title, _Nilable(String), default: nil
+  prop :subtitle, _Nilable(String), default: nil
+  prop :context, _Nilable(String), default: nil
+  prop :href, _Nilable(String), default: nil
+  prop :type, _Nilable(_Union(:"login-card")), default: nil
+  prop :icon_size, Integer, default: 28
+  prop :with_divider, _Boolean, default: false
+
+  def view_template(&block)
+    if @href
+      a(id: @id, class: card_classes, href: @href) { card_content(&block) }
+    else
+      div(id: @id, class: card_classes) { card_content(&block) }
+    end
+  end
+
+  private
+
+  def card_content(&block)
+    render Stack.new(size: 24) do
+      render_header if has_header?
+      div(class: "card__divider") if @with_divider
+      div(class: "card__content", &block) if block
+    end
+  end
+
+  def card_classes
+    classes = ["card"]
+    classes << "card--login" if @type == :"login-card"
+    classes.join(" ")
+  end
+
+  def has_header?
+    @title || @subtitle || @context || @icon
+  end
+
+  def render_header
+    div(class: "card__header", style: "--icon-size: #{@icon_size}px") do
+      div(class: "card__header-content") do
+        div(class: "card__title") do
+          div(class: "card__icon") { plain(@icon) } if @icon
+          h5(class: "text text--h5-bold text--label-heading-primary") { plain(@title) } if @title
+        end
+        div(class: "card__subtitle") { plain(@subtitle) } if @subtitle
+      end
+      div(class: "card__context") { plain(@context) } if @context
+    end
+  end
+end

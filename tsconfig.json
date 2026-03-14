@@ -12,7 +12,8 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*", "app/javascript/*"]
+      "*": ["node_modules/*", "app/javascript/*"],
+      "@components/*": ["app/components/*"]
     },
     "sourceMap": true,
     "target": "es2020",
