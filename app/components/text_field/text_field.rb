@@ -10,6 +10,7 @@ class Components::TextField < Components::Base
   prop :readonly, _Boolean, default: false
   prop :errors, _Nilable(_Array(String)), default: nil
   prop :auto_complete, _Nilable(String), default: nil
+  prop :input_type, String, default: "text"
 
   def view_template
     div(class: "text-field__container") do
@@ -23,7 +24,7 @@ class Components::TextField < Components::Base
               class: "text-field__input",
               readonly: @readonly,
               value: @value || "",
-              type: "text",
+              type: @input_type,
               placeholder: @placeholder,
               required: @required,
               disabled: @disabled,

@@ -24,7 +24,8 @@ class SprintsController < ApplicationController
   end
 
   def new
-    @sprint = authorize Sprint.new working_days: 10, sprint_from: Time.zone.today, sprint_until: 11.days.from_now
+    @sprint = authorize Sprint.new(working_days: 10, sprint_from: Time.zone.today, sprint_until: 11.days.from_now)
+    render Views::Sprints::New.new(sprint: @sprint), layout: false
   end
 
   def create
@@ -33,6 +34,7 @@ class SprintsController < ApplicationController
       @sprint.sprint_feedbacks.build user:
     end
     @sprint.save!
+    ui.navigate_to sprints_path
   end
 
   private

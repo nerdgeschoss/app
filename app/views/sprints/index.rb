@@ -8,15 +8,15 @@ class Views::Sprints::Index < Views::Base
       stack do
         stack(line: :mobile, justify: :"space-between") do
           text(type: :"h1-bold") { "Sprints" }
-          render Button.new(title: "New Sprint") if @permit_create_sprint
+          render Button.new(title: "add", modal_path: new_sprint_path) if @permit_create_sprint
         end
         stack(size: 32) do
           @sprints.each do |sprint|
-            tag(:"turbo-frame", id: "sprint_card_#{sprint.id}", src: helpers.card_sprint_path(sprint))
+            tag(:"turbo-frame", id: "sprint_card_#{sprint.id}", src: card_sprint_path(sprint))
           end
         end
         if @sprints.next_page
-          a(href: helpers.sprints_path(page: @sprints.next_page)) do
+          a(href: sprints_path(page: @sprints.next_page)) do
             render Button.new(title: "Load more")
           end
         end

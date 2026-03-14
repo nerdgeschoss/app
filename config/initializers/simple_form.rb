@@ -7,3 +7,7 @@ SimpleForm.setup do |config|
   config.default_wrapper = :default
   config.button_class = "button"
 end
+
+Rails.application.config.to_prepare do
+  SimpleForm::FormBuilder.map_type :date, :time, :datetime, to: DateInput
+end

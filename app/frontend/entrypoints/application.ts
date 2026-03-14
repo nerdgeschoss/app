@@ -1,9 +1,13 @@
 import '@hotwired/turbo';
 import { Application } from '@hotwired/stimulus';
+import { start } from '@nerdgeschoss/shimmer';
 import SidebarController from '../../components/sidebar/sidebar_controller';
+import ButtonController from '../../components/button/button_controller';
 
 const application = Application.start();
 application.register('sidebar', SidebarController);
+application.register('button', ButtonController);
+start({ application });
 
 import '../components/reset.scss';
 import '../../components/stack/stack.scss';
@@ -21,3 +25,4 @@ import '../../components/sidebar/sidebar.scss';
 import '../../components/layout/layout.scss';
 import '../../components/property/property.scss';
 import '../../components/pill/pill.scss';
+import '../../components/modal/modal.scss';

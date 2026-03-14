@@ -348,7 +348,7 @@
   dependencies:
     levn "^0.4.1"
 
-"@hotwired/stimulus@^3.2.2":
+"@hotwired/stimulus@^3.0.1", "@hotwired/stimulus@^3.2.2":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@hotwired/stimulus/-/stimulus-3.2.2.tgz#071aab59c600fed95b97939e605ff261a4251608"
   integrity sha512-eGeIqNOQpXoPAIP7tC1+1Yc1yl1xnwYqg+3mzqxyrbE5pg5YFBZcA6YoTiByJB6DKAEsiWtl6tjTJS4IYtbB7A==
@@ -432,6 +432,15 @@
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@nerdgeschoss/shimmer-component-stack/-/shimmer-component-stack-0.0.5.tgz#af2283d3762f0c85bf4353ba6cc3c2c88a2a60e4"
   integrity sha512-Ia5KXH2wnMHn0sFMFY42ryx8DST5JHSjTNhDlB56VZzkS32kJcttURm9i0IYd5pQl1vaqx6bJP3MViDrzGV7uA==
+
+"@nerdgeschoss/shimmer@^0.0.43":
+  version "0.0.43"
+  resolved "https://registry.yarnpkg.com/@nerdgeschoss/shimmer/-/shimmer-0.0.43.tgz#2a959faaa8ac149f9f7e7b6c6fd3c699657eb5f0"
+  integrity sha512-69gW/eM3qAgplbKUle0J0U5ClQQBPpixyBLzl2NYCd3bsiRFEkeoL+swe+qM2oM066UwvUB34MqtBgeH+FLtnw==
+  dependencies:
+    "@hotwired/stimulus" "^3.0.1"
+    "@popperjs/core" "^2.11.0"
+    "@rails/request.js" "^0.0.6"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -547,6 +556,16 @@
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.1.1.tgz#1ec17e2edbec25c8306d424ecfbf13c7de1aaa31"
   integrity sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==
+
+"@popperjs/core@^2.11.0":
+  version "2.11.8"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
+
+"@rails/request.js@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@rails/request.js/-/request.js-0.0.6.tgz#5f0347a9f363e50ec45118c7134080490cda81d8"
+  integrity sha512-dfFWaQXitYJ4kxrgGJNhDNXX54/v10YgoJqBMVe6lhqs6a4N9WD7goZJEvwin82TtK8MqUNhwfyisgKwM6dMdg==
 
 "@rollup/rollup-android-arm-eabi@4.29.1":
   version "4.29.1"

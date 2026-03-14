@@ -23,7 +23,7 @@ class Views::Sprints::Card < Components::Base
   def render_tabs
     stack(line: :mobile, size: 4) do
       DISPLAY_MODES.each do |mode|
-        a(href: helpers.card_sprint_path(@sprint, display: mode)) do
+        a(href: card_sprint_path(@sprint, display: mode)) do
           render Pill.new(active: mode == @display_mode) { mode.capitalize }
         end
       end
