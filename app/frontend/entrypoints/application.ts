@@ -7,3 +7,8 @@ import '../../components/text/text.scss';
 import '../../components/form_error/form_error.scss';
 import '../../components/text_field/text_field.scss';
 import '../../components/button/button.scss';
+import '../../components/icon/icon.scss';
+import '../../components/avatar/avatar.scss';
+import '../../components/tooltip/tooltip.scss';
+import '../../components/sidebar/sidebar.scss';
+import '../../components/layout/layout.scss';

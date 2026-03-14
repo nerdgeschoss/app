@@ -18,7 +18,7 @@ RSpec.describe "Sessions" do
     expect(code).to be_present
     fill_in "Code", with: code
     click_on "Login"
-    expect(page).to have_content "Hello"
+    expect(page).to have_current_path root_path
   end
 
   it "logs the user out" do

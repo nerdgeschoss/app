@@ -16,6 +16,10 @@ class Components::Base < Phlex::HTML
     render Text.new(**, &block)
   end
 
+  def icon(**, &block)
+    render Icon.new(**, &block)
+  end
+
   if Rails.env.development?
     def before_template
       comment { "Before #{self.class.name}" }

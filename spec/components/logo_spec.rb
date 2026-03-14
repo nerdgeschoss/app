@@ -3,10 +3,11 @@
 require "rails_helper"
 
 RSpec.describe Components::Logo, type: :component do
-  it "renders an img tag with logo class and alt text" do
+  it "renders a div with logo class and aria label" do
     html = render_component(described_class.new)
 
-    expect(html.css("img.logo")).to be_present
-    expect(html.css("img.logo").first["alt"]).to eq("Nerdgeschoss Logo")
+    logo = html.css("div.logo").first
+    expect(logo).to be_present
+    expect(logo["aria-label"]).to eq("Nerdgeschoss Logo")
   end
 end
