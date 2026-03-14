@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     get "confirm_login", to: "sessions#edit"
     post "confirm_login", to: "sessions#update"
     get "logout", to: "sessions#destroy"
+    get "styleguide", to: "pages#styleguide"
     root "pages#home"
   end
 
