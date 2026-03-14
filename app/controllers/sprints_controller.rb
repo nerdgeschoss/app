@@ -10,9 +10,17 @@ class SprintsController < ApplicationController
 
     render Views::Sprints::Index.new(
       sprints: @sprints,
-      permit_create_sprint: policy(Sprint).create?,
-      show_financials: current_user.role?(:hr)
+      permit_create_sprint: policy(Sprint).create?
     )
+  end
+
+  def card
+    @sprint = authorize Sprint.find(params[:id]), :show?
+    render Views::Sprints::Card.new(
+      sprint: @sprint,
+      show_financials: current_user.role?(:hr),
+      display_mode: params[:display] || "retro"
+    ), layout: false
   end
 
   def new

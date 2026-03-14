@@ -3,8 +3,6 @@
 class Views::Sprints::Index < Views::Base
   prop :sprints, _Any
   prop :permit_create_sprint, _Boolean, default: false
-  prop :show_financials, _Boolean, default: false
-
   def view_template
     render Container.new do
       stack do
@@ -14,7 +12,7 @@ class Views::Sprints::Index < Views::Base
         end
         stack(size: 32) do
           @sprints.each do |sprint|
-            render SprintCard.new(sprint:, show_financials: @show_financials)
+            tag(:"turbo-frame", id: "sprint_card_#{sprint.id}", src: helpers.card_sprint_path(sprint))
           end
         end
         if @sprints.next_page

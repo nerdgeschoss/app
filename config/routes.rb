@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     resources :leaves do
       get "team_overview/:team_hash", action: :team_overview, as: :team_overview, on: :collection
     end
-    resources :sprints
+    resources :sprints do
+      get :card, on: :member
+    end
     resources :sprint_feedbacks do
       get "edit_retro", on: :member
       post "update_retro", on: :member
