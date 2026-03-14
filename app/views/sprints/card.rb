@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Views::Sprints::Card < Components::Base
-  DISPLAY_MODES = %w[retro points].freeze
+  DISPLAY_MODES = ["performance", "retro", "points"].freeze
 
   prop :sprint, Sprint
   prop :show_financials, _Boolean, default: false
@@ -32,6 +32,7 @@ class Views::Sprints::Card < Components::Base
 
   def render_content
     case @display_mode
+    when "performance" then render PerformanceGrid.new(sprint: @sprint)
     when "retro" then render RetroList.new(sprint: @sprint)
     when "points" then render StorypointList.new(sprint: @sprint)
     end

@@ -5,7 +5,6 @@ class SprintsController < ApplicationController
 
   def index
     @sprints = policy_scope(Sprint.reverse_chronologic)
-      .includes(:time_entries, :tasks, sprint_feedbacks: [:daily_nerd_messages, user: :leaves])
       .page(params[:page]).per(20)
 
     render Views::Sprints::Index.new(
@@ -15,11 +14,11 @@ class SprintsController < ApplicationController
   end
 
   def card
-    @sprint = authorize Sprint.find(params[:id]), :show?
+    @sprint = authorize Sprint.includes(:time_entries, sprint_feedbacks: [:daily_nerd_messages, user: :leaves]).find(params[:id]), :show?
     render Views::Sprints::Card.new(
       sprint: @sprint,
       show_financials: current_user.role?(:hr),
-      display_mode: params[:display] || "retro"
+      display_mode: params[:display] || "performance"
     ), layout: false
   end
 

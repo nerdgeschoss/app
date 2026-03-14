@@ -5,7 +5,7 @@ class Views::Base < Components::Base
     if Current.user
       render Layout.new(user: Current.user) { super(&block) }
     else
-      super(&block)
+      super
     end
   end
 

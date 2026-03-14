@@ -1,0 +1,17 @@
+.performance {
+  border-radius: 16px;
+  border: 1px solid var(--card-border-default);
+  padding: 12px;
+
+  &__avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

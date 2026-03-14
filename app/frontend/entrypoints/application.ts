@@ -26,3 +26,7 @@ import '../../components/layout/layout.scss';
 import '../../components/property/property.scss';
 import '../../components/pill/pill.scss';
 import '../../components/modal/modal.scss';
+import '../../components/performance_grid/performance_grid.scss';
+import '../../components/performance/performance.scss';
+import '../../components/performance_progress/performance_progress.scss';
+import '../../components/performance_days/performance_days.scss';
