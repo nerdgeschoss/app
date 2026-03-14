@@ -4,7 +4,7 @@ class Components::Card < Components::Base
   prop :id, _Nilable(String), default: nil
   prop :icon, _Nilable(String), default: nil
   prop :title, _Nilable(String), default: nil
-  prop :subtitle, _Nilable(String), default: nil
+  prop :subtitle, _Nilable(_Union(String, Phlex::HTML)), default: nil
   prop :context, _Nilable(String), default: nil
   prop :href, _Nilable(String), default: nil
   prop :type, _Nilable(_Union(:"login-card")), default: nil
@@ -46,7 +46,11 @@ class Components::Card < Components::Base
           div(class: "card__icon") { plain(@icon) } if @icon
           text(type: :"h5-bold", color: "label-heading-primary") { @title } if @title
         end
-        div(class: "card__subtitle") { plain(@subtitle) } if @subtitle
+        if @subtitle.is_a?(Phlex::HTML)
+          div(class: "card__subtitle") { render @subtitle }
+        elsif @subtitle
+          div(class: "card__subtitle") { plain(@subtitle) }
+        end
       end
       div(class: "card__context") { plain(@context) } if @context
     end

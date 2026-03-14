@@ -12,3 +12,5 @@ import '../../components/avatar/avatar.scss';
 import '../../components/tooltip/tooltip.scss';
 import '../../components/sidebar/sidebar.scss';
 import '../../components/layout/layout.scss';
+import '../../components/property/property.scss';
+import '../../components/pill/pill.scss';
