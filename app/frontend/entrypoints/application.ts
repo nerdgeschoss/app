@@ -41,3 +41,4 @@ import '../../components/performance_day/performance_day.scss';
 import '../../components/select_field/select_field.scss';
 import '../../components/columns/columns.scss';
 import '../../components/text_area/text_area.scss';
+import '../../components/grid/grid.scss';
