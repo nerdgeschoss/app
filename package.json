@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hotwired/turbo": "^8.0.23",
     "@nerdgeschoss/react-use-form-library": "^0.0.70",
     "@nerdgeschoss/shimmer-component-collapse": "^0.0.5",
     "@nerdgeschoss/shimmer-component-stack": "^0.0.5",
@@ -34,10 +35,10 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.3",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "playwright": "~1.50.0",
     "prettier": "^3.4.2",
     "typescript-eslint": "^8.19.0",
-    "vite-plugin-ruby": "^5.1.0",
-    "playwright": "~1.50.0"
+    "vite-plugin-ruby": "^5.1.0"
   },
   "volta": {
     "node": "18.19.1",
