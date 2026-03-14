@@ -22,7 +22,7 @@ class Components::Card < Components::Base
   private
 
   def card_content(&block)
-    render Stack.new(size: 24) do
+    stack(size: 24) do
       render_header if has_header?
       div(class: "card__divider") if @with_divider
       div(class: "card__content", &block) if block
@@ -44,7 +44,7 @@ class Components::Card < Components::Base
       div(class: "card__header-content") do
         div(class: "card__title") do
           div(class: "card__icon") { plain(@icon) } if @icon
-          h5(class: "text text--h5-bold text--label-heading-primary") { plain(@title) } if @title
+          text(type: :"h5-bold", color: "label-heading-primary") { @title } if @title
         end
         div(class: "card__subtitle") { plain(@subtitle) } if @subtitle
       end

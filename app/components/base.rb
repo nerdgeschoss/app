@@ -8,6 +8,14 @@ class Components::Base < Phlex::HTML
 
   register_value_helper :vite_asset_path
 
+  def stack(**, &block)
+    render Stack.new(**, &block)
+  end
+
+  def text(**, &block)
+    render Text.new(**, &block)
+  end
+
   if Rails.env.development?
     def before_template
       comment { "Before #{self.class.name}" }
