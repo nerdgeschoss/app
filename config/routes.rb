@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     namespace :feed do
       resources :leaves, only: :index
     end
-    resources :daily_nerd_messages, only: [:create, :update]
+    resources :daily_nerd_messages, only: [:show, :create, :update, :edit]
     resources :projects, only: :index
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"

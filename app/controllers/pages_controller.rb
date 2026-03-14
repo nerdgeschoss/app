@@ -21,11 +21,15 @@ class PagesController < ApplicationController
   end
 
   def home
-    @payslips = current_user.payslips.reverse_chronologic.page(0).per(6)
-    @sprint = Sprint.current.take
+    @payslips = current_user.payslips.includes(pdf_attachment: :blob).reverse_chronologic.limit(6)
     @upcoming_leaves = current_user.leaves.future.not_rejected.chronologic
-    sprint_feedback = current_user.sprint_feedbacks.find_by(sprint: @sprint) if @sprint
-    @daily_nerd_message = DailyNerdMessage.find_by(created_at: Time.zone.today.all_day, sprint_feedback:) || sprint_feedback.daily_nerd_messages.build if sprint_feedback
     @needs_retro_for = SprintFeedback.where(user: current_user).sprint_past.reverse_chronologic.limit(2).find { !_1.retro_completed? }
+
+    render Views::Pages::Home.new(
+      upcoming_leaves: @upcoming_leaves,
+      payslips: @payslips,
+      remaining_holidays: current_user.remaining_holidays,
+      needs_retro_for: @needs_retro_for
+    )
   end
 end
