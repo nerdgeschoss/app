@@ -2,6 +2,7 @@
 
 class SessionsController < ApplicationController
   def new
+    render Views::Sessions::New.new
   end
 
   def create
