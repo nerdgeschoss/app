@@ -6,6 +6,10 @@ class SprintFeedbacksController < ApplicationController
 
   def show
     @feedback = authorize SprintFeedback.includes(:user, :daily_nerd_messages, sprint: [time_entries: [:project, task_object: :time_entries]]).find params[:id]
+    render Views::SprintFeedbacks::Show.new(
+      feedback: @feedback,
+      show_financials: current_user.role?(:hr)
+    )
   end
 
   def create

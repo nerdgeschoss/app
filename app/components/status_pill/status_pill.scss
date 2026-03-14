@@ -1,0 +1,22 @@
+.status-pill {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+
+  &--todo {
+    background-color: var(--status-bg-todo, #e8eefb);
+  }
+
+  &--in_progress {
+    background-color: var(--status-bg-in-progress, #fff3cd);
+  }
+
+  &--review {
+    background-color: var(--status-bg-review, #d1ecf1);
+  }
+
+  &--done {
+    background-color: var(--status-bg-done, #d4edda);
+  }
+}

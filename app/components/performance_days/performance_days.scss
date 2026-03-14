@@ -70,4 +70,65 @@
       background-color: var(--icon-working-day-bg-filled);
     }
   }
+
+  &__day-label {
+    display: none;
+  }
+
+  &--large {
+    gap: 12px;
+
+    .performance-days {
+      &__day-label {
+        display: block;
+      }
+
+      &__day {
+        height: 191px;
+        width: 13px;
+        position: relative;
+
+        &--working {
+          background-color: var(--icon-working-day-bg-empty);
+
+          &::before,
+          &::after {
+            content: '';
+            border-radius: 2px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: var(--tracked-hours);
+            background-color: var(--chart-bg-non-billable);
+          }
+          &::after {
+            background-color: var(--chart-bg-billable);
+            height: var(--billable-hours);
+          }
+        }
+
+        &--weekend,
+        &--sick,
+        &--vacation {
+          .performance-days__target {
+            display: none;
+          }
+        }
+        &--weekend {
+          width: 3px;
+        }
+      }
+
+      &__target {
+        position: absolute;
+        bottom: var(--target-billable-hours);
+        height: 2px;
+        width: 100%;
+        background-color: var(--chart-bg-goal);
+        z-index: 1;
+        border-radius: 2px;
+      }
+    }
+  }
 }

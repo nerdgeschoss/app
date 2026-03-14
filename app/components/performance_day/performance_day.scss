@@ -1,0 +1,162 @@
+@import '../../frontend/components/layout.scss';
+
+.performance-day {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @include media-desktop {
+    gap: 24px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @include media-desktop {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
+    }
+  }
+
+  &__users {
+    display: flex;
+    align-items: center;
+
+    & > * {
+      &:not(:first-child) {
+        margin-left: -10px;
+      }
+    }
+  }
+
+  &__table {
+    display: flex;
+    padding: 16px 0px;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--div-default, #e8eefb);
+    list-style: none;
+
+    @include media-desktop {
+      display: grid;
+      grid-template-columns: 1fr repeat(4, auto);
+      gap: 0px;
+      padding: 0px;
+    }
+  }
+
+  &__row {
+    width: 100%;
+    padding: 0px 16px;
+    &:not(:last-child) {
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--div-default, #e8eefb);
+    }
+    display: grid;
+    gap: 4px;
+    grid-template-areas:
+      'entry-details tracked'
+      'entry-details users'
+      'entry-details source';
+
+    @include media-desktop {
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+      padding: 0px;
+      grid-template-areas: unset;
+      align-items: center;
+      &:not(:last-child) {
+        padding-bottom: 0px;
+      }
+    }
+  }
+
+  &__table-head {
+    display: none;
+    @include media-desktop {
+      display: grid;
+    }
+  }
+
+  &__cell {
+    @include media-desktop {
+      padding: 16px;
+      &--justify-end {
+        justify-self: flex-end;
+      }
+    }
+  }
+
+  &__entry-details {
+    grid-area: entry-details;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    @include media-desktop {
+      grid-area: unset;
+    }
+  }
+
+  &__entry-data {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__tracked {
+    grid-area: tracked;
+    justify-self: flex-end;
+    display: flex;
+    align-items: center;
+    @include media-desktop {
+      grid-area: unset;
+    }
+  }
+
+  &__mobile-total {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding-left: 2px;
+    @include media-desktop {
+      display: none;
+    }
+  }
+
+  &__users {
+    grid-area: users;
+    justify-self: flex-end;
+    @include media-desktop {
+      grid-area: unset;
+    }
+  }
+
+  &__total {
+    justify-self: flex-end;
+    display: none;
+    @include media-desktop {
+      display: block;
+      grid-area: unset;
+    }
+  }
+
+  &__source {
+    grid-area: source;
+    justify-self: flex-end;
+    @include media-desktop {
+      grid-area: unset;
+    }
+  }
+}

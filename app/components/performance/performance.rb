@@ -4,7 +4,7 @@ class Components::Performance < Components::Base
   prop :feedback, SprintFeedback
 
   def view_template
-    a(href: sprint_feedback_path(@feedback)) do
+    a(href: sprint_feedback_path(@feedback), data_turbo_frame: "_top") do
       div(class: "performance") do
         stack(size: 11) do
           render_header
