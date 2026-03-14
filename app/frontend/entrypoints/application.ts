@@ -38,3 +38,5 @@ import '../../components/star_display/star_display.scss';
 import '../../components/text_box/text_box.scss';
 import '../../components/status_pill/status_pill.scss';
 import '../../components/performance_day/performance_day.scss';
+import '../../components/select_field/select_field.scss';
+import '../../components/columns/columns.scss';
