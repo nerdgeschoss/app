@@ -2,10 +2,10 @@
 
 class Components::Card < Components::Base
   prop :id, _Nilable(String), default: nil
-  prop :icon, _Nilable(String), default: nil
+  prop :icon, _Nilable(_Union(String, Phlex::HTML)), default: nil
   prop :title, _Nilable(String), default: nil
   prop :subtitle, _Nilable(_Union(String, Phlex::HTML)), default: nil
-  prop :context, _Nilable(String), default: nil
+  prop :context, _Nilable(_Union(String, Phlex::HTML)), default: nil
   prop :href, _Nilable(String), default: nil
   prop :type, _Nilable(_Union(:"login-card")), default: nil
   prop :icon_size, Integer, default: 28
@@ -43,7 +43,15 @@ class Components::Card < Components::Base
     div(class: "card__header", style: "--icon-size: #{@icon_size}px") do
       div(class: "card__header-content") do
         div(class: "card__title") do
-          div(class: "card__icon") { plain(@icon) } if @icon
+          if @icon
+            div(class: "card__icon") do
+              if @icon.is_a?(Phlex::HTML)
+                render @icon
+              else
+                plain(@icon)
+              end
+            end
+          end
           text(type: :"h5-bold", color: "label-heading-primary") { @title } if @title
         end
         if @subtitle.is_a?(Phlex::HTML)
@@ -52,7 +60,15 @@ class Components::Card < Components::Base
           div(class: "card__subtitle") { plain(@subtitle) }
         end
       end
-      div(class: "card__context") { plain(@context) } if @context
+      if @context
+        div(class: "card__context") do
+          if @context.is_a?(Phlex::HTML)
+            render @context
+          else
+            plain(@context)
+          end
+        end
+      end
     end
   end
 end
