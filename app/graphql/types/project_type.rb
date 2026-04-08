@@ -19,6 +19,15 @@ module Types
     field :deploy_key, String, null: true, description: "SSH deploy key for the repository. Null if not configured."
     field :tasks, Types::TaskType.connection_type, null: false, description: "GitHub tasks associated with this project."
     field :time_entries, Types::TimeEntryType.connection_type, null: false, description: "Time entries logged against this project."
-    field :invoices, Types::InvoiceType.connection_type, null: false, required_permission: :financial_details, description: "Invoices for this project."
+    field :invoices, Types::InvoiceType.connection_type, null: false, required_permission: :financial_details, description: "Invoices for this project." do
+      argument :paid, Boolean, required: false,
+        description: "Filter by payment state. Omit to return all invoices regardless of state."
+    end
+    def invoices(paid: nil)
+      scope = object.invoices
+      scope = scope.where(state: "paid") if paid == true
+      scope = scope.where.not(state: "paid") if paid == false
+      scope
+    end
   end
 end
