@@ -31,3 +31,8 @@ archived_project:
   client_name: Old Client
   archived: true
   framework_versions: {}
+
+invoice_project:
+  name: Invoice Test Project
+  client_name: Invoice Client
+  framework_versions: {}

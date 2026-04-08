@@ -21,7 +21,7 @@ paid_invoice:
   paid_at: 2024-01-15 00:00:00
   sent_at: 2024-01-01 00:00:00
   harvest_id: 1001
-  project: customer_project
+  project: invoice_project
 
 open_invoice:
   reference: "INV-002"
@@ -29,4 +29,4 @@ open_invoice:
   state: open
   sent_at: 2024-02-01 00:00:00
   harvest_id: 1002
-  project: customer_project
+  project: invoice_project

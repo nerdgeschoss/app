@@ -52,12 +52,12 @@ RSpec.describe "Invoices", type: :graph do
       { invoices { nodes { reference project { name } } } }
     GRAPHQL
     invoice_node = data.invoices.nodes.find { |n| n.reference == paid_invoice.reference }
-    expect(invoice_node.project.name).to eq projects(:customer_project).name
+    expect(invoice_node.project.name).to eq projects(:invoice_project).name
   end
 
   it "filters project invoices by paid: true" do
     login(admin)
-    gql <<~GRAPHQL, variables: {id: projects(:customer_project).id}
+    gql <<~GRAPHQL, variables: {id: projects(:invoice_project).id}
       query Project($id: ID!) {
         project(id: $id) {
           invoices(paid: true) { nodes { reference } }
@@ -71,7 +71,7 @@ RSpec.describe "Invoices", type: :graph do
 
   it "filters project invoices by paid: false" do
     login(admin)
-    gql <<~GRAPHQL, variables: {id: projects(:customer_project).id}
+    gql <<~GRAPHQL, variables: {id: projects(:invoice_project).id}
       query Project($id: ID!) {
         project(id: $id) {
           invoices(paid: false) { nodes { reference } }

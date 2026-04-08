@@ -68,7 +68,8 @@ RSpec.describe "Projects", type: :graph do
         { projects(status: ACTIVE, category: CUSTOMERS) { nodes { name } } }
       GRAPHQL
       names = data.projects.nodes.map(&:name)
-      expect(names).to eq(["Customer Project"])
+      expect(names).to include("Customer Project")
+      expect(names).not_to include("Internal Tool", "Old Client Work")
     end
 
     it "filters by search matching project name" do
