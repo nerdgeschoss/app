@@ -1,42 +1,46 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
+  before_action :build_login, only: [:new, :create, :edit, :update]
+
   def new
+    render Views::Sessions::New.new(login: @login)
   end
 
   def create
-    email = params.require(:email)
-    dev_login = Rails.env.development? || Config.dev_login?
-    code = dev_login ? "999999" : SecureRandom.random_number(10**6).to_s.rjust(6, "0")
-    cookies.encrypted[:auth_challenge] = {
-      value: [email, code],
-      expires: 15.minutes.from_now,
-      httponly: true
-    }
-    user = User.find_by(email:)
-    UserMailer.login_code(user, code).deliver_later if user
-    redirect_to confirm_login_path
+    @login.email = params.require(:login).permit(:email)[:email]
+    if @login.valid?
+      @login.request_code
+      redirect_to confirm_login_path
+    else
+      render Views::Sessions::New.new(login: @login), status: :unprocessable_entity
+    end
   end
 
   def edit
-    @email, _ = cookies.encrypted[:auth_challenge]
-    redirect_to login_path unless @email.present?
+    return redirect_to login_path unless @login.email.present?
+    render Views::Sessions::Edit.new(login: @login)
   end
 
   def update
-    email, code = cookies.encrypted[:auth_challenge]
-    if code == params[:code]
-      user = User.find_by!(email:)
-      cookies.delete(:auth_challenge)
-      Current.user = user
+    return redirect_to login_path unless @login.email.present?
+    @login.code = params.require(:login).permit(:code)[:code]
+    if @login.verify
+      Current.user = @login.user
       redirect_to root_path
     else
-      head :forbidden
+      render Views::Sessions::Edit.new(login: @login), status: :forbidden
     end
   end
 
   def destroy
     Current.user = nil
     redirect_to login_path
+  end
+
+  private
+
+  def build_login
+    @login = Login.new(cookies:)
   end
 end

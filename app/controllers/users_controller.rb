@@ -18,12 +18,22 @@ class UsersController < ApplicationController
     when "archive"
       @users = @users.where(roles: [])
     end
+
+    render Views::Users::Index.new(users: @users, filter: @filter, hide_financials: @hide_financials)
   end
 
   def show
     @salaries = @user.salaries.chronologic
     @inventories = @user.inventories
     @hide_financials = !policy(@user).financial_details?
+
+    render Views::Users::Show.new(
+      user: @user,
+      salaries: @salaries,
+      inventories: @inventories,
+      hide_financials: @hide_financials,
+      permit_edit_inventory: policy(Inventory).create?
+    )
   end
 
   def edit

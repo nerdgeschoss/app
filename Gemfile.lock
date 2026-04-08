@@ -243,6 +243,8 @@ GEM
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    literal (1.9.0)
+      zeitwerk
     logger (1.7.0)
     loofah (2.23.1)
       crass (~> 1.0.2)
@@ -308,6 +310,13 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
+    phlex (2.4.1)
+      refract (~> 1.0)
+      zeitwerk (~> 2.7)
+    phlex-rails (2.4.0)
+      phlex (~> 2.4.0)
+      railties (>= 7.1, < 9)
+      zeitwerk (~> 2.7)
     playwright-ruby-client (1.48.0)
       concurrent-ruby (>= 1.1.6)
       mime-types (>= 3.0)
@@ -380,6 +389,9 @@ GEM
     rdoc (6.8.1)
       psych (>= 4.0.0)
     redcarpet (3.6.0)
+    refract (1.1.0)
+      prism
+      zeitwerk
     regexp_parser (2.9.2)
     reline (0.5.11)
       io-console (~> 0.5)
@@ -448,6 +460,9 @@ GEM
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
     shimmer (0.0.41)
+    simple_form (5.4.1)
+      actionpack (>= 7.0)
+      activemodel (>= 7.0)
     sitemap_generator (6.3.0)
       builder (~> 3.0)
     slim (5.2.1)
@@ -585,11 +600,13 @@ DEPENDENCIES
   kaminari
   letter_opener
   listen
+  literal
   mini_magick
   mission_control-jobs
   newrelic_rpm
   oj
   pg
+  phlex-rails
   puma
   pundit
   pundit-matchers
@@ -610,6 +627,7 @@ DEPENDENCIES
   sentry-rails
   sentry-ruby
   shimmer
+  simple_form
   sitemap_generator
   slim-rails
   solid_cable

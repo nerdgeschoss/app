@@ -5,6 +5,19 @@ require "system_helper"
 RSpec.describe "Sprints" do
   fixtures :all
 
+  context "viewing sprint feedback detail" do
+    it "shows the employee card when clicking on a user" do
+      login :admin
+      visit sprints_path
+      expect(page).to have_content "S2023-02"
+      feedback = sprint_feedbacks(:sprint_feedback_john)
+      find("a[href='#{sprint_feedback_path(feedback)}']").click
+      expect(page).to have_content "Sprint Overview"
+      expect(page).to have_content "Daily Overview"
+      expect(page).to have_content "Retrospective"
+    end
+  end
+
   context "creating a sprint" do
     it "needs the hr role to see the add button" do
       login :john

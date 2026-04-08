@@ -1,0 +1,54 @@
+@use '../../frontend/components/layout';
+
+.card {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 6px 12px 44px 0px rgba(43, 124, 138, 0.1);
+  padding: 16px 24px;
+
+  &__header {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__divider {
+    border-top: 1px solid var(--div-default);
+  }
+
+  &__header-content {
+    flex: 1;
+  }
+
+  &__title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+  }
+
+  &__icon {
+    width: var(--icon-size);
+    line-height: var(--icon-size);
+    font-size: var(--icon-size);
+    // Encourage the browser to actually render emoji, even for symbols like ⚠️, which e.g. Chrome renders as the non-emoji variant by default
+    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+
+  &--login {
+    @include layout.media-desktop {
+      width: 400px;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+  }
+}

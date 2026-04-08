@@ -1,0 +1,11 @@
+@import '../../frontend/components/layout.scss';
+
+.performance-grid {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+
+  @include media-desktop {
+    gap: 16px;
+  }
+}
