@@ -73,6 +73,23 @@ RSpec.describe "Tasks", type: :graph do
     expect(titles).not_to include(in_progress_task.title)
   end
 
+  it "filters tasks by status" do
+    login(user)
+    query = <<~GRAPHQL
+      query Tasks($status: TaskStatusEnum!) {
+        tasks(status: $status) {
+          nodes {
+            title
+          }
+        }
+      }
+    GRAPHQL
+    gql query, variables: {status: "DONE"}
+    titles = data.tasks.nodes.map(&:title)
+    expect(titles).to include(done_task.title)
+    expect(titles).not_to include(in_progress_task.title)
+  end
+
   it "includes assigned users" do
     login(user)
     query = <<~GRAPHQL

@@ -10,5 +10,6 @@ module Types
     field :state, String, null: false, description: "Invoice state (e.g. 'open', 'draft', 'paid')."
     field :sent_at, GraphQL::Types::ISO8601DateTime, null: true, description: "When the invoice was sent. Null if not yet sent."
     field :paid_at, GraphQL::Types::ISO8601DateTime, null: true, description: "When the invoice was paid. Null if unpaid."
+    field :project, Types::ProjectType, null: false, description: "The project this invoice belongs to."
   end
 end

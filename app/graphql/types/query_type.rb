@@ -32,9 +32,20 @@ module Types
     end
 
     field :projects, Types::ProjectType.connection_type, null: false,
-      description: "Paginated list of projects. Results are scoped by the caller's role."
-    def projects
-      policy_scope(Project.all)
+      description: "Paginated list of projects. Results are scoped by the caller's role." do
+      argument :status, Types::ProjectStatusEnum, required: false,
+        description: "Filter by lifecycle state: ACTIVE or ARCHIVED."
+      argument :category, Types::ProjectCategoryEnum, required: false,
+        description: "Filter by ownership: INTERNAL or CUSTOMERS."
+      argument :search, String, required: false,
+        description: "Case-insensitive substring match on the project name or client name."
+    end
+    def projects(status: nil, category: nil, search: nil)
+      scope = policy_scope(Project.all)
+      scope = scope.public_send(status) if status.present?
+      scope = scope.public_send(category) if category.present?
+      scope = scope.search(search) if search.present?
+      scope
     end
 
     field :project, Types::ProjectType, null: false,
@@ -69,11 +80,14 @@ module Types
         description: "Case-insensitive substring match on the task title."
       argument :github, String, required: false,
         description: "GitHub reference in 'repository#number' format (e.g. 'nerdgeschoss/app#42'). Filters to exact match."
+      argument :status, Types::TaskStatusEnum, required: false,
+        description: "Filter to tasks in a specific board column."
     end
-    def tasks(sprint_id: nil, search: nil, github: nil)
+    def tasks(sprint_id: nil, search: nil, github: nil, status: nil)
       scope = policy_scope(Task.all).github(github)
       scope = scope.where(sprint_id:) if sprint_id
       scope = scope.where("title ILIKE ?", "%#{search}%") if search.present?
+      scope = scope.where(status:) if status.present?
       scope
     end
 
@@ -97,6 +111,18 @@ module Types
       scope = scope.where(task_id:) if task_id
       scope = scope.where(created_at: from_date..) if from_date
       scope = scope.where(created_at: ..to_date) if to_date
+      scope
+    end
+
+    field :invoices, Types::InvoiceType.connection_type, null: false,
+      description: "All invoices. Supports filtering by payment state." do
+      argument :paid, Boolean, required: false,
+        description: "Filter by payment state. Omit to return all invoices regardless of state."
+    end
+    def invoices(paid: nil)
+      scope = policy_scope(Invoice.all)
+      scope = scope.where(state: "paid") if paid == true
+      scope = scope.where.not(state: "paid") if paid == false
       scope
     end
 

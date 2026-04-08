@@ -27,6 +27,7 @@ class Project < ApplicationRecord
   scope :customers, -> { where.not(client_name: "nerdgeschoss") }
   scope :internal, -> { where(client_name: "nerdgeschoss") }
   scope :archived, -> { where(archived: true) }
+  scope :search, ->(query) { where("name ILIKE ? OR client_name ILIKE ?", "%#{query}%", "%#{query}%") }
 
   def github_url
     "https://github.com/#{repository}" unless repository.blank?

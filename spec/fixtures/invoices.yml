@@ -1,0 +1,32 @@
+# == Schema Information
+#
+# Table name: invoices
+#
+#  id          :uuid             not null, primary key
+#  amount      :decimal(, )      not null
+#  paid_at     :datetime
+#  reference   :string           not null
+#  sent_at     :datetime
+#  state       :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  harvest_id  :bigint
+#  project_id  :uuid             not null
+#
+
+paid_invoice:
+  reference: "INV-001"
+  amount: 1000.0
+  state: paid
+  paid_at: 2024-01-15 00:00:00
+  sent_at: 2024-01-01 00:00:00
+  harvest_id: 1001
+  project: customer_project
+
+open_invoice:
+  reference: "INV-002"
+  amount: 500.0
+  state: open
+  sent_at: 2024-02-01 00:00:00
+  harvest_id: 1002
+  project: customer_project

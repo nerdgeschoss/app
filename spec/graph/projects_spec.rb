@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "Projects", type: :graph do
   fixtures :all
   let(:user) { users(:john) }
+  let(:admin) { users(:admin) }
   let(:project) { projects(:customer_project) }
 
   it "finds a project by id or repository" do
@@ -20,6 +21,73 @@ RSpec.describe "Projects", type: :graph do
     expect(data.project.name).to eq "Customer Project"
     gql query, variables: {id: project.repository}
     expect(data.project.name).to eq "Customer Project"
+  end
+
+  context "filtering" do
+    it "filters by status ACTIVE" do
+      login(user)
+      gql <<~GRAPHQL
+        { projects(status: ACTIVE) { nodes { name } } }
+      GRAPHQL
+      names = data.projects.nodes.map(&:name)
+      expect(names).to include("Customer Project", "Internal Tool")
+      expect(names).not_to include("Old Client Work")
+    end
+
+    it "filters by status ARCHIVED" do
+      login(user)
+      gql <<~GRAPHQL
+        { projects(status: ARCHIVED) { nodes { name } } }
+      GRAPHQL
+      names = data.projects.nodes.map(&:name)
+      expect(names).to eq(["Old Client Work"])
+    end
+
+    it "filters by category INTERNAL" do
+      login(user)
+      gql <<~GRAPHQL
+        { projects(category: INTERNAL) { nodes { name } } }
+      GRAPHQL
+      names = data.projects.nodes.map(&:name)
+      expect(names).to eq(["Internal Tool"])
+    end
+
+    it "filters by category CUSTOMERS" do
+      login(user)
+      gql <<~GRAPHQL
+        { projects(category: CUSTOMERS) { nodes { name } } }
+      GRAPHQL
+      names = data.projects.nodes.map(&:name)
+      expect(names).to include("Customer Project", "Old Client Work")
+      expect(names).not_to include("Internal Tool")
+    end
+
+    it "combines status and category filters" do
+      login(user)
+      gql <<~GRAPHQL
+        { projects(status: ACTIVE, category: CUSTOMERS) { nodes { name } } }
+      GRAPHQL
+      names = data.projects.nodes.map(&:name)
+      expect(names).to eq(["Customer Project"])
+    end
+
+    it "filters by search matching project name" do
+      login(user)
+      gql <<~GRAPHQL
+        { projects(search: "internal") { nodes { name } } }
+      GRAPHQL
+      names = data.projects.nodes.map(&:name)
+      expect(names).to eq(["Internal Tool"])
+    end
+
+    it "filters by search matching client name" do
+      login(user)
+      gql <<~GRAPHQL
+        { projects(search: "some client") { nodes { name } } }
+      GRAPHQL
+      names = data.projects.nodes.map(&:name)
+      expect(names).to eq(["Customer Project"])
+    end
   end
 
   context "restricting financial fields" do
