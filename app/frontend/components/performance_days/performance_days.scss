@@ -55,7 +55,7 @@
       }
     }
 
-    &--weekend {
+    &--holiday {
       width: 3px;
       background-color: var(--icon-working-day-bg-non-working);
     }
@@ -108,14 +108,14 @@
           }
         }
 
-        &--weekend,
+        &--holiday,
         &--sick,
         &--vacation {
           .performance-days__target {
             display: none;
           }
         }
-        &--weekend {
+        &--holiday {
           width: 3px;
         }
       }

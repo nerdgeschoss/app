@@ -66,7 +66,7 @@ export function PerformanceDays({ days, large }: Props): JSX.Element {
                 'performance-days__day--sick': day.leave?.type === 'sick',
                 'performance-days__day--vacation': day.leave?.type === 'paid',
                 'performance-days__day--working': day.hasTimeEntries,
-                'performance-days__day--weekend': !day.workingDay,
+                'performance-days__day--holiday': !day.workingDay,
               })}
               style={
                 {
