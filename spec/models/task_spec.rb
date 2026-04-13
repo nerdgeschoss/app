@@ -5,6 +5,7 @@
 # Table name: tasks
 #
 #  id           :uuid             not null, primary key
+#  description  :string
 #  issue_number :bigint
 #  labels       :string           default([]), not null, is an Array
 #  repository   :string
