@@ -7,7 +7,6 @@
 #  id            :uuid             not null, primary key
 #  sprint_during :daterange        not null
 #  title         :string           not null
-#  working_days  :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
@@ -20,6 +19,7 @@ class Sprint < ApplicationRecord
   has_many :time_entries, dependent: :delete_all
   has_many :tasks, dependent: :nullify
 
+  scope :chronologic, -> { order("LOWER(sprints.sprint_during) ASC") }
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
   scope :start_on, ->(date) { where("?::date = LOWER(sprints.sprint_during)", date) }
@@ -109,6 +109,10 @@ class Sprint < ApplicationRecord
 
   def days
     sprint_during.to_a
+  end
+
+  def working_days
+    BerlinHolidays.working_days_during(sprint_during)
   end
 
   def send_sprint_start_notification

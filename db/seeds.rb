@@ -7,27 +7,16 @@ logger.debug "Seeding process started..."
 
 logger.debug "Creating sprints..."
 
-sprint_start_date = 10.weeks.ago.beginning_of_week
-5.times do |i|
+sprint_start_date = 10.weeks.ago.monday
+current_sprint = nil
+6.times do |i|
   start_date = sprint_start_date + (i * 2).weeks
-  end_date = start_date + 2.weeks
-  Sprint.create!(
-    title: "S#{start_date.year}-#{i.to_s.rjust(2, "0")}",
-    sprint_during: start_date..end_date,
-    working_days: rand(5..10)
+  end_date = start_date.next_week(:friday)
+  current_sprint = Sprint.create!(
+    title: "S#{start_date.year}-#{(1 + start_date.to_date.cweek / 2.0).floor.to_s.rjust(2, "0")}",
+    sprint_during: start_date..end_date
   )
 end
-
-# Create current sprint starting last Monday
-last_monday = Date.current.beginning_of_week
-# 10 working days = 2 weeks from Monday to Friday
-end_date = last_monday + 2.weeks - 3.days # This gives us the Friday of the second week
-
-current_sprint = Sprint.create!(
-  title: "2025-15",
-  sprint_during: last_monday..end_date,
-  working_days: 10
-)
 
 sprints = Sprint.all
 
@@ -118,7 +107,7 @@ random_tasks.each do |task|
 end
 
 # Create time entries for the first day of the sprint (last Monday)
-first_day = last_monday
+first_day = current_sprint.sprint_from
 
 # Time entry configuration: [hours, billable, notes_context]
 time_entries_config = [

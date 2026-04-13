@@ -29,8 +29,9 @@ class SprintFeedback::Day
   end
 
   def working_day?
-    leave = leave()
-    !day.saturday? && !day.sunday? && (leave.nil? || !leave.non_working?)
+    return false if leave&.non_working?
+
+    BerlinHolidays.working_day?(day)
   end
 
   def has_daily_nerd_message?

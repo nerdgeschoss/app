@@ -23,7 +23,6 @@ RSpec.describe "Sprints" do
         fill_in "Title", with: "Test Sprint 1"
         fill_in "Sprint from", with: "2022-02-01"
         fill_in "Sprint until", with: "2022-02-14"
-        fill_in "Working days", with: "10"
         screenshot "sprint creation"
         click_on "Save"
       end

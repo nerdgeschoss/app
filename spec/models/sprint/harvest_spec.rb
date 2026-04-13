@@ -7,7 +7,6 @@
 #  id            :uuid             not null, primary key
 #  sprint_during :daterange        not null
 #  title         :string           not null
-#  working_days  :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

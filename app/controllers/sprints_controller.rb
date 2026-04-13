@@ -10,7 +10,9 @@ class SprintsController < ApplicationController
   end
 
   def new
-    @sprint = authorize Sprint.new working_days: 10, sprint_from: Time.zone.today, sprint_until: 11.days.from_now
+    sprint_from = Date.today.beginning_of_week(:monday)
+    sprint_until = sprint_from.next_week(:friday)
+    @sprint = authorize Sprint.new sprint_from:, sprint_until:
   end
 
   def create
@@ -24,6 +26,6 @@ class SprintsController < ApplicationController
   private
 
   def sprint_attributes
-    params.require(:sprint).permit(:title, :sprint_from, :sprint_until, :working_days)
+    params.require(:sprint).permit(:title, :sprint_from, :sprint_until)
   end
 end
