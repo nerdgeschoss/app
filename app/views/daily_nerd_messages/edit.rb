@@ -6,23 +6,13 @@ class Views::DailyNerdMessages::Edit < Components::Base
   def view_template
     tag(:"turbo-frame", id: "daily_nerd") do
       render Card.new(icon: "📝", title: "Daily Nerd") do
-        simple_form_for(@daily_nerd_message, url: daily_nerd_message_path(@daily_nerd_message)) do |f|
+        form_with(model: @daily_nerd_message, url: daily_nerd_message_path(@daily_nerd_message), builder: ComponentFormBuilder) do |f|
           stack do
-            f.input :message, as: :text, required: true
+            f.text_area :message, required: true
             f.submit "Update"
           end
         end
       end
     end
-  end
-
-  private
-
-  def simple_form_for(model, **options, &block)
-    options[:builder] ||= ComponentFormBuilder
-    output = view_context.simple_form_for(model, **options) { |builder|
-      yield Phlex::Rails::Builder.new(builder, component: self)
-    }
-    raw(output)
   end
 end

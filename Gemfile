@@ -45,7 +45,6 @@ gem "ruby-vips"
 gem "graphql"
 gem "literal"
 gem "phlex-rails"
-gem "simple_form"
 
 # Assets
 gem "sprockets-rails"

@@ -460,9 +460,6 @@ GEM
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
     shimmer (0.0.41)
-    simple_form (5.4.1)
-      actionpack (>= 7.0)
-      activemodel (>= 7.0)
     sitemap_generator (6.3.0)
       builder (~> 3.0)
     slim (5.2.1)
@@ -627,7 +624,6 @@ DEPENDENCIES
   sentry-rails
   sentry-ruby
   shimmer
-  simple_form
   sitemap_generator
   slim-rails
   solid_cable

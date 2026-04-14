@@ -19,9 +19,9 @@ class Views::DailyNerdMessages::Show < Components::Base
 
   def render_new_form
     render Card.new(icon: "📝", title: "Daily Nerd") do
-      simple_form_for(@daily_nerd_message, url: daily_nerd_messages_path) do |f|
+      form_with(model: @daily_nerd_message, url: daily_nerd_messages_path, builder: ComponentFormBuilder) do |f|
         stack do
-          f.input :message, as: :text, required: true
+          f.text_area :message, required: true
           f.submit "Submit"
         end
       end
@@ -37,13 +37,5 @@ class Views::DailyNerdMessages::Show < Components::Base
         end
       end
     end
-  end
-
-  def simple_form_for(model, **options, &block)
-    options[:builder] ||= ComponentFormBuilder
-    output = view_context.simple_form_for(model, **options) { |builder|
-      yield Phlex::Rails::Builder.new(builder, component: self)
-    }
-    raw(output)
   end
 end

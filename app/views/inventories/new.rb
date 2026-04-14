@@ -4,24 +4,14 @@ class Views::Inventories::New < Components::Base
   prop :inventory, Inventory
 
   def view_template
-    simple_form_for(@inventory, url: inventories_path) do |f|
+    form_with(model: @inventory, url: inventories_path, builder: ComponentFormBuilder) do |f|
       stack do
-        f.input :user_id, as: :hidden
-        f.input :name
-        f.input :details
-        f.input :received_at, as: :date
+        f.hidden_field :user_id
+        f.text_field :name
+        f.text_area :details
+        f.date_field :received_at
         f.submit "Save"
       end
     end
-  end
-
-  private
-
-  def simple_form_for(model, **options, &block)
-    options[:builder] ||= ComponentFormBuilder
-    output = view_context.simple_form_for(model, **options) { |builder|
-      yield Phlex::Rails::Builder.new(builder, component: self)
-    }
-    raw(output)
   end
 end

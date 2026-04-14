@@ -8,9 +8,9 @@ class Views::Sessions::New < Views::Base
       stack(size: 32, align: :center) do
         render Logo.new
         render Card.new(title: "Login", type: :"login-card") do
-          simple_form_for(@login, url: login_path) do |f|
+          form_with(model: @login, url: login_path, builder: ComponentFormBuilder) do |f|
             stack(size: 16) do
-              f.input :email, autocomplete: "email"
+              f.text_field :email, autocomplete: "email"
               f.submit "Login"
             end
           end

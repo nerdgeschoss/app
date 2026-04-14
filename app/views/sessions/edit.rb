@@ -8,10 +8,10 @@ class Views::Sessions::Edit < Views::Base
       stack(size: 32, align: :center) do
         render Logo.new
         render Card.new(title: "Login", type: :"login-card") do
-          simple_form_for(@login, url: confirm_login_path) do |f|
+          form_with(model: @login, url: confirm_login_path, builder: ComponentFormBuilder) do |f|
             stack(size: 16) do
-              f.input :email, disabled: true
-              f.input :code, autocomplete: "one-time-code"
+              f.text_field :email, disabled: true
+              f.text_field :code, autocomplete: "one-time-code"
               f.submit "Login"
             end
           end
