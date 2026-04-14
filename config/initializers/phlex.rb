@@ -16,7 +16,3 @@ Rails.autoloaders.main.push_dir(
 )
 
 Rails.autoloaders.main.collapse(Rails.root.join("app/components/*"))
-
-# Ignore Reaction .props.rb and .tsx files managed by the TSX handler while we are transitioning
-Rails.autoloaders.main.ignore(Rails.root.join("app/views/**/*.props.rb"))
-Rails.autoloaders.main.ignore(Rails.root.join("app/views/**/*.tsx"))

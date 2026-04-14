@@ -6,13 +6,12 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "lib": ["es2020", "dom"],
-    "jsx": "preserve",
     "module": "es2020",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*", "app/javascript/*"],
+      "*": ["node_modules/*"],
       "@components/*": ["app/components/*"]
     },
     "sourceMap": true,
@@ -20,13 +19,10 @@
     "noEmit": true,
     "strict": true
   },
-  "files": ["typings.d.ts", "data.d.ts"],
+  "files": ["typings.d.ts"],
   "include": [
-    "app/javascript/**/*",
-    "app/frontend/sprinkles",
-    "app/frontend/util",
-    "app/frontend/layout.tsx",
-    "app/views/**/*"
+    "app/frontend/entrypoints",
+    "app/components/**/*.ts"
   ],
   "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
   "compileOnSave": false
