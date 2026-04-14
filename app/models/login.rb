@@ -8,7 +8,8 @@ class Login
   attribute :code, :string
 
   validates :email, presence: true
-  validate :code_matches, if: :code
+  validates :code, presence: true, on: :verify
+  validate :code_matches, on: :verify
 
   def initialize(cookies:, **attrs)
     email, = cookies.encrypted[:auth_challenge]
@@ -28,7 +29,7 @@ class Login
   end
 
   def verify
-    return false unless valid?
+    return false unless valid?(:verify)
     @cookies.delete(:auth_challenge)
     true
   end
