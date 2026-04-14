@@ -23,9 +23,7 @@ class Views::Projects::Index < Views::Base
           end
         end
         if @projects.next_page
-          a(href: projects_path(filter: @filter, page: @projects.next_page)) do
-            render Button.new(title: "more")
-          end
+          render Button.new(title: "more", href: projects_path(filter: @filter, page: @projects.next_page))
         end
       end
     end

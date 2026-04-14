@@ -16,9 +16,7 @@ class Views::Sprints::Index < Views::Base
           end
         end
         if @sprints.next_page
-          a(href: sprints_path(page: @sprints.next_page)) do
-            render Button.new(title: "Load more")
-          end
+          render Button.new(title: "Load more", href: sprints_path(page: @sprints.next_page))
         end
       end
     end

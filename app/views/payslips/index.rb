@@ -18,9 +18,7 @@ class Views::Payslips::Index < Views::Base
           end
         end
         if @payslips.next_page
-          a(href: payslips_path(page: @payslips.next_page)) do
-            render Button.new(title: "more")
-          end
+          render Button.new(title: "more", href: payslips_path(page: @payslips.next_page))
         end
       end
     end
@@ -39,9 +37,7 @@ class Views::Payslips::Index < Views::Base
           a(href: view_context.url_for(payslip.pdf), target: "_blank") { "⬇️" }
         end
         if @permit_destroy
-          a(href: payslip_path(payslip), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}) do
-            render Button.new(title: "delete")
-          end
+          render Button.new(title: "delete", href: payslip_path(payslip), method: "delete", confirm: "Are you sure?")
         end
       end
     end

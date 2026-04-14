@@ -25,9 +25,7 @@ class Views::Pages::Home < Views::Base
 
   def render_retro_card
     render Card.new(icon: "🚀", title: "Missing Retro", subtitle: @needs_retro_for.sprint.title) do
-      a(href: sprint_feedback_path(@needs_retro_for)) do
-        render Button.new(title: "Leave retro notes")
-      end
+      render Button.new(title: "Leave retro notes", href: sprint_feedback_path(@needs_retro_for))
     end
   end
 

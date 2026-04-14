@@ -32,9 +32,7 @@ class Views::DailyNerdMessages::Show < Components::Base
     render Card.new(icon: "📝", title: "Daily Nerd") do
       stack do
         render TextBox.new(content: @daily_nerd_message.message)
-        a(href: edit_daily_nerd_message_path(@daily_nerd_message)) do
-          render Button.new(title: "Update")
-        end
+        render Button.new(title: "Update", href: edit_daily_nerd_message_path(@daily_nerd_message))
       end
     end
   end
