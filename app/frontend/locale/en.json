@@ -69,6 +69,7 @@
   "leaves": {
     "new": {
       "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
+      "selected_holidays_warning": "Heads up: Some of the selected days are holidays in Berlin:",
       "sick": "Sick",
       "paid": "Paid",
       "not_working": "Not working",

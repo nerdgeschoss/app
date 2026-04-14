@@ -29,11 +29,11 @@ RSpec.describe BerlinHolidays do
     end
   end
 
-  describe ".working_days_during" do
+  describe ".count_working_days_during" do
     it "returns the number of working days in the range" do
       start_of_easter = Date.new(2026, 3, 30)
       end_of_easter = Date.new(2026, 4, 11)
-      working_days = BerlinHolidays.working_days_during(start_of_easter..end_of_easter)
+      working_days = BerlinHolidays.count_working_days_during(start_of_easter..end_of_easter)
 
       expect(working_days).to eq(8) # 12 days - 2 weekend - good friday - easter monday
     end

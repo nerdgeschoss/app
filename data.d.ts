@@ -58,6 +58,7 @@ export interface DataSchema {
     };
     permitUserSelect: boolean;
     users: Array<{ id: string; displayName: string }>;
+    berlinHolidays: Array<{ name: string; date: string }>;
   };
   'pages/home': {
     currentUser: {

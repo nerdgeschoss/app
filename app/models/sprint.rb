@@ -111,7 +111,7 @@ class Sprint < ApplicationRecord
   end
 
   def working_days
-    BerlinHolidays.working_days_during(sprint_during)
+    BerlinHolidays.count_working_days_during(sprint_during)
   end
 
   def send_sprint_start_notification

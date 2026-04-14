@@ -14,10 +14,14 @@ class BerlinHolidays
       true
     end
 
-    def working_days_during(date_range)
+    def count_working_days_during(date_range)
       date_range.count do |date|
         working_day?(date)
       end
+    end
+
+    def upcoming_holidays
+      Holidays.between(1.month.ago, 6.months.from_now, :de_be)
     end
   end
 end
