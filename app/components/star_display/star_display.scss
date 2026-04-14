@@ -1,0 +1,15 @@
+.star-display {
+  &__stars {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  &__star {
+    opacity: 0.5;
+
+    &--active {
+      opacity: 1;
+    }
+  }
+}

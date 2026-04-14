@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     resources :leaves do
       get "team_overview/:team_hash", action: :team_overview, as: :team_overview, on: :collection
     end
-    resources :sprints
+    resources :sprints do
+      get :card, on: :member
+    end
     resources :sprint_feedbacks do
       get "edit_retro", on: :member
       post "update_retro", on: :member
@@ -26,13 +28,14 @@ Rails.application.routes.draw do
     namespace :feed do
       resources :leaves, only: :index
     end
-    resources :daily_nerd_messages, only: [:create, :update]
+    resources :daily_nerd_messages, only: [:show, :create, :update, :edit]
     resources :projects, only: :index
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     get "confirm_login", to: "sessions#edit"
     post "confirm_login", to: "sessions#update"
     get "logout", to: "sessions#destroy"
+    get "styleguide", to: "pages#styleguide"
     root "pages#home"
   end
 

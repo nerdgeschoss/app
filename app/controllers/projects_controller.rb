@@ -21,5 +21,12 @@ class ProjectsController < ApplicationController
     when "archived"
       @projects = @projects.archived
     end
+
+    render Views::Projects::Index.new(
+      projects: @projects,
+      filter: @filter,
+      current_sprint: @current_sprint,
+      hide_financials: @hide_financials
+    )
   end
 end

@@ -1,0 +1,132 @@
+@import '../../frontend/components/layout.scss';
+
+.modal-blind {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: var(--z-index-modal);
+  transition: opacity 0.5s;
+}
+
+.modal-open .modal-blind {
+  opacity: 1;
+  pointer-events: all;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: var(--z-index-modal);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__window {
+    position: relative;
+    height: 80vh;
+    margin-top: 10vh;
+    display: flex;
+    align-items: center;
+  }
+
+  &__content {
+    display: flex;
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transform: translate(0, 80px);
+    position: relative;
+    transition:
+      opacity 0.5s,
+      transform 0.5s;
+    position: relative;
+    @include media-tablet {
+      height: unset;
+      min-height: 440px;
+      max-height: 90vh;
+      max-width: 392px;
+      border-radius: 8px;
+    }
+  }
+
+  &__frame {
+    width: 100%;
+  }
+
+  &__close {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-image: url('./close.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: var(--z-index-modal-close);
+  }
+
+  &--open {
+    .modal__content {
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: all;
+    }
+
+    &:last-of-type {
+      .modal__content {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+
+  &--loading {
+    .modal__content {
+      min-height: 744px;
+      &::before {
+        content: '';
+        height: 24px;
+        width: 24px;
+        background-image: url('./spinner.svg');
+        background-size: contain;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: calc(50% - 12px);
+        left: calc(50% - 12px);
+      }
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 24px 16px 24px;
+
+    .button {
+      margin: unset;
+      align-self: flex-start;
+    }
+
+    &--bottom-shadow {
+      box-shadow: 0 10px 10px -10px rgba(70, 70, 70, 0.21);
+      z-index: var(--z-index-modal-header);
+    }
+  }
+}

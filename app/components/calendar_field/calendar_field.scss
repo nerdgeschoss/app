@@ -1,0 +1,8 @@
+@import 'flatpickr/dist/flatpickr.min.css';
+
+.calendar-field {
+  &__label {
+    display: block;
+    margin-bottom: 8px;
+  }
+}

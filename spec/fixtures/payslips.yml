@@ -1,0 +1,17 @@
+# == Schema Information
+#
+# Table name: payslips
+#
+#  id         :uuid             not null, primary key
+#  month      :date             not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  user_id    :uuid             not null
+#
+payslip_john:
+  user: john
+  month: 2023-01-01
+
+payslip_admin:
+  user: admin
+  month: 2023-02-01

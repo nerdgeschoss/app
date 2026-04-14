@@ -43,6 +43,8 @@ gem "redcarpet"
 gem "faker"
 gem "ruby-vips"
 gem "graphql"
+gem "literal"
+gem "phlex-rails"
 
 # Assets
 gem "sprockets-rails"
