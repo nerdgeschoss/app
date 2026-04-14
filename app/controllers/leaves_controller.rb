@@ -14,10 +14,22 @@ class LeavesController < ApplicationController
     @leaves = @leaves.with_status(params[:status]&.to_sym) if params[:status].present?
     @leaves = @leaves.page(params[:page]).per(20)
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
+
+    render Views::Leaves::Index.new(
+      leaves: @leaves,
+      status: @status,
+      permit_create: policy(Leave).create?,
+      feed_url: feed_leaves_url(auth: current_user.id, format: :ics, protocol: :webcal)
+    )
   end
 
   def new
     @leave = authorize current_user.leaves.new
+    render Views::Leaves::New.new(
+      leave: @leave,
+      permit_user_select: policy(Leave).show_all_users?,
+      users: User.currently_employed
+    ), layout: false
   end
 
   def create
@@ -25,16 +37,19 @@ class LeavesController < ApplicationController
     @leave.save!
     @leave.handle_incoming_request
     @leave.handle_slack_status
+    redirect_to leaves_path
   end
 
   def update
     @leave.update!(permitted_attributes(Leave))
     @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
     @leave.handle_slack_status
+    redirect_to leaves_path
   end
 
   def destroy
     @leave.destroy!
+    redirect_to leaves_path
   end
 
   # Generate the params[:team_hash] with e.g. `Rails.application.message_verifier(:team_name).generate("laic")`

@@ -3,10 +3,12 @@ import { Application } from '@hotwired/stimulus';
 import { start } from '@nerdgeschoss/shimmer';
 import SidebarController from '../../components/sidebar/sidebar_controller';
 import ButtonController from '../../components/button/button_controller';
+import CalendarFieldController from '../../components/calendar_field/calendar_field_controller';
 
 const application = Application.start();
 application.register('sidebar', SidebarController);
 application.register('button', ButtonController);
+application.register('calendar-field', CalendarFieldController);
 start({ application });
 
 import '../components/reset.scss';
@@ -42,3 +44,4 @@ import '../../components/select_field/select_field.scss';
 import '../../components/columns/columns.scss';
 import '../../components/text_area/text_area.scss';
 import '../../components/grid/grid.scss';
+import '../../components/calendar_field/calendar_field.scss';
