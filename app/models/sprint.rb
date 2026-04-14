@@ -19,7 +19,6 @@ class Sprint < ApplicationRecord
   has_many :time_entries, dependent: :delete_all
   has_many :tasks, dependent: :nullify
 
-  scope :chronologic, -> { order("LOWER(sprints.sprint_during) ASC") }
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
   scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
   scope :start_on, ->(date) { where("?::date = LOWER(sprints.sprint_during)", date) }
