@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class BerlinHolidays
+  OLDEST_SPRINT_START = Date.new(2022, 1, 3).freeze # Oldest Sprint in Production started on this day
+  ONE_YEAR_FROM_NOW = 1.year.from_now.freeze
+
   class << self
     def warm_cache!
-      oldest_sprint_start = Date.new(2022, 1, 3) # Oldest Sprint in Production started on this day
-      Holidays.cache_between(oldest_sprint_start, 1.year.from_now, :de_be)
+      Holidays.cache_between(OLDEST_SPRINT_START, ONE_YEAR_FROM_NOW, :de_be)
     end
 
     def working_day?(date)
@@ -21,7 +23,7 @@ class BerlinHolidays
     end
 
     def upcoming_holidays
-      Holidays.between(1.month.ago, 6.months.from_now, :de_be)
+      Holidays.between(1.month.ago, ONE_YEAR_FROM_NOW, :de_be)
     end
   end
 end
