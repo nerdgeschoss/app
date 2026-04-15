@@ -8,7 +8,6 @@ import { TextField } from '../../frontend/components/text_field/text_field';
 import { DateField } from '../../frontend/components/date_field/date_field';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
-import { NumberField } from '../../frontend/components/number_field/number_field';
 import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
 import { Box } from '../../frontend/components/box/box';
@@ -25,13 +24,11 @@ export default function ({
       title: '',
       sprintFrom: l.parseRequiredDate(sprint.sprintFrom),
       sprintUntil: l.parseRequiredDate(sprint.sprintUntil),
-      workingDays: sprint.workingDays,
     },
     validations: {
       title: 'required',
       sprintFrom: 'required',
       sprintUntil: 'required',
-      workingDays: 'required',
     },
     onSubmit: async ({ model }) => {
       await reaction.call({
@@ -57,10 +54,6 @@ export default function ({
           <DateField
             {...fields.sprintUntil}
             label={t('sprints.new.sprint_until')}
-          />
-          <NumberField
-            {...fields.workingDays}
-            label={t('sprints.new.working_days')}
           />
           <Button
             title={t('sprints.new.save')}
