@@ -35,6 +35,7 @@ class Leave::Presenter
   def to_ics
     grouped_days.map do |range|
       event = Icalendar::Event.new
+      event.uid = "#{id}-#{range.first.to_fs}"
       event.dtstart = Icalendar::Values::Date.new range.first
       event.dtstart.ical_params = {"VALUE" => "DATE"}
       event.dtend = Icalendar::Values::Date.new (range.length == 1) ? range.last : range.last.next_day
