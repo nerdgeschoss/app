@@ -11,8 +11,8 @@ class SprintsController < ApplicationController
 
   def new
     sprint_from = Date.today.beginning_of_week(:monday)
-    sprint_until = sprint_from.next_week(:friday)
-    @sprint = authorize Sprint.new sprint_from:, sprint_until:
+    sprint_until = sprint_from.next_week(:sunday)
+    @sprint = authorize Sprint.new(sprint_during: sprint_from..sprint_until)
   end
 
   def create

@@ -11,7 +11,7 @@ sprint_start_date = 10.weeks.ago.monday
 current_sprint = nil
 6.times do |i|
   start_date = sprint_start_date + (i * 2).weeks
-  end_date = start_date.next_week(:friday)
+  end_date = start_date.next_week(:sunday)
   current_sprint = Sprint.create!(
     title: "S#{start_date.year}-#{(1 + start_date.to_date.cweek / 2.0).floor.to_s.rjust(2, "0")}",
     sprint_during: start_date..end_date

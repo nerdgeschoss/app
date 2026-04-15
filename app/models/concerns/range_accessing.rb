@@ -19,7 +19,7 @@ module RangeAccessing
       end
 
       define_method("#{name}_from=") do |date|
-        ending = public_send(storage_key)&.end
+        ending = public_send(storage_key)&.max
         value = date.presence&.to_datetime || DateTime.current
         ending = value if ending && value > ending
         ending ||= DateTime::Infinity.new
@@ -27,7 +27,7 @@ module RangeAccessing
       end
 
       define_method("#{name}_until") do
-        date = public_send(storage_key)&.end
+        date = public_send(storage_key)&.max
         date = nil if [DateTime::Infinity.new, Float::INFINITY].include?(date)
         date&.in_time_zone
       end
