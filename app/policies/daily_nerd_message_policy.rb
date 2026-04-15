@@ -16,4 +16,14 @@ class DailyNerdMessagePolicy < ApplicationPolicy
   def users_own_message?
     user.id == record.sprint_feedback.user_id
   end
+
+  class Scope < Scope
+    def resolve
+      if employee?
+        scope.all
+      else
+        scope.none
+      end
+    end
+  end
 end

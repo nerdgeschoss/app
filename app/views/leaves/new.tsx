@@ -14,7 +14,11 @@ import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
 import { Box } from '../../frontend/components/box/box';
 import { Stack } from '../../frontend/components/stack/stack';
-import { isoDate } from '../../frontend/util/date';
+import {
+  TextList,
+  TextListItem,
+} from '../../frontend/components/text_list/text_list';
+import { isoDate, sameDay } from '../../frontend/util/date';
 
 interface Form {
   userId: string;
@@ -24,7 +28,7 @@ interface Form {
 }
 
 export default function ({
-  data: { permitUserSelect, users, currentUser },
+  data: { permitUserSelect, users, currentUser, berlinHolidays },
 }: PageProps<'leaves/new'>): JSX.Element {
   const t = useTranslate();
   const reaction = useReaction();
@@ -65,9 +69,17 @@ export default function ({
     { value: 'sick', label: t('leaves.new.sick') },
     { value: 'non_working', label: t('leaves.new.not_working') },
   ];
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const someDaysInPast = fields.days.value.some((date) => date < today);
+
+  const selectedHolidays = fields.days.value.flatMap((date) => {
+    return berlinHolidays.filter((berlinHoliday) => {
+      const berlinHolidayDate = new Date(berlinHoliday.date);
+      return sameDay(date, berlinHolidayDate);
+    });
+  });
 
   return (
     <Box size={24}>
@@ -76,6 +88,18 @@ export default function ({
           <CalendarField {...fields.days} label={t('leaves.new.days')} />
           {someDaysInPast && (
             <Text>{t('leaves.new.days_in_past_warning')}</Text>
+          )}
+          {selectedHolidays.length > 0 && (
+            <Text>
+              {t('leaves.new.selected_holidays_warning')}
+              <TextList>
+                {selectedHolidays.map((holiday) => (
+                  <TextListItem>
+                    {holiday.date}: {holiday.name}
+                  </TextListItem>
+                ))}
+              </TextList>
+            </Text>
           )}
           {permitUserSelect && (
             <SelectField

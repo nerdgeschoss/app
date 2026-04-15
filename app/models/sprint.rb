@@ -7,7 +7,6 @@
 #  id            :uuid             not null, primary key
 #  sprint_during :daterange        not null
 #  title         :string           not null
-#  working_days  :integer          default(0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
@@ -109,6 +108,10 @@ class Sprint < ApplicationRecord
 
   def days
     sprint_during.to_a
+  end
+
+  def working_days
+    BerlinHolidays.count_working_days_during(sprint_during)
   end
 
   def send_sprint_start_notification
