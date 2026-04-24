@@ -301,7 +301,6 @@ export interface DataSchema {
     sprint: {
       sprintFrom: string;
       sprintUntil: string;
-      workingDays: number;
     };
   };
   'users/index': {
