@@ -15,8 +15,8 @@ class ProfitCalculation
 
   def months
     revenue_lookup = TimeEntry.billable
-      .where(start_at: range.begin.beginning_of_day..range.end.end_of_day)
-      .group(:user_id, Arel.sql("date_trunc('month', start_at)::date"))
+      .where(created_at: range.begin.beginning_of_day..range.end.end_of_day)
+      .group(:user_id, Arel.sql("date_trunc('month', created_at)::date"))
       .sum("rounded_hours * billable_rate")
 
     active_users = User

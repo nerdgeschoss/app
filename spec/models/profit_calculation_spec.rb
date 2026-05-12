@@ -87,10 +87,18 @@ RSpec.describe ProfitCalculation do
     it "computes revenue as rounded_hours * billable_rate for billable entries in that month" do
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
-      # entry_1: john, 2023-01-24, rounded_hours 1.5, billable_rate 100 → 150
+      # entry_1: john, created_at 2023-01-24, rounded_hours 1.5, billable_rate 100 → 150
       expect(january_rows[john].revenue).to eq 150
       expect(january_rows[users(:cigdem)].revenue).to eq 0
       expect(february_rows[john].revenue).to eq 0
+    end
+
+    it "buckets entries by created_at, not start_at" do
+      time_entries(:entry_1).update_columns(start_at: Time.zone.local(2023, 1, 24), created_at: Time.zone.local(2023, 2, 10))
+      january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
+      february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
+      expect(january_rows[john].revenue).to eq 0
+      expect(february_rows[john].revenue).to eq 150
     end
   end
 end
