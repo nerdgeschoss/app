@@ -142,5 +142,16 @@ module Types
       scope = scope.where("created_at <= ?", to_date) if to_date
       scope
     end
+
+    field :profit_report, Types::ProfitReportType, null: false, required_permission: :financial_details,
+      description: "Per-month profit, cost and revenue across the team. Requires 'financial_details' permission." do
+      argument :from_date, GraphQL::Types::ISO8601Date, required: true,
+        description: "Inclusive lower bound of the report window."
+      argument :to_date, GraphQL::Types::ISO8601Date, required: true,
+        description: "Inclusive upper bound of the report window."
+    end
+    def profit_report(from_date:, to_date:)
+      ProfitCalculation.new(from_date..to_date)
+    end
   end
 end

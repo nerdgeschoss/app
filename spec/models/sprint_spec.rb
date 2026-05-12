@@ -22,6 +22,45 @@ RSpec.describe Sprint do
     end
   end
 
+  describe "#revenue / #costs / #profit" do
+    let(:sprint) { sprints(:empty) }
+    let(:rows) { sprint.profit_report.aggregate_rows }
+
+    it "delegates to the profit report" do
+      expect(sprint.revenue).to eq rows.sum(&:revenue)
+      expect(sprint.costs).to eq rows.sum(&:cost)
+      expect(sprint.profit).to eq sprint.revenue - sprint.costs
+    end
+  end
+
+  describe "#revenue_per_storypoint" do
+    let(:sprint) { sprints(:empty) }
+
+    it "returns nil when no storypoints were completed" do
+      sprint.tasks.update_all(status: "Idea")
+      expect(sprint.revenue_per_storypoint).to be_nil
+    end
+  end
+
+  describe ".active_at" do
+    let!(:january) { Sprint.create!(title: "Jan", sprint_during: Date.new(2024, 1, 8)..Date.new(2024, 1, 19)) }
+    let!(:february) { Sprint.create!(title: "Feb", sprint_during: Date.new(2024, 2, 5)..Date.new(2024, 2, 16)) }
+
+    it "finds the sprint containing a given date" do
+      expect(Sprint.active_at(Date.new(2024, 1, 10))).to contain_exactly(january)
+    end
+
+    it "finds every sprint overlapping a given range" do
+      result = Sprint.active_at(Date.new(2024, 1, 15)..Date.new(2024, 2, 10))
+      expect(result).to contain_exactly(january, february)
+    end
+
+    it "excludes sprints that fall entirely outside the range" do
+      result = Sprint.active_at(Date.new(2024, 1, 20)..Date.new(2024, 2, 4))
+      expect(result).to be_empty
+    end
+  end
+
   context "sending the start notification" do
     let(:sprint) { sprints(:empty) }
     let(:john) { users(:john) }

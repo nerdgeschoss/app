@@ -21,6 +21,10 @@ class SprintPolicy < ApplicationPolicy
     hr?
   end
 
+  def financial_details?
+    hr?
+  end
+
   class Scope < Scope
     def resolve
       if employee?

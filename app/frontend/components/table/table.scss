@@ -1,0 +1,38 @@
+@use '../layout';
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid var(--div-default);
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 19.6px;
+
+  @include layout.media-desktop {
+    font-size: 16px;
+    line-height: 22.4px;
+  }
+
+  thead th {
+    text-align: left;
+    font-weight: 400;
+    color: var(--label-body-secondary);
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--div-default);
+  }
+
+  tbody td {
+    padding: 6px 16px;
+    color: var(--label-body-primary);
+    vertical-align: top;
+  }
+
+  tbody {
+    border-bottom: 1px solid var(--div-default);
+  }
+
+  tbody:last-child {
+    border-bottom: none;
+  }
+}

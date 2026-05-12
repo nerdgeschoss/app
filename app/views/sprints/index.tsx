@@ -12,6 +12,8 @@ import { useModal } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Property } from '../../frontend/components/property/property';
 import { Pill } from '../../frontend/components/pill/pill';
+import { Table } from '../../frontend/components/table/table';
+import { Tooltip } from '../../frontend/components/tooltip/tooltip';
 
 export default function ({
   data: { currentUser, sprints, nextPageUrl, permitCreateSprint },
@@ -20,9 +22,14 @@ export default function ({
   const t = useTranslate();
   const reaction = useReaction();
   const modal = useModal();
+  const isHr =
+    currentUser.roles.includes('hr') || currentUser.roles.includes('admin');
   const [displayMode, setDisplayMode] = useState<
-    'performance' | 'retro' | 'points'
+    'performance' | 'retro' | 'points' | 'profits'
   >('performance');
+  const displayModes = isHr
+    ? (['performance', 'retro', 'points', 'profits'] as const)
+    : (['performance', 'retro', 'points'] as const);
 
   return (
     <Layout user={currentUser} container>
@@ -87,22 +94,20 @@ export default function ({
                       fullWidth={'none'}
                       wrap
                     >
-                      {sprint.turnoverPerStorypoint !== null && (
+                      {sprint.revenuePerStorypoint !== null && (
                         <div>
                           <Property
                             prefix="💸"
-                            value={l.singleDigitNumber(
-                              sprint.turnoverPerStorypoint
-                            )}
+                            value={l.currency(sprint.revenuePerStorypoint)}
                             suffix="per point"
                           />
                         </div>
                       )}
-                      {sprint.turnover !== null && (
+                      {sprint.profit !== null && (
                         <div>
                           <Property
                             prefix="💰"
-                            value={l.currency(sprint.turnover)}
+                            value={l.currency(sprint.profit)}
                             suffix="Monthly total"
                           />
                         </div>
@@ -113,7 +118,7 @@ export default function ({
               >
                 <Stack size={16}>
                   <Stack line="mobile" size={4}>
-                    {(['performance', 'retro', 'points'] as const).map((e) => (
+                    {displayModes.map((e) => (
                       <div onClick={() => setDisplayMode(e)} key={e}>
                         <Pill active={e === displayMode}>
                           {t(`sprints.index.statistic.${e}`)}
@@ -151,6 +156,139 @@ export default function ({
                         </Stack>
                       ))}
                     </Stack>
+                  )}
+                  {displayMode === 'profits' && (
+                    <Table>
+                      <thead>
+                        <tr>
+                          <th>{t('profit.index.columns.user')}</th>
+                          <th className="table__numeric">
+                            {t('profit.index.columns.cost')}
+                          </th>
+                          <th className="table__numeric">
+                            {t('profit.index.columns.revenue')}
+                          </th>
+                          <th className="table__numeric">
+                            {t('profit.index.columns.profit')}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sprint.profitRows.map((row) => (
+                          <tr key={row.id}>
+                            <td>{row.user.displayName}</td>
+                            <td className="table__numeric">
+                              <Tooltip
+                                content={
+                                  <>
+                                    {row.salary !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.salary'
+                                        )}
+                                        : {l.currency(row.salary)}
+                                      </div>
+                                    )}
+                                    {row.payrollTaxes !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.payroll_taxes'
+                                        )}
+                                        : {l.currency(row.payrollTaxes)}
+                                      </div>
+                                    )}
+                                    {row.benefits !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.benefits'
+                                        )}
+                                        : {l.currency(row.benefits)}
+                                      </div>
+                                    )}
+                                    {row.fixedShare !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.fixed_share'
+                                        )}
+                                        : {l.currency(row.fixedShare)}
+                                      </div>
+                                    )}
+                                    {row.sickRefund !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.sick_refund'
+                                        )}
+                                        : {l.currency(-row.sickRefund)}
+                                      </div>
+                                    )}
+                                  </>
+                                }
+                              >
+                                <span>{l.currency(row.cost)}</span>
+                              </Tooltip>
+                            </td>
+                            <td className="table__numeric">
+                              {row.revenueByProject.length > 0 ? (
+                                <Tooltip
+                                  content={
+                                    <>
+                                      {row.revenueByProject.map((p) => (
+                                        <div key={p.id}>
+                                          {p.project}: {l.hours(p.hours)}h –{' '}
+                                          {l.currency(p.revenue)}
+                                        </div>
+                                      ))}
+                                    </>
+                                  }
+                                >
+                                  <span>{l.currency(row.revenue)}</span>
+                                </Tooltip>
+                              ) : (
+                                l.currency(row.revenue)
+                              )}
+                            </td>
+                            <td className="table__numeric">
+                              <Text
+                                color={
+                                  row.profit < 0 ? 'text-warning' : undefined
+                                }
+                              >
+                                {l.currency(row.profit)}
+                              </Text>
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td>
+                            <Text type="body-bold">
+                              {t('profit.index.total')}
+                            </Text>
+                          </td>
+                          <td className="table__numeric">
+                            <Text type="body-bold">
+                              {l.currency(sprint.costs ?? 0)}
+                            </Text>
+                          </td>
+                          <td className="table__numeric">
+                            <Text type="body-bold">
+                              {l.currency(sprint.revenue ?? 0)}
+                            </Text>
+                          </td>
+                          <td className="table__numeric">
+                            <Text
+                              type="body-bold"
+                              color={
+                                (sprint.profit ?? 0) < 0
+                                  ? 'text-warning'
+                                  : undefined
+                              }
+                            >
+                              {l.currency(sprint.profit ?? 0)}
+                            </Text>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   )}
                   {displayMode === 'points' && (
                     <Stack>

@@ -5,6 +5,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
   };
   'inventories/edit': {
@@ -27,6 +28,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     feedUrl: string;
     activeFilter: string;
@@ -55,6 +57,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     permitUserSelect: boolean;
     users: Array<{ id: string; displayName: string }>;
@@ -66,6 +69,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     upcomingLeaves: Array<{
       id: string;
@@ -92,6 +96,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     payslips: Array<{
       id: string;
@@ -109,12 +114,92 @@ export interface DataSchema {
     users: Array<{ id: string; displayName: string }>;
     defaultMonth: string;
   };
+  'profits/index': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
+    year: number;
+    years: Array<number>;
+    months: Array<{
+      date: string;
+      totalCost: number;
+      totalRevenue: number;
+      totalProfit: number;
+      totalSalary: number;
+      totalPayrollTaxes: number;
+      totalBenefits: number;
+      totalFixedShare: number;
+      totalSickRefund: number;
+      totalRunningRevenue: number;
+      totalRunningCost: number;
+      totalRunningProfit: number;
+      totalProjectCost: number;
+      totalProjectRevenue: number;
+      totalProjectProfit: number;
+      totalProjectRunningRevenue: number;
+      totalProjectRunningCost: number;
+      totalProjectRunningProfit: number;
+      revenueByProject: Array<{
+        project: string;
+        hours: number;
+        revenue: number;
+      }>;
+      projectRows: Array<{
+        id: string;
+        project: string;
+        hours: number;
+        revenue: number;
+        cost: number;
+        profit: number;
+        runningRevenue: number;
+        runningCost: number;
+        runningProfit: number;
+        contributors: Array<{
+          id: string;
+          hours: number;
+          revenue: number;
+          cost: number;
+          user: {
+            id: string;
+            displayName: string;
+          };
+        }>;
+      }>;
+      rows: Array<{
+        revenue: number;
+        cost: number;
+        profit: number;
+        runningRevenue: number;
+        runningCost: number;
+        runningProfit: number;
+        salary: number;
+        payrollTaxes: number;
+        benefits: number;
+        fixedShare: number;
+        sickRefund: number;
+        revenueByProject: Array<{
+          project: string;
+          hours: number;
+          revenue: number;
+        }>;
+        user: {
+          id: string;
+          displayName: string;
+        };
+      }>;
+    }>;
+  };
   'projects/index': {
     currentUser: {
       id: string;
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     presentationMode: boolean;
     currentSprint: {
@@ -147,6 +232,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     feedback: {
       id: string;
@@ -161,6 +247,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     feedback: {
       id: string;
@@ -240,6 +327,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     sprints: Array<{
       id: string;
@@ -250,8 +338,10 @@ export interface DataSchema {
       finishedStorypointsPerDay: number;
       averageRating: number;
       totalWorkingDays: number;
-      turnoverPerStorypoint: number | null;
-      turnover: number | null;
+      revenuePerStorypoint: number | null;
+      revenue: number | null;
+      costs: number | null;
+      profit: number | null;
       storypointsPerDepartment: Array<{
         team: string;
         points: number;
@@ -262,6 +352,27 @@ export interface DataSchema {
         id: string;
         retroText: string | null;
         retroRating: number | null;
+        user: {
+          id: string;
+          displayName: string;
+        };
+      }>;
+      profitRows: Array<{
+        id: string;
+        revenue: number;
+        cost: number;
+        profit: number;
+        salary: number;
+        payrollTaxes: number;
+        benefits: number;
+        fixedShare: number;
+        sickRefund: number;
+        revenueByProject: Array<{
+          id: string;
+          project: string;
+          hours: number;
+          revenue: number;
+        }>;
         user: {
           id: string;
           displayName: string;
@@ -309,6 +420,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     filter: string;
     users: Array<{
@@ -330,6 +442,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     user: {
       id: string;

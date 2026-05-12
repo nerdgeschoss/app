@@ -16,6 +16,7 @@ export type IconName =
   | 'tooltip-arrow'
   | 'chevron-arrow'
   | 'project'
+  | 'profit'
   | 'github'
   | 'harvest'
   | 'react'

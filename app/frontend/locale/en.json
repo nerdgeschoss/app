@@ -28,7 +28,8 @@
       "statistic": {
         "performance": "Performance",
         "retro": "Retrospective",
-        "points": "Points"
+        "points": "Points",
+        "profits": "Profits"
       }
     }
   },
@@ -155,5 +156,29 @@
     "message_label": "Message",
     "placeholder": "How was your day? What did you learn?",
     "submit": "Submit daily nerd"
+  },
+  "profit": {
+    "index": {
+      "title": "Profits",
+      "columns": {
+        "month": "Month",
+        "user": "Employee",
+        "cost": "Cost",
+        "revenue": "Revenue",
+        "profit": "Profit"
+      },
+      "total": "Total",
+      "no_data": "No active employees",
+      "by_user": "By employee",
+      "by_project": "By project",
+      "project_column": "Project",
+      "cost_breakdown": {
+        "salary": "Salary",
+        "payroll_taxes": "Payroll taxes",
+        "benefits": "Benefits",
+        "fixed_share": "Overhead",
+        "sick_refund": "Sick refund"
+      }
+    }
   }
 }

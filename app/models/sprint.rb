@@ -20,7 +20,13 @@ class Sprint < ApplicationRecord
   has_many :tasks, dependent: :nullify
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
-  scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
+  scope :active_at, ->(value) {
+    if value.is_a?(Range)
+      where("daterange(?, ?, '[]') && sprints.sprint_during", value.begin, value.end)
+    else
+      where("?::date <@ sprints.sprint_during", value)
+    end
+  }
   scope :start_on, ->(date) { where("?::date = LOWER(sprints.sprint_during)", date) }
   scope :before, ->(date) { where("?::date > LOWER(sprints.sprint_during)", date) }
   scope :current, -> { active_at(DateTime.current) }
@@ -59,11 +65,11 @@ class Sprint < ApplicationRecord
   end
 
   def finished_storypoints
-    sprint_feedbacks.filter_map(&:finished_storypoints).sum
+    tasks.select(&:done?).sum { _1.story_points.to_i }
   end
 
   def storypoints_per_department
-    teams = ["design", "frontend", "backend"]
+    teams = ["design", "frontend", "backend", "exploration"]
     working_days_per_department = sprint_feedbacks.group_by { (_1.user.team_member_of & teams).first }.transform_values do |feedbacks|
       feedbacks.sum(&:working_day_count)
     end
@@ -86,20 +92,22 @@ class Sprint < ApplicationRecord
     (finished_storypoints.to_f / [total_working_days, 1].max).round(6)
   end
 
-  def turnover_per_storypoint
-    (sprint_feedbacks.filter_map(&:turnover_per_storypoint).sum / [sprint_feedbacks.size, 1].max).round(2)
-  end
-
-  def turnover
-    sprint_feedbacks.filter_map(&:turnover).sum
+  def revenue
+    profit_report.aggregate_rows.sum(&:revenue)
   end
 
   def costs
-    sprint_feedbacks.filter_map(&:costs).sum
+    profit_report.aggregate_rows.sum(&:cost)
   end
 
-  def revenue
-    turnover - costs
+  def profit
+    revenue - costs
+  end
+
+  def revenue_per_storypoint
+    return nil if finished_storypoints.zero?
+
+    (revenue / finished_storypoints).round(2)
   end
 
   def completed?
@@ -123,5 +131,9 @@ class Sprint < ApplicationRecord
     return 0 if ratings.empty?
 
     ratings.sum / ratings.size.to_f
+  end
+
+  def profit_report
+    @profit_report ||= ProfitCalculation.new(sprint_during)
   end
 end

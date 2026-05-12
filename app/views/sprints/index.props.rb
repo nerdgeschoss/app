@@ -11,8 +11,10 @@ field :sprints, array: true, value: -> { @sprints } do
   field :finished_storypoints_per_day, Float
   field :average_rating, Float
   field :total_working_days, Integer
-  field :turnover_per_storypoint, Float, null: true, value: -> { turnover_per_storypoint if root(&:current_user).role?(:hr) }
-  field :turnover, Float, null: true, value: -> { turnover if root(&:current_user).role?(:hr) }
+  field :revenue_per_storypoint, Float, null: true, value: -> { revenue_per_storypoint if root(&:current_user).role?(:hr) }
+  field :revenue, Float, null: true, value: -> { revenue if root(&:current_user).role?(:hr) }
+  field :costs, Float, null: true, value: -> { costs if root(&:current_user).role?(:hr) }
+  field :profit, Float, null: true, value: -> { profit if root(&:current_user).role?(:hr) }
 
   field :storypoints_per_department, array: true do
     field :team
@@ -31,6 +33,28 @@ field :sprints, array: true, value: -> { @sprints } do
     end
   end
 
+  field :profit_rows, array: true,
+    value: -> { root(&:current_user).role?(:hr) ? profit_report.aggregate_rows.sort_by { _1.user.display_name } : [] } do
+    field :id
+    field :revenue, Float
+    field :cost, Float
+    field :profit, Float, value: -> { revenue - cost }
+    field :salary, Float
+    field :payroll_taxes, Float
+    field :benefits, Float
+    field :fixed_share, Float
+    field :sick_refund, Float
+    field :revenue_by_project, array: true do
+      field :id
+      field :project
+      field :hours, Float
+      field :revenue, Float
+    end
+    field :user do
+      field :id
+      field :display_name
+    end
+  end
   field :performances, array: true, value: -> { sprint_feedbacks.select { helpers.policy(_1).show? }.sort_by { _1.user.display_name } } do
     field :id
     field :working_day_count, Integer

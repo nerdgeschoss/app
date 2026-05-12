@@ -16,6 +16,7 @@ interface Props {
     displayName?: string;
     avatarUrl: string;
     email: string;
+    roles: string[];
   };
 }
 
@@ -67,6 +68,15 @@ export function Sidebar({ user }: Props): JSX.Element {
       active: path.startsWith('/users'),
     },
   ];
+
+  if (user.roles.includes('hr') || user.roles.includes('admin')) {
+    links.push({
+      name: 'Profits',
+      path: '/profits',
+      icon: 'profit',
+      active: path.startsWith('/profits'),
+    });
+  }
 
   return (
     <nav className={classNames('sidebar', { 'sidebar--expanded': expanded })}>

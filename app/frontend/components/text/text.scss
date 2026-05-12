@@ -26,6 +26,21 @@
     white-space: nowrap;
   }
 
+  &--align-left {
+    width: 100%;
+    text-align: left;
+  }
+
+  &--align-right {
+    width: 100%;
+    text-align: right;
+  }
+
+  &--align-center {
+    width: 100%;
+    text-align: center;
+  }
+
   &--block {
     display: block;
     width: 100%;

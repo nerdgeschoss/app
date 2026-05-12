@@ -32,5 +32,7 @@ module Types
       description: "GitHub tasks assigned to this sprint."
     field :time_entries, Types::TimeEntryType.connection_type, null: false,
       description: "All time entries logged during this sprint."
+    field :profit_report, Types::ProfitReportType, null: false, required_permission: :financial_details,
+      description: "Profit data scoped to this sprint's date range. Requires 'financial_details' permission."
   end
 end
