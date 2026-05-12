@@ -4,8 +4,9 @@ class ProfitCalculation
   EMPLOYER_SURCHARGE = BigDecimal("1.21").freeze
   FIXED_COSTS_PER_MONTH = BigDecimal(10000).freeze
 
-  Row = Data.define(:revenue, :cost, :running, :salary, :payroll_taxes, :benefits, :fixed_share, :user).freeze
+  Row = Data.define(:revenue, :cost, :running, :salary, :payroll_taxes, :benefits, :fixed_share, :revenue_by_project, :user).freeze
   Month = Data.define(:date, :rows, :total_running).freeze
+  ProjectRevenue = Data.define(:project, :hours, :revenue).freeze
 
   attr_reader :range
 
@@ -14,10 +15,22 @@ class ProfitCalculation
   end
 
   def months
-    revenue_lookup = TimeEntry.billable
+    breakdown = TimeEntry.billable
       .where(created_at: range.begin.beginning_of_day..range.end.end_of_day)
-      .group(:user_id, Arel.sql("date_trunc('month', created_at)::date"))
-      .sum("rounded_hours * billable_rate")
+      .group(:user_id, Arel.sql("date_trunc('month', created_at)::date"), :project_name)
+      .pluck(
+        :user_id,
+        Arel.sql("date_trunc('month', created_at)::date"),
+        :project_name,
+        Arel.sql("SUM(rounded_hours)"),
+        Arel.sql("SUM(rounded_hours * billable_rate)")
+      )
+    revenue_lookup = Hash.new(0)
+    projects_lookup = Hash.new { |h, k| h[k] = [] }
+    breakdown.each do |user_id, month_date, project_name, hours, project_revenue|
+      revenue_lookup[[user_id, month_date]] += project_revenue
+      projects_lookup[[user_id, month_date]] << ProjectRevenue.new(project: project_name, hours:, revenue: project_revenue)
+    end
 
     active_users = User
       .joins(sprint_feedbacks: :sprint)
@@ -60,7 +73,7 @@ class ProfitCalculation
           benefits = 0
         end
 
-        revenue = revenue_lookup[[user.id, key]] || 0
+        revenue = revenue_lookup[[user.id, key]]
         rounded_fixed_share = fixed_share.round(2)
         cost = salary_amount + payroll_taxes + benefits + rounded_fixed_share
         profit = revenue - cost
@@ -68,7 +81,8 @@ class ProfitCalculation
         total_running += profit
 
         Row.new(revenue:, cost:, running: user_running[user.id],
-          salary: salary_amount, payroll_taxes:, benefits:, fixed_share: rounded_fixed_share, user:)
+          salary: salary_amount, payroll_taxes:, benefits:, fixed_share: rounded_fixed_share,
+          revenue_by_project: projects_lookup[[user.id, key]], user:)
       end
       Month.new(date: month_date, rows:, total_running:)
     end

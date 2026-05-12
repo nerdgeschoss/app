@@ -139,6 +139,11 @@ export interface DataSchema {
         payrollTaxes: number;
         benefits: number;
         fixedShare: number;
+        revenueByProject: Array<{
+          project: string;
+          hours: number;
+          revenue: number;
+        }>;
         user: {
           id: string;
           displayName: string;

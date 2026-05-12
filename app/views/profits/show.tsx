@@ -78,7 +78,26 @@ export default function Profit({
                           <span>{l.currency(row.cost)}</span>
                         </Tooltip>
                       </td>
-                      <td>{l.currency(row.revenue)}</td>
+                      <td>
+                        {row.revenueByProject.length > 0 ? (
+                          <Tooltip
+                            content={
+                              <>
+                                {row.revenueByProject.map((p) => (
+                                  <div key={p.project}>
+                                    {p.project}: {l.hours(p.hours)}h –{' '}
+                                    {l.currency(p.revenue)}
+                                  </div>
+                                ))}
+                              </>
+                            }
+                          >
+                            <span>{l.currency(row.revenue)}</span>
+                          </Tooltip>
+                        ) : (
+                          l.currency(row.revenue)
+                        )}
+                      </td>
                       <td>
                         <Text
                           color={row.profit < 0 ? 'text-warning' : undefined}

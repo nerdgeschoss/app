@@ -19,6 +19,11 @@ field :months, array: true, value: -> { @months } do
     field :payroll_taxes, Float
     field :benefits, Float
     field :fixed_share, Float
+    field :revenue_by_project, array: true do
+      field :project
+      field :hours, Float
+      field :revenue, Float
+    end
     field :user do
       field :id
       field :display_name
