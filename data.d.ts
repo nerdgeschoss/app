@@ -132,6 +132,11 @@ export interface DataSchema {
       totalRunningRevenue: number;
       totalRunningCost: number;
       totalRunningProfit: number;
+      revenueByProject: Array<{
+        project: string;
+        hours: number;
+        revenue: number;
+      }>;
       rows: Array<{
         revenue: number;
         cost: number;

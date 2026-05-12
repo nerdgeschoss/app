@@ -12,6 +12,11 @@ field :months, array: true, value: -> { @months } do
   field :total_running_revenue, Float
   field :total_running_cost, Float
   field :total_running_profit, Float
+  field :revenue_by_project, array: true do
+    field :project
+    field :hours, Float
+    field :revenue, Float
+  end
   field :rows, array: true do
     field :revenue, Float
     field :cost, Float

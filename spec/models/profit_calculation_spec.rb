@@ -109,6 +109,15 @@ RSpec.describe ProfitCalculation do
       expect(february_rows[john].revenue).to eq 0
     end
 
+    it "aggregates the per-project revenue across users for each month" do
+      january = months_by_date[Date.new(2023, 1, 20)]
+      expect(january.revenue_by_project.size).to eq 1
+      project = january.revenue_by_project.first
+      expect(project.project).to eq "Some Project"
+      expect(project.hours).to eq 1.5
+      expect(project.revenue).to eq 150
+    end
+
     it "exposes a per-project revenue and hours breakdown on each row" do
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
       breakdown = january_rows[john].revenue_by_project

@@ -130,9 +130,28 @@ export default function Profit({
                     {running(month.totalRunningCost)}
                   </td>
                   <td>
-                    <Text type="body-bold">
-                      {l.currency(month.totalRevenue)}
-                    </Text>
+                    {month.revenueByProject.length > 0 ? (
+                      <Tooltip
+                        content={
+                          <>
+                            {month.revenueByProject.map((p) => (
+                              <div key={p.project}>
+                                {p.project}: {l.hours(p.hours)}h –{' '}
+                                {l.currency(p.revenue)}
+                              </div>
+                            ))}
+                          </>
+                        }
+                      >
+                        <Text type="body-bold">
+                          {l.currency(month.totalRevenue)}
+                        </Text>
+                      </Tooltip>
+                    ) : (
+                      <Text type="body-bold">
+                        {l.currency(month.totalRevenue)}
+                      </Text>
+                    )}
                     {running(month.totalRunningRevenue)}
                   </td>
                   <td>

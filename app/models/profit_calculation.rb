@@ -5,7 +5,7 @@ class ProfitCalculation
   FIXED_COSTS_PER_MONTH = BigDecimal(10000).freeze
 
   Row = Data.define(:revenue, :cost, :running_revenue, :running_cost, :running_profit, :salary, :payroll_taxes, :benefits, :fixed_share, :revenue_by_project, :user).freeze
-  Month = Data.define(:date, :rows, :total_running_revenue, :total_running_cost, :total_running_profit).freeze
+  Month = Data.define(:date, :rows, :revenue_by_project, :total_running_revenue, :total_running_cost, :total_running_profit).freeze
   ProjectRevenue = Data.define(:project, :hours, :revenue).freeze
 
   attr_reader :range
@@ -93,9 +93,13 @@ class ProfitCalculation
           running_cost: user_running_cost[user.id],
           running_profit: user_running_profit[user.id],
           salary: salary_amount, payroll_taxes:, benefits:, fixed_share: rounded_fixed_share,
-          revenue_by_project: projects_lookup[[user.id, key]], user:)
+          revenue_by_project: projects_lookup[[user.id, key]].sort_by { -_1.revenue }, user:)
       end
-      Month.new(date: month_date, rows:,
+      revenue_by_project = rows.flat_map(&:revenue_by_project)
+        .group_by(&:project)
+        .map { |project, entries| ProjectRevenue.new(project:, hours: entries.sum(&:hours), revenue: entries.sum(&:revenue)) }
+        .sort_by { -_1.revenue }
+      Month.new(date: month_date, rows:, revenue_by_project:,
         total_running_revenue:, total_running_cost:, total_running_profit:)
     end
   end
