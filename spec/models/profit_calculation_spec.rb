@@ -33,25 +33,37 @@ RSpec.describe ProfitCalculation do
     it "applies the 1.21 employer surcharge to the brut salary and prorates by days in the slice" do
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
+      fixed_share = 10000 / 5.0  # 5 active users → 2000 each (full month)
       # John's current salary (valid_from 2022-01-01) is brut 3800, employee: true.
       # January slice 2023-01-20..2023-01-31 = 12 days, calendar month = 31 days.
-      expect(january_rows[john].cost).to be_within(0.01).of(3800 * 1.21 * 12 / 31.0)
+      expect(january_rows[john].cost).to be_within(0.01).of((3800 * 1.21 + 10000 / 5.0) * 12 / 31.0)
       # February is fully within the range, so no proration.
-      expect(february_rows[john].cost).to eq 3800 * 1.21
-      # Users without a salary record contribute zero cost.
-      expect(january_rows[users(:cigdem)].cost).to eq 0
+      expect(february_rows[john].cost).to eq 3800 * 1.21 + fixed_share
     end
 
     it "adds the deutschlandticket net cost on top of the surcharged brut" do
       john.current_salary.update!(deutschlandticket: 49)
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
-      expect(february_rows[john].cost).to eq 3800 * 1.21 + 49
+      expect(february_rows[john].cost).to eq 3800 * 1.21 + 49 + 10000 / 5.0
     end
 
     it "skips the employer surcharge for contractors (employee: false)" do
       john.current_salary.update!(employee: false)
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
-      expect(february_rows[john].cost).to eq 3800
+      expect(february_rows[john].cost).to eq 3800 + 10000 / 5.0
+    end
+
+    it "splits the monthly fixed costs equally among active users" do
+      february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
+      # 5 active users, 10000 fixed costs, full month → 2000 each.
+      # Cigdem has no salary → her cost is the fixed share alone.
+      expect(february_rows[users(:cigdem)].cost).to eq 10000 / 5.0
+    end
+
+    it "prorates the fixed share for partial months" do
+      january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
+      # 12/31 of the month, 5 active users → 10000 * 12 / 31 / 5.
+      expect(january_rows[users(:cigdem)].cost).to be_within(0.01).of(10000 * 12 / 31.0 / 5)
     end
 
     it "computes revenue as rounded_hours * billable_rate for billable entries in that month" do
