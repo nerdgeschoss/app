@@ -28,7 +28,8 @@
       "statistic": {
         "performance": "Performance",
         "retro": "Retrospective",
-        "points": "Points"
+        "points": "Points",
+        "profits": "Profits"
       }
     }
   },

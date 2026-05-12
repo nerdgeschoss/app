@@ -22,6 +22,29 @@ class ProfitCalculation
     @months ||= compute_months
   end
 
+  def aggregate_rows
+    @aggregate_rows ||= months.flat_map(&:rows).group_by(&:user).map do |user, rows|
+      project_revenue = rows.flat_map(&:revenue_by_project)
+        .group_by(&:project)
+        .map do |project, entries|
+          ProjectRevenue.new(id: "#{id}:aggregate:#{user.id}:#{project}",
+            project:, hours: entries.sum(&:hours), revenue: entries.sum(&:revenue))
+        end
+        .sort_by { -_1.revenue }
+      total_revenue = rows.sum(&:revenue)
+      total_cost = rows.sum(&:cost)
+      Row.new(
+        id: "#{id}:aggregate:#{user.id}",
+        revenue: total_revenue, cost: total_cost,
+        running_revenue: total_revenue, running_cost: total_cost,
+        running_profit: total_revenue - total_cost,
+        salary: rows.sum(&:salary), payroll_taxes: rows.sum(&:payroll_taxes),
+        benefits: rows.sum(&:benefits), fixed_share: rows.sum(&:fixed_share),
+        revenue_by_project: project_revenue, user:
+      )
+    end
+  end
+
   private
 
   def compute_months

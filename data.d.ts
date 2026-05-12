@@ -322,6 +322,29 @@ export interface DataSchema {
           displayName: string;
         };
       }>;
+      profitRows: Array<{
+        id: string;
+        revenue: number;
+        cost: number;
+        profit: number;
+        salary: number;
+        payrollTaxes: number;
+        benefits: number;
+        fixedShare: number;
+        revenueByProject: Array<{
+          id: string;
+          project: string;
+          hours: number;
+          revenue: number;
+        }>;
+        user: {
+          id: string;
+          displayName: string;
+        };
+      }>;
+      profitTotalCost: number;
+      profitTotalRevenue: number;
+      profitTotalProfit: number;
       performances: Array<{
         id: string;
         workingDayCount: number;

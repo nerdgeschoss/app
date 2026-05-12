@@ -80,7 +80,7 @@ export default function Profit({
                                 </div>
                                 <div>
                                   {t(
-                                    'profit.show.cost_breakdown.payroll_taxes',
+                                    'profit.show.cost_breakdown.payroll_taxes'
                                   )}
                                   : {l.currency(row.payrollTaxes)}
                                 </div>

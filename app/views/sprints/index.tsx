@@ -12,6 +12,8 @@ import { useModal } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { Property } from '../../frontend/components/property/property';
 import { Pill } from '../../frontend/components/pill/pill';
+import { Table } from '../../frontend/components/table/table';
+import { Tooltip } from '../../frontend/components/tooltip/tooltip';
 
 export default function ({
   data: { currentUser, sprints, nextPageUrl, permitCreateSprint },
@@ -20,9 +22,14 @@ export default function ({
   const t = useTranslate();
   const reaction = useReaction();
   const modal = useModal();
+  const isHr =
+    currentUser.roles.includes('hr') || currentUser.roles.includes('admin');
   const [displayMode, setDisplayMode] = useState<
-    'performance' | 'retro' | 'points'
+    'performance' | 'retro' | 'points' | 'profits'
   >('performance');
+  const displayModes = isHr
+    ? (['performance', 'retro', 'points', 'profits'] as const)
+    : (['performance', 'retro', 'points'] as const);
 
   return (
     <Layout user={currentUser} container>
@@ -113,7 +120,7 @@ export default function ({
               >
                 <Stack size={16}>
                   <Stack line="mobile" size={4}>
-                    {(['performance', 'retro', 'points'] as const).map((e) => (
+                    {displayModes.map((e) => (
                       <div onClick={() => setDisplayMode(e)} key={e}>
                         <Pill active={e === displayMode}>
                           {t(`sprints.index.statistic.${e}`)}
@@ -151,6 +158,119 @@ export default function ({
                         </Stack>
                       ))}
                     </Stack>
+                  )}
+                  {displayMode === 'profits' && (
+                    <Table>
+                      <thead>
+                        <tr>
+                          <th>{t('profit.show.columns.user')}</th>
+                          <th className="table__numeric">
+                            {t('profit.show.columns.cost')}
+                          </th>
+                          <th className="table__numeric">
+                            {t('profit.show.columns.revenue')}
+                          </th>
+                          <th className="table__numeric">
+                            {t('profit.show.columns.profit')}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {sprint.profitRows.map((row) => (
+                          <tr key={row.id}>
+                            <td>{row.user.displayName}</td>
+                            <td className="table__numeric">
+                              <Tooltip
+                                content={
+                                  <>
+                                    <div>
+                                      {t('profit.show.cost_breakdown.salary')}:{' '}
+                                      {l.currency(row.salary)}
+                                    </div>
+                                    <div>
+                                      {t(
+                                        'profit.show.cost_breakdown.payroll_taxes'
+                                      )}
+                                      : {l.currency(row.payrollTaxes)}
+                                    </div>
+                                    <div>
+                                      {t('profit.show.cost_breakdown.benefits')}
+                                      : {l.currency(row.benefits)}
+                                    </div>
+                                    <div>
+                                      {t(
+                                        'profit.show.cost_breakdown.fixed_share'
+                                      )}
+                                      : {l.currency(row.fixedShare)}
+                                    </div>
+                                  </>
+                                }
+                              >
+                                <span>{l.currency(row.cost)}</span>
+                              </Tooltip>
+                            </td>
+                            <td className="table__numeric">
+                              {row.revenueByProject.length > 0 ? (
+                                <Tooltip
+                                  content={
+                                    <>
+                                      {row.revenueByProject.map((p) => (
+                                        <div key={p.id}>
+                                          {p.project}: {l.hours(p.hours)}h –{' '}
+                                          {l.currency(p.revenue)}
+                                        </div>
+                                      ))}
+                                    </>
+                                  }
+                                >
+                                  <span>{l.currency(row.revenue)}</span>
+                                </Tooltip>
+                              ) : (
+                                l.currency(row.revenue)
+                              )}
+                            </td>
+                            <td className="table__numeric">
+                              <Text
+                                color={
+                                  row.profit < 0 ? 'text-warning' : undefined
+                                }
+                              >
+                                {l.currency(row.profit)}
+                              </Text>
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td>
+                            <Text type="body-bold">
+                              {t('profit.show.total')}
+                            </Text>
+                          </td>
+                          <td className="table__numeric">
+                            <Text type="body-bold">
+                              {l.currency(sprint.profitTotalCost)}
+                            </Text>
+                          </td>
+                          <td className="table__numeric">
+                            <Text type="body-bold">
+                              {l.currency(sprint.profitTotalRevenue)}
+                            </Text>
+                          </td>
+                          <td className="table__numeric">
+                            <Text
+                              type="body-bold"
+                              color={
+                                sprint.profitTotalProfit < 0
+                                  ? 'text-warning'
+                                  : undefined
+                              }
+                            >
+                              {l.currency(sprint.profitTotalProfit)}
+                            </Text>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   )}
                   {displayMode === 'points' && (
                     <Stack>
