@@ -5,6 +5,7 @@ import { Pill } from '../../frontend/components/pill/pill';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Table } from '../../frontend/components/table/table';
 import { Text } from '../../frontend/components/text/text';
+import { Tooltip } from '../../frontend/components/tooltip/tooltip';
 import { Link } from '../../frontend/sprinkles/history';
 import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 
@@ -51,7 +52,32 @@ export default function Profit({
                     <tr key={row.user.id}>
                       {index === 0 && <td rowSpan={span}>{monthLabel}</td>}
                       <td>{row.user.displayName}</td>
-                      <td>{l.currency(row.cost)}</td>
+                      <td>
+                        <Tooltip
+                          content={
+                            <>
+                              <div>
+                                {t('profit.show.cost_breakdown.salary')}:{' '}
+                                {l.currency(row.salary)}
+                              </div>
+                              <div>
+                                {t('profit.show.cost_breakdown.payroll_taxes')}:{' '}
+                                {l.currency(row.payrollTaxes)}
+                              </div>
+                              <div>
+                                {t('profit.show.cost_breakdown.benefits')}:{' '}
+                                {l.currency(row.benefits)}
+                              </div>
+                              <div>
+                                {t('profit.show.cost_breakdown.fixed_share')}:{' '}
+                                {l.currency(row.fixedShare)}
+                              </div>
+                            </>
+                          }
+                        >
+                          <span>{l.currency(row.cost)}</span>
+                        </Tooltip>
+                      </td>
                       <td>{l.currency(row.revenue)}</td>
                       <td>
                         <Text

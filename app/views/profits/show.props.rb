@@ -15,6 +15,10 @@ field :months, array: true, value: -> { @months } do
     field :cost, Float
     field :profit, Float, value: -> { revenue - cost }
     field :running, Float
+    field :salary, Float
+    field :payroll_taxes, Float
+    field :benefits, Float
+    field :fixed_share, Float
     field :user do
       field :id
       field :display_name

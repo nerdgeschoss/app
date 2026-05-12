@@ -4,7 +4,7 @@ class ProfitCalculation
   EMPLOYER_SURCHARGE = BigDecimal("1.21").freeze
   FIXED_COSTS_PER_MONTH = BigDecimal(10000).freeze
 
-  Row = Data.define(:revenue, :cost, :running, :user).freeze
+  Row = Data.define(:revenue, :cost, :running, :salary, :payroll_taxes, :benefits, :fixed_share, :user).freeze
   Month = Data.define(:date, :rows, :total_running).freeze
 
   attr_reader :range
@@ -50,20 +50,25 @@ class ProfitCalculation
 
       rows = active_in_month.map do |user|
         salary = salaries_by_user[user.id]&.select { |s| s.valid_from <= slice_end }&.last
-        salary_cost = if salary
-          brut = salary.employee? ? salary.brut * EMPLOYER_SURCHARGE : salary.brut
-          (brut + salary.deutschlandticket) * days_in_slice / days_in_month
+        if salary
+          salary_amount = (salary.brut * days_in_slice / days_in_month).round(2)
+          payroll_taxes = salary.employee? ? (salary.brut * (EMPLOYER_SURCHARGE - 1) * days_in_slice / days_in_month).round(2) : 0
+          benefits = (salary.deutschlandticket * days_in_slice / days_in_month).round(2)
         else
-          0
+          salary_amount = 0
+          payroll_taxes = 0
+          benefits = 0
         end
 
         revenue = revenue_lookup[[user.id, key]] || 0
-        cost = (salary_cost + fixed_share).round(2)
+        rounded_fixed_share = fixed_share.round(2)
+        cost = salary_amount + payroll_taxes + benefits + rounded_fixed_share
         profit = revenue - cost
         user_running[user.id] += profit
         total_running += profit
 
-        Row.new(revenue:, cost:, running: user_running[user.id], user:)
+        Row.new(revenue:, cost:, running: user_running[user.id],
+          salary: salary_amount, payroll_taxes:, benefits:, fixed_share: rounded_fixed_share, user:)
       end
       Month.new(date: month_date, rows:, total_running:)
     end

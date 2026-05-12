@@ -135,6 +135,10 @@ export interface DataSchema {
         cost: number;
         profit: number;
         running: number;
+        salary: number;
+        payrollTaxes: number;
+        benefits: number;
+        fixedShare: number;
         user: {
           id: string;
           displayName: string;

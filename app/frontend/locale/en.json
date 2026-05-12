@@ -168,7 +168,13 @@
         "running": "Running"
       },
       "total": "Total",
-      "no_data": "No active employees"
+      "no_data": "No active employees",
+      "cost_breakdown": {
+        "salary": "Salary",
+        "payroll_taxes": "Payroll taxes",
+        "benefits": "Benefits",
+        "fixed_share": "Overhead"
+      }
     }
   }
 }
