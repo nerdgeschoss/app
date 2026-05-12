@@ -17,7 +17,10 @@ export default function Profit({
 
   function running(value: number): JSX.Element {
     return (
-      <Text type="caption-secondary-regular" color="label-body-secondary">
+      <Text
+        type="caption-secondary-regular"
+        color={value < 0 ? 'text-warning' : 'label-body-secondary'}
+      >
         {l.currency(value)}
       </Text>
     );
