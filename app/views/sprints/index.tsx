@@ -94,22 +94,22 @@ export default function ({
                       fullWidth={'none'}
                       wrap
                     >
-                      {sprint.turnoverPerStorypoint !== null && (
+                      {sprint.revenuePerStorypoint !== null && (
                         <div>
                           <Property
                             prefix="💸"
-                            value={l.singleDigitNumber(
-                              sprint.turnoverPerStorypoint
+                            value={l.currency(
+                              sprint.revenuePerStorypoint
                             )}
                             suffix="per point"
                           />
                         </div>
                       )}
-                      {sprint.turnover !== null && (
+                      {sprint.profit !== null && (
                         <div>
                           <Property
                             prefix="💰"
-                            value={l.currency(sprint.turnover)}
+                            value={l.currency(sprint.profit)}
                             suffix="Monthly total"
                           />
                         </div>
@@ -268,24 +268,24 @@ export default function ({
                           </td>
                           <td className="table__numeric">
                             <Text type="body-bold">
-                              {l.currency(sprint.profitTotalCost)}
+                              {l.currency(sprint.costs ?? 0)}
                             </Text>
                           </td>
                           <td className="table__numeric">
                             <Text type="body-bold">
-                              {l.currency(sprint.profitTotalRevenue)}
+                              {l.currency(sprint.revenue ?? 0)}
                             </Text>
                           </td>
                           <td className="table__numeric">
                             <Text
                               type="body-bold"
                               color={
-                                sprint.profitTotalProfit < 0
+                                (sprint.profit ?? 0) < 0
                                   ? 'text-warning'
                                   : undefined
                               }
                             >
-                              {l.currency(sprint.profitTotalProfit)}
+                              {l.currency(sprint.profit ?? 0)}
                             </Text>
                           </td>
                         </tr>

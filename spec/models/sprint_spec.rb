@@ -22,6 +22,26 @@ RSpec.describe Sprint do
     end
   end
 
+  describe "#revenue / #costs / #profit" do
+    let(:sprint) { sprints(:empty) }
+    let(:rows) { sprint.profit_report.aggregate_rows }
+
+    it "delegates to the profit report" do
+      expect(sprint.revenue).to eq rows.sum(&:revenue)
+      expect(sprint.costs).to eq rows.sum(&:cost)
+      expect(sprint.profit).to eq sprint.revenue - sprint.costs
+    end
+  end
+
+  describe "#revenue_per_storypoint" do
+    let(:sprint) { sprints(:empty) }
+
+    it "returns nil when no storypoints were completed" do
+      sprint.tasks.update_all(status: "Idea")
+      expect(sprint.revenue_per_storypoint).to be_nil
+    end
+  end
+
   describe ".active_at" do
     let!(:january) { Sprint.create!(title: "Jan", sprint_during: Date.new(2024, 1, 8)..Date.new(2024, 1, 19)) }
     let!(:february) { Sprint.create!(title: "Feb", sprint_during: Date.new(2024, 2, 5)..Date.new(2024, 2, 16)) }

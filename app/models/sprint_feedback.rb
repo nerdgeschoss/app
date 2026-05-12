@@ -115,12 +115,6 @@ class SprintFeedback < ApplicationRecord
     (turnover / finished_storypoints.to_d).round(2)
   end
 
-  def turnover_per_storypoint_against_avarage
-    return nil if turnover_per_storypoint.nil?
-
-    turnover_per_storypoint / sprint.turnover_per_storypoint
-  end
-
   def finished_storypoints_per_day
     return 0 if working_day_count.zero?
     finished_storypoints.to_f / working_day_count

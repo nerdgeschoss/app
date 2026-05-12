@@ -311,8 +311,10 @@ export interface DataSchema {
       finishedStorypointsPerDay: number;
       averageRating: number;
       totalWorkingDays: number;
-      turnoverPerStorypoint: number | null;
-      turnover: number | null;
+      revenuePerStorypoint: number | null;
+      revenue: number | null;
+      costs: number | null;
+      profit: number | null;
       storypointsPerDepartment: Array<{
         team: string;
         points: number;
@@ -349,9 +351,6 @@ export interface DataSchema {
           displayName: string;
         };
       }>;
-      profitTotalCost: number;
-      profitTotalRevenue: number;
-      profitTotalProfit: number;
       performances: Array<{
         id: string;
         workingDayCount: number;

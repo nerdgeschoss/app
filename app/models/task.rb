@@ -98,6 +98,10 @@ class Task < ApplicationRecord
     end
   end
 
+  def done?
+    status == "Done"
+  end
+
   def total_hours
     time_entries.sum(&:hours)
   end
