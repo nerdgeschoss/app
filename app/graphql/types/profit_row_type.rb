@@ -4,6 +4,8 @@ module Types
   class ProfitRowType < Types::BaseObject
     description "Per-user profit data for a single calendar month."
 
+    field :id, ID, null: false,
+      description: "Globally unique identifier scoped to the parent report and month."
     field :revenue, Float, null: false,
       description: "Billable revenue for the user in this month, in EUR."
     field :cost, Float, null: false,

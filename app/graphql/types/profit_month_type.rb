@@ -4,6 +4,8 @@ module Types
   class ProfitMonthType < Types::BaseObject
     description "Profit data for a single calendar month inside a profit report window."
 
+    field :id, ID, null: false,
+      description: "Globally unique identifier scoped to the parent report."
     field :date, GraphQL::Types::ISO8601Date, null: false,
       description: "Start-of-month date, or the report's lower bound if the month was partially covered."
     field :rows, [Types::ProfitRowType], null: false,

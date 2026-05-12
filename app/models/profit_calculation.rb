@@ -4,14 +4,18 @@ class ProfitCalculation
   EMPLOYER_SURCHARGE = BigDecimal("1.21").freeze
   FIXED_COSTS_PER_MONTH = BigDecimal(10000).freeze
 
-  Row = Data.define(:revenue, :cost, :running_revenue, :running_cost, :running_profit, :salary, :payroll_taxes, :benefits, :fixed_share, :revenue_by_project, :user).freeze
-  Month = Data.define(:date, :rows, :revenue_by_project, :total_running_revenue, :total_running_cost, :total_running_profit).freeze
-  ProjectRevenue = Data.define(:project, :hours, :revenue).freeze
+  Row = Data.define(:id, :revenue, :cost, :running_revenue, :running_cost, :running_profit, :salary, :payroll_taxes, :benefits, :fixed_share, :revenue_by_project, :user).freeze
+  Month = Data.define(:id, :date, :rows, :revenue_by_project, :total_running_revenue, :total_running_cost, :total_running_profit).freeze
+  ProjectRevenue = Data.define(:id, :project, :hours, :revenue).freeze
 
   attr_reader :range
 
   def initialize(range)
     @range = range
+  end
+
+  def id
+    "profit-report:#{range.begin}:#{range.end}"
   end
 
   def months
@@ -29,7 +33,10 @@ class ProfitCalculation
     projects_lookup = Hash.new { |h, k| h[k] = [] }
     breakdown.each do |user_id, month_date, project_name, hours, project_revenue|
       revenue_lookup[[user_id, month_date]] += project_revenue
-      projects_lookup[[user_id, month_date]] << ProjectRevenue.new(project: project_name, hours:, revenue: project_revenue)
+      projects_lookup[[user_id, month_date]] << ProjectRevenue.new(
+        id: "#{id}:#{month_date.iso8601}:#{user_id}:#{project_name}",
+        project: project_name, hours:, revenue: project_revenue
+      )
     end
 
     active_users = User
@@ -59,6 +66,7 @@ class ProfitCalculation
       slice_end = [month_date.end_of_month, range.end].min
       days_in_slice = (slice_end - month_date + 1).to_i
       days_in_month = month_date.end_of_month.day
+      month_id = "#{id}:#{month_date.iso8601}"
 
       active_in_month = active_users.select do |user|
         user.active_from.to_date <= slice_end && user.active_until.to_date > month_date
@@ -88,7 +96,7 @@ class ProfitCalculation
         total_running_cost += cost
         total_running_profit += profit
 
-        Row.new(revenue:, cost:,
+        Row.new(id: "#{month_id}:#{user.id}", revenue:, cost:,
           running_revenue: user_running_revenue[user.id],
           running_cost: user_running_cost[user.id],
           running_profit: user_running_profit[user.id],
@@ -97,9 +105,12 @@ class ProfitCalculation
       end
       revenue_by_project = rows.flat_map(&:revenue_by_project)
         .group_by(&:project)
-        .map { |project, entries| ProjectRevenue.new(project:, hours: entries.sum(&:hours), revenue: entries.sum(&:revenue)) }
+        .map do |project, entries|
+          ProjectRevenue.new(id: "#{month_id}:#{project}",
+            project:, hours: entries.sum(&:hours), revenue: entries.sum(&:revenue))
+        end
         .sort_by { -_1.revenue }
-      Month.new(date: month_date, rows:, revenue_by_project:,
+      Month.new(id: month_id, date: month_date, rows:, revenue_by_project:,
         total_running_revenue:, total_running_cost:, total_running_profit:)
     end
   end
