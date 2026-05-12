@@ -155,5 +155,19 @@
     "message_label": "Message",
     "placeholder": "How was your day? What did you learn?",
     "submit": "Submit daily nerd"
+  },
+  "profit": {
+    "show": {
+      "title": "Profit",
+      "columns": {
+        "month": "Month",
+        "user": "Employee",
+        "cost": "Cost",
+        "revenue": "Revenue",
+        "profit": "Profit"
+      },
+      "total": "Total",
+      "no_data": "No active employees"
+    }
   }
 }

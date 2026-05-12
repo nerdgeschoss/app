@@ -5,6 +5,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
   };
   'inventories/edit': {
@@ -27,6 +28,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     feedUrl: string;
     activeFilter: string;
@@ -55,6 +57,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     permitUserSelect: boolean;
     users: Array<{ id: string; displayName: string }>;
@@ -66,6 +69,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     upcomingLeaves: Array<{
       id: string;
@@ -92,6 +96,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     payslips: Array<{
       id: string;
@@ -109,12 +114,39 @@ export interface DataSchema {
     users: Array<{ id: string; displayName: string }>;
     defaultMonth: string;
   };
+  'profits/show': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
+    year: number;
+    years: Array<number>;
+    months: Array<{
+      date: string;
+      totalCost: number;
+      totalRevenue: number;
+      totalProfit: number;
+      rows: Array<{
+        revenue: number;
+        cost: number;
+        profit: number;
+        user: {
+          id: string;
+          displayName: string;
+        };
+      }>;
+    }>;
+  };
   'projects/index': {
     currentUser: {
       id: string;
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     presentationMode: boolean;
     currentSprint: {
@@ -147,6 +179,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     feedback: {
       id: string;
@@ -161,6 +194,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     feedback: {
       id: string;
@@ -240,6 +274,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     sprints: Array<{
       id: string;
@@ -309,6 +344,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     filter: string;
     users: Array<{
@@ -330,6 +366,7 @@ export interface DataSchema {
       displayName: string;
       avatarUrl: string;
       email: string;
+      roles: Array<string>;
     };
     user: {
       id: string;
