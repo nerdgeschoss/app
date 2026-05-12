@@ -3,8 +3,9 @@
 class ProfitCalculation
   EMPLOYER_SURCHARGE = BigDecimal("1.21").freeze
   FIXED_COSTS_PER_MONTH = BigDecimal(10000).freeze
+  SICK_REFUND_RATE = BigDecimal("0.7").freeze
 
-  Row = Data.define(:id, :revenue, :cost, :running_revenue, :running_cost, :running_profit, :salary, :payroll_taxes, :benefits, :fixed_share, :revenue_by_project, :user).freeze
+  Row = Data.define(:id, :revenue, :cost, :running_revenue, :running_cost, :running_profit, :salary, :payroll_taxes, :benefits, :fixed_share, :sick_refund, :revenue_by_project, :user).freeze
   Month = Data.define(:id, :date, :rows, :revenue_by_project, :total_running_revenue, :total_running_cost, :total_running_profit).freeze
   ProjectRevenue = Data.define(:id, :project, :hours, :revenue).freeze
 
@@ -40,6 +41,7 @@ class ProfitCalculation
         running_profit: total_revenue - total_cost,
         salary: rows.sum(&:salary), payroll_taxes: rows.sum(&:payroll_taxes),
         benefits: rows.sum(&:benefits), fixed_share: rows.sum(&:fixed_share),
+        sick_refund: rows.sum(&:sick_refund),
         revenue_by_project: project_revenue, user:
       )
     end
@@ -83,6 +85,13 @@ class ProfitCalculation
       .order(:valid_from)
       .group_by(&:user_id)
 
+    sick_days_by_user = Leave.where(user_id: active_users.map(&:id))
+      .where(type: "sick").where.not(status: "rejected")
+      .where("leave_during && daterange(?, ?, '[]')", range.begin, range.end)
+      .pluck(:user_id, :days)
+      .each_with_object(Hash.new { |h, k| h[k] = [] }) { |(uid, days), acc| acc[uid].concat(days) }
+    sick_days_by_user.each_value(&:uniq!)
+
     user_running_revenue = Hash.new(0)
     user_running_cost = Hash.new(0)
     user_running_profit = Hash.new(0)
@@ -93,8 +102,10 @@ class ProfitCalculation
     month_dates.map do |month_date|
       key = month_date.beginning_of_month
       slice_end = [month_date.end_of_month, range.end].min
+      slice_range = month_date..slice_end
       days_in_slice = (slice_end - month_date + 1).to_i
       days_in_month = month_date.end_of_month.day
+      working_days_in_month = BerlinHolidays.count_working_days_during(month_date.beginning_of_month..month_date.end_of_month)
       month_id = "#{id}:#{month_date.iso8601}"
 
       active_in_month = active_users.select do |user|
@@ -114,9 +125,12 @@ class ProfitCalculation
           benefits = 0
         end
 
+        sick_days = (sick_days_by_user[user.id] || []).count { slice_range.cover?(_1) }
+        sick_refund = (salary&.employee? && sick_days.positive?) ? (salary.brut * SICK_REFUND_RATE * sick_days / working_days_in_month).round(2) : 0
+
         revenue = revenue_lookup[[user.id, key]]
         rounded_fixed_share = fixed_share.round(2)
-        cost = salary_amount + payroll_taxes + benefits + rounded_fixed_share
+        cost = salary_amount + payroll_taxes + benefits + rounded_fixed_share - sick_refund
         profit = revenue - cost
         user_running_revenue[user.id] += revenue
         user_running_cost[user.id] += cost
@@ -130,6 +144,7 @@ class ProfitCalculation
           running_cost: user_running_cost[user.id],
           running_profit: user_running_profit[user.id],
           salary: salary_amount, payroll_taxes:, benefits:, fixed_share: rounded_fixed_share,
+          sick_refund:,
           revenue_by_project: projects_lookup[[user.id, key]].sort_by { -_1.revenue }, user:)
       end
       revenue_by_project = rows.flat_map(&:revenue_by_project)

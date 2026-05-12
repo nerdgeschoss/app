@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe ProfitCalculation do
-  fixtures :users, :sprints, :sprint_feedbacks, :time_entries, :salaries
+  fixtures :users, :sprints, :sprint_feedbacks, :time_entries, :salaries, :leaves
 
   describe "#months" do
     let(:john) { users(:john) }
@@ -125,6 +125,36 @@ RSpec.describe ProfitCalculation do
       expect(breakdown.first.project).to eq "Some Project"
       expect(breakdown.first.hours).to eq 1.5
       expect(breakdown.first.revenue).to eq 150
+    end
+
+    describe "sick refund" do
+      let(:working_days) do
+        BerlinHolidays.count_working_days_during(Date.new(2023, 2, 1)..Date.new(2023, 2, 28))
+      end
+
+      before { john.leaves.destroy_all } # clear fixture leaves to control the input
+
+      it "subtracts a 70% refund per sick day from the payroll employee's cost" do
+        john.leaves.create!(title: "Flu", type: :sick, status: :approved,
+          days: [Date.new(2023, 2, 6), Date.new(2023, 2, 7), Date.new(2023, 2, 8)])
+        february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
+        expected_refund = (3800 * 0.7 * 3 / working_days).round(2)
+        expect(february_rows[john].sick_refund).to be_within(0.01).of(expected_refund)
+        expect(february_rows[john].cost).to be_within(0.01).of(3800 * 1.21 + 10000 / 5.0 - expected_refund)
+      end
+
+      it "does not refund contractors" do
+        john.current_salary.update!(employee: false)
+        john.leaves.create!(title: "Flu", type: :sick, status: :approved, days: [Date.new(2023, 2, 7)])
+        february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
+        expect(february_rows[john].sick_refund).to eq 0
+        expect(february_rows[john].cost).to eq 3800 + 10000 / 5.0
+      end
+
+      it "is zero when there are no sick days" do
+        february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
+        expect(february_rows[john].sick_refund).to eq 0
+      end
     end
 
     it "buckets entries by created_at, not start_at" do

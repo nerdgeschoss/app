@@ -129,6 +129,11 @@ export interface DataSchema {
       totalCost: number;
       totalRevenue: number;
       totalProfit: number;
+      totalSalary: number;
+      totalPayrollTaxes: number;
+      totalBenefits: number;
+      totalFixedShare: number;
+      totalSickRefund: number;
       totalRunningRevenue: number;
       totalRunningCost: number;
       totalRunningProfit: number;
@@ -148,6 +153,7 @@ export interface DataSchema {
         payrollTaxes: number;
         benefits: number;
         fixedShare: number;
+        sickRefund: number;
         revenueByProject: Array<{
           project: string;
           hours: number;
@@ -331,6 +337,7 @@ export interface DataSchema {
         payrollTaxes: number;
         benefits: number;
         fixedShare: number;
+        sickRefund: number;
         revenueByProject: Array<{
           id: string;
           project: string;

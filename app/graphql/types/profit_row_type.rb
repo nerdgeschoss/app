@@ -26,6 +26,8 @@ module Types
       description: "Prorated benefit cost (e.g. Deutschlandticket)."
     field :fixed_share, Float, null: false,
       description: "Prorated share of the monthly fixed overhead allocated to this user."
+    field :sick_refund, Float, null: false,
+      description: "Statutory health-insurance refund for sick working days (subtracted from cost)."
     field :revenue_by_project, [Types::ProjectRevenueType], null: false,
       description: "Per-project breakdown of the user's revenue, ordered by revenue descending."
     field :user, Types::UserType, null: false,

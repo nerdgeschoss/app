@@ -41,6 +41,7 @@ field :sprints, array: true, value: -> { @sprints } do
     field :payroll_taxes, Float
     field :benefits, Float
     field :fixed_share, Float
+    field :sick_refund, Float
     field :revenue_by_project, array: true do
       field :id
       field :project

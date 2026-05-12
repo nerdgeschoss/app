@@ -74,24 +74,42 @@ export default function Profit({
                           <Tooltip
                             content={
                               <>
-                                <div>
-                                  {t('profit.index.cost_breakdown.salary')}:{' '}
-                                  {l.currency(row.salary)}
-                                </div>
-                                <div>
-                                  {t(
-                                    'profit.index.cost_breakdown.payroll_taxes'
-                                  )}
-                                  : {l.currency(row.payrollTaxes)}
-                                </div>
-                                <div>
-                                  {t('profit.index.cost_breakdown.benefits')}:{' '}
-                                  {l.currency(row.benefits)}
-                                </div>
-                                <div>
-                                  {t('profit.index.cost_breakdown.fixed_share')}
-                                  : {l.currency(row.fixedShare)}
-                                </div>
+                                {row.salary !== 0 && (
+                                  <div>
+                                    {t('profit.index.cost_breakdown.salary')}:{' '}
+                                    {l.currency(row.salary)}
+                                  </div>
+                                )}
+                                {row.payrollTaxes !== 0 && (
+                                  <div>
+                                    {t(
+                                      'profit.index.cost_breakdown.payroll_taxes'
+                                    )}
+                                    : {l.currency(row.payrollTaxes)}
+                                  </div>
+                                )}
+                                {row.benefits !== 0 && (
+                                  <div>
+                                    {t('profit.index.cost_breakdown.benefits')}:{' '}
+                                    {l.currency(row.benefits)}
+                                  </div>
+                                )}
+                                {row.fixedShare !== 0 && (
+                                  <div>
+                                    {t(
+                                      'profit.index.cost_breakdown.fixed_share'
+                                    )}
+                                    : {l.currency(row.fixedShare)}
+                                  </div>
+                                )}
+                                {row.sickRefund !== 0 && (
+                                  <div>
+                                    {t(
+                                      'profit.index.cost_breakdown.sick_refund'
+                                    )}
+                                    : {l.currency(-row.sickRefund)}
+                                  </div>
+                                )}
                               </>
                             }
                           >
@@ -140,8 +158,47 @@ export default function Profit({
                     <Text type="body-bold">{t('profit.index.total')}</Text>
                   </td>
                   <td>
-                    <Text type="body-bold" align="right">
-                      {l.currency(month.totalCost)}
+                    <Text align="right">
+                      <Tooltip
+                        content={
+                          <>
+                            {month.totalSalary !== 0 && (
+                              <div>
+                                {t('profit.index.cost_breakdown.salary')}:{' '}
+                                {l.currency(month.totalSalary)}
+                              </div>
+                            )}
+                            {month.totalPayrollTaxes !== 0 && (
+                              <div>
+                                {t('profit.index.cost_breakdown.payroll_taxes')}
+                                : {l.currency(month.totalPayrollTaxes)}
+                              </div>
+                            )}
+                            {month.totalBenefits !== 0 && (
+                              <div>
+                                {t('profit.index.cost_breakdown.benefits')}:{' '}
+                                {l.currency(month.totalBenefits)}
+                              </div>
+                            )}
+                            {month.totalFixedShare !== 0 && (
+                              <div>
+                                {t('profit.index.cost_breakdown.fixed_share')}:{' '}
+                                {l.currency(month.totalFixedShare)}
+                              </div>
+                            )}
+                            {month.totalSickRefund !== 0 && (
+                              <div>
+                                {t('profit.index.cost_breakdown.sick_refund')}:{' '}
+                                {l.currency(-month.totalSickRefund)}
+                              </div>
+                            )}
+                          </>
+                        }
+                      >
+                        <Text type="body-bold">
+                          {l.currency(month.totalCost)}
+                        </Text>
+                      </Tooltip>
                     </Text>
                     {running(month.totalRunningCost)}
                   </td>

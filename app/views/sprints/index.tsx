@@ -183,28 +183,46 @@ export default function ({
                               <Tooltip
                                 content={
                                   <>
-                                    <div>
-                                      {t('profit.index.cost_breakdown.salary')}:{' '}
-                                      {l.currency(row.salary)}
-                                    </div>
-                                    <div>
-                                      {t(
-                                        'profit.index.cost_breakdown.payroll_taxes'
-                                      )}
-                                      : {l.currency(row.payrollTaxes)}
-                                    </div>
-                                    <div>
-                                      {t(
-                                        'profit.index.cost_breakdown.benefits'
-                                      )}
-                                      : {l.currency(row.benefits)}
-                                    </div>
-                                    <div>
-                                      {t(
-                                        'profit.index.cost_breakdown.fixed_share'
-                                      )}
-                                      : {l.currency(row.fixedShare)}
-                                    </div>
+                                    {row.salary !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.salary'
+                                        )}
+                                        : {l.currency(row.salary)}
+                                      </div>
+                                    )}
+                                    {row.payrollTaxes !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.payroll_taxes'
+                                        )}
+                                        : {l.currency(row.payrollTaxes)}
+                                      </div>
+                                    )}
+                                    {row.benefits !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.benefits'
+                                        )}
+                                        : {l.currency(row.benefits)}
+                                      </div>
+                                    )}
+                                    {row.fixedShare !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.fixed_share'
+                                        )}
+                                        : {l.currency(row.fixedShare)}
+                                      </div>
+                                    )}
+                                    {row.sickRefund !== 0 && (
+                                      <div>
+                                        {t(
+                                          'profit.index.cost_breakdown.sick_refund'
+                                        )}
+                                        : {l.currency(-row.sickRefund)}
+                                      </div>
+                                    )}
                                   </>
                                 }
                               >
