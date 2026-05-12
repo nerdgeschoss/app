@@ -15,7 +15,12 @@ module Types
 
     def authorized?(obj, arg_value, ctx)
       super && if required_permission
-                 policy(obj, user: ctx[:current_user]).public_send("#{required_permission}?")
+                 user = ctx[:current_user]
+                 if obj.nil? && required_permission == :financial_details
+                   user&.role?(:hr) || user&.role?(:admin)
+                 else
+                   policy(obj, user:).public_send("#{required_permission}?")
+                 end
                else
                  true
                end
