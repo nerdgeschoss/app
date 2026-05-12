@@ -114,7 +114,7 @@ export interface DataSchema {
     users: Array<{ id: string; displayName: string }>;
     defaultMonth: string;
   };
-  'profits/show': {
+  'profits/index': {
     currentUser: {
       id: string;
       displayName: string;

@@ -163,15 +163,15 @@ export default function ({
                     <Table>
                       <thead>
                         <tr>
-                          <th>{t('profit.show.columns.user')}</th>
+                          <th>{t('profit.index.columns.user')}</th>
                           <th className="table__numeric">
-                            {t('profit.show.columns.cost')}
+                            {t('profit.index.columns.cost')}
                           </th>
                           <th className="table__numeric">
-                            {t('profit.show.columns.revenue')}
+                            {t('profit.index.columns.revenue')}
                           </th>
                           <th className="table__numeric">
-                            {t('profit.show.columns.profit')}
+                            {t('profit.index.columns.profit')}
                           </th>
                         </tr>
                       </thead>
@@ -184,22 +184,24 @@ export default function ({
                                 content={
                                   <>
                                     <div>
-                                      {t('profit.show.cost_breakdown.salary')}:{' '}
+                                      {t('profit.index.cost_breakdown.salary')}:{' '}
                                       {l.currency(row.salary)}
                                     </div>
                                     <div>
                                       {t(
-                                        'profit.show.cost_breakdown.payroll_taxes'
+                                        'profit.index.cost_breakdown.payroll_taxes'
                                       )}
                                       : {l.currency(row.payrollTaxes)}
                                     </div>
                                     <div>
-                                      {t('profit.show.cost_breakdown.benefits')}
+                                      {t(
+                                        'profit.index.cost_breakdown.benefits'
+                                      )}
                                       : {l.currency(row.benefits)}
                                     </div>
                                     <div>
                                       {t(
-                                        'profit.show.cost_breakdown.fixed_share'
+                                        'profit.index.cost_breakdown.fixed_share'
                                       )}
                                       : {l.currency(row.fixedShare)}
                                     </div>
@@ -243,7 +245,7 @@ export default function ({
                         <tr>
                           <td>
                             <Text type="body-bold">
-                              {t('profit.show.total')}
+                              {t('profit.index.total')}
                             </Text>
                           </td>
                           <td className="table__numeric">

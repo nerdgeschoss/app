@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProfitPolicy < ApplicationPolicy
-  def show?
+  def index?
     hr?
   end
 end

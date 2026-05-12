@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
     resources :daily_nerd_messages, only: [:create, :update]
     resources :projects, only: :index
-    resource :profit, only: :show
+    resources :profits, only: :index
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     get "confirm_login", to: "sessions#edit"

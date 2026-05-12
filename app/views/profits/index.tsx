@@ -11,7 +11,7 @@ import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 
 export default function Profit({
   data: { currentUser, year, years, months },
-}: PageProps<'profits/show'>): JSX.Element {
+}: PageProps<'profits/index'>): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
 
@@ -30,10 +30,10 @@ export default function Profit({
   return (
     <Layout user={currentUser} container>
       <Stack>
-        <Text type="h1-bold">{t('profit.show.title')}</Text>
+        <Text type="h1-bold">{t('profit.index.title')}</Text>
         <Stack line="mobile" size={4}>
           {years.map((y) => (
-            <Link key={y} href={`/profit?year=${y}`}>
+            <Link key={y} href={`/profits?year=${y}`}>
               <Pill active={y === year}>{y.toString()}</Pill>
             </Link>
           ))}
@@ -41,16 +41,16 @@ export default function Profit({
         <Table>
           <thead>
             <tr>
-              <th>{t('profit.show.columns.month')}</th>
-              <th>{t('profit.show.columns.user')}</th>
+              <th>{t('profit.index.columns.month')}</th>
+              <th>{t('profit.index.columns.user')}</th>
               <th>
-                <Text align="right">{t('profit.show.columns.cost')}</Text>
+                <Text align="right">{t('profit.index.columns.cost')}</Text>
               </th>
               <th>
-                <Text align="right">{t('profit.show.columns.revenue')}</Text>
+                <Text align="right">{t('profit.index.columns.revenue')}</Text>
               </th>
               <th>
-                <Text align="right">{t('profit.show.columns.profit')}</Text>
+                <Text align="right">{t('profit.index.columns.profit')}</Text>
               </th>
             </tr>
           </thead>
@@ -62,7 +62,7 @@ export default function Profit({
                 {month.rows.length === 0 ? (
                   <tr>
                     <td rowSpan={span}>{monthLabel}</td>
-                    <td colSpan={4}>{t('profit.show.no_data')}</td>
+                    <td colSpan={4}>{t('profit.index.no_data')}</td>
                   </tr>
                 ) : (
                   month.rows.map((row, index) => (
@@ -75,22 +75,22 @@ export default function Profit({
                             content={
                               <>
                                 <div>
-                                  {t('profit.show.cost_breakdown.salary')}:{' '}
+                                  {t('profit.index.cost_breakdown.salary')}:{' '}
                                   {l.currency(row.salary)}
                                 </div>
                                 <div>
                                   {t(
-                                    'profit.show.cost_breakdown.payroll_taxes'
+                                    'profit.index.cost_breakdown.payroll_taxes'
                                   )}
                                   : {l.currency(row.payrollTaxes)}
                                 </div>
                                 <div>
-                                  {t('profit.show.cost_breakdown.benefits')}:{' '}
+                                  {t('profit.index.cost_breakdown.benefits')}:{' '}
                                   {l.currency(row.benefits)}
                                 </div>
                                 <div>
-                                  {t('profit.show.cost_breakdown.fixed_share')}:{' '}
-                                  {l.currency(row.fixedShare)}
+                                  {t('profit.index.cost_breakdown.fixed_share')}
+                                  : {l.currency(row.fixedShare)}
                                 </div>
                               </>
                             }
@@ -137,7 +137,7 @@ export default function Profit({
                 )}
                 <tr>
                   <td>
-                    <Text type="body-bold">{t('profit.show.total')}</Text>
+                    <Text type="body-bold">{t('profit.index.total')}</Text>
                   </td>
                   <td>
                     <Text type="body-bold" align="right">

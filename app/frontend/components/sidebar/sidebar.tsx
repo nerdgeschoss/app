@@ -71,10 +71,10 @@ export function Sidebar({ user }: Props): JSX.Element {
 
   if (user.roles.includes('hr') || user.roles.includes('admin')) {
     links.push({
-      name: 'Profit',
-      path: '/profit',
+      name: 'Profits',
+      path: '/profits',
       icon: 'profit',
-      active: path.startsWith('/profit'),
+      active: path.startsWith('/profits'),
     });
   }
 

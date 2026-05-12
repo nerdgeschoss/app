@@ -3,8 +3,8 @@
 class ProfitsController < ApplicationController
   before_action :authenticate_user!
 
-  def show
-    authorize :profit, :show?
+  def index
+    authorize :profit, :index?
     @years = ((Date.current.year - 4)..Date.current.year).to_a.reverse
     @year = @years.include?(params[:year].to_i) ? params[:year].to_i : Date.current.year
     range_end = (@year == Date.current.year) ? Date.current : Date.new(@year, 12, 31)

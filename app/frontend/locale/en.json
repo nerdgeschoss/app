@@ -158,8 +158,8 @@
     "submit": "Submit daily nerd"
   },
   "profit": {
-    "show": {
-      "title": "Profit",
+    "index": {
+      "title": "Profits",
       "columns": {
         "month": "Month",
         "user": "Employee",
