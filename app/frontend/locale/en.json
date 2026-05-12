@@ -169,6 +169,9 @@
       },
       "total": "Total",
       "no_data": "No active employees",
+      "by_user": "By employee",
+      "by_project": "By project",
+      "project_column": "Project",
       "cost_breakdown": {
         "salary": "Salary",
         "payroll_taxes": "Payroll taxes",

@@ -157,6 +157,34 @@ RSpec.describe ProfitCalculation do
       end
     end
 
+    describe "project_rows" do
+      it "aggregates revenue and hours per project for each month" do
+        january = months_by_date[Date.new(2023, 1, 20)]
+        expect(january.project_rows.size).to eq 1
+        project_row = january.project_rows.first
+        expect(project_row.project).to eq "Some Project"
+        expect(project_row.hours).to eq 1.5
+        expect(project_row.revenue).to eq 150
+      end
+
+      it "allocates user cost across projects proportionally to hours" do
+        # entry_1 puts all of john's billable hours on "Some Project", so his
+        # entire monthly cost is allocated to it.
+        january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
+        january = months_by_date[Date.new(2023, 1, 20)]
+        expect(january.project_rows.first.cost).to be_within(0.01).of(january_rows[john].cost)
+      end
+
+      it "exposes contributors with their share of hours, revenue and cost" do
+        january = months_by_date[Date.new(2023, 1, 20)]
+        contributor = january.project_rows.first.contributors.first
+        expect(contributor.user).to eq john
+        expect(contributor.hours).to eq 1.5
+        expect(contributor.revenue).to eq 150
+        expect(contributor.cost).to be > 0
+      end
+    end
+
     it "buckets entries by created_at, not start_at" do
       time_entries(:entry_1).update_columns(start_at: Time.zone.local(2023, 1, 24), created_at: Time.zone.local(2023, 2, 10))
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)

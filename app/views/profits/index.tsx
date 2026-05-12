@@ -38,6 +38,7 @@ export default function Profit({
             </Link>
           ))}
         </Stack>
+        <Text type="h2-bold">{t('profit.index.by_user')}</Text>
         <Table>
           <thead>
             <tr>
@@ -238,6 +239,139 @@ export default function Profit({
                       {l.currency(month.totalProfit)}
                     </Text>
                     {running(month.totalRunningProfit)}
+                  </td>
+                </tr>
+              </tbody>
+            );
+          })}
+        </Table>
+        <Text type="h2-bold">{t('profit.index.by_project')}</Text>
+        <Table>
+          <thead>
+            <tr>
+              <th>{t('profit.index.columns.month')}</th>
+              <th>{t('profit.index.project_column')}</th>
+              <th>
+                <Text align="right">{t('profit.index.columns.cost')}</Text>
+              </th>
+              <th>
+                <Text align="right">{t('profit.index.columns.revenue')}</Text>
+              </th>
+              <th>
+                <Text align="right">{t('profit.index.columns.profit')}</Text>
+              </th>
+            </tr>
+          </thead>
+          {months.map((month) => {
+            const span = Math.max(month.projectRows.length, 1) + 1;
+            const monthLabel = l.monthAndYear(month.date);
+            return (
+              <tbody key={`project-${month.date}`}>
+                {month.projectRows.length === 0 ? (
+                  <tr>
+                    <td rowSpan={span}>{monthLabel}</td>
+                    <td colSpan={4}>{t('profit.index.no_data')}</td>
+                  </tr>
+                ) : (
+                  month.projectRows.map((row, index) => {
+                    const costContributors = [...row.contributors]
+                      .filter((c) => c.cost > 0)
+                      .sort((a, b) => b.cost - a.cost);
+                    const revenueContributors = row.contributors.filter(
+                      (c) => c.revenue > 0 || c.hours > 0
+                    );
+                    return (
+                      <tr key={row.id}>
+                        {index === 0 && <td rowSpan={span}>{monthLabel}</td>}
+                        <td>{row.project}</td>
+                        <td>
+                          <Text align="right">
+                            {costContributors.length > 0 ? (
+                              <Tooltip
+                                content={
+                                  <>
+                                    {costContributors.map((c) => (
+                                      <div key={c.id}>
+                                        {c.user.displayName}:{' '}
+                                        {l.currency(c.cost)}
+                                      </div>
+                                    ))}
+                                  </>
+                                }
+                              >
+                                <span>{l.currency(row.cost)}</span>
+                              </Tooltip>
+                            ) : (
+                              <span>{l.currency(row.cost)}</span>
+                            )}
+                          </Text>
+                          {running(row.runningCost)}
+                        </td>
+                        <td>
+                          {revenueContributors.length > 0 ? (
+                            <Text align="right">
+                              <Tooltip
+                                content={
+                                  <>
+                                    {revenueContributors.map((c) => (
+                                      <div key={c.id}>
+                                        {c.user.displayName}: {l.hours(c.hours)}
+                                        h – {l.currency(c.revenue)}
+                                      </div>
+                                    ))}
+                                  </>
+                                }
+                              >
+                                <span>{l.currency(row.revenue)}</span>
+                              </Tooltip>
+                            </Text>
+                          ) : (
+                            <Text align="right">{l.currency(row.revenue)}</Text>
+                          )}
+                          {running(row.runningRevenue)}
+                        </td>
+                        <td>
+                          <Text
+                            align="right"
+                            color={row.profit < 0 ? 'text-warning' : undefined}
+                          >
+                            {l.currency(row.profit)}
+                          </Text>
+                          {running(row.runningProfit)}
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+                <tr>
+                  <td>
+                    <Text type="body-bold">{t('profit.index.total')}</Text>
+                  </td>
+                  <td>
+                    <Text type="body-bold" align="right">
+                      {l.currency(month.totalProjectCost)}
+                    </Text>
+                    {running(month.totalProjectRunningCost)}
+                  </td>
+                  <td>
+                    <Text type="body-bold" align="right">
+                      {l.currency(month.totalProjectRevenue)}
+                    </Text>
+                    {running(month.totalProjectRunningRevenue)}
+                  </td>
+                  <td>
+                    <Text
+                      type="body-bold"
+                      align="right"
+                      color={
+                        month.totalProjectProfit < 0
+                          ? 'text-warning'
+                          : undefined
+                      }
+                    >
+                      {l.currency(month.totalProjectProfit)}
+                    </Text>
+                    {running(month.totalProjectRunningProfit)}
                   </td>
                 </tr>
               </tbody>

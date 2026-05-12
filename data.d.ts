@@ -137,10 +137,37 @@ export interface DataSchema {
       totalRunningRevenue: number;
       totalRunningCost: number;
       totalRunningProfit: number;
+      totalProjectCost: number;
+      totalProjectRevenue: number;
+      totalProjectProfit: number;
+      totalProjectRunningRevenue: number;
+      totalProjectRunningCost: number;
+      totalProjectRunningProfit: number;
       revenueByProject: Array<{
         project: string;
         hours: number;
         revenue: number;
+      }>;
+      projectRows: Array<{
+        id: string;
+        project: string;
+        hours: number;
+        revenue: number;
+        cost: number;
+        profit: number;
+        runningRevenue: number;
+        runningCost: number;
+        runningProfit: number;
+        contributors: Array<{
+          id: string;
+          hours: number;
+          revenue: number;
+          cost: number;
+          user: {
+            id: string;
+            displayName: string;
+          };
+        }>;
       }>;
       rows: Array<{
         revenue: number;

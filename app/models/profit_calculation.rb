@@ -6,8 +6,29 @@ class ProfitCalculation
   SICK_REFUND_RATE = BigDecimal("0.7").freeze
 
   Row = Data.define(:id, :revenue, :cost, :running_revenue, :running_cost, :running_profit, :salary, :payroll_taxes, :benefits, :fixed_share, :sick_refund, :revenue_by_project, :user).freeze
-  Month = Data.define(:id, :date, :rows, :revenue_by_project, :total_running_revenue, :total_running_cost, :total_running_profit).freeze
+  Month = Data.define(:id, :date, :rows, :project_rows, :revenue_by_project,
+    :total_running_revenue, :total_running_cost, :total_running_profit,
+    :total_project_running_revenue, :total_project_running_cost, :total_project_running_profit) do
+    def total_project_revenue
+      project_rows.sum(&:revenue)
+    end
+
+    def total_project_cost
+      project_rows.sum(&:cost)
+    end
+
+    def total_project_profit
+      project_rows.sum(&:profit)
+    end
+  end.freeze
   ProjectRevenue = Data.define(:id, :project, :hours, :revenue).freeze
+  ProjectContributor = Data.define(:id, :user, :hours, :revenue, :cost).freeze
+  ProjectRow = Data.define(:id, :project, :hours, :revenue, :cost,
+    :running_revenue, :running_cost, :running_profit, :contributors) do
+    def profit
+      revenue - cost
+    end
+  end.freeze
 
   attr_reader :range
 
@@ -98,6 +119,12 @@ class ProfitCalculation
     total_running_revenue = 0
     total_running_cost = 0
     total_running_profit = 0
+    project_running_revenue = Hash.new(0)
+    project_running_cost = Hash.new(0)
+    project_running_profit = Hash.new(0)
+    total_project_running_revenue = 0
+    total_project_running_cost = 0
+    total_project_running_profit = 0
 
     month_dates.map do |month_date|
       key = month_date.beginning_of_month
@@ -154,8 +181,45 @@ class ProfitCalculation
             project:, hours: entries.sum(&:hours), revenue: entries.sum(&:revenue))
         end
         .sort_by { -_1.revenue }
-      Month.new(id: month_id, date: month_date, rows:, revenue_by_project:,
-        total_running_revenue:, total_running_cost:, total_running_profit:)
+
+      by_project = Hash.new { |h, k| h[k] = {hours: 0, revenue: 0, cost: 0, contributors: []} }
+      rows.each do |row|
+        user_total_hours = row.revenue_by_project.sum(&:hours)
+        next if user_total_hours.zero?
+
+        row.revenue_by_project.each do |pr|
+          fraction = pr.hours / user_total_hours
+          allocated_cost = (row.cost * fraction).round(2)
+          bucket = by_project[pr.project]
+          bucket[:hours] += pr.hours
+          bucket[:revenue] += pr.revenue
+          bucket[:cost] += allocated_cost
+          bucket[:contributors] << ProjectContributor.new(
+            id: "#{month_id}:project:#{pr.project}:#{row.user.id}",
+            user: row.user, hours: pr.hours, revenue: pr.revenue, cost: allocated_cost
+          )
+        end
+      end
+      project_rows = by_project.map do |project, sums|
+        project_running_revenue[project] += sums[:revenue]
+        project_running_cost[project] += sums[:cost]
+        project_running_profit[project] += sums[:revenue] - sums[:cost]
+        total_project_running_revenue += sums[:revenue]
+        total_project_running_cost += sums[:cost]
+        total_project_running_profit += sums[:revenue] - sums[:cost]
+        ProjectRow.new(
+          id: "#{month_id}:project:#{project}",
+          project:, hours: sums[:hours], revenue: sums[:revenue], cost: sums[:cost],
+          running_revenue: project_running_revenue[project],
+          running_cost: project_running_cost[project],
+          running_profit: project_running_profit[project],
+          contributors: sums[:contributors].sort_by { -_1.revenue }
+        )
+      end.sort_by { -_1.revenue }
+
+      Month.new(id: month_id, date: month_date, rows:, project_rows:, revenue_by_project:,
+        total_running_revenue:, total_running_cost:, total_running_profit:,
+        total_project_running_revenue:, total_project_running_cost:, total_project_running_profit:)
     end
   end
 

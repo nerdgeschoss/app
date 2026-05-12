@@ -17,10 +17,37 @@ field :months, array: true, value: -> { @months } do
   field :total_running_revenue, Float
   field :total_running_cost, Float
   field :total_running_profit, Float
+  field :total_project_cost, Float
+  field :total_project_revenue, Float
+  field :total_project_profit, Float
+  field :total_project_running_revenue, Float
+  field :total_project_running_cost, Float
+  field :total_project_running_profit, Float
   field :revenue_by_project, array: true do
     field :project
     field :hours, Float
     field :revenue, Float
+  end
+  field :project_rows, array: true do
+    field :id
+    field :project
+    field :hours, Float
+    field :revenue, Float
+    field :cost, Float
+    field :profit, Float
+    field :running_revenue, Float
+    field :running_cost, Float
+    field :running_profit, Float
+    field :contributors, array: true do
+      field :id
+      field :hours, Float
+      field :revenue, Float
+      field :cost, Float
+      field :user do
+        field :id
+        field :display_name
+      end
+    end
   end
   field :rows, array: true do
     field :revenue, Float

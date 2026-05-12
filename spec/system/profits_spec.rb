@@ -16,6 +16,8 @@ RSpec.describe "Profits" do
     expect(page).to have_content("Profits")
     expect(page).to have_content("January 2026")
     expect(page).to have_content("Total")
+    expect(page).to have_content("By employee")
+    expect(page).to have_content("By project")
   end
 
   it "offers year filter pills for the last 5 years and switches the range" do

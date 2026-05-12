@@ -98,9 +98,7 @@ export default function ({
                         <div>
                           <Property
                             prefix="💸"
-                            value={l.currency(
-                              sprint.revenuePerStorypoint
-                            )}
+                            value={l.currency(sprint.revenuePerStorypoint)}
                             suffix="per point"
                           />
                         </div>
