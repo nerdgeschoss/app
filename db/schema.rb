@@ -123,7 +123,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_11_120000) do
     t.datetime "updated_at", null: false
     t.date "valid_from", null: false
     t.boolean "employee", default: true, null: false
-    t.boolean "deutschlandticket", default: false, null: false
+    t.decimal "deutschlandticket", default: "0.0", null: false
     t.index ["user_id"], name: "index_salaries_on_user_id"
   end
 

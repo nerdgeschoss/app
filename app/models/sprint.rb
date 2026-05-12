@@ -20,7 +20,13 @@ class Sprint < ApplicationRecord
   has_many :tasks, dependent: :nullify
 
   scope :reverse_chronologic, -> { order("UPPER(sprints.sprint_during) DESC") }
-  scope :active_at, ->(date) { where("?::date <@ sprints.sprint_during", date) }
+  scope :active_at, ->(value) {
+    if value.is_a?(Range)
+      where("daterange(?, ?, '[]') && sprints.sprint_during", value.begin, value.end)
+    else
+      where("?::date <@ sprints.sprint_during", value)
+    end
+  }
   scope :start_on, ->(date) { where("?::date = LOWER(sprints.sprint_during)", date) }
   scope :before, ->(date) { where("?::date > LOWER(sprints.sprint_during)", date) }
   scope :current, -> { active_at(DateTime.current) }
