@@ -20,6 +20,7 @@ export default function Profit({
       <Text
         type="caption-secondary-regular"
         color={value < 0 ? 'text-warning' : 'label-body-secondary'}
+        align="right"
       >
         {l.currency(value)}
       </Text>
@@ -42,9 +43,15 @@ export default function Profit({
             <tr>
               <th>{t('profit.show.columns.month')}</th>
               <th>{t('profit.show.columns.user')}</th>
-              <th>{t('profit.show.columns.cost')}</th>
-              <th>{t('profit.show.columns.revenue')}</th>
-              <th>{t('profit.show.columns.profit')}</th>
+              <th>
+                <Text align="right">{t('profit.show.columns.cost')}</Text>
+              </th>
+              <th>
+                <Text align="right">{t('profit.show.columns.revenue')}</Text>
+              </th>
+              <th>
+                <Text align="right">{t('profit.show.columns.profit')}</Text>
+              </th>
             </tr>
           </thead>
           {months.map((month) => {
@@ -63,55 +70,62 @@ export default function Profit({
                       {index === 0 && <td rowSpan={span}>{monthLabel}</td>}
                       <td>{row.user.displayName}</td>
                       <td>
-                        <Tooltip
-                          content={
-                            <>
-                              <div>
-                                {t('profit.show.cost_breakdown.salary')}:{' '}
-                                {l.currency(row.salary)}
-                              </div>
-                              <div>
-                                {t('profit.show.cost_breakdown.payroll_taxes')}:{' '}
-                                {l.currency(row.payrollTaxes)}
-                              </div>
-                              <div>
-                                {t('profit.show.cost_breakdown.benefits')}:{' '}
-                                {l.currency(row.benefits)}
-                              </div>
-                              <div>
-                                {t('profit.show.cost_breakdown.fixed_share')}:{' '}
-                                {l.currency(row.fixedShare)}
-                              </div>
-                            </>
-                          }
-                        >
-                          <span>{l.currency(row.cost)}</span>
-                        </Tooltip>
+                        <Text align="right">
+                          <Tooltip
+                            content={
+                              <>
+                                <div>
+                                  {t('profit.show.cost_breakdown.salary')}:{' '}
+                                  {l.currency(row.salary)}
+                                </div>
+                                <div>
+                                  {t(
+                                    'profit.show.cost_breakdown.payroll_taxes',
+                                  )}
+                                  : {l.currency(row.payrollTaxes)}
+                                </div>
+                                <div>
+                                  {t('profit.show.cost_breakdown.benefits')}:{' '}
+                                  {l.currency(row.benefits)}
+                                </div>
+                                <div>
+                                  {t('profit.show.cost_breakdown.fixed_share')}:{' '}
+                                  {l.currency(row.fixedShare)}
+                                </div>
+                              </>
+                            }
+                          >
+                            <span>{l.currency(row.cost)}</span>
+                          </Tooltip>
+                        </Text>
                         {running(row.runningCost)}
                       </td>
                       <td>
                         {row.revenueByProject.length > 0 ? (
-                          <Tooltip
-                            content={
-                              <>
-                                {row.revenueByProject.map((p) => (
-                                  <div key={p.project}>
-                                    {p.project}: {l.hours(p.hours)}h –{' '}
-                                    {l.currency(p.revenue)}
-                                  </div>
-                                ))}
-                              </>
-                            }
-                          >
-                            <span>{l.currency(row.revenue)}</span>
-                          </Tooltip>
+                          <Text align="right">
+                            <Tooltip
+                              content={
+                                <>
+                                  {row.revenueByProject.map((p) => (
+                                    <div key={p.project}>
+                                      {p.project}: {l.hours(p.hours)}h –{' '}
+                                      {l.currency(p.revenue)}
+                                    </div>
+                                  ))}
+                                </>
+                              }
+                            >
+                              <span>{l.currency(row.revenue)}</span>
+                            </Tooltip>
+                          </Text>
                         ) : (
-                          l.currency(row.revenue)
+                          <Text align="right">{l.currency(row.revenue)}</Text>
                         )}
                         {running(row.runningRevenue)}
                       </td>
                       <td>
                         <Text
+                          align="right"
                           color={row.profit < 0 ? 'text-warning' : undefined}
                         >
                           {l.currency(row.profit)}
@@ -126,29 +140,33 @@ export default function Profit({
                     <Text type="body-bold">{t('profit.show.total')}</Text>
                   </td>
                   <td>
-                    <Text type="body-bold">{l.currency(month.totalCost)}</Text>
+                    <Text type="body-bold" align="right">
+                      {l.currency(month.totalCost)}
+                    </Text>
                     {running(month.totalRunningCost)}
                   </td>
                   <td>
                     {month.revenueByProject.length > 0 ? (
-                      <Tooltip
-                        content={
-                          <>
-                            {month.revenueByProject.map((p) => (
-                              <div key={p.project}>
-                                {p.project}: {l.hours(p.hours)}h –{' '}
-                                {l.currency(p.revenue)}
-                              </div>
-                            ))}
-                          </>
-                        }
-                      >
-                        <Text type="body-bold">
-                          {l.currency(month.totalRevenue)}
-                        </Text>
-                      </Tooltip>
+                      <Text align="right">
+                        <Tooltip
+                          content={
+                            <>
+                              {month.revenueByProject.map((p) => (
+                                <div key={p.project}>
+                                  {p.project}: {l.hours(p.hours)}h –{' '}
+                                  {l.currency(p.revenue)}
+                                </div>
+                              ))}
+                            </>
+                          }
+                        >
+                          <Text type="body-bold">
+                            {l.currency(month.totalRevenue)}
+                          </Text>
+                        </Tooltip>
+                      </Text>
                     ) : (
-                      <Text type="body-bold">
+                      <Text type="body-bold" align="right">
                         {l.currency(month.totalRevenue)}
                       </Text>
                     )}
@@ -157,6 +175,7 @@ export default function Profit({
                   <td>
                     <Text
                       type="body-bold"
+                      align="right"
                       color={month.totalProfit < 0 ? 'text-warning' : undefined}
                     >
                       {l.currency(month.totalProfit)}
