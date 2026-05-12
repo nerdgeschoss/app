@@ -129,10 +129,12 @@ export interface DataSchema {
       totalCost: number;
       totalRevenue: number;
       totalProfit: number;
+      totalRunning: number;
       rows: Array<{
         revenue: number;
         cost: number;
         profit: number;
+        running: number;
         user: {
           id: string;
           displayName: string;

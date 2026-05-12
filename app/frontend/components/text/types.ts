@@ -111,7 +111,8 @@ export type Color =
   | 'tooltip-hours-label-default'
   | 'tooltip-label-default'
   | 'text-text-primary-base'
-  | 'status-pill-done';
+  | 'status-pill-done'
+  | 'text-warning';
 
 export type TextType =
   | 'body-bold'

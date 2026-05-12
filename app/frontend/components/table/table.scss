@@ -1,0 +1,31 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border: 1px solid var(--div-default);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 14px;
+
+  thead th {
+    text-align: left;
+    font-weight: 400;
+    color: var(--label-body-secondary);
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--div-default);
+  }
+
+  tbody td {
+    padding: 16px 24px;
+    color: var(--label-body-primary);
+    vertical-align: top;
+  }
+
+  tbody {
+    border-bottom: 1px solid var(--div-default);
+  }
+
+  tbody:last-child {
+    border-bottom: none;
+  }
+}

@@ -4,8 +4,8 @@ class ProfitCalculation
   EMPLOYER_SURCHARGE = BigDecimal("1.21").freeze
   FIXED_COSTS_PER_MONTH = BigDecimal(10000).freeze
 
-  Row = Data.define(:revenue, :cost, :user).freeze
-  Month = Data.define(:date, :rows).freeze
+  Row = Data.define(:revenue, :cost, :running, :user).freeze
+  Month = Data.define(:date, :rows, :total_running).freeze
 
   attr_reader :range
 
@@ -34,6 +34,9 @@ class ProfitCalculation
       .order(:valid_from)
       .group_by(&:user_id)
 
+    user_running = Hash.new(0)
+    total_running = 0
+
     month_dates.map do |month_date|
       key = month_date.beginning_of_month
       slice_end = [month_date.end_of_month, range.end].min
@@ -54,9 +57,15 @@ class ProfitCalculation
           0
         end
 
-        Row.new(revenue: revenue_lookup[[user.id, key]] || 0, cost: (salary_cost + fixed_share).round(2), user:)
+        revenue = revenue_lookup[[user.id, key]] || 0
+        cost = (salary_cost + fixed_share).round(2)
+        profit = revenue - cost
+        user_running[user.id] += profit
+        total_running += profit
+
+        Row.new(revenue:, cost:, running: user_running[user.id], user:)
       end
-      Month.new(date: month_date, rows:)
+      Month.new(date: month_date, rows:, total_running:)
     end
   end
 

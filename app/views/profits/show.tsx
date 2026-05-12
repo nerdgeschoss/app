@@ -3,6 +3,7 @@ import { PageProps } from '../../../data.d';
 import { Layout } from '../../frontend/components/layout/layout';
 import { Pill } from '../../frontend/components/pill/pill';
 import { Stack } from '../../frontend/components/stack/stack';
+import { Table } from '../../frontend/components/table/table';
 import { Text } from '../../frontend/components/text/text';
 import { Link } from '../../frontend/sprinkles/history';
 import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
@@ -24,7 +25,7 @@ export default function Profit({
             </Link>
           ))}
         </Stack>
-        <table className="profit__table">
+        <Table>
           <thead>
             <tr>
               <th>{t('profit.show.columns.month')}</th>
@@ -32,41 +33,78 @@ export default function Profit({
               <th>{t('profit.show.columns.cost')}</th>
               <th>{t('profit.show.columns.revenue')}</th>
               <th>{t('profit.show.columns.profit')}</th>
+              <th>{t('profit.show.columns.running')}</th>
             </tr>
           </thead>
-          <tbody>
-            {months.map((month) => {
-              const span = Math.max(month.rows.length, 1) + 1;
-              const monthLabel = l.monthAndYear(month.date);
-              return (
-                <React.Fragment key={month.date}>
-                  {month.rows.length === 0 ? (
-                    <tr>
-                      <td rowSpan={span}>{monthLabel}</td>
-                      <td colSpan={4}>{t('profit.show.no_data')}</td>
-                    </tr>
-                  ) : (
-                    month.rows.map((row, index) => (
-                      <tr key={row.user.id}>
-                        {index === 0 && <td rowSpan={span}>{monthLabel}</td>}
-                        <td>{row.user.displayName}</td>
-                        <td>{l.currency(row.cost)}</td>
-                        <td>{l.currency(row.revenue)}</td>
-                        <td>{l.currency(row.profit)}</td>
-                      </tr>
-                    ))
-                  )}
+          {months.map((month) => {
+            const span = Math.max(month.rows.length, 1) + 1;
+            const monthLabel = l.monthAndYear(month.date);
+            return (
+              <tbody key={month.date}>
+                {month.rows.length === 0 ? (
                   <tr>
-                    <td>{t('profit.show.total')}</td>
-                    <td>{l.currency(month.totalCost)}</td>
-                    <td>{l.currency(month.totalRevenue)}</td>
-                    <td>{l.currency(month.totalProfit)}</td>
+                    <td rowSpan={span}>{monthLabel}</td>
+                    <td colSpan={5}>{t('profit.show.no_data')}</td>
                   </tr>
-                </React.Fragment>
-              );
-            })}
-          </tbody>
-        </table>
+                ) : (
+                  month.rows.map((row, index) => (
+                    <tr key={row.user.id}>
+                      {index === 0 && <td rowSpan={span}>{monthLabel}</td>}
+                      <td>{row.user.displayName}</td>
+                      <td>{l.currency(row.cost)}</td>
+                      <td>{l.currency(row.revenue)}</td>
+                      <td>
+                        <Text
+                          color={row.profit < 0 ? 'text-warning' : undefined}
+                        >
+                          {l.currency(row.profit)}
+                        </Text>
+                      </td>
+                      <td>
+                        <Text
+                          color={row.running < 0 ? 'text-warning' : undefined}
+                        >
+                          {l.currency(row.running)}
+                        </Text>
+                      </td>
+                    </tr>
+                  ))
+                )}
+                <tr>
+                  <td>
+                    <Text type="body-bold">{t('profit.show.total')}</Text>
+                  </td>
+                  <td>
+                    <Text type="body-bold">{l.currency(month.totalCost)}</Text>
+                  </td>
+                  <td>
+                    <Text type="body-bold">
+                      {l.currency(month.totalRevenue)}
+                    </Text>
+                  </td>
+                  <td>
+                    <Text
+                      type="body-bold"
+                      color={month.totalProfit < 0 ? 'text-warning' : undefined}
+                    >
+                      {l.currency(month.totalProfit)}
+                    </Text>
+                  </td>
+                  <td>
+                    <Text
+                      type="body-bold"
+                      color={
+                        month.totalRunning < 0 ? 'text-warning' : undefined
+                      }
+                    >
+                      {l.currency(month.totalRunning)}
+                    </Text>
+                  </td>
+                </tr>
+              </tbody>
+            );
+          })}
+        </Table>
       </Stack>
     </Layout>
   );

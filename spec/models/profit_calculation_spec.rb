@@ -66,6 +66,24 @@ RSpec.describe ProfitCalculation do
       expect(january_rows[users(:cigdem)].cost).to be_within(0.01).of(10000 * 12 / 31.0 / 5)
     end
 
+    it "accumulates each user's running profit across months" do
+      january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
+      february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
+      january_profit = january_rows[john].revenue - january_rows[john].cost
+      february_profit = february_rows[john].revenue - february_rows[john].cost
+      expect(january_rows[john].running).to eq january_profit
+      expect(february_rows[john].running).to be_within(0.01).of(january_profit + february_profit)
+    end
+
+    it "accumulates the total monthly profit across months" do
+      january = months_by_date[Date.new(2023, 1, 20)]
+      february = months_by_date[Date.new(2023, 2, 1)]
+      january_total = january.rows.sum { _1.revenue - _1.cost }
+      february_total = february.rows.sum { _1.revenue - _1.cost }
+      expect(january.total_running).to eq january_total
+      expect(february.total_running).to be_within(0.01).of(january_total + february_total)
+    end
+
     it "computes revenue as rounded_hours * billable_rate for billable entries in that month" do
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)

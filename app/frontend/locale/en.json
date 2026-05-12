@@ -164,7 +164,8 @@
         "user": "Employee",
         "cost": "Cost",
         "revenue": "Revenue",
-        "profit": "Profit"
+        "profit": "Profit",
+        "running": "Running"
       },
       "total": "Total",
       "no_data": "No active employees"
