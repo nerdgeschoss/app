@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_many :leaves, dependent: :destroy, class_name: "Leave"
   has_many :sprint_feedbacks, dependent: :destroy
   has_many :salaries, dependent: :destroy
+  has_many :time_entries, dependent: :destroy
   has_many :task_users, dependent: :delete_all
   has_many :tasks, through: :task_users
   has_many :inventories, dependent: :destroy

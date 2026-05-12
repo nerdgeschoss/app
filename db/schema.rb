@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_14_083640) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_11_120000) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -122,6 +122,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_14_083640) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "valid_from", null: false
+    t.boolean "employee", default: true, null: false
+    t.boolean "deutschlandticket", default: false, null: false
     t.index ["user_id"], name: "index_salaries_on_user_id"
   end
 
