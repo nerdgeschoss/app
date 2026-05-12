@@ -130,4 +130,8 @@ class Sprint < ApplicationRecord
 
     ratings.sum / ratings.size.to_f
   end
+
+  def profit_report
+    @profit_report ||= ProfitCalculation.new(sprint_during)
+  end
 end

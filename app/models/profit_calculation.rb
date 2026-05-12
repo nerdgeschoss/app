@@ -19,6 +19,12 @@ class ProfitCalculation
   end
 
   def months
+    @months ||= compute_months
+  end
+
+  private
+
+  def compute_months
     breakdown = TimeEntry.billable
       .where(created_at: range.begin.beginning_of_day..range.end.end_of_day)
       .group(:user_id, Arel.sql("date_trunc('month', created_at)::date"), :project_name)
@@ -114,8 +120,6 @@ class ProfitCalculation
         total_running_revenue:, total_running_cost:, total_running_profit:)
     end
   end
-
-  private
 
   def month_dates
     [].tap do |result|
