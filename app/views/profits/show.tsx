@@ -15,6 +15,14 @@ export default function Profit({
   const t = useTranslate();
   const l = useFormatter();
 
+  function running(value: number): JSX.Element {
+    return (
+      <Text type="caption-secondary-regular" color="label-body-secondary">
+        {l.currency(value)}
+      </Text>
+    );
+  }
+
   return (
     <Layout user={currentUser} container>
       <Stack>
@@ -34,7 +42,6 @@ export default function Profit({
               <th>{t('profit.show.columns.cost')}</th>
               <th>{t('profit.show.columns.revenue')}</th>
               <th>{t('profit.show.columns.profit')}</th>
-              <th>{t('profit.show.columns.running')}</th>
             </tr>
           </thead>
           {months.map((month) => {
@@ -45,7 +52,7 @@ export default function Profit({
                 {month.rows.length === 0 ? (
                   <tr>
                     <td rowSpan={span}>{monthLabel}</td>
-                    <td colSpan={5}>{t('profit.show.no_data')}</td>
+                    <td colSpan={4}>{t('profit.show.no_data')}</td>
                   </tr>
                 ) : (
                   month.rows.map((row, index) => (
@@ -77,6 +84,7 @@ export default function Profit({
                         >
                           <span>{l.currency(row.cost)}</span>
                         </Tooltip>
+                        {running(row.runningCost)}
                       </td>
                       <td>
                         {row.revenueByProject.length > 0 ? (
@@ -97,6 +105,7 @@ export default function Profit({
                         ) : (
                           l.currency(row.revenue)
                         )}
+                        {running(row.runningRevenue)}
                       </td>
                       <td>
                         <Text
@@ -104,13 +113,7 @@ export default function Profit({
                         >
                           {l.currency(row.profit)}
                         </Text>
-                      </td>
-                      <td>
-                        <Text
-                          color={row.running < 0 ? 'text-warning' : undefined}
-                        >
-                          {l.currency(row.running)}
-                        </Text>
+                        {running(row.runningProfit)}
                       </td>
                     </tr>
                   ))
@@ -121,11 +124,13 @@ export default function Profit({
                   </td>
                   <td>
                     <Text type="body-bold">{l.currency(month.totalCost)}</Text>
+                    {running(month.totalRunningCost)}
                   </td>
                   <td>
                     <Text type="body-bold">
                       {l.currency(month.totalRevenue)}
                     </Text>
+                    {running(month.totalRunningRevenue)}
                   </td>
                   <td>
                     <Text
@@ -134,16 +139,7 @@ export default function Profit({
                     >
                       {l.currency(month.totalProfit)}
                     </Text>
-                  </td>
-                  <td>
-                    <Text
-                      type="body-bold"
-                      color={
-                        month.totalRunning < 0 ? 'text-warning' : undefined
-                      }
-                    >
-                      {l.currency(month.totalRunning)}
-                    </Text>
+                    {running(month.totalRunningProfit)}
                   </td>
                 </tr>
               </tbody>

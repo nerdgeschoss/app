@@ -66,22 +66,38 @@ RSpec.describe ProfitCalculation do
       expect(january_rows[users(:cigdem)].cost).to be_within(0.01).of(10000 * 12 / 31.0 / 5)
     end
 
-    it "accumulates each user's running profit across months" do
+    it "accumulates each user's running revenue, cost and profit across months" do
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
-      january_profit = january_rows[john].revenue - january_rows[john].cost
-      february_profit = february_rows[john].revenue - february_rows[john].cost
-      expect(january_rows[john].running).to eq january_profit
-      expect(february_rows[john].running).to be_within(0.01).of(january_profit + february_profit)
+      january_row = january_rows[john]
+      february_row = february_rows[john]
+
+      expect(january_row.running_revenue).to eq january_row.revenue
+      expect(january_row.running_cost).to eq january_row.cost
+      expect(january_row.running_profit).to eq january_row.revenue - january_row.cost
+
+      expect(february_row.running_revenue).to be_within(0.01).of(january_row.revenue + february_row.revenue)
+      expect(february_row.running_cost).to be_within(0.01).of(january_row.cost + february_row.cost)
+      expect(february_row.running_profit).to be_within(0.01).of(
+        (january_row.revenue - january_row.cost) + (february_row.revenue - february_row.cost)
+      )
     end
 
-    it "accumulates the total monthly profit across months" do
+    it "accumulates the total monthly revenue, cost and profit across months" do
       january = months_by_date[Date.new(2023, 1, 20)]
       february = months_by_date[Date.new(2023, 2, 1)]
-      january_total = january.rows.sum { _1.revenue - _1.cost }
-      february_total = february.rows.sum { _1.revenue - _1.cost }
-      expect(january.total_running).to eq january_total
-      expect(february.total_running).to be_within(0.01).of(january_total + february_total)
+      jan_revenue = january.rows.sum(&:revenue)
+      jan_cost = january.rows.sum(&:cost)
+      feb_revenue = february.rows.sum(&:revenue)
+      feb_cost = february.rows.sum(&:cost)
+
+      expect(january.total_running_revenue).to eq jan_revenue
+      expect(january.total_running_cost).to eq jan_cost
+      expect(january.total_running_profit).to eq jan_revenue - jan_cost
+
+      expect(february.total_running_revenue).to be_within(0.01).of(jan_revenue + feb_revenue)
+      expect(february.total_running_cost).to be_within(0.01).of(jan_cost + feb_cost)
+      expect(february.total_running_profit).to be_within(0.01).of((jan_revenue - jan_cost) + (feb_revenue - feb_cost))
     end
 
     it "computes revenue as rounded_hours * billable_rate for billable entries in that month" do

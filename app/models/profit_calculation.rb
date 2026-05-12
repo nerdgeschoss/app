@@ -4,8 +4,8 @@ class ProfitCalculation
   EMPLOYER_SURCHARGE = BigDecimal("1.21").freeze
   FIXED_COSTS_PER_MONTH = BigDecimal(10000).freeze
 
-  Row = Data.define(:revenue, :cost, :running, :salary, :payroll_taxes, :benefits, :fixed_share, :revenue_by_project, :user).freeze
-  Month = Data.define(:date, :rows, :total_running).freeze
+  Row = Data.define(:revenue, :cost, :running_revenue, :running_cost, :running_profit, :salary, :payroll_taxes, :benefits, :fixed_share, :revenue_by_project, :user).freeze
+  Month = Data.define(:date, :rows, :total_running_revenue, :total_running_cost, :total_running_profit).freeze
   ProjectRevenue = Data.define(:project, :hours, :revenue).freeze
 
   attr_reader :range
@@ -47,8 +47,12 @@ class ProfitCalculation
       .order(:valid_from)
       .group_by(&:user_id)
 
-    user_running = Hash.new(0)
-    total_running = 0
+    user_running_revenue = Hash.new(0)
+    user_running_cost = Hash.new(0)
+    user_running_profit = Hash.new(0)
+    total_running_revenue = 0
+    total_running_cost = 0
+    total_running_profit = 0
 
     month_dates.map do |month_date|
       key = month_date.beginning_of_month
@@ -77,14 +81,22 @@ class ProfitCalculation
         rounded_fixed_share = fixed_share.round(2)
         cost = salary_amount + payroll_taxes + benefits + rounded_fixed_share
         profit = revenue - cost
-        user_running[user.id] += profit
-        total_running += profit
+        user_running_revenue[user.id] += revenue
+        user_running_cost[user.id] += cost
+        user_running_profit[user.id] += profit
+        total_running_revenue += revenue
+        total_running_cost += cost
+        total_running_profit += profit
 
-        Row.new(revenue:, cost:, running: user_running[user.id],
+        Row.new(revenue:, cost:,
+          running_revenue: user_running_revenue[user.id],
+          running_cost: user_running_cost[user.id],
+          running_profit: user_running_profit[user.id],
           salary: salary_amount, payroll_taxes:, benefits:, fixed_share: rounded_fixed_share,
           revenue_by_project: projects_lookup[[user.id, key]], user:)
       end
-      Month.new(date: month_date, rows:, total_running:)
+      Month.new(date: month_date, rows:,
+        total_running_revenue:, total_running_cost:, total_running_profit:)
     end
   end
 
