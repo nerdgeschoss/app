@@ -39,6 +39,28 @@ RSpec.describe Github do
                               "login": "john"
                             }
                           ]
+                        },
+                        "comments": {
+                          "nodes": [
+                            {
+                              "body": "# Shaping Notes\n\nDo it like this and not like that."
+                            },
+                            {
+                              "body": "I also have a comment on this issue!"
+                            }
+                          ]
+                        },
+                        "closedByPullRequestsReferences": {
+                          "nodes": [
+                            {
+                              "number": 123,
+                              "body": "# QA Notes\n\nHere, look at this cool review app."
+                            },
+                            {
+                              "number": 124,
+                              "body": "# QA Notes\n\nWe need to also merge this PR after merging #123."
+                            }
+                          ]
                         }
                       },
                       "name": {
@@ -84,7 +106,12 @@ RSpec.describe Github do
       project_item_full, project_item_partial = Github.new.sprint_board_items.first(2)
 
       expect(project_item_full).to have_attributes id: "I_kwDOHqBmEs5py4Jr", title: "APP-777 - Implement Banner and QR Code",
-        assignee_logins: ["john"], repository: "nerdgeschoss/some-project", issue_number: 157, sprint_title: "S2023-13", status: "Done", points: 3
+        assignee_logins: ["john"], repository: "nerdgeschoss/some-project", issue_number: 157, sprint_title: "S2023-13", status: "Done", points: 3,
+        issue_comments: ["# Shaping Notes\n\nDo it like this and not like that.", "I also have a comment on this issue!"],
+        pr_bodies: [
+          {number: 123, body: "# QA Notes\n\nHere, look at this cool review app."},
+          {number: 124, body: "# QA Notes\n\nWe need to also merge this PR after merging #123."}
+        ]
       expect(project_item_partial).to have_attributes id: "I_123", title: "APP-123 - Draft",
         assignee_logins: [], repository: nil, issue_number: nil, sprint_title: nil, status: nil, points: nil
     end
