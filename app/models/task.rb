@@ -102,7 +102,7 @@ class Task < ApplicationRecord
     private
 
     def extract_shaping_notes(issue_comments)
-      (issue_comments.presence || []).find { it.lines.first.downcase.gsub(/\s+/, "").include?("#shaping") }
+      (issue_comments.presence || []).find { |issue_comment| issue_comment.lines.first.downcase.gsub(/\s+/, "").include?("#shaping") }
     end
 
     def extract_qa_notes(pull_requests)
