@@ -45,7 +45,7 @@ RSpec.describe Task do
             "#Shaping Notes\n\nDo it like this and not like that.",
             "I also have a comment on this issue!"
           ],
-          pr_bodies: [
+          pull_requests: [
             {number: 123, body: "# QA Notes\n\nHere, look at this cool review app."},
             {number: 124, body: "# QA Notes\n\nWe need to also merge this PR after merging #123."}
           ]

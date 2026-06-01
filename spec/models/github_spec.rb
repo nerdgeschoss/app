@@ -108,7 +108,7 @@ RSpec.describe Github do
       expect(project_item_full).to have_attributes id: "I_kwDOHqBmEs5py4Jr", title: "APP-777 - Implement Banner and QR Code",
         assignee_logins: ["john"], repository: "nerdgeschoss/some-project", issue_number: 157, sprint_title: "S2023-13", status: "Done", points: 3,
         issue_comments: ["# Shaping Notes\n\nDo it like this and not like that.", "I also have a comment on this issue!"],
-        pr_bodies: [
+        pull_requests: [
           {number: 123, body: "# QA Notes\n\nHere, look at this cool review app."},
           {number: 124, body: "# QA Notes\n\nWe need to also merge this PR after merging #123."}
         ]

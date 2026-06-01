@@ -54,7 +54,7 @@ class Task < ApplicationRecord
           project_id: project_ids_by_repository[gt.repository],
           labels: gt.labels,
           shaping_notes: extract_shaping_notes(gt.issue_comments),
-          qa_notes: extract_qa_notes(gt.pr_bodies)
+          qa_notes: extract_qa_notes(gt.pull_requests)
         }
       end
 
@@ -105,11 +105,11 @@ class Task < ApplicationRecord
       (issue_comments.presence || []).find { it.lines.first.downcase.gsub(/\s+/, "").include?("#shaping") }
     end
 
-    def extract_qa_notes(pr_bodies)
-      qa_notes = pr_bodies.presence || []
-      qa_notes.sort! { it[:number] }
+    def extract_qa_notes(pull_requests)
+      qa_notes = pull_requests.presence || []
+      qa_notes.sort! { |pull_request| pull_request[:number] }
       qa_notes.reverse!
-      qa_notes.map! { it[:body] }
+      qa_notes.map! { |pull_request| pull_request[:body] }
       qa_notes.join("\n\n")
     end
   end
