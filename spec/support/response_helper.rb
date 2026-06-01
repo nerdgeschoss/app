@@ -12,7 +12,7 @@ module ResponseHelper
   end
 
   def json
-    @json ||= (response.body.presence&.then { |body| JSON.parse(body, object_class: OpenStruct) })
+    @json ||= response.body.presence&.then { |body| JSON.parse(body, object_class: OpenStruct) }
   end
 
   def pjson

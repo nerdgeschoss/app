@@ -4,7 +4,7 @@ AllCops:
 inherit_gem:
   shimmer: config/rubocop_base.yml
 
-require:
+plugins:
   - rubocop-rspec
 
 RSpec:

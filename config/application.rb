@@ -31,7 +31,7 @@ module TestApp
       current_graphql_field: -> { GraphQL::Current.field&.path },
       current_dataloader_source: -> { GraphQL::Current.dataloader_source_class }
     ]
-    config.load_defaults 8.0
+    config.load_defaults 8.1
     config.time_zone = "Berlin"
     host = if ENV["HOST"].present?
       ENV["HOST"]

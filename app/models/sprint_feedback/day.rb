@@ -13,15 +13,15 @@ class SprintFeedback::Day
   end
 
   def daily_nerd_message
-    @daily_nerd_message ||= sprint_feedback.daily_nerd_messages.find { _1.created_at.to_date == day }
+    @daily_nerd_message ||= sprint_feedback.daily_nerd_messages.find { it.created_at.to_date == day }
   end
 
   def leave
-    @leave ||= sprint_feedback.leaves.find { _1.days.include?(day) }
+    @leave ||= sprint_feedback.leaves.find { it.days.include?(day) }
   end
 
   def time_entries
-    @time_entries ||= sprint_feedback.sprint.time_entries.filter { _1.created_at.to_date == day && _1.user_id == sprint_feedback.user_id }.sort_by { _1.start_at || Time.zone.now }
+    @time_entries ||= sprint_feedback.sprint.time_entries.filter { it.created_at.to_date == day && it.user_id == sprint_feedback.user_id }.sort_by { it.start_at || Time.zone.now }
   end
 
   def has_time_entries?

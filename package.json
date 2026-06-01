@@ -9,38 +9,39 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@nerdgeschoss/react-use-form-library": "^0.0.70",
-    "@nerdgeschoss/shimmer-component-collapse": "^0.0.5",
-    "@nerdgeschoss/shimmer-component-stack": "^0.0.5",
+    "@nerdgeschoss/react-use-form-library": "^0.0.71",
+    "@nerdgeschoss/shimmer-component-collapse": "^0.1.0",
+    "@nerdgeschoss/shimmer-component-stack": "^0.1.0",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
     "@types/react-flatpickr": "^3.8.11",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^6.0.2",
     "classnames": "^2.5.1",
     "i18n-js": "^4.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-flatpickr": "^3.10.13",
+    "react-flatpickr": "^4.0.11",
     "sass": "^1.83.1",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.7",
-    "vite-plugin-rails": "^0.5.0"
+    "typescript": "^6.0.3",
+    "vite": "^8.0.0",
+    "vite-plugin-rails": "^0.6.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "eslint": "^9.17.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.3",
-    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "playwright": "~1.60.0",
     "prettier": "^3.4.2",
+    "rollup": "^4.61.0",
     "typescript-eslint": "^8.19.0",
-    "vite-plugin-ruby": "^5.1.0",
-    "playwright": "~1.50.0"
+    "vite-plugin-ruby": "^5.2.0"
   },
-  "volta": {
-    "node": "18.19.1",
-    "yarn": "1.22.22"
-  }
+  "engines": {
+    "node": "~> 24.15.0"
+  },
+  "packageManager": "yarn@1.22.22+sha256.c17d3797fb9a9115bf375e31bfd30058cac6bc9c3b8807a3d8cb2094794b51ca"
 }

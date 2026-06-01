@@ -23,7 +23,7 @@ field :sprints, array: true, value: -> { @sprints } do
     field :points_per_working_day, Float
   end
 
-  field :retro_notes, array: true, value: -> { sprint_feedbacks.sort_by { _1.user.display_name } } do
+  field :retro_notes, array: true, value: -> { sprint_feedbacks.sort_by { it.user.display_name } } do
     field :id
     field :retro_text, null: true
     field :retro_rating, Integer, null: true
@@ -34,7 +34,7 @@ field :sprints, array: true, value: -> { @sprints } do
   end
 
   field :profit_rows, array: true,
-    value: -> { root(&:current_user).role?(:hr) ? profit_report.aggregate_rows.sort_by { _1.user.display_name } : [] } do
+    value: -> { root(&:current_user).role?(:hr) ? profit_report.aggregate_rows.sort_by { it.user.display_name } : [] } do
     field :id
     field :revenue, Float
     field :cost, Float
@@ -55,7 +55,7 @@ field :sprints, array: true, value: -> { @sprints } do
       field :display_name
     end
   end
-  field :performances, array: true, value: -> { sprint_feedbacks.select { helpers.policy(_1).show? }.sort_by { _1.user.display_name } } do
+  field :performances, array: true, value: -> { sprint_feedbacks.select { helpers.policy(it).show? }.sort_by { it.user.display_name } } do
     field :id
     field :working_day_count, Integer
     field :tracked_hours, Float

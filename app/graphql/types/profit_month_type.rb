@@ -48,7 +48,7 @@ module Types
     end
 
     def total_profit
-      object.rows.sum { _1.revenue - _1.cost }
+      object.rows.sum { it.revenue - it.cost }
     end
   end
 end

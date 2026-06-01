@@ -14,7 +14,7 @@ module Reaction
     def to_s
       path = @context.request.path
       props = schema.serialize(@context)
-      globals = schema.root.fields.values.select { _1.global.present? }.map! { [_1.name, _1.global] }.to_h
+      globals = schema.root.fields.values.select { it.global.present? }.map! { [it.name, it.global] }.to_h
       {
         path:,
         component:,

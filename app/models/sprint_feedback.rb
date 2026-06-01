@@ -121,7 +121,7 @@ class SprintFeedback < ApplicationRecord
   end
 
   def leaves
-    @leaves ||= user.leaves.select { _1.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
+    @leaves ||= user.leaves.select { it.leave_during.overlaps?(sprint.sprint_during) }.reject(&:rejected?)
   end
 
   def target_total_hours

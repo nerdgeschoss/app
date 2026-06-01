@@ -8,12 +8,12 @@ module Reaction
 
       def initialize(string)
         @root = Field.new(:root, Object, null: false, parent: self)
-        @root.instance_exec { binding.eval(string) } # rubocop:disable Security/Eval the imported string is under the developers control and therefore should not include any injections
+        @root.instance_exec { binding.eval(string) } # rubocop:disable Security/Eval -- the imported string is under the developers control and therefore should not include any injections
       end
 
       def serialize(object)
         @context = object
-        root.serialize(object).deep_transform_keys { _1.to_s.camelize(:lower) }
+        root.serialize(object).deep_transform_keys { it.to_s.camelize(:lower) }
       end
 
       def path
