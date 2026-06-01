@@ -12,9 +12,6 @@
     "@nerdgeschoss/react-use-form-library": "^0.0.71",
     "@nerdgeschoss/shimmer-component-collapse": "^0.1.0",
     "@nerdgeschoss/shimmer-component-stack": "^0.1.0",
-    "@types/react": "^19.0.3",
-    "@types/react-dom": "^19.0.2",
-    "@types/react-flatpickr": "^3.8.11",
     "@vitejs/plugin-react": "^6.0.2",
     "classnames": "^2.5.1",
     "i18n-js": "^4.5.1",
@@ -27,6 +24,10 @@
     "vite-plugin-rails": "^0.6.0"
   },
   "devDependencies": {
+    "@types/node": "24",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.0.2",
+    "@types/react-flatpickr": "^3.8.11",
     "@typescript-eslint/eslint-plugin": "^8.19.0",
     "@typescript-eslint/parser": "^8.19.0",
     "eslint": "^9.17.0",
@@ -36,7 +37,6 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "playwright": "~1.60.0",
     "prettier": "^3.4.2",
-    "rollup": "^4.61.0",
     "typescript-eslint": "^8.19.0",
     "vite-plugin-ruby": "^5.2.0"
   },
