@@ -1,4 +1,4 @@
-@import '../layout.scss';
+@use '../layout.scss';
 
 $icons:
   'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user', 'menu', 'close',
@@ -22,11 +22,11 @@ $icons:
     }
   }
 
-  @include media-tablet {
+  @include layout.media-tablet {
     width: var(--icon-tablet-size);
   }
 
-  @include media-desktop {
+  @include layout.media-desktop {
     width: var(--icon-desktop-size);
   }
 }
