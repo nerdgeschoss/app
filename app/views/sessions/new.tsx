@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { Button } from '../../frontend/components/button/button';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 import { TextField } from '../../frontend/components/text_field/text_field';

@@ -1,5 +1,5 @@
 import './layout.scss';
-import { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import { Container } from '../container/container';
 import { Sidebar } from '../sidebar/sidebar';
 

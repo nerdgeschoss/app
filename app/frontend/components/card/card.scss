@@ -34,7 +34,8 @@
     line-height: var(--icon-size);
     font-size: var(--icon-size);
     // Encourage the browser to actually render emoji, even for symbols like ⚠️, which e.g. Chrome renders as the non-emoji variant by default
-    font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    font-family:
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
       'Noto Color Emoji';
   }
 

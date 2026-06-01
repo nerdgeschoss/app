@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { Link } from '../../sprinkles/history';
 import { useFormatter, useTranslate } from '../../util/dependencies';
 import { Card } from '../card/card';

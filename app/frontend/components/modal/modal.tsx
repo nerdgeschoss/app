@@ -7,6 +7,7 @@ import React, {
   createContext,
   ReactNode,
   useEffect,
+  JSX,
 } from 'react';
 import classnames from 'classnames';
 import { Frame } from '../../sprinkles/frame';

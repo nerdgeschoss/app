@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { PageProps } from '../../../data.d';
 import { Layout } from '../../frontend/components/layout/layout';
 import { Pill } from '../../frontend/components/pill/pill';

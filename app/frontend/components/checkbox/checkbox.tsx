@@ -1,5 +1,5 @@
 import './checkbox.scss';
-import { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import { Text } from '../text/text';
 import { FormField, useInputId } from '../form_field/form_field';
 import classnames from 'classnames';

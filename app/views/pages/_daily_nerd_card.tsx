@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import { Card } from '../../frontend/components/card/card';
 import { TextArea } from '../../frontend/components/text_area/text_area';
 import { Button } from '../../frontend/components/button/button';

@@ -1,6 +1,6 @@
 import { Stack } from '../stack/stack';
 import { Text } from '../text/text';
-import React from 'react';
+import { JSX } from 'react';
 import './performance.scss';
 import { Link } from '../../sprinkles/history';
 import { PerformanceProgress } from '../performance_progress/performance_progress';

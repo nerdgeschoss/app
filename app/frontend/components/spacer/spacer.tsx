@@ -1,6 +1,6 @@
 import './spacer.scss';
 
-import React from 'react';
+import React, { JSX } from 'react';
 import classnames from 'classnames';
 
 interface Props {

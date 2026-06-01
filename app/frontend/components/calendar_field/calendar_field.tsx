@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 
 import { FormField, useInputId } from '../form_field/form_field';
 import DatePickerImport, { DateTimePickerProps } from 'react-flatpickr';

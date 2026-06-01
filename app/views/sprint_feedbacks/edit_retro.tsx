@@ -12,6 +12,7 @@ import { Text } from '../../frontend/components/text/text';
 import { CollapsePanel } from '../../frontend/components/collapse_panel/collapse_panel';
 import { StarField } from '../../frontend/components/star_field/star_field';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
+import { JSX } from 'react';
 
 export default function ({
   data: { feedback },

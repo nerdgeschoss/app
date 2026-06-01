@@ -1,6 +1,6 @@
 import './sidebar.scss';
 import { Text } from '../text/text';
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import classNames from 'classnames';
 import { Icon, IconName } from '../icon/icon';
 import { Link, usePath } from '../../sprinkles/history';

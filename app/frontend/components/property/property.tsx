@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { Stack } from '../stack/stack';
 import { Text } from '../text/text';
 import './property.scss';

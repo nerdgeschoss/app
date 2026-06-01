@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, JSX, useEffect, useState } from 'react';
 import { MetaCacheSubscription } from './meta_cache';
 import { useReaction } from './reaction';
 

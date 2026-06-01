@@ -6,12 +6,11 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "lib": ["es2020", "dom"],
-    "jsx": "preserve",
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "module": "es2020",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "paths": {
-      "*": ["./node_modules/*", "./app/javascript/*"]
-    },
     "sourceMap": true,
     "target": "es2020",
     "noEmit": true,

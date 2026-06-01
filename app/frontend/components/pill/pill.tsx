@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import classNames from 'classnames';
 import './pill.scss';
 
