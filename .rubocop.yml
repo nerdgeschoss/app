@@ -4,6 +4,3 @@ AllCops:
 inherit_gem:
   shimmer:
     - config/rubocop_base.yml
-    - config/rubocop_extensions/graphql.yml
-    - config/rubocop_extensions/rails.yml
-    - config/rubocop_extensions/rspec.yml
