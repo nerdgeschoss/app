@@ -107,9 +107,9 @@ class Task < ApplicationRecord
 
     def extract_qa_notes(pull_requests)
       qa_notes = pull_requests.presence || []
-      qa_notes.sort! { |pull_request| pull_request[:number] }
+      qa_notes.sort! { it[:number] }
       qa_notes.reverse!
-      qa_notes.map! { |pull_request| pull_request[:body] }
+      qa_notes.map! { it[:body] }
       qa_notes.join("\n\n")
     end
   end
