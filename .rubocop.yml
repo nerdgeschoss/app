@@ -3,3 +3,11 @@ AllCops:
 
 inherit_gem:
   shimmer: config/rubocop_base.yml
+
+# TODO: Move this to Shimmer
+Naming/MemoizedInstanceVariableName:
+  Enabled: true
+
+RSpec/ExpectChange:
+  Enabled: true
+  EnforcedStyle: block
