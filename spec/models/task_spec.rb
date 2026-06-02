@@ -25,10 +25,6 @@ RSpec.describe Task do
 
   describe ".sync_with_github" do
     let(:project) { projects :customer_project }
-    before do
-      allow_any_instance_of(Github).to receive(:sprint_board_items).and_return(sprint_board_items)
-    end
-
     let(:sprint_board_items) do
       [
         Github::SprintBoardItem.new(
@@ -54,6 +50,10 @@ RSpec.describe Task do
           labels: ["frontend"]
         )
       ]
+    end
+
+    before do
+      allow_any_instance_of(Github).to receive(:sprint_board_items).and_return(sprint_board_items)
     end
 
     it "creates new tasks and task_users" do

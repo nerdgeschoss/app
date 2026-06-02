@@ -21,7 +21,7 @@ RSpec.describe Reaction::Props::Schema do
       current_user = root.fields[:current_user]
       expect(root.name).to eq :root
       expect(root.type).to eq Object
-      expect(root.null).to eq false
+      expect(root.null).to be false
       expect(root.fields.keys).to match_array [:current_user, :sprint]
       expect(current_user.type).to eq Object
       expect(current_user.fields.keys).to match_array [:first_name, :email, :age]

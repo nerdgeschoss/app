@@ -95,6 +95,7 @@ RSpec.describe Leave::Presenter do
 
   context "exporting to ics" do
     let(:leave) { holiday }
+
     it "returns an array of event objects" do
       expect(presenter.to_ics).to all(be_an(Icalendar::Event))
     end
