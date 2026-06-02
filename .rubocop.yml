@@ -2,5 +2,4 @@ AllCops:
   SuggestExtensions: false
 
 inherit_gem:
-  shimmer:
-    - config/rubocop_base.yml
+  shimmer: config/rubocop_base.yml
