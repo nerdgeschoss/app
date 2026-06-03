@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useFormatter } from '../../util/dependencies';
 import { Text } from '../text/text';
 import { LeaveType } from '../../util/types';
+import { JSX } from 'react';
 
 interface Props {
   days: Array<{

@@ -82,7 +82,7 @@ class User < ApplicationRecord
 
   def used_holidays
     year = Time.zone.today.year
-    leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count { _1.year == year }
+    leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count { it.year == year }
   end
 
   def notify!(message)
@@ -107,7 +107,7 @@ class User < ApplicationRecord
   end
 
   def salary_at(date)
-    salaries.sort_by(&:valid_from).select { _1.valid_from < date }.last
+    salaries.sort_by(&:valid_from).select { it.valid_from < date }.last
   end
 
   def role?(role)

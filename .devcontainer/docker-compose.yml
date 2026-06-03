@@ -1,11 +1,8 @@
-version: '3'
-
 services:
   app:
-    image: ghcr.io/nerdgeschoss/nerdgeschoss/development-environment:3.3-22
+    image: ghcr.io/nerdgeschoss/nerdgeschoss/development-environment:4.0-24
     volumes:
       - ../..:/workspaces:cached
-      - nerdgeschoss_app-node_modules:/workspaces/nerdgeschoss_app/node_modules
       - ~/.netrc:/root/.netrc
       - ~/.ssh:/root/.ssh
       - ~/.config/gh:/root/.config/gh
@@ -30,4 +27,3 @@ services:
 
 volumes:
   postgres-data:
-  nerdgeschoss_app-node_modules:

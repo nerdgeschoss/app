@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { PageProps } from '../../../data.d';
 import { Card } from '../../frontend/components/card/card';
 import { Columns } from '../../frontend/components/columns/columns';

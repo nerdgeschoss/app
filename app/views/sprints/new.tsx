@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { PageProps } from '../../../data.d';
 import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { Stack } from '../../frontend/components/stack/stack';

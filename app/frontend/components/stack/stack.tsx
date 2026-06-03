@@ -1,6 +1,6 @@
 import './stack.scss';
 
-import React from 'react';
+import React, { JSX } from 'react';
 import classnames from 'classnames';
 
 type Justify = 'left' | 'center' | 'right' | 'space-between' | 'space-around';

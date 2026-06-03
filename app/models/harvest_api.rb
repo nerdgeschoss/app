@@ -49,7 +49,7 @@ class HarvestApi
   end
 
   def projects
-    get_all("projects").map { Project.new(**_1.slice(:id, :name).merge(client_name: _1.dig(:client, :name), archived: !_1.dig(:is_active))) }
+    get_all("projects").map { Project.new(**it.slice(:id, :name).merge(client_name: it.dig(:client, :name), archived: !it.dig(:is_active))) }
   end
 
   private

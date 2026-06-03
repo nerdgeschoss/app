@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 
 import './text_area.scss';
 import { Text } from '../text/text';

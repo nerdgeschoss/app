@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 
 import './text.scss';
 import { TextType, Color } from './types';

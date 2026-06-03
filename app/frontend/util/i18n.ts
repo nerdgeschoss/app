@@ -1,6 +1,6 @@
 import { I18n, TranslateOptions } from 'i18n-js';
 
-import React from 'react';
+import React, { JSX } from 'react';
 import en from '../locale/en.json';
 
 export type Locale = 'en';

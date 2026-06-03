@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { loadI18n } from './i18n';
 import type { Formatter } from './formatter';
 

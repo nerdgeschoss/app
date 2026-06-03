@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { useErrors } from '../../util/errors';
 import { Stack } from '../stack/stack';
 import './errors.scss';

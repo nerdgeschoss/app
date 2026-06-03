@@ -48,8 +48,8 @@ RSpec.describe "ProfitReport", type: :graph do
       gql(query, variables:)
       dates = data.profit_report.months.map(&:date)
       expect(dates).to contain_exactly("2023-01-20", "2023-02-01", "2023-03-01")
-      january = data.profit_report.months.find { _1.date == "2023-01-20" }
-      johns_row = january.rows.find { _1.user.id == john.id }
+      january = data.profit_report.months.find { it.date == "2023-01-20" }
+      johns_row = january.rows.find { it.user.id == john.id }
       expect(johns_row.revenue).to eq 150
       expect(johns_row.revenue_by_project.first.project).to eq "Some Project"
     end
@@ -59,10 +59,10 @@ RSpec.describe "ProfitReport", type: :graph do
       gql(query, variables:)
       from = Date.parse(variables[:fromDate])
       to = Date.parse(variables[:toDate])
-      expected = ProfitCalculation.new(from..to).months.find { _1.date == Date.new(2023, 1, 20) }
-      january = data.profit_report.months.find { _1.date == "2023-01-20" }
-      expected_johns_row = expected.rows.find { _1.user.id == john.id }
-      johns_row = january.rows.find { _1.user.id == john.id }
+      expected = ProfitCalculation.new(from..to).months.find { it.date == Date.new(2023, 1, 20) }
+      january = data.profit_report.months.find { it.date == "2023-01-20" }
+      expected_johns_row = expected.rows.find { it.user.id == john.id }
+      johns_row = january.rows.find { it.user.id == john.id }
       expect(johns_row.cost).to be_within(0.01).of(expected_johns_row.cost.to_f)
       expect(johns_row.running_profit).to be_within(0.01).of(expected_johns_row.running_profit.to_f)
     end

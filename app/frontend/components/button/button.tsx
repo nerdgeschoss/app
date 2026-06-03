@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { Text } from '../text/text';
 import './button.scss';
 

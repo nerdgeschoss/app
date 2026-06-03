@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { Layout } from '../../frontend/components/layout/layout';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Text } from '../../frontend/components/text/text';

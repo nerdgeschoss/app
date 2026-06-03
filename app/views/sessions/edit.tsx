@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import { PageProps } from '../../../data.d';
 import { Button } from '../../frontend/components/button/button';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
