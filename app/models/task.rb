@@ -52,7 +52,9 @@ class Task < ApplicationRecord
           issue_number: gt.issue_number,
           story_points: gt.points,
           project_id: project_ids_by_repository[gt.repository],
-          labels: gt.labels
+          labels: gt.labels,
+          shaping_notes: extract_shaping_notes(gt.issue_comments),
+          qa_notes: extract_qa_notes(gt.pull_requests)
         }
       end
 
@@ -95,6 +97,19 @@ class Task < ApplicationRecord
         SQL
         ActiveRecord::Base.connection.execute(sql)
       end
+    end
+
+    private
+
+    def extract_shaping_notes(issue_comments)
+      (issue_comments.presence || []).find { |issue_comment| issue_comment.lines.first.downcase.gsub(/\s+/, "").include?("#shaping") }
+    end
+
+    def extract_qa_notes(pull_requests)
+      qa_notes = pull_requests.presence || []
+      qa_notes.sort_by! { it[:number] }
+      qa_notes.map! { it[:body] }
+      qa_notes.join("\n\n")
     end
   end
 

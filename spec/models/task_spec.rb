@@ -36,7 +36,15 @@ RSpec.describe Task do
           sprint_title: "S2023-02",
           status: "Done",
           points: 3,
-          labels: ["backend"]
+          labels: ["backend"],
+          issue_comments: [
+            "#Shaping Notes\n\nDo it like this and not like that.",
+            "I also have a comment on this issue!"
+          ],
+          pull_requests: [
+            {number: 123, body: "# QA Notes\n\nHere, look at this cool review app."},
+            {number: 124, body: "# QA Notes\n\nWe need to also merge this PR after merging #123."}
+          ]
         ),
         Github::SprintBoardItem.new(
           id: "I_123",
@@ -68,6 +76,8 @@ RSpec.describe Task do
       expect(task.users).to eq [users(:john)]
       expect(task.labels).to eq ["backend"]
       expect(task.project).to eq project
+      expect(task.shaping_notes).to eq("#Shaping Notes\n\nDo it like this and not like that.")
+      expect(task.qa_notes).to eq("# QA Notes\n\nHere, look at this cool review app.\n\n# QA Notes\n\nWe need to also merge this PR after merging #123.")
     end
 
     it "updates existing tasks" do

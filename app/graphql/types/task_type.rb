@@ -16,5 +16,7 @@ module Types
     field :time_entries, Types::TimeEntryType.connection_type, null: false, description: "Time entries logged against this task."
     field :users, Types::UserType.connection_type, null: false, description: "Team members assigned to this task."
     field :project, Types::ProjectType, null: true, description: "Project this task belongs to. Null if unlinked."
+    field :shaping_notes, String, null: true, description: "Shaping notes from GitHub. Null if empty."
+    field :qa_notes, String, null: true, description: "QA notes from GitHub. Null if empty."
   end
 end

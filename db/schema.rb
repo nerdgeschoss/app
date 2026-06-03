@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_11_120000) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_29_114023) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -320,6 +320,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_11_120000) do
     t.uuid "project_id"
     t.string "labels", default: [], null: false, array: true
     t.string "description"
+    t.text "shaping_notes"
+    t.text "qa_notes"
     t.index ["github_id"], name: "index_tasks_on_github_id", unique: true
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["sprint_id"], name: "index_tasks_on_sprint_id"
