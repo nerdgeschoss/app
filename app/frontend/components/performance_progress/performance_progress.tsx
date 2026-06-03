@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import './performance_progress.scss';
 import { useFormatter } from '../../util/dependencies';
 import { Stack } from '../stack/stack';

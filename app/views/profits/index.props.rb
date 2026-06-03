@@ -8,7 +8,7 @@ field :months, array: true, value: -> { @months } do
   field :date, Date
   field :total_cost, Float, value: -> { rows.sum(&:cost) }
   field :total_revenue, Float, value: -> { rows.sum(&:revenue) }
-  field :total_profit, Float, value: -> { rows.sum { _1.revenue - _1.cost } }
+  field :total_profit, Float, value: -> { rows.sum { it.revenue - it.cost } }
   field :total_salary, Float, value: -> { rows.sum(&:salary) }
   field :total_payroll_taxes, Float, value: -> { rows.sum(&:payroll_taxes) }
   field :total_benefits, Float, value: -> { rows.sum(&:benefits) }

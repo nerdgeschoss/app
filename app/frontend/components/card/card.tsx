@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { JSX, ReactNode } from 'react';
 import { Link } from '../../sprinkles/history';
 import './card.scss';
 import { Text } from '../text/text';

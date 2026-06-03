@@ -78,24 +78,24 @@ module Reaction
         elsif array && type == Boolean
           "boolean"
         elsif type == String
-          "#{name}: string#{null ? " | null" : ""};"
+          "#{name}: string#{" | null" if null};"
         elsif type == Integer
-          "#{name}: number#{null ? " | null" : ""};"
+          "#{name}: number#{" | null" if null};"
         elsif type == Float
-          "#{name}: number#{null ? " | null" : ""};"
+          "#{name}: number#{" | null" if null};"
         elsif type == Date
-          "#{name}: string#{null ? " | null" : ""};"
+          "#{name}: string#{" | null" if null};"
         elsif type == Time
-          "#{name}: string#{null ? " | null" : ""};"
+          "#{name}: string#{" | null" if null};"
         elsif type == Boolean
-          "#{name}: boolean#{null ? " | null" : ""};"
+          "#{name}: boolean#{" | null" if null};"
         elsif type == JSON
-          "#{name}: any#{null ? " | null" : ""};"
+          "#{name}: any#{" | null" if null};"
         elsif type == Object
           if skip_root
             fields.map { |name, field| field.to_typescript }.join("\n")
           else
-            "#{name}: {\n#{fields.map { |name, field| field.to_typescript.indent(2) }.join("\n")}\n}#{null ? " | null" : ""};"
+            "#{name}: {\n#{fields.map { |name, field| field.to_typescript.indent(2) }.join("\n")}\n}#{" | null" if null};"
           end
         else
           raise "Unknown type: #{type}"

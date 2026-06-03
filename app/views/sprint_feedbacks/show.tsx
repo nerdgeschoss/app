@@ -4,6 +4,7 @@ import { Layout } from '../../frontend/components/layout/layout';
 import { Stack } from '../../frontend/components/stack/stack';
 import { Text } from '../../frontend/components/text/text';
 import { EmployeeCard } from '../../frontend/components/employee_card/employee_card';
+import { JSX } from 'react';
 
 export default function ({
   data: { currentUser, feedback },

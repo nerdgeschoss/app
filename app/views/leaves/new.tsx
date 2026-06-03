@@ -1,4 +1,4 @@
-import React from 'react';
+import { JSX } from 'react';
 import { PageProps } from '../../../data.d';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { CalendarField } from '../../frontend/components/calendar_field/calendar_field';

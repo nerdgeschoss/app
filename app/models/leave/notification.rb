@@ -3,6 +3,7 @@
 class Leave
   class Notification
     include UrlGenerating
+
     attr_reader :user, :leave
 
     def initialize(leave:)

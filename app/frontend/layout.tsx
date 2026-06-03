@@ -1,6 +1,6 @@
 import { ModalWrapper } from './components/modal/modal';
 import { Errors } from './components/errors/errors';
-import React, { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import { loadI18n } from './util/i18n';
 import { Formatter } from './util/formatter';
 import { DependenciesProvider } from './util/dependencies';

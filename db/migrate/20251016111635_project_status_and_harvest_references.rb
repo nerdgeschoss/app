@@ -11,7 +11,7 @@ class ProjectStatusAndHarvestReferences < ActiveRecord::Migration[8.0]
     add_column :projects, :framework_versions, :jsonb, default: {}, null: false
 
     up_only do
-      execute <<-SQL.squish
+      execute <<~SQL.squish
         UPDATE projects
         SET harvest_id = harvest_ids[1], repository = repositories[1]
       SQL

@@ -1,4 +1,4 @@
-@import './../layout.scss';
+@use '../layout.scss';
 
 .layout {
   min-height: 100vh;
@@ -15,7 +15,7 @@
     grid-area: content;
   }
 
-  @include media-desktop {
+  @include layout.media-desktop {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-areas: 'sidebar content';

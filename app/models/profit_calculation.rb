@@ -52,7 +52,7 @@ class ProfitCalculation
           ProjectRevenue.new(id: "#{id}:aggregate:#{user.id}:#{project}",
             project:, hours: entries.sum(&:hours), revenue: entries.sum(&:revenue))
         end
-        .sort_by { -_1.revenue }
+        .sort_by { -it.revenue }
       total_revenue = rows.sum(&:revenue)
       total_cost = rows.sum(&:cost)
       Row.new(
@@ -152,7 +152,7 @@ class ProfitCalculation
           benefits = 0
         end
 
-        sick_days = (sick_days_by_user[user.id] || []).count { slice_range.cover?(_1) }
+        sick_days = (sick_days_by_user[user.id] || []).count { slice_range.cover?(it) }
         sick_refund = (salary&.employee? && sick_days.positive?) ? (salary.brut * SICK_REFUND_RATE * sick_days / working_days_in_month).round(2) : 0
 
         revenue = revenue_lookup[[user.id, key]]
@@ -172,7 +172,7 @@ class ProfitCalculation
           running_profit: user_running_profit[user.id],
           salary: salary_amount, payroll_taxes:, benefits:, fixed_share: rounded_fixed_share,
           sick_refund:,
-          revenue_by_project: projects_lookup[[user.id, key]].sort_by { -_1.revenue }, user:)
+          revenue_by_project: projects_lookup[[user.id, key]].sort_by { -it.revenue }, user:)
       end
       revenue_by_project = rows.flat_map(&:revenue_by_project)
         .group_by(&:project)
@@ -180,7 +180,7 @@ class ProfitCalculation
           ProjectRevenue.new(id: "#{month_id}:#{project}",
             project:, hours: entries.sum(&:hours), revenue: entries.sum(&:revenue))
         end
-        .sort_by { -_1.revenue }
+        .sort_by { -it.revenue }
 
       by_project = Hash.new { |h, k| h[k] = {hours: 0, revenue: 0, cost: 0, contributors: []} }
       rows.each do |row|
@@ -213,9 +213,9 @@ class ProfitCalculation
           running_revenue: project_running_revenue[project],
           running_cost: project_running_cost[project],
           running_profit: project_running_profit[project],
-          contributors: sums[:contributors].sort_by { -_1.revenue }
+          contributors: sums[:contributors].sort_by { -it.revenue }
         )
-      end.sort_by { -_1.revenue }
+      end.sort_by { -it.revenue }
 
       Month.new(id: month_id, date: month_date, rows:, project_rows:, revenue_by_project:,
         total_running_revenue:, total_running_cost:, total_running_profit:,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { JSX, useState } from 'react';
 import { PageProps } from '../../../data.d';
 import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { Layout } from '../../frontend/components/layout/layout';

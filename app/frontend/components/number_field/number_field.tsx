@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 
 import { FormField } from '../form_field/form_field';
 import { TextField } from '../text_field/text_field';

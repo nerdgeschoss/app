@@ -18,7 +18,8 @@ FileUtils.chdir APP_ROOT do
   system "gem install prism:1.2.0" # there's an issue where bundler won't pick up this dependency on first install inside the devcontainer
   system("bundle check") || system!("bundle install")
 
-  puts "\n== Installing node modules =="
+  puts "== Install JavaScript dependencies =="
+  system! "corepack enable && corepack install"
   system! "yarn install"
   system! "yarn playwright install chromium"
 

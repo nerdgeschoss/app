@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { JSX, useEffect } from 'react';
 import classnames from 'classnames';
 import './collapse_panel.scss';
 

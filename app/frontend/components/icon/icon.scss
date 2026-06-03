@@ -1,8 +1,9 @@
-@import '../layout.scss';
+@use '../layout.scss';
 
-$icons: 'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user', 'menu',
-  'close', 'tooltip-arrow', 'chevron-arrow', 'github', 'project', 'profit',
-  'harvest', 'puma', 'react', 'rails', 'expo';
+$icons:
+  'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user', 'menu', 'close',
+  'tooltip-arrow', 'chevron-arrow', 'github', 'project', 'profit', 'harvest',
+  'puma', 'react', 'rails', 'expo';
 
 .icon {
   display: block;
@@ -21,11 +22,11 @@ $icons: 'dashboard', 'leave', 'logout', 'payslip', 'sprint', 'user', 'menu',
     }
   }
 
-  @include media-tablet {
+  @include layout.media-tablet {
     width: var(--icon-tablet-size);
   }
 
-  @include media-desktop {
+  @include layout.media-desktop {
     width: var(--icon-desktop-size);
   }
 }

@@ -23,7 +23,7 @@ module PlaywrightHelper
 end
 
 RSpec.configure do |config|
-  config.include Capybara::Screenshot::Diff::TestMethods, type: :system
+  config.include CapybaraScreenshotDiff::DSL, type: :system
   config.include PlaywrightHelper, type: :system
   config.before(:each, type: :system) do |example|
     page.driver.start_tracing(title: example.metadata[:full_description], screenshots: true, snapshots: true)

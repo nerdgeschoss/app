@@ -1,5 +1,5 @@
 import { useForm } from '@nerdgeschoss/react-use-form-library';
-import React from 'react';
+import { JSX } from 'react';
 import { PageProps } from '../../../data.d';
 import { TextField } from '../../frontend/components/text_field/text_field';
 import { Button } from '../../frontend/components/button/button';

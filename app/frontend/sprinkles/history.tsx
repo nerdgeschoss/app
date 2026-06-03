@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import { JSX, ReactNode, useEffect, useState } from 'react';
 import { Meta } from './meta';
 import { MetaCache } from './meta_cache';
 import { useReaction } from './reaction';

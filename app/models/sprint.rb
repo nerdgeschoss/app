@@ -65,12 +65,12 @@ class Sprint < ApplicationRecord
   end
 
   def finished_storypoints
-    tasks.select(&:done?).sum { _1.story_points.to_i }
+    tasks.select(&:done?).sum { it.story_points.to_i }
   end
 
   def storypoints_per_department
     teams = ["design", "frontend", "backend", "exploration"]
-    working_days_per_department = sprint_feedbacks.group_by { (_1.user.team_member_of & teams).first }.transform_values do |feedbacks|
+    working_days_per_department = sprint_feedbacks.group_by { (it.user.team_member_of & teams).first }.transform_values do |feedbacks|
       feedbacks.sum(&:working_day_count)
     end
     tasks.each_with_object(Hash.new(0.0)) do |task, acc|
@@ -85,7 +85,7 @@ class Sprint < ApplicationRecord
         working_days: working_days_per_department[team] || 0,
         points_per_working_day: (points / [working_days_per_department[team] || 1, 1].max)
       }
-    end.sort_by { _1[:team] }
+    end.sort_by { it[:team] }
   end
 
   def finished_storypoints_per_day
@@ -127,7 +127,7 @@ class Sprint < ApplicationRecord
   end
 
   def average_rating
-    ratings = sprint_feedbacks.filter_map { !_1.skip_retro && _1.retro_rating }
+    ratings = sprint_feedbacks.filter_map { !it.skip_retro && it.retro_rating }
     return 0 if ratings.empty?
 
     ratings.sum / ratings.size.to_f

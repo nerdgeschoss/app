@@ -4,7 +4,7 @@ module Reaction
   class TsxHandler
     class << self
       def render(path, assigns, context)
-        id = Pathname.new(path).relative_path_from(Rails.root.join("app", "views")).to_s.sub(".tsx", "")
+        id = Pathname.new(path).relative_path_from(Rails.root.join("app/views")).to_s.sub(".tsx", "")
         response = Response.new(component: id, context:)
         <<~HTML
           <div id="root"></div>

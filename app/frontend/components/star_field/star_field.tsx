@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { JSX, ReactNode } from 'react';
 import { Text } from '../text/text';
 import classnames from 'classnames';
 import { FormField, useInputId } from '../form_field/form_field';

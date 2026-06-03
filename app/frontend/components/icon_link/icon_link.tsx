@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { Icon, IconName } from '../icon/icon';
 import { Stack } from '../stack/stack';
 import { Text } from '../text/text';
