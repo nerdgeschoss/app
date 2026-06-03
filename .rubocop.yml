@@ -1,13 +1,13 @@
 AllCops:
   SuggestExtensions: false
+  TargetRubyVersion: 4.0
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'node_modules/**/*'
+    - 'storage/*'
+    - 'tmp/**/*'
+    - 'vendor/bundle/**/*'
 
 inherit_gem:
   shimmer: config/rubocop_base.yml
-
-# TODO: Move this to Shimmer
-Naming/MemoizedInstanceVariableName:
-  Enabled: true
-
-RSpec/ExpectChange:
-  Enabled: true
-  EnforcedStyle: block
