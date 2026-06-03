@@ -27,7 +27,7 @@ gem "icalendar", "~> 2.4"
 gem "image_processing"
 gem "kaminari"
 gem "mini_magick"
-gem "mission_control-jobs"
+gem "mission_control-jobs", "=0.6.0" # NOTE: Keep this gem at this version for now as the newest version requires more work to get working.
 gem "pundit"
 gem "rails-i18n"
 gem "shimmer"
