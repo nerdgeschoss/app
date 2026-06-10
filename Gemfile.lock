@@ -502,7 +502,7 @@ GEM
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
       logger
-    shimmer (0.0.45)
+    shimmer (0.0.46)
     sitemap_generator (7.0.1)
       builder (~> 3.0)
     slim (5.2.1)
@@ -879,7 +879,7 @@ CHECKSUMS
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   sentry-rails (6.6.0) sha256=d9c0b353ccf12c82dc17eafe788acafc587472c2d442905f71f9e5c5fb24bb10
   sentry-ruby (6.6.0) sha256=05ecaaefa177745cffa4f4228364cdddd766372f564fc0709d29df96c4c2887a
-  shimmer (0.0.45) sha256=008fcde146e7c259c65b77b2e2033dc0c6d6f6abaf74831d5def369cd5502dd8
+  shimmer (0.0.46) sha256=8f5457ab22ebc8cb45b8e5112f658246c3c2ae340aae0de45039de2a7f618ac3
   sitemap_generator (7.0.1) sha256=cb436da1c6cb073261a63c27e714e27b8292fca1e17ad503dac1db6518b3d2a8
   slim (5.2.1) sha256=72351dff7e2ff20e2d5c393cfc385bb9142cef5db059141628fd7163ac3c13e7
   slim-rails (4.0.0) sha256=2cfee5c4ba00d4d935676db1e74a05dbaf9dd6f789903a1006e3bb687bbe36e2
