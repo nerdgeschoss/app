@@ -1,0 +1,5 @@
+#!/bin/sh -l
+
+if [ "$IS_REVIEW_APP_CREATE" = "true" ]; then
+  ssh "$SSH_REMOTE" -- run "$APP_NAME" bin/rails db:migrate
+fi

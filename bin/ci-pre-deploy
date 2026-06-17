@@ -1,0 +1,14 @@
+#!/bin/sh -l
+
+if [ "$IS_REVIEW_APP" = "true" ]; then
+  app_host=$(ssh "$SSH_REMOTE" -- domains:report "$APP_NAME" --domains-app-vhosts)
+  echo "app_url=https://$app_host" >> "$GITHUB_OUTPUT"
+fi
+
+if [ "$IS_REVIEW_APP_CREATE" = "true" ]; then
+  ssh "$SSH_REMOTE" -- ps:scale "$APP_NAME" web=1 worker=1
+  ssh "$SSH_REMOTE" -- config:unset "$APP_NAME" DATABASE_URL
+
+  ssh "$SSH_REMOTE" -- postgres:clone app-sandbox-db "$APP_NAME-db"
+  ssh "$SSH_REMOTE" -- postgres:link "$APP_NAME-db" "$APP_NAME" --no-restart
+fi

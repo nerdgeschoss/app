@@ -1,0 +1,33 @@
+---
+name: 'Deploy to Hetzner'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_hetzner:
+    name: 'Deploy to Hetzner'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy_hetzner
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Deploy Sandbox
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@ssh.nerdgeschoss.de:22/app-sandbox'
+          git_push_flags: '--force'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy Production
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@ssh.nerdgeschoss.de:22/app-production'
+          git_push_flags: '--force'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}

@@ -1,0 +1,85 @@
+---
+name: 'Review App'
+
+on:
+  pull_request:
+    types: [opened, reopened, closed, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-pr-${{ github.event.pull_request.number }}
+
+jobs:
+  create_review_app:
+    name: 'Create Review App'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Review App
+      url: ${{ steps.create_review_app.outputs.app_url }}
+
+    # only run when a pull request is opened
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened')
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Create the review app
+        uses: dokku/github-action@master
+        id: create_review_app
+        with:
+          command: review-apps:create
+          git_remote_url: 'ssh://dokku@ssh.nerdgeschoss.de:22/app-sandbox'
+          git_push_flags: '--force'
+          # specify a name for the review app
+          review_app_name: app-pr-${{ github.event.pull_request.number }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+  deploy_review_app:
+    name: 'Deploy Review App'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Review App
+      url: ${{ steps.deploy_review_app.outputs.app_url }}
+
+    # only run when a pull request is not opened or closed
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        id: deploy_review_app
+        with:
+          command: deploy
+          git_remote_url: 'ssh://dokku@ssh.nerdgeschoss.de:22/app-sandbox'
+          git_push_flags: '--force'
+          # specify a name for the review app
+          review_app_name: app-pr-${{ github.event.pull_request.number }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+  destroy_review_app:
+    name: 'Destroy Review App'
+    runs-on: ubuntu-latest
+    # only run when a pull request is closed
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Destroy the review app
+        uses: dokku/github-action@master
+        with:
+          # destroy a review app
+          command: review-apps:destroy
+          git_remote_url: 'ssh://dokku@ssh.nerdgeschoss.de:22/app-sandbox'
+          # specify a name for the review app
+          review_app_name: app-pr-${{ github.event.pull_request.number }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
