@@ -17,7 +17,7 @@ ENV RAILS_ENV="production" \
 RUN apt-get update -qq && \
   apt-get install --no-install-recommends -y build-essential curl git libpq-dev \
   libvips node-gyp pkg-config libyaml-dev postgresql-client \
-  python3-pip python3-venv libcairo2 libpango-1.0-0 libgdk-pixbuf2.0-0 libjemalloc2 && \
+  python3-pip python3-venv libcairo2 libpango-1.0-0 libgdk-pixbuf-xlib-2.0-0 libjemalloc2 && \
   rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Make sure all executables use jemalloc
