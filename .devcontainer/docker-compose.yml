@@ -6,6 +6,7 @@ services:
       - ~/.netrc:/root/.netrc
       - ~/.ssh:/root/.ssh
       - ~/.config/gh:/root/.config/gh
+      - ~/.cache/devcontainer/playwright:/root/.cache/devcontainer/playwright
       - ~/.aws:/root/.aws
 
     # Overrides default command so things don't shut down after the process ends.
@@ -21,9 +22,9 @@ services:
     image: postgres:18
     restart: unless-stopped
     volumes:
-      - postgres-18-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
 
 volumes:
-  postgres-18-data:
+  postgres-data:
