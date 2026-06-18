@@ -1,0 +1,18 @@
+{
+  "project": {
+    "id": "nerdgeschoss/app",
+    "team": "nerdgeschoss-internal"
+  },
+  "hcloud": {
+    "project": "nerdgeschoss-internal"
+  },
+  "prefix": "app",
+  "servers": {
+    "production": {
+      "ssh": "ssh.nerdgeschoss.de"
+    },
+    "sandbox": {
+      "ssh": "ssh.nerdgeschoss.de"
+    }
+  }
+}

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-ruby "~> #{File.read(".tool-versions").match(/ruby (.+)/)[1]}"
 
 # Core
 gem "puma"
@@ -27,7 +26,7 @@ gem "icalendar", "~> 2.4"
 gem "image_processing"
 gem "kaminari"
 gem "mini_magick"
-gem "mission_control-jobs", "=0.6.0" # NOTE: Keep this gem at this version for now as the newest version requires more work to get working.
+gem "mission_control-jobs"
 gem "pundit"
 gem "rails-i18n"
 gem "shimmer"

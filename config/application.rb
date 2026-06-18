@@ -49,5 +49,8 @@ module TestApp
 
     config.autoload_lib(ignore: ["assets", "tasks"])
     config.generators.system_tests = nil
+
+    config.mission_control.jobs.base_controller_class = "MissionControlController"
+    config.mission_control.jobs.http_basic_auth_enabled = false
   end
 end

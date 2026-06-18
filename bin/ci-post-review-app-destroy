@@ -1,0 +1,5 @@
+#!/bin/sh -l
+
+if [ "$IS_REVIEW_APP" = "true" ]; then
+  ssh "$SSH_REMOTE" -- postgres:destroy "$APP_NAME-db" --force
+fi

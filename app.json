@@ -1,29 +1,3 @@
 {
-  "addons": ["newrelic", "heroku-postgresql:essential-0"],
-  "buildpacks": [
-    {
-      "url": "heroku/nodejs"
-    },
-    {
-      "url": "heroku/ruby"
-    }
-  ],
-  "env": {
-    "SECRET_KEY_BASE": {
-      "generator": "secret"
-    }
-  },
-  "formation": {
-    "web": {
-      "quantity": 1
-    },
-    "worker": {
-      "quantity": 1
-    }
-  },
-  "name": "nerdgeschoss_app",
-  "scripts": {
-    "postdeploy": "bin/rails db:prepare"
-  },
-  "stack": "heroku-24"
+  "name": "nerdgeschoss_app"
 }

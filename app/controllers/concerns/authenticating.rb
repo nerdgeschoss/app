@@ -16,7 +16,8 @@ module Authenticating
     end
 
     def authenticate_user!
-      redirect_to login_path unless current_user
+      # This controller is also used by MissionControl, so we need the `main_app` here.
+      redirect_to main_app.login_path unless current_user
     end
   end
 end
