@@ -16,7 +16,8 @@
         "EditorConfig.EditorConfig",
         "eamodio.gitlens",
         "GraphQL.vscode-graphql",
-        "bierner.markdown-mermaid"
+        "bierner.markdown-mermaid",
+        "Anthropic.claude-code"
       ],
       "settings": {
         "typescript.tsdk": "node_modules/typescript/lib",

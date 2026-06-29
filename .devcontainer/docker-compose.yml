@@ -8,6 +8,8 @@ services:
       - ~/.config/gh:/root/.config/gh
       - ~/.cache/devcontainer/playwright:/root/.cache/devcontainer/playwright
       - ~/.aws:/root/.aws
+      - ~/.claude:/root/.claude
+      - /var/run/docker.sock:/var/run/docker.sock
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
