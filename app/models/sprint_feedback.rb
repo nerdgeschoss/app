@@ -136,6 +136,10 @@ class SprintFeedback < ApplicationRecord
     @days ||= sprint.days.map { |day| SprintFeedback::Day.new(self, day) }
   end
 
+  def time_distribution
+    @time_distribution ||= SprintFeedback::TimeDistribution.new(self)
+  end
+
   private
 
   def count_days(type)

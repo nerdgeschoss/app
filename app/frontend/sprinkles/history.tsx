@@ -1,7 +1,13 @@
 import { JSX, ReactNode, useEffect, useState } from 'react';
 import { Meta } from './meta';
-import { MetaCache } from './meta_cache';
+import { MetaCache, MetaCacheSubscription } from './meta_cache';
 import { useReaction } from './reaction';
+
+declare global {
+  interface Window {
+    data?: Record<string, unknown>;
+  }
+}
 
 export function usePath(): string {
   const history = useReaction().history;
@@ -49,9 +55,19 @@ export class History {
   cache = new MetaCache();
   path: string = window.location.pathname + window.location.search;
   listeners: Array<(history: History) => void> = [];
+  private currentDataSubscription: MetaCacheSubscription | null = null;
 
   constructor(private onChange: (meta: Meta) => void) {
     window.addEventListener('popstate', this.restore.bind(this));
+    this.trackCurrentData();
+  }
+
+  private trackCurrentData(): void {
+    this.currentDataSubscription?.unsubscribe();
+    window.data = this.cache.peek(this.path)?.props;
+    this.currentDataSubscription = this.cache.subscribe(this.path, (props) => {
+      window.data = props as Record<string, unknown> | undefined;
+    });
   }
 
   async navigate(
@@ -61,6 +77,7 @@ export class History {
     const result = await this.cache.fetch(url);
     window.history.pushState({}, '', url);
     this.path = url;
+    this.trackCurrentData();
     this.onChange(result.meta);
     if (result.fresh || allowStale) return;
     this.onChange(await this.cache.refresh(url));
@@ -99,6 +116,7 @@ export class History {
     const url = window.location.pathname + window.location.search;
     const result = await this.cache.fetch(url);
     this.path = url;
+    this.trackCurrentData();
     this.onChange(result.meta);
   }
 

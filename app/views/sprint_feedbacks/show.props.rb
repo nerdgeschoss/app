@@ -18,6 +18,30 @@ field :feedback, value: -> { @feedback } do
 
   field :permit_edit_retro_notes, Boolean, value: -> { helpers.policy(self).update? }
 
+  field :time_distribution, value: -> { time_distribution } do
+    field :total_hours, Float
+    field :clients, array: true do
+      field :id
+      field :name
+      field :hours, Float
+      field :percentage, Float
+      field :projects, array: true do
+        field :id
+        field :name
+        field :entries, array: true do
+          field :id
+          field :hours, Float
+          field :percentage, Float
+          field :task, null: true do
+            field :id
+            field :title
+            field :issue_number, Integer, null: true
+          end
+        end
+      end
+    end
+  end
+
   field :sprint do
     field :id
     field :title
