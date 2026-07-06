@@ -30,6 +30,35 @@ export default function ({
           </Stack>
           <EmployeeCard {...feedback} />
         </Stack>
+        <Stack size={8}>
+          <Text type="h3-bold">Time Distribution</Text>
+          <ul>
+            {feedback.timeDistribution.clients.map((client) => (
+              <li key={client.id}>
+                {client.name} — {l.percentage(client.percentage)} (
+                {l.hours(client.hours)}h)
+                <ul>
+                  {client.projects.map((project) => (
+                    <li key={project.id}>
+                      {project.name}
+                      <ul>
+                        {project.entries.map((entry) => (
+                          <li key={entry.id}>
+                            {entry.task
+                              ? `${entry.task.title}${entry.task.issueNumber ? ` #${entry.task.issueNumber}` : ''}`
+                              : '—'}{' '}
+                            — {l.percentage(entry.percentage)} (
+                            {l.hours(entry.hours)}h)
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </Stack>
       </Stack>
     </Layout>
   );
