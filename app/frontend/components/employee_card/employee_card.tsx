@@ -165,27 +165,31 @@ export function EmployeeCard({
         </Stack>
       </section>
       <Divider />
-      <Stack gap={16}>
-        <Stack gap={24}>
-          <IconTitle
-            icon="⭐"
-            title={t('employee_card.retrospective')}
-            color="var(--icon-header-series2-2)"
-          />
-          {retroRating !== null && <StarField value={retroRating} />}
+      <section className="employee-card__section employee-card__section--middle">
+        <Stack gap={16}>
+          <Stack gap={24}>
+            <IconTitle
+              icon="⭐"
+              title={t('employee_card.retrospective')}
+              color="var(--icon-header-series2-2)"
+            />
+            {retroRating !== null && <StarField value={retroRating} />}
+          </Stack>
+          <Stack gap={16} align="end">
+            {retroText && <TextBox text={retroText} />}
+            <Button
+              title={
+                retroText
+                  ? t('employee_card.edit_feedback')
+                  : t('employee_card.leave_feedback')
+              }
+              onClick={() =>
+                modal.present(`/sprint_feedbacks/${id}/edit_retro`)
+              }
+            />
+          </Stack>
         </Stack>
-        <Stack gap={16} align="end">
-          {retroText && <TextBox text={retroText} />}
-          <Button
-            title={
-              retroText
-                ? t('employee_card.edit_feedback')
-                : t('employee_card.leave_feedback')
-            }
-            onClick={() => modal.present(`/sprint_feedbacks/${id}/edit_retro`)}
-          />
-        </Stack>
-      </Stack>
+      </section>
       <Divider />
       <section className="employee-card__section employee-card__section--bottom">
         <Stack gap={24}>
