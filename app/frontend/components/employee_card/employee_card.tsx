@@ -8,8 +8,13 @@ import { PerformanceDays } from '../performance_days/performance_days';
 import { PerformanceLabels } from '../performance_labels/performance_labels';
 import { PerformanceProgress } from '../performance_progress/performance_progress';
 import { Property } from '../property/property';
+import { StackBarChart } from '../stack_bar_chart/stack_bar_chart';
 import { StarField } from '../star_field/star_field';
 import { TextBox } from '../text_box/text_box';
+import {
+  SERIES_COLORS,
+  TimeDistributionList,
+} from '../time_distribution_list/time_distribution_list';
 import './employee_card.scss';
 import React, { type ReactElement } from 'react';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
@@ -29,6 +34,7 @@ interface Props {
   billableHours: number;
   days: DataSchema['sprint_feedbacks/show']['feedback']['days'];
   retroText: string | null;
+  timeDistribution: DataSchema['sprint_feedbacks/show']['feedback']['timeDistribution'];
 }
 
 export function EmployeeCard({
@@ -45,10 +51,16 @@ export function EmployeeCard({
   billableHours,
   days,
   retroText,
+  timeDistribution,
 }: Props): ReactElement {
   const l = useFormatter();
   const modal = useModal();
   const t = useTranslate();
+
+  const coloredClients = timeDistribution.clients.map((client, index) => ({
+    ...client,
+    color: SERIES_COLORS[index % SERIES_COLORS.length],
+  }));
 
   return (
     <div className="employee-card">
@@ -116,51 +128,64 @@ export function EmployeeCard({
             <Divider />
           </div>
         </Stack>
-        <div className="employee-card__daily-overview">
+        <div className="employee-card__middle-column">
           <Stack gap={24}>
-            <Stack gap={32}>
+            <Stack gap={24}>
               <IconTitle
                 icon="⏱️"
-                title={t('employee_card.daily_overview')}
-                color="var(--icon-header-series2)"
+                title={t('employee_card.time_distribution')}
+                color="var(--icon-header-series3)"
               />
-              <PerformanceDays
-                days={days.map((e) => ({
-                  ...e,
-                  href: `#performance-day-${e.id}`,
+              <StackBarChart
+                data={coloredClients.map((client) => ({
+                  value: client.percentage,
+                  color: client.color,
                 }))}
-                large
               />
+              <TimeDistributionList clients={coloredClients} />
             </Stack>
             <div className="employee-card__horizontal-divider">
               <Divider />
             </div>
           </Stack>
         </div>
-        <Stack gap={16}>
-          <Stack gap={24}>
-            <IconTitle
-              icon="⭐"
-              title={t('employee_card.retrospective')}
-              color="var(--icon-header-series2-2)"
-            />
-            {retroRating !== null && <StarField value={retroRating} />}
-          </Stack>
-          <Stack gap={16} align="end">
-            {retroText && <TextBox text={retroText} />}
-            <Button
-              title={
-                retroText
-                  ? t('employee_card.edit_feedback')
-                  : t('employee_card.leave_feedback')
-              }
-              onClick={() =>
-                modal.present(`/sprint_feedbacks/${id}/edit_retro`)
-              }
-            />
-          </Stack>
+        <Stack gap={32}>
+          <IconTitle
+            icon="⏱️"
+            title={t('employee_card.daily_overview')}
+            color="var(--icon-header-series2)"
+          />
+          <PerformanceDays
+            days={days.map((e) => ({
+              ...e,
+              href: `#performance-day-${e.id}`,
+            }))}
+            large
+          />
         </Stack>
       </section>
+      <Divider />
+      <Stack gap={16}>
+        <Stack gap={24}>
+          <IconTitle
+            icon="⭐"
+            title={t('employee_card.retrospective')}
+            color="var(--icon-header-series2-2)"
+          />
+          {retroRating !== null && <StarField value={retroRating} />}
+        </Stack>
+        <Stack gap={16} align="end">
+          {retroText && <TextBox text={retroText} />}
+          <Button
+            title={
+              retroText
+                ? t('employee_card.edit_feedback')
+                : t('employee_card.leave_feedback')
+            }
+            onClick={() => modal.present(`/sprint_feedbacks/${id}/edit_retro`)}
+          />
+        </Stack>
+      </Stack>
       <Divider />
       <section className="employee-card__section employee-card__section--bottom">
         <Stack gap={24}>

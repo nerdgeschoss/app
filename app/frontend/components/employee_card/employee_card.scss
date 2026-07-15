@@ -36,7 +36,7 @@
     @include layout.media-desktop {
       padding: 24px 32px 32px;
       display: grid;
-      grid-template-columns: 2fr 3fr 3fr;
+      grid-template-columns: 1fr 2fr 1fr;
       gap: 32px;
     }
   }
@@ -87,7 +87,7 @@
     }
   }
 
-  &__daily-overview {
+  &__middle-column {
     @include layout.media-desktop {
       padding: 0 32px;
       border-right: 1px solid var(--div-default);
