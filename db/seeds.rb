@@ -138,6 +138,73 @@ time_entries_config.each_with_index do |(hours, billable, context), index|
   )
 end
 
+logger.debug "Creating multi-client time distribution data for admin..."
+# Extra clients/projects so the Time Distribution component on the sprint
+# feedback page shows every state: many clients (enough to exercise the color
+# palette cycling), multiple projects per client, a project with no name, and
+# entries with and without a linked task (the latter render as "—").
+time_distribution_demo = [
+  {client: "Krasser Stoff Merchandising GmbH", billable: true, projects: [
+    {name: "Branding / Website", entries: [{title: "Events Index Table View", issue: 3115, hours: 11.0}]},
+    {name: "", entries: [{title: "re:sale Page - review", issue: 3109, hours: 2.7}]} # project with no name
+  ]},
+  {client: "LAIC Capital GmbH", billable: true, projects: [
+    {name: "Branding / Website", entries: [{title: "Implement Anlagerichtlinien BV IVV", issue: 33, hours: 4.5}]},
+    {name: "Union Investment Onboarding", entries: [
+      {title: "Implement Anlagerichtlinien BV IVV", issue: 34, hours: 3.0},
+      {title: nil, hours: 1.4} # entry without a task
+    ]}
+  ]},
+  {client: "LAIQON AG", billable: true, projects: [
+    {name: "LAIC Portal / iOS App", entries: [
+      {title: "Implement Anlagerichtlinien BV IVV", issue: 35, hours: 1.5},
+      {title: nil, hours: 1.5}
+    ]}
+  ]},
+  {client: "recordsale & musicberlin GmbH", billable: true, projects: [
+    {name: "recordsale", entries: [
+      {title: "Artist page: inline linking tags not expanded", issue: 1571, hours: 2.0},
+      {title: "Deprecated records filter incorrect", issue: 1578, hours: 1.5}
+    ]},
+    {name: "flipvinyl", entries: [{title: "Update album detail width and position", issue: 1587, hours: 1.5}]}
+  ]},
+  {client: "Nerdgeschoss", billable: false, projects: [
+    {name: "Non-billable", entries: [{title: nil, hours: 4.1}]}
+  ]}
+]
+
+time_distribution_demo.each do |client|
+  client[:projects].each do |project|
+    project[:entries].each do |entry|
+      task = if entry[:title]
+        Task.create!(
+          title: entry[:title],
+          issue_number: entry[:issue],
+          repository: "nerdgeschoss/app",
+          status: "Done",
+          story_points: 2,
+          sprint: current_sprint
+        )
+      end
+      TimeEntry.create!(
+        external_id: "entry_#{SecureRandom.hex(8)}",
+        client_name: client[:client],
+        project_name: project[:name],
+        task: entry[:title] || "misc",
+        task_id: task&.id,
+        hours: entry[:hours],
+        rounded_hours: entry[:hours],
+        billable: client[:billable],
+        billable_rate: client[:billable] ? 120.0 : 0.0, # required: monthly revenue rollup sums rounded_hours * billable_rate
+        cost_rate: 60.0,
+        user: admin_user,
+        sprint: current_sprint,
+        created_at: first_day + 9.hours
+      )
+    end
+  end
+end
+
 logger.debug "Updating admin sprint feedback with actual data..."
 # Update or create the admin user's sprint feedback with real data
 admin_sprint_feedback = admin_user.sprint_feedbacks.find_or_create_by(sprint: current_sprint) do |feedback|
