@@ -5,13 +5,13 @@ import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 import { CollapsePanel } from '../collapse_panel/collapse_panel';
 import { Icon } from '../icon/icon';
 import { Text } from '../text/text';
+import { ProjectRow } from './project_row';
 import { useFormatter } from '../../util/dependencies';
-import { useSelection } from '../../util/basic_hooks';
+import { useSelection } from '../../util/use_selection';
 import type { DataSchema } from '../../../../data.d.ts';
 
 type Client =
   DataSchema['sprint_feedbacks/show']['feedback']['timeDistribution']['clients'][number];
-type Project = Client['projects'][number];
 
 export const SERIES_COLORS = Array.from(
   { length: 10 },
@@ -83,54 +83,6 @@ export function TimeDistributionList({ clients }: Props): ReactElement {
           </div>
         );
       })}
-    </Stack>
-  );
-}
-
-function ProjectRow({
-  project,
-  color,
-}: {
-  project: Project;
-  color: string;
-}): ReactElement {
-  const l = useFormatter();
-  const hasName = Boolean(project.name);
-
-  return (
-    <Stack gap={8}>
-      <div className="time-distribution-list__label">
-        <span
-          className="time-distribution-list__dot time-distribution-list__dot--small"
-          style={{ background: hasName ? color : 'var(--chart-dot-empty)' }}
-        />
-        <Text type="caption-secondary-regular" color="label-caption-strong">
-          {hasName ? project.name : '—'}
-        </Text>
-      </div>
-      <div className="time-distribution-list__entries">
-        <Stack gap={8}>
-          {project.entries.map((entry) => (
-            <Stack key={entry.id} gap={8} line justify="space-between">
-              <Text
-                type="caption-secondary-regular"
-                color="label-caption-secondary"
-              >
-                {entry.task
-                  ? `${entry.task.title}${entry.task.issueNumber ? ` #${entry.task.issueNumber}` : ''}`
-                  : '—'}
-              </Text>
-              <Text
-                type="caption-secondary-regular"
-                color="label-caption-secondary"
-                noWrap
-              >
-                {l.percentage(entry.percentage)} ({l.hours(entry.hours)}h)
-              </Text>
-            </Stack>
-          ))}
-        </Stack>
-      </div>
     </Stack>
   );
 }
