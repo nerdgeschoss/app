@@ -30,6 +30,10 @@ export class MetaCache {
     this.updateSubscriptions(data.path);
   }
 
+  peek(url: string): Meta | undefined {
+    return this.cache.get(url);
+  }
+
   clear(): void {
     this.cache.clear();
     this.subscriptions.clear();

@@ -1,0 +1,64 @@
+.time-distribution-list {
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+
+    &--client {
+      padding: 0;
+      border: none;
+      background: none;
+      color: inherit;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  &__value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  &__dot {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+
+    &--small {
+      width: 8px;
+      height: 8px;
+    }
+  }
+
+  &__chevron {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__projects {
+    padding-top: 8px;
+    padding-left: 16px;
+  }
+
+  &__entries {
+    padding-left: 16px;
+  }
+}

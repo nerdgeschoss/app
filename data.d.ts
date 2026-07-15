@@ -263,6 +263,29 @@ export interface DataSchema {
       targetTotalHours: number;
       targetBillableHours: number;
       permitEditRetroNotes: boolean;
+      timeDistribution: {
+        totalHours: number;
+        clients: Array<{
+          id: string;
+          name: string;
+          hours: number;
+          percentage: number;
+          projects: Array<{
+            id: string;
+            name: string;
+            entries: Array<{
+              id: string;
+              hours: number;
+              percentage: number;
+              task: {
+                id: string;
+                title: string;
+                issueNumber: number | null;
+              } | null;
+            }>;
+          }>;
+        }>;
+      };
       sprint: {
         id: string;
         title: string;

@@ -125,7 +125,8 @@
     "daily_overview": "Daily Overview",
     "retrospective": "Retrospective",
     "edit_feedback": "Edit feedback",
-    "leave_feedback": "Leave feedback"
+    "leave_feedback": "Leave feedback",
+    "time_distribution": "Time Distribution"
   },
   "performance_day": {
     "show_less": "Show Less",

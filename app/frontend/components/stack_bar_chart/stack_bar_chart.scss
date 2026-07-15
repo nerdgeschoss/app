@@ -1,0 +1,13 @@
+.stack-bar-chart {
+  display: flex;
+  height: 11px;
+  border-radius: 2px;
+  overflow: hidden;
+
+  &__segment {
+    flex-basis: 0;
+    flex-shrink: 1;
+    min-width: 0;
+    height: 100%;
+  }
+}
