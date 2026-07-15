@@ -214,9 +214,13 @@ admin_sprint_feedback = admin_user.sprint_feedbacks.find_or_create_by(sprint: cu
   feedback.finished_storypoints = 0
 end
 
+# Derive the stored totals from the actual time entries so the Sprint Overview
+# card (which reads these columns) stays consistent with the Time Distribution
+# chart (which sums the entries live).
+admin_time_entries = TimeEntry.where(user: admin_user, sprint: current_sprint)
 admin_sprint_feedback.update!(
-  tracked_hours: 7.5,
-  billable_hours: 6.0,
+  tracked_hours: admin_time_entries.sum(:hours),
+  billable_hours: admin_time_entries.billable.sum(:hours),
   finished_storypoints: 5,
   retro_rating: 3,
   retro_text: Faker::Quote.matz
