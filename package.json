@@ -9,6 +9,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.23",
     "@nerdgeschoss/react-use-form-library": "^0.0.71",
     "@nerdgeschoss/shimmer-component-collapse": "^0.1.0",
     "@nerdgeschoss/shimmer-component-stack": "^0.1.0",
@@ -19,6 +21,7 @@
     "react-dom": "^19.0.0",
     "react-flatpickr": "^4.0.11",
     "sass": "^1.83.1",
+    "stimulus-vite-helpers": "^3.1.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.0",
     "vite-plugin-rails": "^0.6.0"

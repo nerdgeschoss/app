@@ -1,6 +1,10 @@
-import { Layout } from '../layout';
-import { Reaction } from '../sprinkles/reaction';
+import '@hotwired/turbo-rails';
+import { Application } from '@hotwired/stimulus';
+import { registerControllers } from 'stimulus-vite-helpers';
 import '../components/reset.scss';
 
-const reaction = new Reaction({ layout: Layout });
-reaction.start();
+const application = Application.start();
+registerControllers(
+  application,
+  import.meta.glob('../controllers/**/*_controller.{ts,tsx}', { eager: true })
+);

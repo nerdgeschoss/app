@@ -24,14 +24,6 @@ module Reaction
         end
       end
 
-      def refresh_component_state(component)
-        render json: Response.new(component:, context: self).to_s
-      end
-
-      def refresh_page
-        render json: {refresh: true}
-      end
-
       def reaction_request?
         request.headers["X-Reaction"].present?
       end
