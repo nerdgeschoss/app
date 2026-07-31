@@ -118,7 +118,7 @@ export default function ({
                 }
               >
                 <Stack size={16}>
-                  <Stack line="mobile" size={4}>
+                  <Stack line="mobile" size={4} wrap={true}>
                     {displayModes.map((e) => (
                       <div onClick={() => setDisplayMode(e)} key={e}>
                         <Pill active={e === displayMode}>
