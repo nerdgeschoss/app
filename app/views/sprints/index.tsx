@@ -14,6 +14,7 @@ import { Property } from '../../frontend/components/property/property';
 import { Pill } from '../../frontend/components/pill/pill';
 import { Table } from '../../frontend/components/table/table';
 import { Tooltip } from '../../frontend/components/tooltip/tooltip';
+import { Grid } from '../../frontend/components/grid/grid';
 
 export default function ({
   data: { currentUser, sprints, nextPageUrl, permitCreateSprint },
@@ -291,43 +292,35 @@ export default function ({
                     </Table>
                   )}
                   {displayMode === 'points' && (
-                    <Stack>
+                    <Grid columns={'repeat(4, 1fr)'}>
                       {sprint.storypointsPerDepartment.map((points) => (
-                        <Stack
-                          key={points.team}
-                          line="mobile"
-                          justify="space-between"
-                        >
+                        <>
                           <Text type="body-regular">{points.team}</Text>
-                          <Text type="body-regular">
+                          <Text type="body-regular" align="right">
                             {l.singleDigitNumber(points.points)} pts
                           </Text>
-                          <Text type="body-regular">
+                          <Text type="body-regular" align="right">
                             {points.workingDays} days
                           </Text>
-                          <Text type="body-regular">
+                          <Text type="body-regular" align="right">
                             {l.singleDigitNumber(points.pointsPerWorkingDay)}{' '}
                             pts/day
                           </Text>
-                        </Stack>
+                        </>
                       ))}
-                      <Stack line="mobile" justify="space-between">
-                        <Text type="body-regular">
-                          {t('sprints.index.total')}
-                        </Text>
-                        <Text type="body-regular">
-                          {l.singleDigitNumber(
-                            sprint.storypointsPerDepartment.reduce(
-                              (acc, points) => acc + points.points,
-                              0
-                            )
-                          )}{' '}
-                          pts
-                        </Text>
-                        <Text type="body-regular"> </Text>
-                        <Text type="body-regular"> </Text>
-                      </Stack>
-                    </Stack>
+                      <Text type="body-regular">
+                        {t('sprints.index.total')}
+                      </Text>
+                      <Text type="body-regular" align="right">
+                        {l.singleDigitNumber(
+                          sprint.storypointsPerDepartment.reduce(
+                            (acc, points) => acc + points.points,
+                            0
+                          )
+                        )}{' '}
+                        pts
+                      </Text>
+                    </Grid>
                   )}
                 </Stack>
               </Card>

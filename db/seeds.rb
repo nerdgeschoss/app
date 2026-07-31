@@ -70,6 +70,7 @@ logger.debug "Creating users..."
         repository: "#{Faker::App.name}/#{Faker::App.name}",
         issue_number: rand(1..500),
         story_points: [3, 5][i],
+        labels: ["design", "frontend", "backend", "exploration"].sample([1, 2].sample),
         sprint:
       )
     end
