@@ -120,11 +120,15 @@ export default function ({
                 <Stack size={16}>
                   <Stack line="mobile" size={4} wrap={true}>
                     {displayModes.map((e) => (
-                      <div onClick={() => setDisplayMode(e)} key={e}>
+                      <Stack
+                        onClick={() => setDisplayMode(e)}
+                        key={e}
+                        fullWidth="none"
+                      >
                         <Pill active={e === displayMode}>
                           {t(`sprints.index.statistic.${e}`)}
                         </Pill>
-                      </div>
+                      </Stack>
                     ))}
                   </Stack>
                   {displayMode === 'performance' && (
