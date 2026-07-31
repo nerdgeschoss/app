@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { Fragment, JSX, useState } from 'react';
 import { PageProps } from '../../../data.d';
 import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { Layout } from '../../frontend/components/layout/layout';
@@ -294,7 +294,7 @@ export default function ({
                   {displayMode === 'points' && (
                     <Grid columns={'repeat(4, 1fr)'}>
                       {sprint.storypointsPerDepartment.map((points) => (
-                        <>
+                        <Fragment key={points.team}>
                           <Text type="body-regular">{points.team}</Text>
                           <Text type="body-regular" align="right">
                             {l.singleDigitNumber(points.points)} pts
@@ -306,7 +306,7 @@ export default function ({
                             {l.singleDigitNumber(points.pointsPerWorkingDay)}{' '}
                             pts/day
                           </Text>
-                        </>
+                        </Fragment>
                       ))}
                       <Text type="body-regular">
                         {t('sprints.index.total')}
