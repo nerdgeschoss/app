@@ -6,6 +6,7 @@ import classnames from 'classnames';
 interface Props {
   children: React.ReactNode;
   minColumnWidth?: number;
+  columns?: string;
   gap?: number;
   horizontalGap?: number;
 }
@@ -13,6 +14,7 @@ interface Props {
 export function Grid({
   children,
   minColumnWidth,
+  columns,
   gap,
   horizontalGap,
 }: Props): JSX.Element {
@@ -22,6 +24,7 @@ export function Grid({
       style={
         {
           '--min-width': `${minColumnWidth ?? 300}px`,
+          '--columns': columns,
           '--gap': `${gap ?? 24}px`,
           '--horizontal-gap': `${horizontalGap ?? gap ?? 24}px`,
         } as React.CSSProperties

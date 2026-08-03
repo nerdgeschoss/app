@@ -1,13 +1,14 @@
 .grid {
   --min-width: 300px;
+  --columns: repeat(
+    auto-fit,
+    minmax(clamp(200px, var(--min-width), 100%), 1fr)
+  );
   --gap: 24px;
   --horizontal-gap: 24px;
 
   display: grid;
   gap: var(--gap) var(--horizontal-gap);
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(clamp(200px, var(--min-width), 100%), 1fr)
-  );
+  grid-template-columns: var(--columns);
   grid-auto-rows: 1fr;
 }
