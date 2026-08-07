@@ -19,6 +19,8 @@
   "files": ["typings.d.ts", "data.d.ts"],
   "include": [
     "app/javascript/**/*",
+    "app/frontend/controllers",
+    "app/frontend/entrypoints",
     "app/frontend/sprinkles",
     "app/frontend/util",
     "app/frontend/layout.tsx",

@@ -1,12 +1,11 @@
-import React, { createContext, FunctionComponent, ReactElement } from 'react';
-import { createRoot } from 'react-dom/client';
-import { Frame } from './frame';
+import React, { createContext, FunctionComponent } from 'react';
+import { Turbo } from '@hotwired/turbo-rails';
 import { History } from './history';
 import { Meta } from './meta';
 
 const imports = import.meta.glob('../../views/**/*.tsx', {});
 
-const ReactionContext = createContext<Reaction | null>(null);
+export const ReactionContext = createContext<Reaction | null>(null);
 export const useReaction = (): Reaction => {
   const reaction = React.useContext(ReactionContext);
   if (!reaction) throw new Error('ReactionContext not found');
@@ -14,21 +13,7 @@ export const useReaction = (): Reaction => {
 };
 
 export class Reaction {
-  private root!: ReturnType<typeof createRoot>;
-  private layout?: FunctionComponent<{
-    children: ReactElement;
-  }>;
-  history = new History((meta) => this.renderPage(meta.path));
-
-  constructor({ layout }: { layout?: Reaction['layout'] } | undefined = {}) {
-    this.layout = layout;
-  }
-
-  start(): void {
-    document.addEventListener('DOMContentLoaded', () => {
-      this.loadPage();
-    });
-  }
+  history = new History();
 
   async componentFor(path: string): Promise<FunctionComponent<unknown> | null> {
     const importPath = '../../views/' + path + '.tsx';
@@ -74,10 +59,15 @@ export class Reaction {
     if (response.headers.get('Content-Type')?.includes('application/json')) {
       const data = await response.json();
       if (data.component) {
+        // response.url is the final URL after redirects (the server-provided
+        // path loses its query string)
+        const landedUrl = new URL(response.url);
+        const landed = landedUrl.pathname + landedUrl.search;
         const meta = new Meta(data);
+        meta.path = landed;
         this.history.cache.write(meta);
-        if (data.path !== this.history.path) {
-          await this.history.navigate(data.path, { allowStale: true });
+        if (landed !== this.history.path) {
+          Turbo.visit(landed);
         }
       }
     }
@@ -85,35 +75,9 @@ export class Reaction {
       await this.history.refreshPageContent();
     }
   }
-
-  private async loadPage(): Promise<void> {
-    const rootElement = document.getElementById('root');
-    if (!rootElement) throw new Error('Root element not found');
-    const metaJson = (
-      document.querySelector(
-        'template[id="reaction-data"]'
-      ) as HTMLTemplateElement
-    ).content.textContent;
-    const data = metaJson ? JSON.parse(decodeURIComponent(metaJson)) : {};
-    const meta = new Meta(data);
-    meta.path = window.location.pathname + window.location.search;
-    this.history.cache.write(meta);
-    this.root = createRoot(rootElement);
-    this.renderPage(meta.path);
-  }
-
-  private async renderPage(path: string): Promise<void> {
-    const content = React.createElement(Frame, { url: path });
-    const app = React.createElement(
-      this.layout || React.Fragment,
-      undefined,
-      content
-    );
-    this.root.render(
-      React.createElement(ReactionContext.Provider, { value: this }, app)
-    );
-  }
 }
+
+export const reaction = new Reaction();
 
 function serialize(
   obj: object,

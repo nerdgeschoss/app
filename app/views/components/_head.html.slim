@@ -7,6 +7,7 @@ head
   link rel="manifest" href=manifest_path
   link rel="apple-touch-icon" href=vite_asset_path("images/app-icon.png")
   meta name="theme-color" content="#ffffff"
+  meta name="turbo-prefetch" content="false"
   / SEO
   = favicon_link_tag vite_asset_path('images/app-icon.png')
 
@@ -17,6 +18,6 @@ head
   / Assets
   = vite_client_tag
   = vite_react_refresh_tag
-  = vite_typescript_tag "application"
+  = vite_typescript_tag "application", "data-turbo-track": "reload"
 
   = yield :additional_head_tags if content_for? :additional_head_tags
