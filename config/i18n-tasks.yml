@@ -1,3 +1,4 @@
+<% require "./lib/tasks/i18n_component_scanner" %>
 base_locale: en
 
 data:
@@ -6,6 +7,19 @@ data:
       line_width: -1
 
 search:
+  # Phlex views are Ruby classes; relative keys resolve to the view path, not the method name.
+  relative_exclude_method_name_paths:
+    - app/views
+  scanners:
+    - - "::I18n::Tasks::Scanners::RubyScanner"
+      - only: ["*.rb"]
+        exclude: ["app/components/*"]
+    - - "::I18nComponentScanner"
+      - only: ["app/components/*.rb"]
+    - - "::I18n::Tasks::Scanners::ErbAstScanner"
+      - only: ["*.erb"]
+    - - "::I18n::Tasks::Scanners::PatternWithScopeScanner"
+      - exclude: ["*.erb", "*.rb"]
   exclude:
     - app/assets/images
     - app/assets/fonts

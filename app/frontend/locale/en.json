@@ -54,11 +54,6 @@
     }
   },
   "users": {
-    "index": {
-      "title": "Users",
-      "number_holidays_left": "%{count} days off left",
-      "salary_since": "%{amount} since %{date}"
-    },
     "show": {
       "remaining_holidays": "Remaining holidays",
       "salary_history": "Salary history",

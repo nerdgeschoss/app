@@ -1,4 +1,3 @@
-import './avatar.scss';
 import { type ReactElement } from 'react';
 import classnames from 'classnames';
 import { Text } from '../text/text';

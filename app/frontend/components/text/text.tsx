@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import { JSX, ReactNode } from 'react';
 
-import './text.scss';
 import { TextType, Color } from './types';
 
 interface Props {

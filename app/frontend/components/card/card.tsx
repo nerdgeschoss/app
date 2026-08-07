@@ -1,6 +1,5 @@
 import React, { JSX, ReactNode } from 'react';
 import { Link } from '../../sprinkles/history';
-import './card.scss';
 import { Text } from '../text/text';
 import classnames from 'classnames';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';

@@ -44,6 +44,10 @@ gem "ruby-vips"
 gem "graphql"
 gem "holidays"
 
+# Views
+gem "literal"
+gem "phlex-rails"
+
 # Assets
 gem "sprockets-rails"
 gem "vite_rails"

@@ -1,4 +1,3 @@
-import './sidebar.scss';
 import { Text } from '../text/text';
 import { JSX, useState } from 'react';
 import classNames from 'classnames';
