@@ -1,4 +1,4 @@
-@use '../layout.scss';
+@use '../../frontend/components/layout.scss';
 
 .sidebar {
   --header-height: 72px;
@@ -47,6 +47,13 @@
     background-color: white;
     position: absolute;
     width: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+
+    > * {
+      overflow: hidden;
+    }
 
     .sidebar__links,
     .sidebar__footer {
@@ -129,6 +136,9 @@
   &__menu-toggle {
     display: grid;
     cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
     @include layout.media-desktop {
       display: none;
     }
@@ -151,6 +161,9 @@
   }
 
   &--expanded {
+    .sidebar__collapse {
+      grid-template-rows: 1fr;
+    }
     .sidebar__burger {
       transform: rotate(90deg);
       opacity: 0;

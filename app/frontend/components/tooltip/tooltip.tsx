@@ -1,6 +1,5 @@
 import { Icon } from '../icon/icon';
 import { Text } from '../text/text';
-import './tooltip.scss';
 import { type ReactElement } from 'react';
 
 interface Props {

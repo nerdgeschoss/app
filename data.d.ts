@@ -437,28 +437,6 @@ export interface DataSchema {
       sprintUntil: string;
     };
   };
-  'users/index': {
-    currentUser: {
-      id: string;
-      displayName: string;
-      avatarUrl: string;
-      email: string;
-      roles: Array<string>;
-    };
-    filter: string;
-    users: Array<{
-      id: string;
-      avatarUrl: string;
-      fullName: string;
-      nickName: string | null;
-      remainingHolidays: number | null;
-      teams: Array<string>;
-      currentSalary: {
-        brut: number;
-        validFrom: string;
-      } | null;
-    }>;
-  };
   'users/show': {
     currentUser: {
       id: string;

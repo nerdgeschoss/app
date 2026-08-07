@@ -44,6 +44,20 @@ en:
         sick: On sick leave
       name: Name
       type: Type
+  components:
+    sidebar:
+      dashboard: Dashboard
+      leaves: Leaves
+      logout: Logout
+      payslips: Payslips
+      profits: Profits
+      projects: Projects
+      sprints: Sprints
+      toggle_menu: Toggle menu
+      users: Users
+    user_card:
+      number_holidays_left: "%{count} days off left"
+      salary_since: "%{amount} since %{date}"
   sprints:
     notifications:
       anniversary_line: "\n🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"
@@ -63,6 +77,13 @@ en:
       same_month: "%{month} %{from_day} %{sep} %{to_day}"
       with_year: "%{date_range}, %{year}"
   users:
+    index:
+      filters:
+        archive: archive
+        employee: employee
+        hr: hr
+        sprinter: sprinter
+      title: Users
     messages:
       congrats: "🎉 Congratulations %{user} on being a part of nerdgeschoss for %{employment_duration} now!"
       happy_birthday: "🥳 *HAPPY BIRTHDAY %{user}!!*"

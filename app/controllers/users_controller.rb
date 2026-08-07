@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :assign_user, except: :index
 
   def index
-    @filter = params[:filter].presence || "employee"
+    @filter = params[:filter].presence_in(Views::Users::Index::FILTERS) || "employee"
     @users = policy_scope(User.alphabetically)
     @hide_financials = !policy(User).financial_details?
     case @filter
@@ -18,6 +18,8 @@ class UsersController < ApplicationController
     when "archive"
       @users = @users.where(roles: [])
     end
+    @users = @users.includes(:salaries, :leaves_this_year) unless @hide_financials
+    render Views::Users::Index.new(users: @users, hide_financials: @hide_financials)
   end
 
   def show

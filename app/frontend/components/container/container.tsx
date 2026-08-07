@@ -1,5 +1,4 @@
 import { JSX, ReactNode } from 'react';
-import './container.scss';
 
 interface Props {
   children: ReactNode;

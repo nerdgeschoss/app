@@ -36,6 +36,7 @@ class User < ApplicationRecord
 
   has_many :payslips, dependent: :destroy
   has_many :leaves, dependent: :destroy, class_name: "Leave"
+  has_many :leaves_this_year, -> { during(Time.zone.today.all_year) }, class_name: "Leave", inverse_of: :user, dependent: nil
   has_many :sprint_feedbacks, dependent: :destroy
   has_many :salaries, dependent: :destroy
   has_many :time_entries, dependent: :destroy
@@ -117,14 +118,5 @@ class User < ApplicationRecord
   def api_token
     regenerate_api_token if super.blank?
     super
-  end
-
-  private
-
-  def leaves_this_year
-    @leaves_this_year ||= begin
-      date = Time.zone.today
-      leaves.during(date.beginning_of_year..date.end_of_year)
-    end
   end
 end

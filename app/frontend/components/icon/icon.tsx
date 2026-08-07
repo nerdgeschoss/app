@@ -1,8 +1,6 @@
-import './icon.scss';
 import React, { JSX } from 'react';
 import classnames from 'classnames';
 import { Color } from '../text/types';
-import './icon.scss';
 
 export type IconName =
   | 'dashboard'

@@ -1,6 +1,5 @@
 import { JSX, ReactNode } from 'react';
 import classNames from 'classnames';
-import './pill.scss';
 
 interface Props {
   children?: ReactNode;
