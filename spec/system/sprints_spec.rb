@@ -3,8 +3,6 @@
 require "system_helper"
 
 RSpec.describe "Sprints" do
-  fixtures :all
-
   context "creating a sprint" do
     it "needs the hr role to see the add button" do
       login :john

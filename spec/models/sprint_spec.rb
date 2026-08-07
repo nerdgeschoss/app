@@ -14,8 +14,6 @@
 require "rails_helper"
 
 RSpec.describe Sprint do
-  fixtures :all
-
   around do |example|
     Config.stub(slack_announcement_channel_id: "slack-announcement-channel", slack_bot_token: "BOT_TOKEN", slack_hr_channel_id: "HR_CHANNEL") do
       example.run
@@ -23,7 +21,7 @@ RSpec.describe Sprint do
   end
 
   describe "#revenue / #costs / #profit" do
-    let(:sprint) { sprints(:empty) }
+    let(:sprint) { sprints.empty }
     let(:rows) { sprint.profit_report.aggregate_rows }
 
     it "delegates to the profit report" do
@@ -34,7 +32,7 @@ RSpec.describe Sprint do
   end
 
   describe "#revenue_per_storypoint" do
-    let(:sprint) { sprints(:empty) }
+    let(:sprint) { sprints.empty }
 
     it "returns nil when no storypoints were completed" do
       sprint.tasks.update_all(status: "Idea")
@@ -62,8 +60,8 @@ RSpec.describe Sprint do
   end
 
   context "sending the start notification" do
-    let(:sprint) { sprints(:empty) }
-    let(:john) { users(:john) }
+    let(:sprint) { sprints.empty }
+    let(:john) { users.john }
 
     it "prints the details" do
       sprint.send_sprint_start_notification
@@ -178,7 +176,7 @@ RSpec.describe Sprint do
 
   describe "#average_rating" do
     it "returns the average sprint rating" do
-      sprint = sprints(:empty)
+      sprint = sprints.empty
 
       expect(sprint.average_rating).to eq 4.0
     end

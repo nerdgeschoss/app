@@ -3,8 +3,7 @@
 require "system_helper"
 
 RSpec.describe "Leaves" do
-  fixtures :all
-  let(:user) { users(:john) }
+  let(:user) { users.john }
 
   it "creates and edits inventory" do
     travel_to "2022-02-02"

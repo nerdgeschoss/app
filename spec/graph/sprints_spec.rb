@@ -3,9 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Sprints", type: :graph do
-  fixtures :all
-  let(:user) { users(:john) }
-  let(:sprint) { sprints(:empty) }
+  let(:user) { users.john }
+  let(:sprint) { sprints.empty }
 
   it "hides sprints if no one is logged in" do
     gql <<~GRAPHQL

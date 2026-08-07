@@ -21,10 +21,8 @@
 require "rails_helper"
 
 RSpec.describe Task do
-  fixtures :all
-
   describe ".sync_with_github" do
-    let(:project) { projects :customer_project }
+    let(:project) { projects.customer_project }
     let(:sprint_board_items) do
       [
         Github::SprintBoardItem.new(
@@ -67,13 +65,13 @@ RSpec.describe Task do
     it "creates new tasks and task_users" do
       Task.sync_with_github
       task = Task.find_by github_id: sprint_board_items.first.id
-      expect(task.sprint).to eq sprints :empty
+      expect(task.sprint).to eq sprints.empty
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
       expect(task.status).to eq "Done"
       expect(task.repository).to eq project.repository
       expect(task.issue_number).to eq 157
       expect(task.story_points).to eq 3
-      expect(task.users).to eq [users(:john)]
+      expect(task.users).to eq [users.john]
       expect(task.labels).to eq ["backend"]
       expect(task.project).to eq project
       expect(task.shaping_notes).to eq("#Shaping Notes\n\nDo it like this and not like that.")
@@ -81,20 +79,20 @@ RSpec.describe Task do
     end
 
     it "updates existing tasks" do
-      task = tasks :done
-      task.update! github_id: sprint_board_items.first.id, users: [users(:admin)], story_points: 13
+      task = tasks.done
+      task.update! github_id: sprint_board_items.first.id, users: [users.admin], story_points: 13
       Task.sync_with_github
       task.reload
       expect(task.title).to eq "APP-777 - Implement Banner and QR Code"
-      expect(task.users).to eq [users(:john)]
+      expect(task.users).to eq [users.john]
       expect(task.issue_number).to eq 157
-      expect(task.sprint).to eq sprints :empty
+      expect(task.sprint).to eq sprints.empty
       expect(task.story_points).to eq 3
       expect(task.status).to eq "Done"
     end
 
     it "deletes tasks that are not in the list" do
-      task = tasks :in_progress
+      task = tasks.in_progress
 
       Task.sync_with_github
 
@@ -102,7 +100,7 @@ RSpec.describe Task do
     end
 
     it "does not delete tasks that are not in the list if they are done" do
-      task = tasks :done
+      task = tasks.done
 
       Task.sync_with_github
 
@@ -110,7 +108,7 @@ RSpec.describe Task do
     end
 
     it "only updates finished_storypoints" do
-      sprint_feedback = sprint_feedbacks(:sprint_feedback_john)
+      sprint_feedback = sprint_feedbacks.sprint_feedback_john
       expect(sprint_feedback).to have_attributes finished_storypoints: 8
 
       Task.sync_with_github

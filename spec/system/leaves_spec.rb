@@ -3,8 +3,6 @@
 require "system_helper"
 
 RSpec.describe "Leaves" do
-  fixtures :all
-
   it "requests a leave and notifies hr" do
     travel_to "2022-02-02"
     login :john
@@ -29,7 +27,7 @@ RSpec.describe "Leaves" do
   end
 
   it "approves a requested leave" do
-    leave = users(:john).leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
+    leave = users.john.leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
     login :admin
     visit leaves_path
     expect(page).to have_content "John / Holiday"
@@ -86,18 +84,18 @@ RSpec.describe "Leaves" do
     it "shows the leaves for a team" do
       travel_to "2025-01-01"
 
-      john = users(:john)
+      john = users.john
       john.update!(roles: ["team-code-cowboys"])
       john.leaves.delete_all
 
       john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2024-12-30"])
       john.leaves.create!(type: :sick, title: "Private Sickness", days: ["2025-01-01", "2025-01-02"])
 
-      cigdem = users(:cigdem)
+      cigdem = users.cigdem
       cigdem.update!(roles: ["team-backlog-busters"])
       cigdem.leaves.create!(type: :non_working, title: "Not Working", days: ["2025-01-01"])
 
-      yuki = users(:yuki)
+      yuki = users.yuki
       yuki.update!(roles: ["team-code-cowboys"])
       yuki.leaves.create!(type: :paid, title: "Holiday in the Alps", days: ["2025-01-03"])
 

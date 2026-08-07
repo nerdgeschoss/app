@@ -3,15 +3,17 @@
 require "rails_helper"
 
 RSpec.describe ProfitCalculation do
-  fixtures :users, :sprints, :sprint_feedbacks, :time_entries, :salaries, :leaves
-
   describe "#months" do
-    let(:john) { users(:john) }
+    let(:john) { users.john }
     let(:calculation) { described_class.new(Date.new(2023, 1, 20)..Date.new(2023, 3, 10)) }
     let(:active_users) do
-      [users(:john), users(:john_no_slack), users(:cigdem), users(:yuki), users(:zacharias)]
+      [users.john, users.john_no_slack, users.cigdem, users.yuki, users.zacharias]
     end
     let(:months_by_date) { calculation.months.index_by(&:date) }
+
+    # Keep entry_1 as John's only time entry to control the revenue input
+    # (the seeds add demo entries for the time-distribution component).
+    before { john.time_entries.where.not(external_id: "ext_12345").delete_all }
 
     it "uses the range start for the first month and first-of-month thereafter" do
       expect(calculation.months.map(&:date))
@@ -57,13 +59,13 @@ RSpec.describe ProfitCalculation do
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
       # 5 active users, 10000 fixed costs, full month → 2000 each.
       # Cigdem has no salary → her cost is the fixed share alone.
-      expect(february_rows[users(:cigdem)].cost).to eq 10000 / 5.0
+      expect(february_rows[users.cigdem].cost).to eq 10000 / 5.0
     end
 
     it "prorates the fixed share for partial months" do
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
       # 12/31 of the month, 5 active users → 10000 * 12 / 31 / 5.
-      expect(january_rows[users(:cigdem)].cost).to be_within(0.01).of(10000 * 12 / 31.0 / 5)
+      expect(january_rows[users.cigdem].cost).to be_within(0.01).of(10000 * 12 / 31.0 / 5)
     end
 
     it "accumulates each user's running revenue, cost and profit across months" do
@@ -105,7 +107,7 @@ RSpec.describe ProfitCalculation do
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
       # entry_1: john, created_at 2023-01-24, rounded_hours 1.5, billable_rate 100 → 150
       expect(january_rows[john].revenue).to eq 150
-      expect(january_rows[users(:cigdem)].revenue).to eq 0
+      expect(january_rows[users.cigdem].revenue).to eq 0
       expect(february_rows[john].revenue).to eq 0
     end
 
@@ -186,7 +188,7 @@ RSpec.describe ProfitCalculation do
     end
 
     it "buckets entries by created_at, not start_at" do
-      time_entries(:entry_1).update_columns(start_at: Time.zone.local(2023, 1, 24), created_at: Time.zone.local(2023, 2, 10))
+      time_entries.entry_1.update_columns(start_at: Time.zone.local(2023, 1, 24), created_at: Time.zone.local(2023, 2, 10))
       january_rows = months_by_date[Date.new(2023, 1, 20)].rows.index_by(&:user)
       february_rows = months_by_date[Date.new(2023, 2, 1)].rows.index_by(&:user)
       expect(january_rows[john].revenue).to eq 0

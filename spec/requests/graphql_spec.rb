@@ -3,8 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "GraphQL" do
-  fixtures :all
-  let(:user) { users(:john) }
+  let(:user) { users.john }
   let(:query) do
     <<-GRAPHQL
       {

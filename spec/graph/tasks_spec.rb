@@ -3,10 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Tasks", type: :graph do
-  fixtures :all
-  let(:user) { users(:john) }
-  let(:done_task) { tasks(:done) }
-  let(:in_progress_task) { tasks(:in_progress) }
+  let(:user) { users.john }
+  let(:done_task) { tasks.done }
+  let(:in_progress_task) { tasks.in_progress }
 
   it "hides tasks if no one is logged in" do
     gql <<~GRAPHQL
@@ -42,7 +41,7 @@ RSpec.describe "Tasks", type: :graph do
 
   it "filters tasks by sprint" do
     login(user)
-    sprint = sprints(:empty)
+    sprint = sprints.empty
     query = <<~GRAPHQL
       query Tasks($sprintId: ID!) {
         tasks(sprintId: $sprintId) {

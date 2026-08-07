@@ -3,8 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "Users" do
-  fixtures :all
-
   describe "emails" do
     it "lists email addresses of sprinters" do
       get "/api/v1/users/emails", params: {token: Config.api_emails_list_token}

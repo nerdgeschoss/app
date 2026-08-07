@@ -3,8 +3,7 @@
 require "system_helper"
 
 RSpec.describe "Projects" do
-  fixtures :all
-  let(:project) { projects(:customer_project) }
+  let(:project) { projects.customer_project }
 
   it "shows current projects" do
     login :admin

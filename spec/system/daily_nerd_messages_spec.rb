@@ -3,9 +3,8 @@
 require "system_helper"
 
 RSpec.describe "Daily Nerd messages" do
-  fixtures :all
-  let(:user) { users(:john) }
-  let(:sprint) { sprints(:empty) }
+  let(:user) { users.john }
+  let(:sprint) { sprints.empty }
   let(:sprint_feedback) { SprintFeedback.find_by(user:, sprint:) }
 
   before do

@@ -3,8 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "Leaves ICS Feed" do
-  fixtures :all
-
   it "rejects requests not containing a secret" do
     get "/en/feed/leaves.ics"
     expect(response).to have_http_status :unauthorized
@@ -12,7 +10,7 @@ RSpec.describe "Leaves ICS Feed" do
   end
 
   it "retrieves a list of leaves" do
-    get "/en/feed/leaves.ics?auth=#{users(:admin).id}"
+    get "/en/feed/leaves.ics?auth=#{users.admin.id}"
     expect(response).to have_http_status :ok
     expect(response.body).to include "John: Having the Flu"
     expect(response.body).to include "John: Vacation"

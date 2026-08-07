@@ -25,8 +25,7 @@
 require "rails_helper"
 
 RSpec.describe User do
-  fixtures :all
-  let(:john) { users(:john) }
+  let(:john) { users.john }
   let(:slack_text) { Slack.instance.last_message.text }
 
   around do |example|
@@ -60,7 +59,7 @@ RSpec.describe User do
   end
 
   context "notified about a message" do
-    let(:john) { users(:john_no_slack) }
+    let(:john) { users.john_no_slack }
 
     it "updates the slack id on first use" do
       expect(john).to have_attributes email: "john-no-slack@example.com", slack_id: nil
@@ -78,7 +77,7 @@ RSpec.describe User do
     end
 
     it "uses the persisted slack id" do
-      users(:john).notify!("hello")
+      users.john.notify!("hello")
       expect(Slack.instance.last_message).to have_attributes channel: "slack-john", text: "hello"
     end
   end
@@ -134,13 +133,13 @@ RSpec.describe User do
 
     it "can be a member of multiple teams" do
       john.update! roles: ["team-nerdgeschoss", "team-frontend"]
-      yuki = users(:yuki)
+      yuki = users.yuki
       yuki.update! roles: ["team-nerdgeschoss"]
       expect(User.in_team(["nerdgeschoss", "frontend"])).to include(john, yuki)
     end
 
     it "can be a team lead of another user" do
-      yuki = users(:yuki)
+      yuki = users.yuki
       expect(john.team_lead_of?(yuki)).to be false
       john.update! roles: ["team-frontend", "team_lead-frontend"]
       yuki.update! roles: ["team-frontend"]

@@ -3,10 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Projects", type: :graph do
-  fixtures :all
-  let(:user) { users(:john) }
-  let(:admin) { users(:admin) }
-  let(:project) { projects(:customer_project) }
+  let(:user) { users.john }
+  let(:admin) { users.admin }
+  let(:project) { projects.customer_project }
 
   it "finds a project by id or repository" do
     login(user)
@@ -49,7 +48,7 @@ RSpec.describe "Projects", type: :graph do
         { projects(category: INTERNAL) { nodes { name } } }
       GRAPHQL
       names = data.projects.nodes.map(&:name)
-      expect(names).to eq(["Internal Tool"])
+      expect(names).to eq(["Employee Dashboard", "Internal Tool"])
     end
 
     it "filters by category CUSTOMERS" do
@@ -116,7 +115,7 @@ RSpec.describe "Projects", type: :graph do
     end
 
     it "shows financial details for hr employees" do
-      login(users(:admin))
+      login(users.admin)
       gql <<~GRAPHQL, variables: {id: project.id}
         query Project($id: ID!) {
           project(id: $id) {

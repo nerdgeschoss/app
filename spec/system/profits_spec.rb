@@ -3,8 +3,6 @@
 require "system_helper"
 
 RSpec.describe "Profits" do
-  fixtures :all
-
   before { travel_to "2026-05-12" }
 
   it "shows the profit grid to HR with a total row per month" do

@@ -18,8 +18,7 @@
 require "rails_helper"
 
 RSpec.describe Leave do
-  fixtures :all
-  let(:user) { users(:john) }
+  let(:user) { users.john }
   let(:holiday) { user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-02", "2023-01-03"] }
   let(:single_day_sick_leave) { user.leaves.create! type: :sick, title: "Sick", days: ["2023-01-02"] }
 
@@ -31,12 +30,12 @@ RSpec.describe Leave do
 
   describe ".of_team" do
     it "returns leaves of users in a team" do
-      john = users(:john)
+      john = users.john
       john.update!(roles: ["team-code-cowboys"])
       john.leaves.create!(type: :sick, title: "Sick", days: ["2024-12-31"])
       john.leaves.create!(type: :sick, title: "Sick", days: ["2025-01-01"])
 
-      cigdem = users(:cigdem)
+      cigdem = users.cigdem
       cigdem.update!(roles: ["team-backlog-busters"])
       leave = cigdem.leaves.create!(type: :non_working, title: "Not Working", days: ["2025-01-01"])
 
@@ -61,7 +60,7 @@ RSpec.describe Leave do
       holiday.notify_hr_on_slack_about_new_request
       text = <<~TEXT
         *<@slack-john>* requested a new paid leave for January 2 — 3, 2023
-        You can approve or reject this request <http://example.com/en/leaves?status=pending_approval&user_id=d6f57eaa-da8a-5c59-a1a1-8ebe34034b8a|here>
+        You can approve or reject this request <http://example.com/en/leaves?status=pending_approval&user_id=#{user.id}|here>
       TEXT
       expect(Slack.instance.last_message.text).to eq text.strip
     end

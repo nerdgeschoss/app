@@ -18,11 +18,9 @@
 require "rails_helper"
 
 RSpec.describe Project do
-  fixtures :all
-
-  let(:project) { projects(:customer_project) }
-  let(:sprint) { sprints(:empty) }
-  let(:user) { users(:john) }
+  let(:project) { projects.customer_project }
+  let(:sprint) { sprints.empty }
+  let(:user) { users.john }
 
   it "has data on invoices" do
     project.invoices.create!(state: "paid", amount: 150.0, sent_at: 1.month.ago, harvest_id: 124, reference: "INV-001")

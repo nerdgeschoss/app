@@ -25,8 +25,7 @@
 require "rails_helper"
 
 RSpec.describe SprintFeedback do
-  fixtures :all
-  let(:feedback) { sprint_feedbacks(:sprint_feedback_john) }
+  let(:feedback) { sprint_feedbacks.sprint_feedback_john }
 
   context "when calculating costs" do
     it "calculates the costs based on the current salary" do

@@ -3,8 +3,6 @@
 require "system_helper"
 
 RSpec.describe "Sessions" do
-  fixtures :all
-
   it "logs a user in via a code" do
     visit root_path
     expect(page).to have_content "Login"

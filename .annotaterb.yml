@@ -10,7 +10,7 @@
 :classified_sort: true
 :exclude_controllers: true
 :exclude_factories: false
-:exclude_fixtures: false
+:exclude_fixtures: true
 :exclude_helpers: true
 :exclude_scaffolds: true
 :exclude_serializers: false

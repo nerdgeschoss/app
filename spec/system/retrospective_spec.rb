@@ -3,8 +3,7 @@
 require "system_helper"
 
 RSpec.describe "Retrospectives" do
-  fixtures :all
-  let(:user) { users(:john) }
+  let(:user) { users.john }
   let(:sprint) { Sprint.create!(title: "Sprint 1", sprint_from: 2.weeks.ago, sprint_until: 1.week.ago) }
   let(:feedback) { sprint.sprint_feedbacks.create!(user:) }
 

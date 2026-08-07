@@ -3,8 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Users", type: :graph do
-  fixtures :all
-  let(:user) { users(:john) }
+  let(:user) { users.john }
   let(:query) do
     <<-GRAPHQL
       {
@@ -44,7 +43,7 @@ RSpec.describe "Users", type: :graph do
 
   context "restricting fields" do
     it "restricts users remaining holidays for non-hr employees" do
-      login(users(:yuki))
+      login(users.yuki)
       gql <<~GRAPHQL
         {
           user(id: "#{user.id}") {
@@ -56,7 +55,7 @@ RSpec.describe "Users", type: :graph do
     end
 
     it "shows it for hr employees" do
-      login(users(:admin))
+      login(users.admin)
       gql <<~GRAPHQL
         {
           user(id: "#{user.id}") {

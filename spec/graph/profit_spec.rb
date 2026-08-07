@@ -3,10 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "ProfitReport", type: :graph do
-  fixtures :all
+  let(:admin) { users.admin }
+  let(:john) { users.john }
 
-  let(:admin) { users(:admin) }
-  let(:john) { users(:john) }
+  # Keep entry_1 as John's only time entry to control the revenue input
+  # (the seeds add demo entries for the time-distribution component).
+  before { john.time_entries.where.not(external_id: "ext_12345").delete_all }
 
   describe "top-level profitReport" do
     let(:query) do
@@ -82,7 +84,7 @@ RSpec.describe "ProfitReport", type: :graph do
   end
 
   describe "Sprint#profitReport" do
-    let(:sprint) { sprints(:empty) }
+    let(:sprint) { sprints.empty }
     let(:query) do
       <<~GRAPHQL
         query SprintProfit($id: ID!) {

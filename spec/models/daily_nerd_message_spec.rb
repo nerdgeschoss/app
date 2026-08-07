@@ -13,8 +13,7 @@
 require "rails_helper"
 
 RSpec.describe DailyNerdMessage do
-  fixtures :all
-  let(:user) { users(:john) }
+  let(:user) { users.john }
   let(:daily_nerd_message) { user.sprint_feedbacks.take.daily_nerd_messages.create(message: "I'm a daily nerd") }
 
   describe "#post_to_slack" do

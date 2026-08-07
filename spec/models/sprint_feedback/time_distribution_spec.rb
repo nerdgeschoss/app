@@ -3,9 +3,7 @@
 require "rails_helper"
 
 RSpec.describe SprintFeedback::TimeDistribution do
-  fixtures :all
-
-  let(:feedback) { sprint_feedbacks(:sprint_feedback_john) }
+  let(:feedback) { sprint_feedbacks.sprint_feedback_john }
   let(:sprint) { feedback.sprint }
   let(:user) { feedback.user }
   let(:distribution) { described_class.new(feedback) }
@@ -14,7 +12,7 @@ RSpec.describe SprintFeedback::TimeDistribution do
     # Replace fixture entries with a controlled set for this user/sprint.
     TimeEntry.where(sprint:, user:).delete_all
 
-    create_entry(client: "Some Client", project: "Some Project", hours: 3.0, task: tasks(:done))
+    create_entry(client: "Some Client", project: "Some Project", hours: 3.0, task: tasks.done)
     create_entry(client: "Some Client", project: "Some Project", hours: 1.2)
     create_entry(client: "nerdgeschoss", project: "Internal Tool", hours: 0.8, task_string: "personal goals", billable: false)
   end

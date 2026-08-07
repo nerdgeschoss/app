@@ -3,9 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "TimeEntries", type: :graph do
-  fixtures :all
-  let(:user) { users(:john) }
-  let(:entry) { time_entries(:entry_1) }
+  let(:user) { users.john }
+  let(:entry) { time_entries.entry_1 }
 
   it "hides time entries if no one is logged in" do
     gql <<~GRAPHQL
@@ -60,7 +59,7 @@ RSpec.describe "TimeEntries", type: :graph do
 
   context "restricting fields" do
     it "restricts billable_rate for non-hr employees" do
-      login(users(:yuki))
+      login(users.yuki)
       gql <<~GRAPHQL
         {
           timeEntries {
@@ -74,7 +73,7 @@ RSpec.describe "TimeEntries", type: :graph do
     end
 
     it "shows billable_rate for hr employees" do
-      login(users(:admin))
+      login(users.admin)
       gql <<~GRAPHQL
         {
           timeEntries {

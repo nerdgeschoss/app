@@ -14,10 +14,8 @@
 require "rails_helper"
 
 RSpec.describe Sprint::Harvest do
-  fixtures :all
-
   describe "#sync_with_harvest" do
-    let(:sprint) { sprints(:empty) }
+    let(:sprint) { sprints.empty }
 
     it "imports time entries from harvest" do
       allow(HarvestApi.instance).to receive(:time_entries).and_return(

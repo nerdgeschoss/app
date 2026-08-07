@@ -3,8 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Leave::Presenter do
-  fixtures :all
-  let(:user) { users(:john) }
+  let(:user) { users.john }
   let(:holiday) { user.leaves.create! type: :paid, title: "Holidays", days: ["2023-01-02", "2023-01-03"] }
   let(:single_day_sick_leave) { user.leaves.create! type: :sick, title: "Sick", days: ["2023-01-02"] }
   let(:presenter) { described_class.new(leave) }

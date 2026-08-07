@@ -2,7 +2,7 @@
 
 module LoginHelper
   def login(user)
-    user = users(user) if user.is_a?(Symbol)
+    user = users.public_send(user) if user.is_a?(Symbol)
     set_encrypted_cookie("auth", user.id)
   end
 

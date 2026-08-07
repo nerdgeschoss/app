@@ -3,9 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "DailyNerdMessages", type: :graph do
-  fixtures :all
-  let(:user) { users(:john) }
-  let(:message) { daily_nerd_messages(:johns_message) }
+  let(:user) { users.john }
+  let(:message) { daily_nerd_messages.johns_message }
 
   it "lists daily nerd messages if the viewer is an employee" do
     login(user)
@@ -60,6 +59,6 @@ RSpec.describe "DailyNerdMessages", type: :graph do
     GRAPHQL
     gql query, variables: {fromDate: "2023-01-25", toDate: "2023-01-26"}
     messages = data.daily_nerd_messages.nodes.map(&:message)
-    expect(messages).to eq [daily_nerd_messages(:johns_second_message).message]
+    expect(messages).to eq [daily_nerd_messages.johns_second_message.message]
   end
 end
