@@ -13,7 +13,7 @@
     padding: 32px 16px 40px;
     box-shadow: 7px 10px 10px 0px rgba(43, 124, 138, 0.03);
     display: grid;
-    grid-template-rows: auto minmax(8px, 56px) 1fr 24px auto;
+    grid-template-rows: auto minmax(24px, 56px) 1fr 24px auto;
     grid-template-areas: 'header' 'gap1' 'links' 'gap2' 'footer';
   }
 
