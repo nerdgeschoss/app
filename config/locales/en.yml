@@ -1,5 +1,19 @@
 ---
 en:
+  components:
+    sidebar:
+      dashboard: Dashboard
+      leaves: Leaves
+      logout: Logout
+      payslips: Payslips
+      profits: Profits
+      projects: Projects
+      sprints: Sprints
+      toggle_menu: Toggle menu
+      users: Users
+    user_card:
+      number_holidays_left: "%{count} days off left"
+      salary_since: "%{amount} since %{date}"
   daily_nerd_messages:
     form:
       message_placeholder: How was your day? What did you learn?
@@ -44,20 +58,6 @@ en:
         sick: On sick leave
       name: Name
       type: Type
-  components:
-    sidebar:
-      dashboard: Dashboard
-      leaves: Leaves
-      logout: Logout
-      payslips: Payslips
-      profits: Profits
-      projects: Projects
-      sprints: Sprints
-      toggle_menu: Toggle menu
-      users: Users
-    user_card:
-      number_holidays_left: "%{count} days off left"
-      salary_since: "%{amount} since %{date}"
   sprints:
     notifications:
       anniversary_line: "\n🎈 *%{user} celebrates their nerdgeschoss anniversary on %{date}!*"
