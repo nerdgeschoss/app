@@ -147,7 +147,7 @@ export function Sidebar({ user }: Props): JSX.Element {
               </Link>
               <Link href="/logout">
                 <div className="sidebar__link">
-                  <Icon name="logout" size={24} desktopSize={32} />
+                  <Icon name="logout" size={24} desktopSize={28} />
                   <div className="sidebar__link-text">
                     <Text type="menu-semibold" color="text-text-primary-base">
                       Logout
@@ -160,21 +160,19 @@ export function Sidebar({ user }: Props): JSX.Element {
         </Collapse>
       </div>
       <div className="sidebar__links">
-        <Stack gap={24} gapTablet={32} gapDesktop={48}>
-          {links.map((link) => (
-            <Link href={link.path} key={link.name}>
-              <Tooltip content={link.name}>
-                <div
-                  className={classNames('sidebar__link', {
-                    'sidebar__link--active': link.active,
-                  })}
-                >
-                  <Icon name={link.icon} size={24} desktopSize={32} />
-                </div>
-              </Tooltip>
-            </Link>
-          ))}
-        </Stack>
+        {links.map((link) => (
+          <Link href={link.path} key={link.name}>
+            <Tooltip content={link.name}>
+              <div
+                className={classNames('sidebar__link', {
+                  'sidebar__link--active': link.active,
+                })}
+              >
+                <Icon name={link.icon} size={24} desktopSize={32} />
+              </div>
+            </Tooltip>
+          </Link>
+        ))}
       </div>
       <div className="sidebar__footer">
         <Link href={`/users/${user.id}`}>
