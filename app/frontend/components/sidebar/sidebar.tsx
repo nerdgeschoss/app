@@ -147,7 +147,7 @@ export function Sidebar({ user }: Props): JSX.Element {
               </Link>
               <Link href="/logout">
                 <div className="sidebar__link">
-                  <Icon name="logout" size={24} desktopSize={28} />
+                  <Icon name="logout" size={24} desktopSize={32} />
                   <div className="sidebar__link-text">
                     <Text type="menu-semibold" color="text-text-primary-base">
                       Logout
