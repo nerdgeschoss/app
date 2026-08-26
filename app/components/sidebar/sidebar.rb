@@ -46,9 +46,7 @@ class Components::Sidebar < Components::Base
         end
       end
       div(class: "sidebar__links") do
-        stack(size: 24, tablet_size: 32, desktop_size: 48) do
-          items.each { |item| desktop_link(item) }
-        end
+        items.each { |item| desktop_link(item) }
       end
       div(class: "sidebar__footer") do
         profile_link do

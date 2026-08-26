@@ -5,16 +5,18 @@
 
   background-color: var(--navigation-bg-default);
   box-shadow: 0px 10px 10px 0px rgba(43, 124, 138, 0.03);
-  position: sticky;
-  top: 0;
+
+  height: 100vh;
+  position: fixed;
+  overflow: auto;
 
   @include layout.media-desktop {
-    height: 100vh;
+    min-height: 100vh;
     padding: 32px 16px 40px;
     box-shadow: 7px 10px 10px 0px rgba(43, 124, 138, 0.03);
-    display: flex;
-    flex-direction: column;
-    gap: 56px;
+    display: grid;
+    grid-template-rows: auto minmax(24px, 56px) 1fr 24px auto;
+    grid-template-areas: 'header' 'gap1' 'links' 'gap2' 'footer';
   }
 
   &__header {
@@ -28,6 +30,7 @@
       height: auto;
       padding: 0;
       justify-content: center;
+      grid-area: header;
     }
   }
 
@@ -80,6 +83,10 @@
 
     @include layout.media-desktop {
       display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 16px;
+      grid-area: links;
     }
   }
 
@@ -120,10 +127,19 @@
     flex-direction: column;
     gap: 40px;
     display: none;
-    margin-top: auto;
 
     @include layout.media-desktop {
-      display: flex;
+      display: grid;
+      grid-template-rows: auto minmax(8px, 56px) auto;
+      gap: 0;
+      grid-area: footer;
+
+      > *:first-child {
+        grid-row: 1;
+      }
+      > *:last-child {
+        grid-row: 3;
+      }
     }
   }
 
