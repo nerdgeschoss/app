@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 # Core
 gem "puma"
-gem "rails", "~> 8.0"
+gem "rails", "~> 8.1.0"
 
 # Database
 gem "pg"
