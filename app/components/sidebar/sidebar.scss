@@ -6,9 +6,8 @@
   background-color: var(--navigation-bg-default);
   box-shadow: 0px 10px 10px 0px rgba(43, 124, 138, 0.03);
 
-  height: 100vh;
-  position: fixed;
-  overflow: auto;
+  position: sticky;
+  top: 0;
 
   @include layout.media-desktop {
     min-height: 100vh;
