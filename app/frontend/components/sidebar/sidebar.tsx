@@ -6,7 +6,6 @@ import { Link, usePath } from '../../sprinkles/history';
 import { Logo } from '../logo/logo';
 import { Stack } from '@nerdgeschoss/shimmer-component-stack';
 import { Collapse } from '@nerdgeschoss/shimmer-component-collapse';
-import { Tooltip } from '../tooltip/tooltip';
 import { Avatar } from '../avatar/avatar';
 
 interface Props {
@@ -162,15 +161,13 @@ export function Sidebar({ user }: Props): JSX.Element {
       <div className="sidebar__links">
         {links.map((link) => (
           <Link href={link.path} key={link.name}>
-            <Tooltip content={link.name}>
-              <div
-                className={classNames('sidebar__link', {
-                  'sidebar__link--active': link.active,
-                })}
-              >
-                <Icon name={link.icon} size={24} desktopSize={32} />
-              </div>
-            </Tooltip>
+            <div
+              className={classNames('sidebar__link', {
+                'sidebar__link--active': link.active,
+              })}
+            >
+              <Icon name={link.icon} size={24} desktopSize={32} />
+            </div>
           </Link>
         ))}
       </div>
@@ -189,11 +186,9 @@ export function Sidebar({ user }: Props): JSX.Element {
           </Stack>
         </Link>
         <Link href="/logout">
-          <Tooltip content="Logout">
-            <div className="sidebar__link">
-              <Icon name="logout" size={24} desktopSize={32} />
-            </div>
-          </Tooltip>
+          <div className="sidebar__link">
+            <Icon name="logout" size={24} desktopSize={32} />
+          </div>
         </Link>
       </div>
     </nav>

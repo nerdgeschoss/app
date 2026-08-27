@@ -54,10 +54,8 @@ class Components::Sidebar < Components::Base
           username
         end
         a(href: logout_path) do
-          render Components::Tooltip.new(label: t(".logout")) do
-            div(class: "sidebar__link") do
-              icon(name: "logout", size: 24, desktop_size: 32)
-            end
+          div(class: "sidebar__link") do
+            icon(name: "logout", size: 24, desktop_size: 32)
           end
         end
       end
@@ -93,10 +91,8 @@ class Components::Sidebar < Components::Base
 
   def desktop_link(item)
     a(href: item.path) do
-      render Components::Tooltip.new(label: item.label) do
-        div(class: ["sidebar__link", ("sidebar__link--active" if active?(item))]) do
-          icon(name: item.icon, size: 24, desktop_size: 32)
-        end
+      div(class: ["sidebar__link", ("sidebar__link--active" if active?(item))]) do
+        icon(name: item.icon, size: 24, desktop_size: 32)
       end
     end
   end
