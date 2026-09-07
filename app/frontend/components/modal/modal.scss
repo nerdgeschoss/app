@@ -31,9 +31,10 @@ $animation_time: 0.35s;
   z-index: 100;
   display: flex;
   justify-content: flex-end;
-  overflow: scroll;
+  overflow: hidden;
 
   &__close {
+    flex: 0 0 auto;
     margin-left: auto;
     margin-top: 32px;
     margin-right: 32px;
@@ -64,25 +65,32 @@ $animation_time: 0.35s;
 
   &__content {
     position: relative;
+    display: flex;
+    flex-direction: column;
     background-color: #fff;
     transition:
       opacity $animation_time,
       transform $animation_time;
     transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     opacity: 0;
-    height: 100vh;
-    border-radius: 16 0 0 16;
     transform: translate(100%, 0px);
     max-height: 90vh;
+    max-height: 90dvh;
     border-radius: 16px;
+    overflow: hidden;
 
     @include layout.media-tablet {
-      max-height: 100%;
+      max-height: calc(100vh - 64px);
+      max-height: calc(100dvh - 64px);
     }
+  }
 
-    & > .stack {
-      height: 100%;
-    }
+  &__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   &--large {
@@ -111,26 +119,24 @@ $animation_time: 0.35s;
     justify-content: center;
     align-items: flex-start;
 
+    @include layout.media-tablet {
+      align-items: center;
+    }
+
     .modal__content {
       transform: translate(0px, 100%);
       margin-top: auto;
-      height: auto;
       max-width: unset;
       width: 100%;
 
       @include layout.media-tablet {
-        width: 640px;
+        max-width: 640px;
         margin-top: 0;
-        top: 50%;
         width: unset;
       }
 
       @include layout.media-desktop {
         width: 640px;
-      }
-
-      & > .stack {
-        height: auto;
       }
     }
   }
@@ -140,10 +146,6 @@ $animation_time: 0.35s;
     .modal__content {
       opacity: 1;
       transform: none;
-
-      @include layout.media-tablet {
-        transform: translate(0px, -50%);
-      }
     }
   }
 }
