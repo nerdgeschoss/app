@@ -46,7 +46,7 @@ function Modal(props: ModalProps): JSX.Element {
       />
       <div className="modal__content">
         <div className="modal__close" onClick={onClose} />
-        {children}
+        <div className="modal__body">{children}</div>
       </div>
     </div>
   );
