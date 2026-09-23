@@ -1,8 +1,11 @@
 ---
 en:
   components:
+    job_application_card:
+      role_and_level: "%{level} %{role}"
     sidebar:
       dashboard: Dashboard
+      job_applications: Applications
       leaves: Leaves
       logout: Logout
       payslips: Payslips
@@ -30,6 +33,64 @@ en:
     messages:
       not_saved: Not saved
     required-field: This field is required.
+  job_application:
+    interview_preset:
+      design:
+        message: |-
+          Hey %{name},
+
+          Thank you for the great first interview. We would like to move forward with the next interview. Please follow the link below to schedule a design interview with Christian:
+
+          %{url}
+
+          Greetings,
+          nerdgeschoss
+        title: Design Interview with Christian
+      first:
+        message: |-
+          Hey %{name},
+
+          Thank you for your application. We would love to learn more about you. Please follow the link below to schedule a first interview:
+
+          %{url}
+
+          Greetings,
+          nerdgeschoss
+        title: First interview
+      tech:
+        message: |-
+          Hey %{name},
+
+          Thank you for the great first interview. We would like to move forward with the next interview. Please follow the link below to schedule a tech interview with Jens:
+
+          %{url}
+
+          Greetings,
+          nerdgeschoss
+        title: Tech Interview with Jens
+    job_role:
+      designer: Designer
+      developer: Developer
+      product_manager: Product Manager
+    level:
+      junior: Junior
+      mid: Mid
+      principal: Principal
+      senior: Senior
+    status:
+      craft_interview: Craft Interview
+      hired: Joined
+      interview: First Interview
+      job_offer: Job Offer
+      rejected: Rejected
+      review: Review
+  job_applications:
+    index:
+      filters:
+        joined: joined
+        new: new
+        rejected: rejected
+      title: Applications
   leave:
     number_of_days:
       one: 1 day

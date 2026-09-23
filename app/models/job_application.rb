@@ -39,6 +39,14 @@ class JobApplication < ApplicationRecord
   enum :level, [:junior, :mid, :senior, :principal].index_with(&:to_s), prefix: true
   enum :offered_level, [:junior, :mid, :senior, :principal].index_with(&:to_s), prefix: true
 
+  scope :with_filter, ->(filter) {
+    case filter.to_s
+    when "rejected" then rejected
+    when "joined" then hired
+    else where.not(status: [:hired, :rejected])
+    end
+  }
+
   validates :first_name, :last_name, :email, :motivation, presence: true
   validates :attachments, presence: true, on: :create
 

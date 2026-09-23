@@ -75,6 +75,12 @@ export function Sidebar({ user }: Props): JSX.Element {
       icon: 'profit',
       active: path.startsWith('/profits'),
     });
+    links.push({
+      name: 'Applications',
+      path: '/job_applications',
+      icon: 'job-application',
+      active: path.startsWith('/job_applications'),
+    });
   }
 
   return (

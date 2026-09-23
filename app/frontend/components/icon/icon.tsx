@@ -20,7 +20,8 @@ export type IconName =
   | 'react'
   | 'puma'
   | 'rails'
-  | 'expo';
+  | 'expo'
+  | 'job-application';
 
 interface Props {
   name: IconName;

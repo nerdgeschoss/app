@@ -75,7 +75,10 @@ class Components::Sidebar < Components::Base
       Item.new(t(".projects"), projects_path, "project"),
       Item.new(t(".users"), users_path, "user")
     ]
-    list << Item.new(t(".profits"), profits_path, "profit") if (@user.roles & ["hr", "admin"]).any?
+    if (@user.roles & ["hr", "admin"]).any?
+      list << Item.new(t(".profits"), profits_path, "profit")
+      list << Item.new(t(".job_applications"), job_applications_path, "job-application")
+    end
     list
   end
 
