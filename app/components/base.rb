@@ -10,6 +10,7 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::Request
 
   register_value_helper :vite_asset_path
+  register_value_helper :image_file_path
 
   # Relative translation keys resolve against a scope derived from the class
   # name: Components::UserCard => "components.user_card", Views::Users::Index

@@ -37,5 +37,6 @@ ignore_unused:
   - number.currency.format.unit
   - helpers.*
   - activerecord.models.*
+  - activerecord.attributes.*
   - '*_mailer.*.subject'
   - time_will_tell.*

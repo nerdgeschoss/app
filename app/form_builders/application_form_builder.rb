@@ -53,11 +53,9 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
   # attribute's errors. `:label` overrides the humanized attribute name.
   def field(attribute, options)
     label = options.delete(:label) || object.class.human_attribute_name(attribute)
-    @template.render Components::Field.new(
-      id: field_id(attribute),
-      label:,
-      errors: object.errors.full_messages_for(attribute),
-      control: yield(field_name(attribute), field_id(attribute), options)
-    )
+    control = yield(field_name(attribute), field_id(attribute), options)
+    @template.render(Components::Field.new(id: field_id(attribute), label:, errors: object.errors.full_messages_for(attribute))) do
+      @template.render(control)
+    end
   end
 end

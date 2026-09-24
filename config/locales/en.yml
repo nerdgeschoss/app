@@ -1,5 +1,18 @@
 ---
 en:
+  activerecord:
+    attributes:
+      job_application:
+        attachments: Attachments
+        available_from: When do you like to start?
+        email: Email
+        first_name: Given name
+        github_handle: Github
+        job_role: Job role
+        last_name: Family name
+        level: Job level
+        motivation: Let us know about your interest in working with us
+        website_url: Link to your website
   components:
     job_application_card:
       role_and_level: "%{level} %{role}"
@@ -92,20 +105,35 @@ en:
         rejected: rejected
       title: Applications
     new:
-      labels:
-        attachments: Attachments
-        available_from: When do you like to start?
-        email: Email
-        first_name: Given name
-        github_handle: Github
-        job_role: Job role
-        last_name: Family name
-        level: Job level
-        motivation: Let us know about your interest in working with us
-        website_url: Link to your website
       submit: Send application
       title: Apply for a Job
     show:
+      status:
+        craft_interview:
+          text: We're so glad to invite you to a Craft Interview, where you'll get the chance to walk us through your skills and approach in more depth. Please select a time that works best for you.
+          title: "🎉 Nice work, %{name}! You're moving forward!"
+        craft_interview_booked:
+          text: Your Craft Interview is confirmed. We're looking forward to seeing your work and hearing more about your approach.
+          title: "🎉 Your Craft Interview is coming soon."
+        hired:
+          text: We're thrilled to have you on the team. You'll hear from us about your first day soon.
+          title: "🎉 Welcome to nerdgeschoss, %{name}!"
+        interview:
+          text: Your application stood out, and we'd love to learn more about you. Please pick a time that works best for you, and we'll take it from there.
+          title: "🎉 You're invited to interview, %{name}!"
+        interview_booked:
+          text: We're excited to speak with you and learn more about your experience.
+          title: "🎉 You're all set, %{name}!"
+        job_offer:
+          text: After getting to know you throughout this process, we're beyond excited to offer you the %{level} %{role} role. You will receive an email about our job offer and we're rooting for you to say yes.
+          title: "🎉 Congratulations, %{name}! We'd love to have you!"
+        rejected:
+          text: We appreciated the chance to learn about your background and experience. After careful consideration, we've decided not to move forward with your application at this time. We encourage you to apply again for future roles that match your skills.
+          title: "☹️ Application Declined"
+        review:
+          text: We've received your application and our team is currently reviewing it. We truly appreciate the time and effort you put into applying, and you will receive an email with the next steps soon. You can also bookmark this page to check back for updates on your status.
+          title: "🎉 Thank you for applying, %{name}!"
+      submitted: Application submitted
       title: Your application
   leave:
     number_of_days:
