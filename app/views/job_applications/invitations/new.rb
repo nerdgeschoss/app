@@ -11,7 +11,8 @@ class Views::JobApplications::Invitations::New < Views::Base
     # A frame, so preset links and a failed submit swap only the modal's content.
     turbo_frame_tag "job_application_modal" do
       stack do
-        text(type: "h3-bold") { t(".title") }
+        # i18n-tasks-use t('job_applications.invitations.new.title.interview') t('job_applications.invitations.new.title.craft_interview')
+        text(type: "h3-bold") { t(".title.#{@invitation.stage}") }
         stack(line: "mobile", size: 4) do
           JobApplication::InterviewPreset.all.each do |preset|
             a(href: new_job_application_invitation_path(job_application, preset: preset.kind)) do

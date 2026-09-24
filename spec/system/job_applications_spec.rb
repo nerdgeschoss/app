@@ -154,6 +154,34 @@ RSpec.describe "Job applications" do
       expect(application.reload).to be_review
     end
 
+    it "invites an interviewed applicant to the craft interview" do
+      application = job_applications(:jane_awaiting_interview)
+      login :admin
+      visit job_application_path(application)
+      click_on "Invite for Craft Interview"
+      within ".modal__frame" do
+        expect(page).to have_content("Invite for Craft Interview")
+        click_on "Tech Interview with Jens"
+        click_on "Send message"
+      end
+
+      expect(page).to have_content("Nice work, Jane! You're moving forward!")
+      expect(page).to have_css(".calendly-widget")
+      expect(application.reload.craft_interview_scheduling_url).to eq "https://calendly.com/jensravens/tech-interview"
+    end
+
+    it "rejects an interviewed applicant with the interview text" do
+      login :admin
+      visit job_application_path(job_applications(:jane_awaiting_interview))
+      click_on "Reject"
+      within ".modal__frame" do
+        expect(page).to have_field("Message", with: /second interview stage/)
+        click_on "Send message"
+      end
+
+      expect(page).to have_content("Application Declined")
+    end
+
     it "hides the actions from everyone but hr" do
       visit job_application_path(application)
       expect(page).to have_content("Thank you for applying, Max!")

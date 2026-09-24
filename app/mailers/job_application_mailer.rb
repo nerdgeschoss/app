@@ -3,6 +3,8 @@
 class JobApplicationMailer < ApplicationMailer
   def interview_invitation = deliver_text
 
+  def craft_interview_invitation = deliver_text
+
   def rejection = deliver_text
 
   private

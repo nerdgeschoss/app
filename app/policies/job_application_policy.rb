@@ -10,11 +10,11 @@ class JobApplicationPolicy < ApplicationPolicy
   end
 
   def invite?
-    hr? && record.review?
+    hr? && (record.review? || record.interview?)
   end
 
   def reject?
-    hr? && record.review?
+    hr? && (record.review? || record.interview?)
   end
 
   # Like `show?`, the token is the authorization: the applicant books their own slot.

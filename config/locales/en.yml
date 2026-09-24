@@ -98,7 +98,14 @@ en:
       principal: Principal
       senior: Senior
     rejection:
-      message: |-
+      interview: |-
+        Hi %{name},
+
+        Thank you for your interest in the position and for taking the time to apply. After careful review, we regret to inform you that we will not be progressing with your application to the second interview stage.
+
+        We wish you the best of luck in your job search,
+        Jens
+      review: |-
         Hi %{name},
 
         We appreciated the chance to learn about your background and experience. After careful consideration, we've decided not to move forward with your application at this time.
@@ -117,6 +124,8 @@ en:
       rejected: Rejected
       review: Review
   job_application_mailer:
+    craft_interview_invitation:
+      subject: Your craft interview at nerdgeschoss
     interview_invitation:
       subject: Your interview at nerdgeschoss
     rejection:
@@ -131,7 +140,9 @@ en:
     invitations:
       new:
         submit: Send message
-        title: Invite for interview
+        title:
+          craft_interview: Invite for Craft Interview
+          interview: Invite for interview
     new:
       submit: Send application
       title: Apply for a Job
@@ -141,7 +152,9 @@ en:
         title: Reject application
     show:
       booked: Your interview is booked. The details are in your confirmation email from Calendly.
-      invite: Invite for interview
+      invite:
+        craft_interview: Invite for Craft Interview
+        interview: Invite for interview
       reject: Reject
       status:
         craft_interview:

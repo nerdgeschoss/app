@@ -6,9 +6,10 @@ class JobApplications::RejectionsController < ApplicationController
   before_action :authenticate_user!
   before_action :assign_job_application
 
+  # i18n-tasks-use t('job_application.rejection.review') t('job_application.rejection.interview')
   def new
     rejection = JobApplication::Rejection.new(job_application: @job_application,
-      message: I18n.t("job_application.rejection.message", name: @job_application.first_name))
+      message: I18n.t("job_application.rejection.#{@job_application.status}", name: @job_application.first_name))
     render Views::JobApplications::Rejections::New.new(rejection:), layout: false
   end
 

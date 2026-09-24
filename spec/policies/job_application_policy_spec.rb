@@ -33,8 +33,15 @@ RSpec.describe JobApplicationPolicy do
     it { is_expected.to permit_action(:invite) }
     it { is_expected.to permit_action(:reject) }
 
-    context "once the application left review" do
+    context "after the first interview" do
       let(:record) { job_applications(:jane_awaiting_interview) }
+
+      it { is_expected.to permit_action(:invite) }
+      it { is_expected.to permit_action(:reject) }
+    end
+
+    context "once the application left the interviews" do
+      let(:record) { job_applications(:john_hired) }
 
       it { is_expected.not_to permit_action(:invite) }
       it { is_expected.not_to permit_action(:reject) }

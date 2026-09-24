@@ -25,7 +25,8 @@ class Views::JobApplications::Show < Views::Base
 
     stack(line: "mobile") do
       render(Components::Button.new(modal_url: new_job_application_rejection_path(@job_application))) { t(".reject") } if job_application_policy.reject?
-      render(Components::Button.new(modal_url: new_job_application_invitation_path(@job_application))) { t(".invite") } if job_application_policy.invite?
+      # i18n-tasks-use t('job_applications.show.invite.interview') t('job_applications.show.invite.craft_interview')
+      render(Components::Button.new(modal_url: new_job_application_invitation_path(@job_application))) { t(".invite.#{JobApplication::Invitation.new(job_application: @job_application).stage}") } if job_application_policy.invite?
     end
   end
 
