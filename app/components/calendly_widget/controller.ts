@@ -9,6 +9,7 @@ declare global {
         url: string;
         parentElement: HTMLElement;
         prefill?: { name?: string; email?: string };
+        resize?: boolean;
       }): void;
     };
   }
@@ -42,6 +43,8 @@ export default class extends Controller<HTMLElement> {
       url: this.urlValue,
       parentElement: this.frameTarget,
       prefill: { name: this.nameValue, email: this.emailValue },
+      // Calendly sizes the frame to each step's content.
+      resize: true,
     });
   }
 

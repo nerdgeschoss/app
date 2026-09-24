@@ -121,10 +121,8 @@ class Views::JobApplications::Show < Views::Base
   def booking_card
     return if booking.stage.nil? || booking.booked?
 
-    render Components::Card.new do
-      render Components::CalendlyWidget.new(url: booking.scheduling_url, booking_url: job_application_booking_path(@job_application),
-        name: @job_application.full_name, email: @job_application.email)
-    end
+    render Components::CalendlyWidget.new(url: booking.scheduling_url, booking_url: job_application_booking_path(@job_application),
+      name: @job_application.full_name, email: @job_application.email)
   end
 
   def details_card

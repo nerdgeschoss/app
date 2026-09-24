@@ -1,7 +1,19 @@
 .calendly-widget {
-  // Calendly's inline embed needs an explicit size, or its iframe collapses to nothing.
+  container-type: inline-size;
+  // Clips the frame's pulled-out margins, which would otherwise cover (and catch clicks on) the content above.
+  overflow: clip;
+
+  // Calendly sets the height to its content, but reports a few pixels while loading; the minimum keeps the frame from collapsing.
   &__frame {
     min-width: 320px;
+    min-height: 600px;
     height: 700px;
+  }
+
+  // From 650px Calendly draws its own box with space above and below; pull it flush with the column.
+  @container (min-width: 650px) {
+    &__frame {
+      margin: -66px 0 -33px;
+    }
   }
 }
