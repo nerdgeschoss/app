@@ -162,6 +162,7 @@ RSpec.describe "Job applications" do
       within ".modal__frame" do
         expect(page).to have_content("Invite for Craft Interview")
         click_on "Tech Interview with Jens"
+        expect(page).to have_field("Calendly link", with: "https://calendly.com/jensravens/tech-interview")
         click_on "Send message"
       end
 
@@ -176,6 +177,38 @@ RSpec.describe "Job applications" do
       click_on "Reject"
       within ".modal__frame" do
         expect(page).to have_field("Message", with: /second interview stage/)
+        click_on "Send message"
+      end
+
+      expect(page).to have_content("Application Declined")
+    end
+
+    it "offers the job after the craft interview" do
+      application = job_applications(:jane_awaiting_interview)
+      application.update!(status: :craft_interview, craft_interview_scheduling_url: "https://calendly.com/jensravens/tech-interview")
+      login :admin
+      visit job_application_path(application)
+      click_on "Hire applicant"
+      within ".modal__frame" do
+        expect(page).to have_select("Adapted level", selected: "Junior")
+        expect(page).to have_field("Message", with: /Junior Developer at nerdgeschoss/)
+        select "Senior", from: "Adapted level"
+        click_on "Send message"
+      end
+
+      expect(page).to have_content("Congratulations, Jane! We'd love to have you!")
+      expect(page).to have_content("offer you the Senior Developer role")
+      expect(application.reload.offered_level).to eq "senior"
+    end
+
+    it "rejects after the craft interview with the craft text" do
+      application = job_applications(:jane_awaiting_interview)
+      application.update!(status: :craft_interview, craft_interview_scheduling_url: "https://calendly.com/jensravens/tech-interview")
+      login :admin
+      visit job_application_path(application)
+      click_on "Reject"
+      within ".modal__frame" do
+        expect(page).to have_field("Message", with: /craft interview for the Junior Developer position/)
         click_on "Send message"
       end
 

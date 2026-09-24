@@ -5,6 +5,9 @@ en:
       job_application/invitation:
         message: Message
         scheduling_url: Calendly link
+      job_application/offer:
+        message: Message
+        offered_level: Adapted level
       job_application/rejection:
         message: Message
   activerecord:
@@ -97,7 +100,27 @@ en:
       mid: Mid
       principal: Principal
       senior: Senior
+    offer:
+      message: |-
+        Hi %{name},
+
+        We're thrilled to extend an offer for you to join our team as a %{position} at nerdgeschoss! Your skills and experience truly impressed us, and we believe you'll be a fantastic addition to our family.
+
+        To review the compensation associated with the role, please refer to our Human Growth Framework: https://nerdgeschoss.de/handbook/hgf/
+
+        Looking forward to welcoming you aboard!
+
+        Greetings,
+        Christian
+    position: "%{level} %{role}"
     rejection:
+      craft_interview: |-
+        Hi %{name},
+
+        Thank you for completing the craft interview for the %{position} position. We were glad to see your work, but we've decided not to move forward this time. We really appreciate the effort you put into this stage.
+
+        We wish you the best of luck in your job search,
+        Jens
       interview: |-
         Hi %{name},
 
@@ -128,6 +151,8 @@ en:
       subject: Your craft interview at nerdgeschoss
     interview_invitation:
       subject: Your interview at nerdgeschoss
+    offer:
+      subject: Your offer from nerdgeschoss
     rejection:
       subject: Your application at nerdgeschoss
   job_applications:
@@ -146,12 +171,17 @@ en:
     new:
       submit: Send application
       title: Apply for a Job
+    offers:
+      new:
+        submit: Send message
+        title: Hire
     rejections:
       new:
         submit: Send message
         title: Reject application
     show:
       booked: Your interview is booked. The details are in your confirmation email from Calendly.
+      hire: Hire applicant
       invite:
         craft_interview: Invite for Craft Interview
         interview: Invite for interview

@@ -54,6 +54,12 @@ class JobApplication < ApplicationRecord
     Yael::Event.where(stream: Yael::Event.stream_for(self)).order(:created_at, :id)
   end
 
+  # i18n-tasks-use t('job_application.job_role.designer') t('job_application.job_role.developer') t('job_application.job_role.product_manager')
+  # i18n-tasks-use t('job_application.level.junior') t('job_application.level.mid') t('job_application.level.principal') t('job_application.level.senior')
+  def position(level = self.level)
+    I18n.t("job_application.position", level: I18n.t("job_application.level.#{level}"), role: I18n.t("job_application.job_role.#{job_role}"))
+  end
+
   def full_name
     [first_name, last_name].filter_map(&:presence).join(" ")
   end

@@ -21,12 +21,13 @@ class Views::JobApplications::Show < Views::Base
 
   def hr_actions
     job_application_policy = policy(@job_application)
-    return unless job_application_policy.invite? || job_application_policy.reject?
+    return unless job_application_policy.invite? || job_application_policy.reject? || job_application_policy.hire?
 
     stack(line: "mobile") do
       render(Components::Button.new(modal_url: new_job_application_rejection_path(@job_application))) { t(".reject") } if job_application_policy.reject?
       # i18n-tasks-use t('job_applications.show.invite.interview') t('job_applications.show.invite.craft_interview')
       render(Components::Button.new(modal_url: new_job_application_invitation_path(@job_application))) { t(".invite.#{JobApplication::Invitation.new(job_application: @job_application).stage}") } if job_application_policy.invite?
+      render(Components::Button.new(modal_url: new_job_application_offer_path(@job_application))) { t(".hire") } if job_application_policy.hire?
     end
   end
 

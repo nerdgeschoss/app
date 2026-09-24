@@ -7,6 +7,8 @@ class JobApplicationMailer < ApplicationMailer
 
   def rejection = deliver_text
 
+  def offer = deliver_text
+
   private
 
   # The body is exactly what HR wrote in the modal, so it goes out as plain text.

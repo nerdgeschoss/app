@@ -14,6 +14,7 @@ RSpec.describe JobApplicationPolicy do
     it { is_expected.not_to permit_action(:index) }
     it { is_expected.not_to permit_action(:invite) }
     it { is_expected.not_to permit_action(:reject) }
+    it { is_expected.not_to permit_action(:hire) }
 
     # The token in the url is what authorizes the applicant's own page.
     it { is_expected.to permit_action(:show) }
@@ -38,6 +39,15 @@ RSpec.describe JobApplicationPolicy do
 
       it { is_expected.to permit_action(:invite) }
       it { is_expected.to permit_action(:reject) }
+      it { is_expected.not_to permit_action(:hire) }
+    end
+
+    context "after the craft interview" do
+      let(:record) { job_applications(:jane_awaiting_interview).tap { it.status = "craft_interview" } }
+
+      it { is_expected.to permit_action(:hire) }
+      it { is_expected.to permit_action(:reject) }
+      it { is_expected.not_to permit_action(:invite) }
     end
 
     context "once the application left the interviews" do
