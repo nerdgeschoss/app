@@ -91,6 +91,22 @@ en:
         new: new
         rejected: rejected
       title: Applications
+    new:
+      labels:
+        attachments: Attachments
+        available_from: When do you like to start?
+        email: Email
+        first_name: Given name
+        github_handle: Github
+        job_role: Job role
+        last_name: Family name
+        level: Job level
+        motivation: Let us know about your interest in working with us
+        website_url: Link to your website
+      submit: Send application
+      title: Apply for a Job
+    show:
+      title: Your application
   leave:
     number_of_days:
       one: 1 day

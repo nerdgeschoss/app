@@ -6,7 +6,7 @@ class JobApplicationPolicy < ApplicationPolicy
   end
 
   def show?
-    hr?
+    true
   end
 
   class Scope < Scope

@@ -32,6 +32,8 @@ module TestApp
       current_dataloader_source: -> { GraphQL::Current.dataloader_source_class }
     ]
     config.load_defaults 8.1
+    # Style every form by default — f.text_field and friends render our field components.
+    config.action_view.default_form_builder = "ApplicationFormBuilder"
     config.time_zone = "Berlin"
     host = if ENV["HOST"].present?
       ENV["HOST"]

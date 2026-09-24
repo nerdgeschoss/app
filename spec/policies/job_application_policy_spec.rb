@@ -12,7 +12,9 @@ RSpec.describe JobApplicationPolicy do
     let(:user) { users(:john) }
 
     it { is_expected.not_to permit_action(:index) }
-    it { is_expected.not_to permit_action(:show) }
+
+    # The token in the url is what authorizes the applicant's own page.
+    it { is_expected.to permit_action(:show) }
 
     describe "Scope" do
       it "is empty" do

@@ -14,6 +14,7 @@
     "@nerdgeschoss/react-use-form-library": "^0.0.71",
     "@nerdgeschoss/shimmer-component-collapse": "^0.1.0",
     "@nerdgeschoss/shimmer-component-stack": "^0.1.0",
+    "@rails/activestorage": "^7.2.302",
     "@vitejs/plugin-react": "^6.0.2",
     "classnames": "^2.5.1",
     "i18n-js": "^4.5.1",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "24",
+    "@types/rails__activestorage": "^8.0.1",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.0.2",
     "@types/react-flatpickr": "^3.8.11",
