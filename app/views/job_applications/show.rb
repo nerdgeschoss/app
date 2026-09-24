@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Views::JobApplications::Show < Views::Base
+  include Phlex::Rails::Helpers::FormWith
+
   prop :job_application, JobApplication
 
   def view_template
@@ -9,6 +11,7 @@ class Views::JobApplications::Show < Views::Base
         text(type: "h1-bold") { t(".title") }
         hr_actions
         status_card
+        booking_card
         details_card
       end
     end
@@ -40,10 +43,27 @@ class Views::JobApplications::Show < Views::Base
       subtitle: -> { text { t(".status.#{status_key}.text", level: level_label(@job_application.offered_level || @job_application.level), role: role_label) } },
       with_divider: true
     ) do
-      stack(line: "mobile", justify: "space-between") do
-        text(type: "body-bold") { l(@job_application.created_at, format: :long) }
-        text { t(".submitted") }
+      stack do
+        if booking.booked?
+          stack(line: "mobile", justify: "space-between", align: "center") do
+            text { t(".booked") }
+            form_with(url: job_application_booking_path(@job_application), method: :delete) { |form| form.submit t(".update") }
+          end
+        end
+        stack(line: "mobile", justify: "space-between") do
+          text(type: "body-bold") { l(@job_application.created_at, format: :long) }
+          text { t(".submitted") }
+        end
       end
+    end
+  end
+
+  def booking_card
+    return if booking.stage.nil? || booking.booked?
+
+    render Components::Card.new do
+      render Components::CalendlyWidget.new(url: booking.scheduling_url, booking_url: job_application_booking_path(@job_application),
+        name: @job_application.full_name, email: @job_application.email)
     end
   end
 
@@ -75,13 +95,11 @@ class Views::JobApplications::Show < Views::Base
   end
 
   def status_key
-    if @job_application.interview? && @job_application.interview_at
-      "interview_booked"
-    elsif @job_application.craft_interview? && @job_application.craft_interview_at
-      "craft_interview_booked"
-    else
-      @job_application.status
-    end
+    booking.booked? ? "#{booking.stage}_booked" : @job_application.status
+  end
+
+  def booking
+    @booking ||= JobApplication::Booking.new(@job_application)
   end
 
   # i18n-tasks-use t('job_application.job_role.designer') t('job_application.job_role.developer') t('job_application.job_role.product_manager')

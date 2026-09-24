@@ -87,13 +87,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_19_101051) do
 
   create_table "job_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.date "available_from"
-    t.datetime "craft_interview_at"
+    t.datetime "craft_interview_booked_at"
     t.string "craft_interview_scheduling_url"
     t.datetime "created_at", null: false
     t.citext "email", null: false
     t.string "first_name", null: false
     t.string "github_handle"
-    t.datetime "interview_at"
+    t.datetime "interview_booked_at"
     t.string "interview_scheduling_url"
     t.enum "job_role", null: false, enum_type: "job_role"
     t.string "last_name", null: false

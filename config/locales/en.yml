@@ -140,6 +140,7 @@ en:
         submit: Send message
         title: Reject application
     show:
+      booked: Your interview is booked. The details are in your confirmation email from Calendly.
       invite: Invite for interview
       reject: Reject
       status:
@@ -169,6 +170,7 @@ en:
           title: "🎉 Thank you for applying, %{name}!"
       submitted: Application submitted
       title: Your application
+      update: Update
   leave:
     number_of_days:
       one: 1 day

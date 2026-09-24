@@ -20,9 +20,9 @@ class CreateJobApplications < ActiveRecord::Migration[8.1]
       t.date :available_from
       t.text :motivation, null: false
       t.string :interview_scheduling_url
-      t.datetime :interview_at
+      t.datetime :interview_booked_at
       t.string :craft_interview_scheduling_url
-      t.datetime :craft_interview_at
+      t.datetime :craft_interview_booked_at
       t.references :user, foreign_key: true, type: :uuid
 
       t.timestamps

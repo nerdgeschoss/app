@@ -17,6 +17,11 @@ class JobApplicationPolicy < ApplicationPolicy
     hr? && record.review?
   end
 
+  # Like `show?`, the token is the authorization: the applicant books their own slot.
+  def book?
+    JobApplication::Booking.new(record).stage.present?
+  end
+
   class Scope < Scope
     def resolve
       hr? ? scope.all : scope.none

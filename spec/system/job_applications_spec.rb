@@ -73,6 +73,31 @@ RSpec.describe "Job applications" do
       expect(page).to have_content("You're all set, Tim!")
     end
 
+    it "records the booking once Calendly reports it" do
+      application = job_applications(:jane_awaiting_interview)
+      visit job_application_path(application)
+      expect(page).to have_css(".calendly-widget")
+
+      page.execute_script(<<~JS)
+        window.dispatchEvent(new MessageEvent("message", {origin: "https://calendly.com", data: {event: "calendly.event_scheduled"}}))
+      JS
+
+      expect(page).to have_content("Your interview is booked.")
+      expect(application.reload.interview_booked_at).to be_present
+    end
+
+    it "shows a booked interview and lets the applicant book again" do
+      application = job_applications(:tim_booked_interview)
+      visit job_application_path(application)
+      expect(page).to have_content("Your interview is booked.")
+      expect(page).not_to have_css(".calendly-widget")
+
+      click_on "Update"
+      expect(page).to have_css(".calendly-widget")
+      expect(page).to have_content("You're invited to interview, Tim!")
+      expect(application.reload.interview_booked_at).to be_nil
+    end
+
     it "tells a rejected applicant" do
       visit job_application_path(job_applications(:michelle_rejected))
       expect(page).to have_content("Application Declined")

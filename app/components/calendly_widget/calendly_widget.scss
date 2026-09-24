@@ -1,0 +1,5 @@
+// Calendly's inline embed needs an explicit size, or its iframe collapses to nothing.
+.calendly-widget__frame {
+  min-width: 320px;
+  height: 700px;
+}

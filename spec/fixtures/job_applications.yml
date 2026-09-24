@@ -4,12 +4,12 @@
 #
 #  id                             :uuid             not null, primary key
 #  available_from                 :date
-#  craft_interview_at             :datetime
+#  craft_interview_booked_at      :datetime
 #  craft_interview_scheduling_url :string
 #  email                          :citext           not null
 #  first_name                     :string           not null
 #  github_handle                  :string
-#  interview_at                   :datetime
+#  interview_booked_at            :datetime
 #  interview_scheduling_url       :string
 #  job_role                       :enum             not null
 #  last_name                      :string           not null
@@ -57,7 +57,7 @@ tim_booked_interview:
   email: tim@example.com
   motivation: I design interfaces that get out of the way.
   interview_scheduling_url: https://calendly.com/nerdgeschoss/first-interview
-  interview_at: 2025-07-18 09:00:00
+  interview_booked_at: 2025-07-18 09:00:00
 
 michelle_rejected:
   token: michelle-rejected-token-0000
@@ -79,7 +79,7 @@ john_hired:
   last_name: Doe
   email: john@example.com
   motivation: I have been building Rails apps for a decade.
-  interview_at: 2025-07-18 09:00:00
+  interview_booked_at: 2025-07-18 09:00:00
   craft_interview_scheduling_url: https://calendly.com/jensravens/tech-interview
-  craft_interview_at: 2025-07-21 09:30:00
+  craft_interview_booked_at: 2025-07-21 09:30:00
   user: john

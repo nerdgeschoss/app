@@ -6,12 +6,12 @@
 #
 #  id                             :uuid             not null, primary key
 #  available_from                 :date
-#  craft_interview_at             :datetime
+#  craft_interview_booked_at      :datetime
 #  craft_interview_scheduling_url :string
 #  email                          :citext           not null
 #  first_name                     :string           not null
 #  github_handle                  :string
-#  interview_at                   :datetime
+#  interview_booked_at            :datetime
 #  interview_scheduling_url       :string
 #  job_role                       :enum             not null
 #  last_name                      :string           not null
