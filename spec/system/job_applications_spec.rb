@@ -215,6 +215,18 @@ RSpec.describe "Job applications" do
       expect(page).to have_content("Application Declined")
     end
 
+    it "marks an accepted offer as hired" do
+      application = job_applications(:jane_awaiting_interview)
+      application.update!(status: :job_offer)
+      login :admin
+      visit job_application_path(application)
+      accept_confirm { click_on "Mark as hired" }
+
+      expect(page).to have_content("Welcome to nerdgeschoss, Jane!")
+      expect(page).not_to have_button("Mark as hired")
+      expect(application.reload.user).to have_attributes(email: "jane@example.com", roles: ["sprinter"])
+    end
+
     it "hides the actions from everyone but hr" do
       visit job_application_path(application)
       expect(page).to have_content("Thank you for applying, Max!")

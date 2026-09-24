@@ -21,6 +21,10 @@ class JobApplicationPolicy < ApplicationPolicy
     hr? && record.craft_interview?
   end
 
+  def mark_hired?
+    hr? && record.job_offer?
+  end
+
   # Like `show?`, the token is the authorization: the applicant books their own slot.
   def book?
     JobApplication::Booking.new(record).stage.present?

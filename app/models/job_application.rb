@@ -27,6 +27,7 @@
 #
 class JobApplication < ApplicationRecord
   include Yael::Publisher
+  include Hiring
 
   belongs_to :user, optional: true
 

@@ -185,6 +185,8 @@ en:
       invite:
         craft_interview: Invite for Craft Interview
         interview: Invite for interview
+      mark_hired: Mark as hired
+      mark_hired_confirm: Mark %{name} as hired and create their employee account?
       reject: Reject
       status:
         craft_interview:
