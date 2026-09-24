@@ -1,0 +1,20 @@
+@use '../field/input';
+
+.select {
+  position: relative;
+
+  &__input {
+    @include input.input;
+    appearance: none;
+    padding: 6px 36px 6px 10px;
+    cursor: pointer;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}

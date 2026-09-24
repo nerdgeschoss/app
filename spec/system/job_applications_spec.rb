@@ -23,7 +23,7 @@ RSpec.describe "Job applications" do
       fill_in "Link to your website", with: "https://alexchen.dev"
       fill_in "When do you like to start?", with: "2027-01-04"
       fill_in "Let us know about your interest in working with us", with: "I build calm software."
-      attach_file "Attachments", Rails.root.join("spec/fixtures/files/cv.txt").to_s
+      attach_file "Attachments", Rails.root.join("spec/fixtures/files/cv.txt").to_s, make_visible: true
       screenshot "job application form"
       click_on "Send application"
 

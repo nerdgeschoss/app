@@ -1,0 +1,5 @@
+@use '../field/input';
+
+.text-field {
+  @include input.input;
+}

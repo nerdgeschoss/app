@@ -30,24 +30,24 @@ export function TextArea({
 
   return (
     <Text block color={disabled ? 'label-heading-secondary' : undefined}>
-      <div className="text-area__container">
+      <div className="legacy-text-area__container">
         <div
           className={classnames(
-            'text-area',
+            'legacy-text-area',
             {
-              'text-area--filled': !!value,
-              'text-area--readonly': readOnly,
-              'text-area--disabled': disabled,
-              'text-area--placeholder': placeholder,
+              'legacy-text-area--filled': !!value,
+              'legacy-text-area--readonly': readOnly,
+              'legacy-text-area--disabled': disabled,
+              'legacy-text-area--placeholder': placeholder,
             },
             { disabled }
           )}
         >
-          <div className="text-area__content">
+          <div className="legacy-text-area__content">
             {label !== undefined && (
               <label
-                className={classnames('text-area__label', {
-                  'text-area__label--disabled': disabled,
+                className={classnames('legacy-text-area__label', {
+                  'legacy-text-area__label--disabled': disabled,
                 })}
                 htmlFor={inputId}
               >
@@ -60,13 +60,13 @@ export function TextArea({
               </label>
             )}
             <div
-              className="text-area__input-wrapper"
+              className="legacy-text-area__input-wrapper"
               data-replicated-value={value}
             >
               <textarea
                 id={inputId}
                 name={name}
-                className={classnames('text-area__input')}
+                className={classnames('legacy-text-area__input')}
                 readOnly={readOnly}
                 value={value ?? ''}
                 onChange={(event) => {

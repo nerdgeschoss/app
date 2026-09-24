@@ -1,4 +1,4 @@
-.text-field {
+.legacy-text-field {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid var(--color-border);
@@ -31,7 +31,7 @@
   }
 
   &--disabled {
-    .text-field__input {
+    .legacy-text-field__input {
       &:hover {
         background: var(--input-default);
       }

@@ -29,20 +29,20 @@ export function TextField({
 }: Props): JSX.Element {
   inputId = useInputId(inputId);
   return (
-    <div className="text-field__container">
+    <div className="legacy-text-field__container">
       <div
-        className={classnames('text-field', {
-          'text-field--filled': !!value,
-          'text-field--readonly': readOnly,
-          'text-field--disabled': disabled,
-          'text-field--placeholder': placeholder,
+        className={classnames('legacy-text-field', {
+          'legacy-text-field--filled': !!value,
+          'legacy-text-field--readonly': readOnly,
+          'legacy-text-field--disabled': disabled,
+          'legacy-text-field--placeholder': placeholder,
         })}
       >
-        <div className="text-field__content">
+        <div className="legacy-text-field__content">
           {label !== undefined && (
             <label
-              className={classnames('text-field__label', {
-                'text-field__label--disabled': disabled,
+              className={classnames('legacy-text-field__label', {
+                'legacy-text-field__label--disabled': disabled,
               })}
               htmlFor={inputId}
             >
@@ -55,7 +55,7 @@ export function TextField({
             <input
               id={inputId}
               name={name}
-              className="text-field__input"
+              className="legacy-text-field__input"
               readOnly={readOnly}
               value={value ?? ''}
               type="text"

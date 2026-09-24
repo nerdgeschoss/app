@@ -1,0 +1,22 @@
+@mixin input {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--input-border-default);
+  border-radius: 10px;
+  background: var(--input-default);
+  color: var(--label-body-primary);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+
+  &::placeholder {
+    color: var(--label-body-secondary);
+  }
+
+  &:focus,
+  &:focus-visible {
+    border-color: var(--dropdown-border-active);
+    outline: none;
+  }
+}

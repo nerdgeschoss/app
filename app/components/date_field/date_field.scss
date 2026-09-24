@@ -1,0 +1,19 @@
+@use '../field/input';
+
+.date-field {
+  @include input.input;
+
+  // Chromium pads these, which makes the field taller than a text field.
+  &::-webkit-datetime-edit,
+  &::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    width: 16px;
+    height: 18px;
+    padding: 0;
+    background: url('./calendar.svg') center / contain no-repeat;
+    cursor: pointer;
+  }
+}

@@ -3,10 +3,8 @@
   display: inline-flex;
   align-items: center;
 
-  &:hover {
-    .tooltip__anchor {
-      display: flex;
-    }
+  &:hover &__anchor {
+    display: flex;
   }
 
   &__anchor {

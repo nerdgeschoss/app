@@ -40,24 +40,27 @@ class Views::JobApplications::New < Views::Base
       stack(size: 16) do
         render Components::Card.new do
           stack(size: 24) do
-            stack(grid: "tablet") do
-              form.select :job_role, enum_choices(:job_role)
-              form.select :level, enum_choices(:level)
+            stack(size: 8) do
+              stack(grid: "tablet") do
+                form.select :job_role, enum_choices(:job_role)
+                form.select :level, enum_choices(:level)
+              end
+              text(type: "caption-secondary-regular", color: "label-caption-secondary") { t(".hints.level") }
             end
             stack(grid: "tablet") do
-              form.text_field :first_name
-              form.text_field :last_name
+              form.text_field :first_name, placeholder: t(".placeholders.first_name"), autocomplete: "given-name"
+              form.text_field :last_name, placeholder: t(".placeholders.last_name"), autocomplete: "family-name"
             end
             stack(grid: "tablet") do
-              form.email_field :email
-              form.text_field :github_handle
+              form.email_field :email, placeholder: t(".placeholders.email")
+              form.text_field :github_handle, placeholder: t(".placeholders.github_handle")
             end
             stack(grid: "tablet") do
-              form.url_field :website_url
+              form.url_field :website_url, placeholder: t(".placeholders.website_url"), autocomplete: "url"
               form.date_field :available_from
             end
-            form.text_area :motivation
-            form.file_field :attachments, multiple: true
+            form.text_area :motivation, placeholder: t(".placeholders.motivation"), hint: t(".hints.motivation")
+            form.file_field :attachments, multiple: true, description: t(".hints.attachments")
           end
         end
         stack(line: "mobile", justify: "right") do

@@ -26,6 +26,10 @@ en:
         motivation: Let us know about your interest in working with us
         website_url: Link to your website
   components:
+    file_field:
+      choose: Choose a file
+      drop: or drop it here
+      remove: Remove file
     job_application_card:
       role_and_level: "%{level} %{role}"
     job_application_updates:
@@ -190,6 +194,21 @@ en:
         schedule: "⏰ Shape your own schedule! Enjoy an average of 7.5 hours a day, flexibly arranged to suit your lifestyle."
         title: Some of the benefits you will enjoy if you work with us
       handbook: 'To know more about what it''s like working with us, please visit our handbook link:'
+      hints:
+        attachments: Upload your CV and any other files you would like to share with us.
+        level: Not sure what this means? Check out our Human Growth Framework to find out how we set levels.
+        motivation:
+        - Who are you? What do you value? This is your chance to give us an impression on what makes you tick.
+        - Why do you want to work with us?
+        - What have you done so far? Tell us about projects that you have worked on, talks at meetups and conferences and open source involvements (contributing to other projects or with your own open projects).
+        - For design applications, attach a link to your portfolio or attach it as a pdf.
+      placeholders:
+        email: email.com
+        first_name: Max
+        github_handle: "@github"
+        last_name: Mustermann
+        motivation: Type here your message
+        website_url: www.website.com
       submit: Send application
       title: Apply for a Job
       welcome:

@@ -1,0 +1,56 @@
+.file-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__drop-zone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    min-height: 104px;
+    padding: 17px 21px;
+    border: 1px dashed var(--button-primary-bg-default);
+    border-radius: 8px;
+    text-align: center;
+
+    &:has(.file-field__input:focus-visible) {
+      border-style: solid;
+    }
+  }
+
+  &__input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  &__choose {
+    color: var(--label-link-default);
+  }
+
+  &__files:empty {
+    display: none;
+  }
+
+  &__file {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--label-body-primary);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  &__remove {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: 0;
+    background: url('./remove.svg') center / contain no-repeat;
+    cursor: pointer;
+  }
+}

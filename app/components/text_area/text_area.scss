@@ -1,0 +1,7 @@
+@use '../field/input';
+
+.text-area {
+  @include input.input;
+  min-height: 157px;
+  resize: vertical;
+}

@@ -1,0 +1,11 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__hint-list {
+    margin: 0;
+    padding-left: 18px;
+    list-style: disc;
+  }
+}

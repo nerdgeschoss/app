@@ -36,8 +36,9 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 
   def file_field(attribute, options = {})
     multiple = options.delete(:multiple) || false
+    description = options.delete(:description)
     field(attribute, options) do |_name, id, html|
-      Components::FileField.new(name: field_name(attribute, multiple:), id:, multiple:, options: html)
+      Components::FileField.new(name: field_name(attribute, multiple:), id:, multiple:, description:, options: html)
     end
   end
 
@@ -53,12 +54,13 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  # Wrap the yielded control in a Components::Field carrying the label and the
-  # attribute's errors. `:label` overrides the humanized attribute name.
+  # Wrap the yielded control in a Components::Field carrying the label, an optional
+  # `:hint` and the attribute's errors. `:label` overrides the humanized attribute name.
   def field(attribute, options)
     label = options.delete(:label) || object.class.human_attribute_name(attribute)
+    hint = options.delete(:hint)
     control = yield(field_name(attribute), field_id(attribute), options)
-    @template.render(Components::Field.new(id: field_id(attribute), label:, errors: object.errors.full_messages_for(attribute))) do
+    @template.render(Components::Field.new(id: field_id(attribute), label:, hint:, errors: object.errors.full_messages_for(attribute))) do
       @template.render(control)
     end
   end
