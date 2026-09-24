@@ -1,0 +1,9 @@
+.grid {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(var(--min-column-width), 100%), 1fr)
+  );
+  grid-auto-rows: 1fr;
+}

@@ -9,10 +9,12 @@ class Views::JobApplications::Index < Views::Base
     refresh_by_morphing
     render Components::Layout.new(user: current_user, container: true) do
       turbo_stream_from "job_applications"
-      stack do
+      stack(size: 24) do
         text(type: "h1-bold") { t(".title") }
         render Components::NavigationPills.new(filters:)
-        @job_applications.each { |job_application| render Components::JobApplicationCard.new(job_application:) }
+        grid(gap: 32) do
+          @job_applications.each { |job_application| render Components::JobApplicationCard.new(job_application:) }
+        end
       end
     end
   end

@@ -33,7 +33,9 @@ en:
       drop: or drop it here
       remove: Remove file
     job_application_card:
+      application_date: Application date
       role_and_level: "%{level} %{role}"
+      role_and_level_label: Job role & level
     job_application_updates:
       events:
         craft_interview_booked: 'Applicant: Craft interview booked'

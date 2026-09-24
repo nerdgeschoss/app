@@ -20,7 +20,7 @@ export function Grid({
 }: Props): JSX.Element {
   return (
     <div
-      className={classnames('grid')}
+      className={classnames('legacy-grid')}
       style={
         {
           '--min-width': `${minColumnWidth ?? 300}px`,

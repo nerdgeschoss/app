@@ -72,7 +72,7 @@ class Components::Base < Phlex::HTML
 
   # Lowercase shortcuts for the primitives from the component guidelines,
   # e.g. `stack(line: "mobile") { ... }`. Everything else is rendered explicitly.
-  [:icon, :stack, :text].each do |name|
+  [:grid, :icon, :stack, :text].each do |name|
     define_method(name) do |**props, &block|
       render(Components.const_get(name.to_s.camelize).new(**props), &block)
     end
