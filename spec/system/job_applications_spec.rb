@@ -36,6 +36,8 @@ RSpec.describe "Job applications" do
     expect(page).to have_content("Thank you for applying, Alex!")
     application = JobApplication.find_by!(email: "alex@example.com")
     expect(page).to have_current_path(job_application_path(application))
+    run_jobs
+    expect(application.events.pluck(:name)).to eq ["submitted"]
     expect(application.attachments.count).to eq 1
     expect(application.job_role).to eq "designer"
     expect(application.level).to eq "principal"
@@ -227,15 +229,42 @@ RSpec.describe "Job applications" do
       expect(application.reload.user).to have_attributes(email: "jane@example.com", roles: ["sprinter"])
     end
 
+    it "shows hr the history and takes comments" do
+      perform_enqueued_jobs { application.publish(:interview_invited, job_application_id: application.id) }
+      login :admin
+      visit job_application_path(application)
+      expect(page).to have_content("Updates")
+      expect(page).to have_content("Invite for interview sent")
+
+      fill_in "Comment", with: "Strong portfolio, invite quickly."
+      click_on "Submit"
+      # The redirect back renders an empty comment box; only then has the event been enqueued.
+      expect(page).to have_field("Comment", with: "")
+      run_jobs
+      visit job_application_path(application)
+      expect(page).to have_content("Strong portfolio, invite quickly.")
+      expect(page).to have_content(users(:admin).display_name)
+    end
+
+    it "keeps an empty comment from going through" do
+      login :admin
+      visit job_application_path(application)
+      click_on "Submit"
+      expect(page).to have_content("Comment can't be blank")
+    end
+
     it "hides the actions from everyone but hr" do
       visit job_application_path(application)
       expect(page).to have_content("Thank you for applying, Max!")
       expect(page).not_to have_button("Reject")
 
+      expect(page).not_to have_content("Updates")
+
       login :john
       visit job_application_path(application)
       expect(page).to have_content("Thank you for applying, Max!")
       expect(page).not_to have_button("Reject")
+      expect(page).not_to have_content("Updates")
       expect(page).not_to have_button("Invite for interview")
     end
   end

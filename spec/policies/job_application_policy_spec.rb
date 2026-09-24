@@ -16,6 +16,7 @@ RSpec.describe JobApplicationPolicy do
     it { is_expected.not_to permit_action(:reject) }
     it { is_expected.not_to permit_action(:hire) }
     it { is_expected.not_to permit_action(:mark_hired) }
+    it { is_expected.not_to permit_action(:comment) }
 
     # The token in the url is what authorizes the applicant's own page.
     it { is_expected.to permit_action(:show) }
@@ -34,6 +35,7 @@ RSpec.describe JobApplicationPolicy do
     it { is_expected.to permit_action(:show) }
     it { is_expected.to permit_action(:invite) }
     it { is_expected.to permit_action(:reject) }
+    it { is_expected.to permit_action(:comment) }
 
     context "after the first interview" do
       let(:record) { job_applications(:jane_awaiting_interview) }

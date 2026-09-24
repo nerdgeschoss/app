@@ -2,6 +2,8 @@
 en:
   activemodel:
     attributes:
+      job_application/comment:
+        body: Comment
       job_application/invitation:
         message: Message
         scheduling_url: Calendly link
@@ -26,6 +28,19 @@ en:
   components:
     job_application_card:
       role_and_level: "%{level} %{role}"
+    job_application_updates:
+      events:
+        craft_interview_booked: 'Applicant: Craft interview booked'
+        craft_interview_invited: Invite for craft interview sent
+        hired: Joined nerdgeschoss
+        interview_booked: 'Applicant: Interview booked'
+        interview_invited: Invite for interview sent
+        offered: Offer sent
+        rejected: Application rejected
+        submitted: Application submitted
+      placeholder: Leave a comment
+      submit: Submit
+      title: Updates
     sidebar:
       dashboard: Dashboard
       job_applications: Applications

@@ -11,6 +11,9 @@ class Views::JobApplications::Show < Views::Base
         text(type: "h1-bold") { t(".title") }
         hr_actions
         status_card
+        if policy(@job_application).comment?
+          render Components::JobApplicationUpdates.new(job_application: @job_application, comment: JobApplication::Comment.new(job_application: @job_application))
+        end
         booking_card
         details_card
       end

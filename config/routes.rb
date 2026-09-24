@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resource :rejection, only: [:new, :create], module: :job_applications
       resource :offer, only: [:new, :create], module: :job_applications
       resource :hiring, only: :create, module: :job_applications
+      resources :comments, only: :create, module: :job_applications
       resource :booking, only: [:create, :destroy], module: :job_applications
     end
     resources :payslips

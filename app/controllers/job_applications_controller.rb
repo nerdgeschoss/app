@@ -17,6 +17,7 @@ class JobApplicationsController < ApplicationController
   def create
     job_application = JobApplication.new(job_application_attributes)
     if job_application.save
+      job_application.publish(:submitted, job_application_id: job_application.id)
       redirect_to job_application, status: :see_other
     else
       render Views::JobApplications::New.new(job_application:), status: :unprocessable_content
