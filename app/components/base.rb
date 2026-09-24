@@ -3,6 +3,9 @@
 class Components::Base < Phlex::HTML
   extend Literal::Properties
 
+  # `policy(record)` resolves against `current_user`, so views ask Pundit directly.
+  include Pundit::Authorization
+
   include Phlex::Rails::Helpers::Routes
   include Phlex::Rails::Helpers::T
   include Phlex::Rails::Helpers::L
@@ -11,6 +14,10 @@ class Components::Base < Phlex::HTML
 
   register_value_helper :vite_asset_path
   register_value_helper :image_file_path
+
+  def current_user
+    Current.user
+  end
 
   # Relative translation keys resolve against a scope derived from the class
   # name: Components::UserCard => "components.user_card", Views::Users::Index

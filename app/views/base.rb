@@ -9,8 +9,4 @@ class Views::Base < Components::Base
 
   # More caching options at https://www.phlex.fun/components/caching
   def cache_store = Rails.cache
-
-  def current_user
-    Current.user
-  end
 end

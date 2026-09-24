@@ -1,6 +1,5 @@
 import { JSX } from 'react';
 import { Text } from '../text/text';
-import './button.scss';
 
 interface Props {
   title: string;

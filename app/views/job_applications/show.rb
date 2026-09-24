@@ -7,6 +7,7 @@ class Views::JobApplications::Show < Views::Base
     render Components::Layout.new(user: current_user, container: true) do
       stack do
         text(type: "h1-bold") { t(".title") }
+        hr_actions
         status_card
         details_card
       end
@@ -14,6 +15,16 @@ class Views::JobApplications::Show < Views::Base
   end
 
   private
+
+  def hr_actions
+    job_application_policy = policy(@job_application)
+    return unless job_application_policy.invite? || job_application_policy.reject?
+
+    stack(line: "mobile") do
+      render(Components::Button.new(modal_url: new_job_application_rejection_path(@job_application))) { t(".reject") } if job_application_policy.reject?
+      render(Components::Button.new(modal_url: new_job_application_invitation_path(@job_application))) { t(".invite") } if job_application_policy.invite?
+    end
+  end
 
   # i18n-tasks-use t('job_applications.show.status.review.title') t('job_applications.show.status.review.text')
   # i18n-tasks-use t('job_applications.show.status.interview.title') t('job_applications.show.status.interview.text')

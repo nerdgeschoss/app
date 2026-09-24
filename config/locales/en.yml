@@ -1,5 +1,12 @@
 ---
 en:
+  activemodel:
+    attributes:
+      job_application/invitation:
+        message: Message
+        scheduling_url: Calendly link
+      job_application/rejection:
+        message: Message
   activerecord:
     attributes:
       job_application:
@@ -61,14 +68,14 @@ en:
         title: Design Interview with Christian
       first:
         message: |-
-          Hey %{name},
+          Hey %{name}, you made it to the first interview!
 
-          Thank you for your application. We would love to learn more about you. Please follow the link below to schedule a first interview:
+          We reviewed your application and we would like to get to know you better, so please schedule an interview when's the best time for you to have a chat with us.
 
           %{url}
 
           Greetings,
-          nerdgeschoss
+          Christian
         title: First interview
       tech:
         message: |-
@@ -90,6 +97,18 @@ en:
       mid: Mid
       principal: Principal
       senior: Senior
+    rejection:
+      message: |-
+        Hi %{name},
+
+        We appreciated the chance to learn about your background and experience. After careful consideration, we've decided not to move forward with your application at this time.
+
+        We encourage you to apply again for future roles that match your skills.
+
+        We wish you all the best in your future endeavors and hope you find a wonderful opportunity soon.
+
+        Warm regards,
+        Jens & Christian
     status:
       craft_interview: Craft Interview
       hired: Joined
@@ -97,6 +116,11 @@ en:
       job_offer: Job Offer
       rejected: Rejected
       review: Review
+  job_application_mailer:
+    interview_invitation:
+      subject: Your interview at nerdgeschoss
+    rejection:
+      subject: Your application at nerdgeschoss
   job_applications:
     index:
       filters:
@@ -104,10 +128,20 @@ en:
         new: new
         rejected: rejected
       title: Applications
+    invitations:
+      new:
+        submit: Send message
+        title: Invite for interview
     new:
       submit: Send application
       title: Apply for a Job
+    rejections:
+      new:
+        submit: Send message
+        title: Reject application
     show:
+      invite: Invite for interview
+      reject: Reject
       status:
         craft_interview:
           text: We're so glad to invite you to a Craft Interview, where you'll get the chance to walk us through your skills and approach in more depth. Please select a time that works best for you.

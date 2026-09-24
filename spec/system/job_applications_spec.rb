@@ -78,4 +78,67 @@ RSpec.describe "Job applications" do
       expect(page).to have_content("Application Declined")
     end
   end
+
+  describe "reviewing an application" do
+    let(:application) { job_applications(:max_review) }
+
+    it "invites the applicant with a preset" do
+      login :admin
+      visit job_application_path(application)
+      click_on "Invite for interview"
+      within ".modal__frame" do
+        expect(page).to have_css(".pill--active", text: "First interview")
+        expect(page).to have_field("Calendly link", with: "https://calendly.com/nerdgeschoss/first-interview")
+        click_on "Tech Interview with Jens"
+        expect(page).to have_field("Calendly link", with: "https://calendly.com/jensravens/tech-interview")
+        click_on "Send message"
+      end
+
+      expect(page).to have_content("You're invited to interview, Max!")
+      expect(page).not_to have_css(".modal--open")
+      expect(application.reload.interview_scheduling_url).to eq "https://calendly.com/jensravens/tech-interview"
+      run_jobs
+      expect(last_mail!.to.to_s).to include "max@example.com"
+      expect(last_mail!.body.text).to include "schedule a tech interview with Jens"
+    end
+
+    it "rejects the applicant with the prefilled message" do
+      login :admin
+      visit job_application_path(application)
+      click_on "Reject"
+      within ".modal__frame" do
+        expect(page).to have_field("Message", with: /We appreciated the chance/)
+        click_on "Send message"
+      end
+
+      expect(page).to have_content("Application Declined")
+      expect(application.reload).to be_rejected
+    end
+
+    it "keeps the modal open when the message is missing" do
+      login :admin
+      visit job_application_path(application)
+      click_on "Reject"
+      within ".modal__frame" do
+        fill_in "Message", with: ""
+        click_on "Send message"
+        expect(page).to have_content("Message can't be blank")
+      end
+
+      expect(page).to have_content("Thank you for applying, Max!")
+      expect(application.reload).to be_review
+    end
+
+    it "hides the actions from everyone but hr" do
+      visit job_application_path(application)
+      expect(page).to have_content("Thank you for applying, Max!")
+      expect(page).not_to have_button("Reject")
+
+      login :john
+      visit job_application_path(application)
+      expect(page).to have_content("Thank you for applying, Max!")
+      expect(page).not_to have_button("Reject")
+      expect(page).not_to have_button("Invite for interview")
+    end
+  end
 end

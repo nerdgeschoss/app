@@ -41,6 +41,10 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  def submit(value = nil, _options = {})
+    @template.render(Components::Button.new(type: "submit")) { value || submit_default_value }
+  end
+
   private
 
   def text_input(attribute, options, type:)

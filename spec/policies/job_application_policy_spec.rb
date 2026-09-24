@@ -12,6 +12,8 @@ RSpec.describe JobApplicationPolicy do
     let(:user) { users(:john) }
 
     it { is_expected.not_to permit_action(:index) }
+    it { is_expected.not_to permit_action(:invite) }
+    it { is_expected.not_to permit_action(:reject) }
 
     # The token in the url is what authorizes the applicant's own page.
     it { is_expected.to permit_action(:show) }
@@ -28,6 +30,15 @@ RSpec.describe JobApplicationPolicy do
 
     it { is_expected.to permit_action(:index) }
     it { is_expected.to permit_action(:show) }
+    it { is_expected.to permit_action(:invite) }
+    it { is_expected.to permit_action(:reject) }
+
+    context "once the application left review" do
+      let(:record) { job_applications(:jane_awaiting_interview) }
+
+      it { is_expected.not_to permit_action(:invite) }
+      it { is_expected.not_to permit_action(:reject) }
+    end
 
     describe "Scope" do
       it "includes every application" do

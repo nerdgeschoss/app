@@ -216,7 +216,7 @@
     "@eslint/core" "^1.2.1"
     levn "^0.4.1"
 
-"@hotwired/stimulus@^3.2.2":
+"@hotwired/stimulus@^3.0.1", "@hotwired/stimulus@^3.2.2":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@hotwired/stimulus/-/stimulus-3.2.2.tgz#071aab59c600fed95b97939e605ff261a4251608"
   integrity sha512-eGeIqNOQpXoPAIP7tC1+1Yc1yl1xnwYqg+3mzqxyrbE5pg5YFBZcA6YoTiByJB6DKAEsiWtl6tjTJS4IYtbB7A==
@@ -321,6 +321,15 @@
   resolved "https://registry.yarnpkg.com/@nerdgeschoss/shimmer-component-stack/-/shimmer-component-stack-0.1.0.tgz#ed4a72e7c62fe1399dfe207c4ebd3d3477fabbee"
   integrity sha512-RSr+TOGVkc5Cy4aViqMfXO4KDiWoJ7QdJoF3rARjUENiixW78xNMkBINCSAKFc0k60u4rlOTXPBYG+es4jmEAg==
 
+"@nerdgeschoss/shimmer@^0.0.48":
+  version "0.0.48"
+  resolved "https://registry.yarnpkg.com/@nerdgeschoss/shimmer/-/shimmer-0.0.48.tgz#b776034d2543615c310130823bae23e0031d80a9"
+  integrity sha512-YS+KDCVvny9snsFvQBCaFuft7cVvPiPxgPWdxpCoVZU+KrqAkLhpMFlPN4LW9kaAGF7MVWy+qT6k65NviKnHGw==
+  dependencies:
+    "@hotwired/stimulus" "^3.0.1"
+    "@popperjs/core" "^2.11.0"
+    "@rails/request.js" "^0.0.6"
+
 "@oxc-project/types@=0.133.0":
   version "0.133.0"
   resolved "https://registry.yarnpkg.com/@oxc-project/types/-/types-0.133.0.tgz#2e282ef9e1d26e06b68ccd14b73f310a3b2cf7f8"
@@ -420,6 +429,11 @@
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.3.6.tgz#3569708bd4be4d8870ba32bf1c456dac81600d97"
   integrity sha512-SEeaJLb3qBNF/OaXnaR1NmmBbFYk1zC0ZH/52fATcRPLFg/p791YrcyFFy44Bo9sLaGuSuLp5Q6axbb/O+v/RA==
 
+"@popperjs/core@^2.11.0":
+  version "2.11.8"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
+
 "@rails/actioncable@>=7.0":
   version "7.2.302"
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.2.302.tgz#f074632ee55aa1b5b16cd2be094b42981a71c322"
@@ -431,6 +445,11 @@
   integrity sha512-WUKOoimfKHa6h7Ir9qpFGoRHg1p2PoU1wD9k4JLRDd42xb6PktY31m6U312zgUCGGq1Sl6voQY9fsE/Xn/+z6Q==
   dependencies:
     spark-md5 "^3.0.1"
+
+"@rails/request.js@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@rails/request.js/-/request.js-0.0.6.tgz#5f0347a9f363e50ec45118c7134080490cda81d8"
+  integrity sha512-dfFWaQXitYJ4kxrgGJNhDNXX54/v10YgoJqBMVe6lhqs6a4N9WD7goZJEvwin82TtK8MqUNhwfyisgKwM6dMdg==
 
 "@rolldown/binding-android-arm64@1.0.3":
   version "1.0.3"

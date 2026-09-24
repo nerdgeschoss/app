@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   resource :manifest, only: :show
 
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
-    resources :job_applications, only: [:index, :show, :new, :create]
+    resources :job_applications, only: [:index, :show, :new, :create] do
+      resource :invitation, only: [:new, :create], module: :job_applications
+      resource :rejection, only: [:new, :create], module: :job_applications
+    end
     resources :payslips
     resources :leaves do
       get "team_overview/:team_hash", action: :team_overview, as: :team_overview, on: :collection

@@ -38,5 +38,6 @@ ignore_unused:
   - helpers.*
   - activerecord.models.*
   - activerecord.attributes.*
+  - activemodel.attributes.*
   - '*_mailer.*.subject'
   - time_will_tell.*

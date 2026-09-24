@@ -1,6 +1,7 @@
 import '@hotwired/turbo-rails';
 import * as ActiveStorage from '@rails/activestorage';
 import { Application } from '@hotwired/stimulus';
+import { start } from '@nerdgeschoss/shimmer';
 import { registerControllers } from 'stimulus-vite-helpers';
 import '../components/reset.scss';
 
@@ -18,3 +19,4 @@ registerControllers(application, {
     eager: true,
   }),
 });
+start({ application });

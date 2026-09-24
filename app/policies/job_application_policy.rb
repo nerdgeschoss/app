@@ -9,6 +9,14 @@ class JobApplicationPolicy < ApplicationPolicy
     true
   end
 
+  def invite?
+    hr? && record.review?
+  end
+
+  def reject?
+    hr? && record.review?
+  end
+
   class Scope < Scope
     def resolve
       hr? ? scope.all : scope.none
