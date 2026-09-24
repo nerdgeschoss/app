@@ -31,6 +31,9 @@ class JobApplication < ApplicationRecord
 
   belongs_to :user, optional: true
 
+  broadcasts_refreshes
+  broadcasts_refreshes_to ->(_) { "job_applications" }
+
   has_many_attached :attachments
 
   has_secure_token :token
@@ -50,6 +53,11 @@ class JobApplication < ApplicationRecord
 
   validates :first_name, :last_name, :email, :motivation, presence: true
   validates :attachments, presence: true, on: :create
+
+  # Called by yael once an event is stored, so pages showing the log catch up.
+  def self.refresh_page(job_application_id:)
+    find(job_application_id).broadcast_refresh
+  end
 
   def events
     Yael::Event.where(stream: Yael::Event.stream_for(self)).order(:created_at, :id)

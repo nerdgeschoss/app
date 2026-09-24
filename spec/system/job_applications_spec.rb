@@ -18,6 +18,24 @@ RSpec.describe "Job applications" do
     expect(page).not_to have_content("Max Mustermann")
   end
 
+  it "keeps an open list current" do
+    login :admin
+    visit job_applications_path
+    expect(page).to have_content("Max Mustermann")
+    expect(page).to have_css("turbo-cable-stream-source[connected]", visible: :all)
+
+    application = JobApplication.new(job_role: :designer, level: :mid, first_name: "Omar", last_name: "Haddad",
+      email: "omar@example.com", motivation: "I sketch before I code.")
+    application.attachments.attach(io: File.open(Rails.root.join("spec/fixtures/files/cv.txt")), filename: "cv.txt")
+    application.save!
+    run_jobs
+    expect(page).to have_content("Omar Haddad")
+
+    job_applications(:max_review).rejected!
+    run_jobs
+    expect(page).not_to have_content("Max Mustermann")
+  end
+
   it "lets anyone apply without an account" do
     visit new_job_application_path
     select "Designer", from: "Job role"
@@ -235,15 +253,25 @@ RSpec.describe "Job applications" do
       visit job_application_path(application)
       expect(page).to have_content("Updates")
       expect(page).to have_content("Invite for interview sent")
+      expect(page).to have_css("turbo-cable-stream-source[connected]", visible: :all)
 
       fill_in "Comment", with: "Strong portfolio, invite quickly."
       click_on "Submit"
-      # The redirect back renders an empty comment box; only then has the event been enqueued.
+      # The frame comes back with an empty comment box; only then has the event been enqueued.
       expect(page).to have_field("Comment", with: "")
       run_jobs
-      visit job_application_path(application)
       expect(page).to have_content("Strong portfolio, invite quickly.")
       expect(page).to have_content(users(:admin).display_name)
+    end
+
+    it "pushes changes to a page that is already open" do
+      visit job_application_path(application)
+      expect(page).to have_content("Thank you for applying, Max!")
+      expect(page).to have_css("turbo-cable-stream-source[connected]", visible: :all)
+
+      application.update!(status: :interview, interview_scheduling_url: "https://calendly.com/jensravens/call")
+      run_jobs
+      expect(page).to have_content("You're invited to interview, Max!")
     end
 
     it "keeps an empty comment from going through" do

@@ -16,7 +16,8 @@ class Components::CalendlyWidget < Components::Base
       calendly_widget_name_value: @name,
       calendly_widget_email_value: @email
     }
-    div(class: "calendly-widget", data:) do
+    # Permanent, so a page refresh doesn't morph away the iframe Calendly built inside.
+    div(id: "calendly-widget", class: "calendly-widget", data: {**data, turbo_permanent: true}) do
       div(class: "calendly-widget__frame", data: {calendly_widget_target: "frame"})
       form_with(url: @booking_url, method: :post, data: {calendly_widget_target: "form"})
     end

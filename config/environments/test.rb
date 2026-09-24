@@ -41,6 +41,9 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {host: "example.com"}
 
+  # System specs serve from 127.0.0.1 on a random port, which the default origin check rejects.
+  config.action_cable.disable_request_forgery_protection = true
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
