@@ -1,0 +1,11 @@
+@use '../../frontend/components/layout';
+
+.split-layout {
+  display: grid;
+  gap: 24px;
+  align-items: start;
+
+  @include layout.media-desktop {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+}

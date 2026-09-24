@@ -3,32 +3,75 @@
 class Views::JobApplications::Show < Views::Base
   include Phlex::Rails::Helpers::FormWith
 
+  STEPS = ["apply", "review", "interview", "craft_interview", "job_offer"].freeze
+
   prop :job_application, JobApplication
 
   def view_template
     refresh_by_morphing
     render Components::Layout.new(user: current_user, container: true) do
       turbo_stream_from @job_application
-      stack do
-        text(type: "h1-bold") { t(".title") }
-        hr_actions
-        status_card
-        if policy(@job_application).comment?
-          render Components::JobApplicationUpdates.new(job_application: @job_application, comment: JobApplication::Comment.new(job_application: @job_application))
+      stack(size: 24, desktop_size: 32) do
+        header
+        render Components::SplitLayout.new(aside: -> { aside }) do
+          booking_card
+          details_card
         end
-        booking_card
-        details_card
       end
     end
   end
 
   private
 
+  def aside
+    status_card
+    if policy(@job_application).comment?
+      render Components::JobApplicationUpdates.new(job_application: @job_application, comment: JobApplication::Comment.new(job_application: @job_application))
+    end
+  end
+
+  # i18n-tasks-use t('job_applications.show.titles.review') t('job_applications.show.titles.interview') t('job_applications.show.titles.interview_booked')
+  # i18n-tasks-use t('job_applications.show.titles.craft_interview') t('job_applications.show.titles.craft_interview_booked') t('job_applications.show.titles.job_offer')
+  # i18n-tasks-use t('job_applications.show.titles.rejected') t('job_applications.show.titles.hired')
+  def header
+    stack(line: "tablet", justify: "space-between", align: "center") do
+      # Logged-in visitors get the logo from the sidebar.
+      render Components::Brand.new if current_user.nil?
+      progress
+    end
+    stack(line: "tablet", justify: "space-between", align: "center") do
+      text(type: "h1-bold") { t(".titles.#{status_key}") }
+      hr_actions
+    end
+  end
+
+  # i18n-tasks-use t('job_application.status.rejected') t('job_application.status.hired')
+  def progress
+    if STEPS.include?(@job_application.status)
+      stepper
+    else
+      render(Components::Pill.new(active: true)) { t("job_application.status.#{@job_application.status}") }
+    end
+  end
+
+  # i18n-tasks-use t('job_applications.show.steps.apply') t('job_applications.show.steps.review') t('job_applications.show.steps.interview')
+  # i18n-tasks-use t('job_applications.show.steps.craft_interview') t('job_applications.show.steps.job_offer')
+  def stepper
+    reached = STEPS.index(@job_application.status)
+    stack(line: "mobile", size: 8, align: "center", wrap: true, full_width: "none") do
+      STEPS.each_with_index do |step, index|
+        text(type: "caption-primary-regular", color: "label-body-secondary") { "—" } if index.positive?
+        text(type: (index <= reached) ? "caption-primary-bold" : "caption-primary-regular",
+          color: (index <= reached) ? "label-body-primary" : "label-body-secondary", uppercase: true) { t(".steps.#{step}") }
+      end
+    end
+  end
+
   def hr_actions
     job_application_policy = policy(@job_application)
     return unless job_application_policy.invite? || job_application_policy.reject? || job_application_policy.hire? || job_application_policy.mark_hired?
 
-    stack(line: "mobile") do
+    stack(line: "mobile", full_width: "none") do
       render(Components::Button.new(modal_url: new_job_application_rejection_path(@job_application))) { t(".reject") } if job_application_policy.reject?
       # i18n-tasks-use t('job_applications.show.invite.interview') t('job_applications.show.invite.craft_interview')
       render(Components::Button.new(modal_url: new_job_application_invitation_path(@job_application))) { t(".invite.#{JobApplication::Invitation.new(job_application: @job_application).stage}") } if job_application_policy.invite?

@@ -184,8 +184,17 @@ en:
           craft_interview: Invite for Craft Interview
           interview: Invite for interview
     new:
+      benefits:
+        culture: "🤝 Join a culture that values you! Experience honesty, mentorship, and the freedom to be yourself."
+        remote: "🌍 Work from anywhere! Enjoy the freedom to choose your workspace."
+        schedule: "⏰ Shape your own schedule! Enjoy an average of 7.5 hours a day, flexibly arranged to suit your lifestyle."
+        title: Some of the benefits you will enjoy if you work with us
+      handbook: 'To know more about what it''s like working with us, please visit our handbook link:'
       submit: Send application
       title: Apply for a Job
+      welcome:
+        text: We're looking forward to hear from you. Please fill out this form to start the job application process.
+        title: "Welcome to nerdgeschoss! 🚀"
     offers:
       new:
         submit: Send message
@@ -228,8 +237,22 @@ en:
         review:
           text: We've received your application and our team is currently reviewing it. We truly appreciate the time and effort you put into applying, and you will receive an email with the next steps soon. You can also bookmark this page to check back for updates on your status.
           title: "🎉 Thank you for applying, %{name}!"
+      steps:
+        apply: Apply
+        craft_interview: Craft Interview
+        interview: Interview
+        job_offer: Job Offer
+        review: Review
       submitted: Application submitted
-      title: Your application
+      titles:
+        craft_interview: Craft Interview
+        craft_interview_booked: Awaiting Interview
+        hired: Joined nerdgeschoss
+        interview: Initial Interview
+        interview_booked: Awaiting Interview
+        job_offer: You've got a job offer! ✅
+        rejected: Application Declined
+        review: Application Review
       update: Update
   leave:
     number_of_days:

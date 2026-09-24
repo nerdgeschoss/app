@@ -27,6 +27,7 @@ RSpec.describe "Job applications" do
       screenshot "job application form"
       click_on "Send application"
 
+      expect(page).to have_content("Application Review")
       expect(page).to have_content("Thank you for applying, Alex!")
       expect(page).to have_link("cv.txt")
       expect(page).not_to have_content("Updates")
@@ -40,6 +41,8 @@ RSpec.describe "Job applications" do
       expect(page).to have_content("Alex Chen")
       screenshot "job applications list"
       click_on "Alex Chen"
+      expect(page).to have_content("Application Review")
+      expect(page).to have_content("Thank you for applying, Alex!")
       expect(page).to have_content("Application submitted")
       wait_for_live_updates
 
@@ -59,17 +62,20 @@ RSpec.describe "Job applications" do
       end
       screenshot "job application interview invite"
       within(".modal__frame") { click_on "Send message" }
-      expect(page).to have_content("You're invited to interview, Alex!")
+      expect(page).to have_button("Invite for Craft Interview")
+      wait_for_live_updates
     end
     run_jobs
     expect(last_mail!.subject).to eq "Your interview at nerdgeschoss"
 
     using_session(:applicant) do
+      expect(page).to have_content("Initial Interview")
       expect(page).to have_content("You're invited to interview, Alex!")
       expect(page).to have_css(".calendly-widget")
       expect(page).not_to have_button("Reject")
       screenshot "job application interview scheduling"
       report_calendly_booking
+      expect(page).to have_content("Awaiting Interview")
       expect(page).to have_content("Your interview is booked.")
       screenshot "job application interview booked"
     end
@@ -83,11 +89,13 @@ RSpec.describe "Job applications" do
         expect(page).to have_field("Calendly link", with: "https://calendly.com/jensravens/tech-interview")
         click_on "Send message"
       end
-      expect(page).to have_content("Nice work, Alex! You're moving forward!")
+      expect(page).to have_button("Hire applicant")
+      wait_for_live_updates
     end
     run_jobs
 
     using_session(:applicant) do
+      expect(page).to have_content("Craft Interview")
       expect(page).to have_content("Nice work, Alex! You're moving forward!")
       report_calendly_booking
       expect(page).to have_content("Your interview is booked.")
@@ -103,19 +111,22 @@ RSpec.describe "Job applications" do
       end
       screenshot "job application offer"
       within(".modal__frame") { click_on "Send message" }
-      expect(page).to have_content("Congratulations, Alex! We'd love to have you!")
+      expect(page).to have_button("Mark as hired")
+      wait_for_live_updates
     end
     run_jobs
     expect(last_mail!.subject).to eq "Your offer from nerdgeschoss"
 
     using_session(:applicant) do
+      expect(page).to have_content("You've got a job offer!")
       expect(page).to have_content("offer you the Principal Developer role")
       screenshot "job application offer received"
     end
 
     using_session(:hr) do
       accept_confirm { click_on "Mark as hired" }
-      expect(page).to have_content("Welcome to nerdgeschoss, Alex!")
+      expect(page).to have_css(".pill--active", text: "Joined")
+      expect(page).not_to have_button("Mark as hired")
       expect(page).to have_content("Offer sent")
       visit job_applications_path(filter: "joined")
       expect(page).to have_content("Alex Chen")
@@ -124,6 +135,7 @@ RSpec.describe "Job applications" do
     run_jobs
 
     using_session(:applicant) do
+      expect(page).to have_content("Joined nerdgeschoss")
       expect(page).to have_content("Welcome to nerdgeschoss, Alex!")
       screenshot "job application hired"
     end
@@ -131,7 +143,8 @@ RSpec.describe "Job applications" do
 
   private
 
-  # A broadcast sent before the page has subscribed would be lost.
+  # A broadcast sent before the page has subscribed is lost, so wait after every full page load. A morph
+  # (e.g. the redirect back after booking) keeps the subscription but drops the `connected` marker.
   def wait_for_live_updates
     expect(page).to have_css("turbo-cable-stream-source[connected]", visible: :all)
   end
