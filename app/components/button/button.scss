@@ -1,8 +1,18 @@
 .button {
-  color: white;
-  background-color: #2da9ff;
-  padding: 8px 16px;
+  padding: 7px 15px;
+  border: 1px solid transparent;
   border-radius: 60px;
   width: fit-content;
   cursor: pointer;
+
+  &--primary {
+    color: white;
+    background-color: #2da9ff;
+  }
+
+  &--danger {
+    color: var(--button-primary-label-error);
+    background-color: var(--button-secondary-bg-default);
+    border-color: var(--border-error-base);
+  }
 }

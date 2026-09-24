@@ -72,7 +72,7 @@ class Views::JobApplications::Show < Views::Base
     return unless job_application_policy.invite? || job_application_policy.reject? || job_application_policy.hire? || job_application_policy.mark_hired?
 
     stack(line: "mobile", full_width: "none") do
-      render(Components::Button.new(modal_url: new_job_application_rejection_path(@job_application))) { t(".reject") } if job_application_policy.reject?
+      render(Components::Button.new(modal_url: new_job_application_rejection_path(@job_application), variant: "danger")) { t(".reject") } if job_application_policy.reject?
       # i18n-tasks-use t('job_applications.show.invite.interview') t('job_applications.show.invite.craft_interview')
       render(Components::Button.new(modal_url: new_job_application_invitation_path(@job_application))) { t(".invite.#{JobApplication::Invitation.new(job_application: @job_application).stage}") } if job_application_policy.invite?
       render(Components::Button.new(modal_url: new_job_application_offer_path(@job_application))) { t(".hire") } if job_application_policy.hire?
@@ -124,29 +124,43 @@ class Views::JobApplications::Show < Views::Base
 
   def details_card
     render Components::Card.new do
-      stack(size: 16) do
-        detail :job_role, role_label
-        detail :level, level_label(@job_application.level)
-        detail :first_name, @job_application.first_name
-        detail :last_name, @job_application.last_name
-        detail :email, @job_application.email
-        detail :github_handle, @job_application.github_handle, href: "https://github.com/#{@job_application.github_handle.delete_prefix("@")}" if @job_application.github_handle.present?
-        detail :website_url, @job_application.website_url, href: @job_application.website_url if @job_application.website_url.present?
-        detail :available_from, l(@job_application.available_from) if @job_application.available_from
+      stack(size: 24) do
+        stack(grid: "tablet") do
+          detail :job_role, role_label
+          detail :level, level_label(@job_application.level)
+        end
+        stack(grid: "tablet") do
+          detail :first_name, @job_application.first_name
+          detail :last_name, @job_application.last_name
+        end
+        stack(grid: "tablet") do
+          detail :email, @job_application.email
+          detail :github_handle, @job_application.github_handle, href: github_url
+        end
+        stack(grid: "tablet") do
+          detail :website_url, @job_application.website_url, href: @job_application.website_url.presence, label: t(".labels.website_url")
+          detail :available_from, @job_application.available_from && l(@job_application.available_from), label: t(".labels.available_from")
+        end
         detail :motivation, @job_application.motivation
         render Components::Field.new(label: JobApplication.human_attribute_name(:attachments)) do
-          @job_application.attachments.each do |attachment|
-            render Components::FieldValue.new(value: attachment.filename.to_s, href: image_file_path(attachment))
+          stack(size: 12) do
+            @job_application.attachments.each do |attachment|
+              render Components::FieldValue.new(value: attachment.filename.to_s, href: image_file_path(attachment))
+            end
           end
         end
       end
     end
   end
 
-  def detail(attribute, value, href: nil)
-    render Components::Field.new(label: JobApplication.human_attribute_name(attribute)) do
+  def detail(attribute, value, href: nil, label: JobApplication.human_attribute_name(attribute))
+    render Components::Field.new(label:) do
       render Components::FieldValue.new(value:, href:)
     end
+  end
+
+  def github_url
+    "https://github.com/#{@job_application.github_handle.delete_prefix("@")}" if @job_application.github_handle.present?
   end
 
   def status_key

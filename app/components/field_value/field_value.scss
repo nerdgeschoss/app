@@ -1,0 +1,23 @@
+.field-value {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--input-bg-read-only);
+  color: var(--label-body-primary);
+  font-size: 14px;
+  line-height: 1.4;
+
+  &__text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  &--link &__text {
+    text-decoration: underline;
+  }
+}

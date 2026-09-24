@@ -2,10 +2,11 @@
 
 class Components::Button < Components::Base
   prop :type, _Union("button", "submit"), default: "button"
+  prop :variant, _Union("primary", "danger"), default: "primary"
   prop :modal_url, _Nilable(String)
 
   def view_template(&)
-    button(type: @type, class: "button", data: modal_data) { text(&) }
+    button(type: @type, class: ["button", "button--#{@variant}"], data: modal_data) { text(&) }
   end
 
   private

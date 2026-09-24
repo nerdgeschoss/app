@@ -2,7 +2,7 @@
 
 class Components::Icon < Components::Base
   NAMES = [
-    "chevron-arrow", "close", "dashboard", "expo", "github", "harvest", "job-application", "leave", "logout", "menu", "payslip", "profit", "project", "puma", "rails", "react", "sprint", "tooltip-arrow", "user"
+    "chevron-arrow", "close", "dashboard", "expo", "github", "harvest", "job-application", "leave", "logout", "menu", "newtab", "payslip", "profit", "project", "puma", "rails", "react", "sprint", "tooltip-arrow", "user"
   ].freeze
 
   prop :name, _Union(*NAMES)
