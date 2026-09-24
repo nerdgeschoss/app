@@ -53,11 +53,11 @@ class Views::JobApplications::New < Views::Base
             end
             stack(grid: "tablet") do
               form.email_field :email, placeholder: t(".placeholders.email")
-              form.text_field :github_handle, placeholder: t(".placeholders.github_handle")
+              form.text_field :github_handle, placeholder: t(".placeholders.github_handle"), optional: true
             end
             stack(grid: "tablet") do
-              form.url_field :website_url, placeholder: t(".placeholders.website_url"), autocomplete: "url"
-              form.date_field :available_from
+              form.url_field :website_url, placeholder: t(".placeholders.website_url"), autocomplete: "url", optional: true
+              form.date_field :available_from, optional: true
             end
             form.text_area :motivation, placeholder: t(".placeholders.motivation"), hint: t(".hints.motivation")
             form.file_field :attachments, multiple: true, description: t(".hints.attachments")

@@ -5,11 +5,15 @@ class Components::Field < Components::Base
   prop :label, String
   prop :id, _Nilable(String)
   prop :hint, _Nilable(_Union(String, _Array(String)))
+  prop :optional, _Boolean, default: false
   prop :errors, _Array(String), default: -> { [] }
 
   def view_template(&)
     div(class: "field") do
-      label(class: "field__label", for: @id) { text(type: "body-bold") { @label } }
+      label(class: "field__label", for: @id) do
+        text(type: "body-bold") { @label }
+        text(type: "caption-secondary-regular", color: "label-heading-secondary") { t(".optional") } if @optional
+      end
       # An element, not a bare yield: the form builder's block returns its control instead of writing it.
       div(class: "field__control", &)
       hint if @hint

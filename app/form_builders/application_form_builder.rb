@@ -55,12 +55,13 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   # Wrap the yielded control in a Components::Field carrying the label, an optional
-  # `:hint` and the attribute's errors. `:label` overrides the humanized attribute name.
+  # `:hint`, the `:optional` marker and the attribute's errors. `:label` overrides the humanized attribute name.
   def field(attribute, options)
     label = options.delete(:label) || object.class.human_attribute_name(attribute)
     hint = options.delete(:hint)
+    optional = options.delete(:optional) || false
     control = yield(field_name(attribute), field_id(attribute), options)
-    @template.render(Components::Field.new(id: field_id(attribute), label:, hint:, errors: object.errors.full_messages_for(attribute))) do
+    @template.render(Components::Field.new(id: field_id(attribute), label:, hint:, optional:, errors: object.errors.full_messages_for(attribute))) do
       @template.render(control)
     end
   end

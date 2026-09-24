@@ -26,6 +26,8 @@ en:
         motivation: Let us know about your interest in working with us
         website_url: Link to your website
   components:
+    field:
+      optional: Optional
     file_field:
       choose: Choose a file
       drop: or drop it here
