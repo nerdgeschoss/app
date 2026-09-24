@@ -42,8 +42,8 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def submit(value = nil, _options = {})
-    @template.render(Components::Button.new(type: "submit")) { value || submit_default_value }
+  def submit(value = nil, options = {})
+    @template.render(Components::Button.new(type: "submit", variant: options.fetch(:variant, "primary"))) { value || submit_default_value }
   end
 
   private
@@ -55,9 +55,12 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   # Wrap the yielded control in a Components::Field carrying the label, an optional
-  # `:hint`, the `:optional` marker and the attribute's errors. `:label` overrides the humanized attribute name.
+  # `:hint`, the `:optional` marker and the attribute's errors. `:label` overrides the humanized
+  # attribute name; `label: false` hides it and names the control through `aria-label` instead.
   def field(attribute, options)
-    label = options.delete(:label) || object.class.human_attribute_name(attribute)
+    label = options.key?(:label) ? options.delete(:label) : object.class.human_attribute_name(attribute)
+    options[:aria] = {label: object.class.human_attribute_name(attribute)} if label == false
+    label = nil if label == false
     hint = options.delete(:hint)
     optional = options.delete(:optional) || false
     control = yield(field_name(attribute), field_id(attribute), options)

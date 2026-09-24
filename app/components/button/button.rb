@@ -2,7 +2,7 @@
 
 class Components::Button < Components::Base
   prop :type, _Union("button", "submit"), default: "button"
-  prop :variant, _Union("primary", "danger"), default: "primary"
+  prop :variant, _Union("primary", "secondary", "danger"), default: "primary"
   prop :modal_url, _Nilable(String)
 
   def view_template(&)

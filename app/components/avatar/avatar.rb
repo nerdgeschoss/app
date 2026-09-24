@@ -5,9 +5,10 @@ class Components::Avatar < Components::Base
   prop :display_name, _Nilable(String)
   prop :avatar_url, _Nilable(String)
   prop :large, _Boolean, default: false
+  prop :small, _Boolean, default: false
 
   def view_template
-    div(class: ["avatar", ("avatar--large" if @large)]) do
+    div(class: ["avatar", ("avatar--large" if @large), ("avatar--small" if @small)]) do
       if @avatar_url
         img(class: "avatar__image", src: @avatar_url, alt: @display_name || @email)
       else

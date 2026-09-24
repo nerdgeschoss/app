@@ -2,7 +2,7 @@
 
 # Wraps a form control or displayed value with its label, an optional hint and errors.
 class Components::Field < Components::Base
-  prop :label, String
+  prop :label, _Nilable(String)
   prop :id, _Nilable(String)
   prop :hint, _Nilable(_Union(String, _Array(String)))
   prop :optional, _Boolean, default: false
@@ -10,9 +10,11 @@ class Components::Field < Components::Base
 
   def view_template(&)
     div(class: "field") do
-      label(class: "field__label", for: @id) do
-        text(type: "body-bold") { @label }
-        text(type: "caption-secondary-regular", color: "label-heading-secondary") { t(".optional") } if @optional
+      if @label
+        label(class: "field__label", for: @id) do
+          text(type: "body-bold") { @label }
+          text(type: "caption-secondary-regular", color: "label-heading-secondary") { t(".optional") } if @optional
+        end
       end
       # An element, not a bare yield: the form builder's block returns its control instead of writing it.
       div(class: "field__control", &)

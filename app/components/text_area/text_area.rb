@@ -7,6 +7,7 @@ class Components::TextArea < Components::Base
   prop :options, Hash, default: -> { {} }
 
   def view_template
-    textarea(name: @name, id: @id, class: "text-area", **@options) { @value }
+    # Grows with its content; `rows` sets the minimum height.
+    textarea(name: @name, id: @id, class: "text-area", style: "--rows: #{@options.fetch(:rows, 2)};", **@options) { @value }
   end
 end

@@ -59,7 +59,7 @@ class Views::JobApplications::New < Views::Base
               form.url_field :website_url, placeholder: t(".placeholders.website_url"), autocomplete: "url", optional: true
               form.date_field :available_from, optional: true
             end
-            form.text_area :motivation, placeholder: t(".placeholders.motivation"), hint: t(".hints.motivation")
+            form.text_area :motivation, rows: 7, placeholder: t(".placeholders.motivation"), hint: t(".hints.motivation")
             form.file_field :attachments, multiple: true, description: t(".hints.attachments")
           end
         end

@@ -2,6 +2,7 @@
 
 .text-area {
   @include input.input;
-  min-height: 157px;
-  resize: vertical;
+  field-sizing: content;
+  min-height: calc(var(--rows) * 1lh + 22px);
+  resize: none;
 }

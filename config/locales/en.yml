@@ -317,6 +317,9 @@ en:
         one: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n🏖️ *On leave:*\n%{leaves}"
         other: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}\n\n🏖️ *On leave:*\n%{leaves}"
         zero: "🏃 *Sprint %{title} starts today!*\nDuration: %{sprint_during}\nWorking days: %{working_days}"
+  time:
+    formats:
+      long: "%d.%m.%Y %H:%M"
   time_will_tell:
     date_range:
       different_months_same_year: "%{from_month} %{from_day} %{sep} %{to_month} %{to_day}"

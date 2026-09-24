@@ -10,6 +10,12 @@
     background-color: #2da9ff;
   }
 
+  &--secondary {
+    color: var(--button-secondary-label-default);
+    background-color: var(--button-secondary-bg-default);
+    border-color: var(--button-secondary-border-default);
+  }
+
   &--danger {
     color: var(--button-primary-label-error);
     background-color: var(--button-secondary-bg-default);

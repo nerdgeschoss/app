@@ -93,22 +93,27 @@ class Views::JobApplications::Show < Views::Base
   # i18n-tasks-use t('job_applications.show.status.rejected.title') t('job_applications.show.status.rejected.text')
   # i18n-tasks-use t('job_applications.show.status.hired.title') t('job_applications.show.status.hired.text')
   def status_card
-    render Components::Card.new(
-      title: t(".status.#{status_key}.title", name: @job_application.first_name),
-      subtitle: -> { text { t(".status.#{status_key}.text", level: level_label(@job_application.offered_level || @job_application.level), role: role_label) } },
-      with_divider: true
-    ) do
-      stack do
+    render Components::Card.new(subtitle: -> { status_summary }, with_divider: true) do
+      stack(size: 16) do
         if booking.booked?
           stack(line: "mobile", justify: "space-between", align: "center") do
-            text { t(".booked") }
+            text(type: "caption-primary-regular") { t(".booked") }
             form_with(url: job_application_booking_path(@job_application), method: :delete) { |form| form.submit t(".update") }
           end
         end
-        stack(line: "mobile", justify: "space-between") do
-          text(type: "body-bold") { l(@job_application.created_at, format: :long) }
-          text { t(".submitted") }
+        stack(line: "mobile", justify: "space-between", align: "center") do
+          text(type: "caption-primary-bold", no_wrap: true) { l(@job_application.created_at, format: :long) }
+          text(type: "caption-primary-regular") { t(".submitted") }
         end
+      end
+    end
+  end
+
+  def status_summary
+    stack(size: 24) do
+      text(type: "body-bold") { t(".status.#{status_key}.title", name: @job_application.first_name) }
+      text(type: "caption-primary-regular") do
+        t(".status.#{status_key}.text", level: level_label(@job_application.offered_level || @job_application.level), role: role_label)
       end
     end
   end
