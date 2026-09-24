@@ -10,7 +10,7 @@ RSpec.describe "Leaves" do
     login :john
     visit leaves_path
     click_on "Request leave"
-    within ".modal" do
+    within ".legacy-modal" do
       select("February")
       expect(page).to have_selector ".cur-year"
       find("input", class: "cur-year").set ""
@@ -21,7 +21,7 @@ RSpec.describe "Leaves" do
       screenshot "request leave"
       click_on "Request leave"
     end
-    expect(page).not_to have_selector ".modal"
+    expect(page).not_to have_selector ".legacy-modal"
     expect(page).to have_content "John / My Holiday"
     expect(page).to have_content "Pending"
     expect(page).not_to have_content "👍" # only admins can approve
@@ -50,7 +50,7 @@ RSpec.describe "Leaves" do
     travel_to date
     visit leaves_path
     click_on "Request leave"
-    within ".modal" do
+    within ".legacy-modal" do
       select(Time.zone.today.strftime("%B"))
       find(".flatpickr-day", text: date.day).click
       fill_in "Title", with: "Fever"
@@ -70,7 +70,7 @@ RSpec.describe "Leaves" do
 
     expect(page).not_to have_content "Heads up: Some of the selected days are in the past."
 
-    within ".modal" do
+    within ".legacy-modal" do
       find(".flatpickr-day.today").click
 
       expect(page).not_to have_content "Heads up: Some of the selected days are in the past."

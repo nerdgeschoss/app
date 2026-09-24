@@ -9,13 +9,15 @@ class Views::JobApplications::Offers::New < Views::Base
   def view_template
     # A frame, so a failed submit swaps only the modal's content.
     turbo_frame_tag "job_application_modal" do
-      stack do
-        text(type: "h3-bold") { t(".title") }
+      stack(size: 32) do
+        text(type: "h5-bold") { t(".title") }
         form_with(model: @offer, url: job_application_offer_path(@offer.job_application)) do |form|
-          stack(size: 16) do
-            form.select :offered_level, level_choices
-            form.text_area :message, rows: 14
-            form.submit t(".submit")
+          stack(size: 32) do
+            stack(size: 24) do
+              form.select :offered_level, level_choices
+              form.text_area :message, rows: 14
+            end
+            stack(line: "mobile", justify: "right") { form.submit t(".submit") }
           end
         end
       end

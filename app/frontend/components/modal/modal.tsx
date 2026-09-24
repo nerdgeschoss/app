@@ -32,21 +32,21 @@ function Modal(props: ModalProps): JSX.Element {
 
   return (
     <div
-      className={classnames('modal', {
-        'modal--open': open,
-        'modal--center': true,
-        'modal--large': props.large,
+      className={classnames('legacy-modal', {
+        'legacy-modal--open': open,
+        'legacy-modal--center': true,
+        'legacy-modal--large': props.large,
       })}
     >
       <div
-        className={classnames('modal__background', {
-          'modal__background--fade-in': open,
-          'modal__background--fade-out': !props.open,
+        className={classnames('legacy-modal__background', {
+          'legacy-modal__background--fade-in': open,
+          'legacy-modal__background--fade-out': !props.open,
         })}
       />
-      <div className="modal__content">
-        <div className="modal__close" onClick={onClose} />
-        <div className="modal__body">{children}</div>
+      <div className="legacy-modal__content">
+        <div className="legacy-modal__close" onClick={onClose} />
+        <div className="legacy-modal__body">{children}</div>
       </div>
     </div>
   );
@@ -139,7 +139,7 @@ export function ModalWrapper({
   return (
     <ModalPresenterContext.Provider value={presenter}>
       {modals.length > 0 && (
-        <div className="modal__stack">
+        <div className="legacy-modal__stack">
           {modals.map((modal) => (
             <ModalInfoContext.Provider
               value={{

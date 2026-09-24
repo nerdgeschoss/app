@@ -19,14 +19,14 @@ RSpec.describe "Sprints" do
       visit sprints_path
 
       click_on "add"
-      within ".modal" do
+      within ".legacy-modal" do
         fill_in "Title", with: "Test Sprint 1"
         fill_in "Sprint from", with: "2022-02-01"
         fill_in "Sprint until", with: "2022-02-14"
         screenshot "sprint creation"
         click_on "Save"
       end
-      expect(page).not_to have_selector ".modal"
+      expect(page).not_to have_selector ".legacy-modal"
       expect(page).to have_content "Test Sprint 1"
       User.sprinter.each do |user|
         expect(page).to have_content user.display_name

@@ -10,9 +10,9 @@ class Views::JobApplications::Invitations::New < Views::Base
   def view_template
     # A frame, so preset links and a failed submit swap only the modal's content.
     turbo_frame_tag "job_application_modal" do
-      stack do
+      stack(size: 32) do
         # i18n-tasks-use t('job_applications.invitations.new.title.interview') t('job_applications.invitations.new.title.craft_interview')
-        text(type: "h3-bold") { t(".title.#{@invitation.stage}") }
+        text(type: "h5-bold") { t(".title.#{@invitation.stage}") }
         stack(line: "mobile", size: 4) do
           JobApplication::InterviewPreset.all.each do |preset|
             a(href: new_job_application_invitation_path(job_application, preset: preset.kind)) do
@@ -21,10 +21,12 @@ class Views::JobApplications::Invitations::New < Views::Base
           end
         end
         form_with(model: @invitation, url: job_application_invitation_path(job_application)) do |form|
-          stack(size: 16) do
-            form.url_field :scheduling_url
-            form.text_area :message, rows: 12
-            form.submit t(".submit")
+          stack(size: 32) do
+            stack(size: 24) do
+              form.url_field :scheduling_url
+              form.text_area :message, rows: 12
+            end
+            stack(line: "mobile", justify: "right") { form.submit t(".submit") }
           end
         end
       end

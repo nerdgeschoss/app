@@ -16,7 +16,7 @@ export function Button({
 }: Props): JSX.Element {
   return (
     <button
-      className="button"
+      className="button button--primary"
       onClick={(event) => {
         if (!disablePreventDefault) {
           event.preventDefault();

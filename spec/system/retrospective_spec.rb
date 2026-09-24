@@ -31,7 +31,7 @@ RSpec.describe "Retrospectives" do
     fill_in "Text", with: "I'm happy"
     click_on "Save"
 
-    expect(page).not_to have_selector ".modal"
+    expect(page).not_to have_selector ".legacy-modal"
 
     expect(page).to have_selector ".star-field__star--active", count: 4
     expect(page).to have_content "I'm happy"
