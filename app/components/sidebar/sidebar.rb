@@ -25,21 +25,24 @@ class Components::Sidebar < Components::Base
         end
       end
       div(class: "sidebar__collapse") do
-        div(class: "sidebar__mobile") do
-          div(class: "sidebar__links") do
-            stack(size: 24, tablet_size: 32, desktop_size: 48) do
-              items.each { |item| mobile_link(item) }
+        # Wraps the menu without height or padding, so the grid row can collapse to 0.
+        div(class: "sidebar__collapse-content") do
+          div(class: "sidebar__mobile") do
+            div(class: "sidebar__links") do
+              stack(size: 24, tablet_size: 32, desktop_size: 48) do
+                items.each { |item| mobile_link(item) }
+              end
             end
-          end
-          div(class: "sidebar__footer") do
-            profile_link do
-              img(src: @user.avatar_image(size: 200), class: "sidebar__avatar", alt: "avatar")
-              username
-            end
-            a(href: logout_path) do
-              div(class: "sidebar__link") do
-                icon(name: "logout", size: 24, desktop_size: 32)
-                link_text(t(".logout"))
+            div(class: "sidebar__footer") do
+              profile_link do
+                img(src: @user.avatar_image(size: 200), class: "sidebar__avatar", alt: "avatar")
+                username
+              end
+              a(href: logout_path) do
+                div(class: "sidebar__link") do
+                  icon(name: "logout", size: 24, desktop_size: 32)
+                  link_text(t(".logout"))
+                end
               end
             end
           end

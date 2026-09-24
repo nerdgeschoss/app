@@ -53,13 +53,13 @@
     grid-template-rows: 0fr;
     transition: grid-template-rows 0.3s ease;
 
-    > * {
-      overflow: hidden;
-    }
-
     @include layout.media-desktop {
       display: none;
     }
+  }
+
+  &__collapse-content {
+    overflow: hidden;
   }
 
   &__collapse &__links,
