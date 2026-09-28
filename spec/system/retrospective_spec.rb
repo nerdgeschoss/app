@@ -46,4 +46,17 @@ RSpec.describe "Retrospectives" do
 
     expect(page).to have_selector ".star-field__star--active", count: 0
   end
+
+  it "does not allow a team lead to edit another user's feedback" do
+    user.update! roles: ["sprinter", "team-frontend", "team_lead-frontend"]
+    other_user = users(:yuki)
+    other_user.update! roles: ["sprinter", "team-frontend"]
+    other_feedback = sprint.sprint_feedbacks.create!(user: other_user, retro_text: "I'm happy", retro_rating: 5)
+
+    visit sprint_feedback_path(other_feedback)
+
+    expect(page).to have_content "I'm happy"
+    expect(page).not_to have_button "Edit feedback"
+    expect(page).not_to have_button "Leave feedback"
+  end
 end

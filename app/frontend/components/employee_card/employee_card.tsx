@@ -35,6 +35,7 @@ interface Props {
   days: DataSchema['sprint_feedbacks/show']['feedback']['days'];
   retroText: string | null;
   timeDistribution: DataSchema['sprint_feedbacks/show']['feedback']['timeDistribution'];
+  permitEditRetroNotes: boolean;
 }
 
 export function EmployeeCard({
@@ -52,6 +53,7 @@ export function EmployeeCard({
   days,
   retroText,
   timeDistribution,
+  permitEditRetroNotes,
 }: Props): ReactElement {
   const l = useFormatter();
   const modal = useModal();
@@ -177,16 +179,18 @@ export function EmployeeCard({
           </Stack>
           <Stack gap={16} align="end">
             {retroText && <TextBox text={retroText} />}
-            <Button
-              title={
-                retroText
-                  ? t('employee_card.edit_feedback')
-                  : t('employee_card.leave_feedback')
-              }
-              onClick={() =>
-                modal.present(`/sprint_feedbacks/${id}/edit_retro`)
-              }
-            />
+            {permitEditRetroNotes && (
+              <Button
+                title={
+                  retroText
+                    ? t('employee_card.edit_feedback')
+                    : t('employee_card.leave_feedback')
+                }
+                onClick={() =>
+                  modal.present(`/sprint_feedbacks/${id}/edit_retro`)
+                }
+              />
+            )}
           </Stack>
         </Stack>
       </section>
