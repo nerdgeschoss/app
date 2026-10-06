@@ -20,11 +20,22 @@ export default function ({
         <Text type="h1-bold">{user.fullName}</Text>
         <Columns>
           {user.remainingHolidays !== null && (
-            <Card
-              title={t('users.show.remaining_holidays')}
-              subtitle={user.remainingHolidays}
-              icon="⏰"
-            />
+            <Card title={t('users.show.holidays')} icon="⏰">
+              <Stack size={4}>
+                <Stack line="mobile" justify="space-between">
+                  <Text>{t('users.show.total_holidays')}</Text>
+                  <Text>{user.yearlyHolidays}</Text>
+                </Stack>
+                <Stack line="mobile" justify="space-between">
+                  <Text>{t('users.show.used_holidays')}</Text>
+                  <Text>{user.usedHolidays}</Text>
+                </Stack>
+                <Stack line="mobile" justify="space-between">
+                  <Text>{t('users.show.remaining_holidays')}</Text>
+                  <Text>{user.remainingHolidays}</Text>
+                </Stack>
+              </Stack>
+            </Card>
           )}
           {salaries.length > 0 && (
             <Card title={t('users.show.salary_history')} icon="💰">

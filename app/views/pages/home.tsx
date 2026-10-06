@@ -14,6 +14,8 @@ export default function Home({
     currentUser,
     upcomingLeaves,
     payslips,
+    yearlyHolidays,
+    usedHolidays,
     remainingHolidays,
     dailyNerdMessage,
     needsRetroFor,
@@ -76,13 +78,22 @@ export default function Home({
               }
             />
           )}
-          <Card
-            icon="⏰"
-            title={t('pages.home.remaining_holidays')}
-            subtitle={t('pages.home.number_holidays_left', {
-              count: remainingHolidays,
-            })}
-          />
+          <Card icon="⏰" title={t('pages.home.holidays')}>
+            <Stack size={4}>
+              <Stack line="mobile" justify="space-between">
+                <Text>{t('pages.home.total_holidays')}</Text>
+                <Text>{yearlyHolidays}</Text>
+              </Stack>
+              <Stack line="mobile" justify="space-between">
+                <Text>{t('pages.home.used_holidays')}</Text>
+                <Text>{usedHolidays}</Text>
+              </Stack>
+              <Stack line="mobile" justify="space-between">
+                <Text>{t('pages.home.remaining_holidays')}</Text>
+                <Text>{remainingHolidays}</Text>
+              </Stack>
+            </Stack>
+          </Card>
         </Columns>
       </Stack>
     </Layout>
