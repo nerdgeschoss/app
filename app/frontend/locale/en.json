@@ -4,8 +4,10 @@
       "hello": "Hello, %{name}!",
       "upcoming_holidays": "Upcoming holidays",
       "last_payments": "Last payments",
-      "remaining_holidays": "Remaining holidays",
-      "number_holidays_left": "You have %{count} days off left",
+      "holidays": "Holidays",
+      "total_holidays": "Total vacation days",
+      "used_holidays": "Days taken this year",
+      "remaining_holidays": "Remaining vacation days",
       "payslip_archive": "archive",
       "missing_retro": "Retrospective Notes Missing",
       "missing_retro_description": "You did not yet leave a rating for sprint %{title}.",
@@ -55,7 +57,10 @@
   },
   "users": {
     "show": {
-      "remaining_holidays": "Remaining holidays",
+      "holidays": "Holidays",
+      "total_holidays": "Total vacation days",
+      "used_holidays": "Days taken this year",
+      "remaining_holidays": "Remaining vacation days",
       "salary_history": "Salary history",
       "inventory": "Inventory",
       "add_inventory": "add",
@@ -65,7 +70,6 @@
   "leaves": {
     "new": {
       "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
-      "selected_holidays_warning": "Heads up: Some of the selected days are holidays in Berlin:",
       "sick": "Sick",
       "paid": "Paid",
       "not_working": "Not working",

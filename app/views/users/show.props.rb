@@ -5,6 +5,8 @@ render "components/current_user"
 field :user, value: -> { @user } do
   field :id
   field :full_name
+  field :yearly_holidays, Integer, null: true, value: -> { yearly_holidays unless root { @hide_financials } }
+  field :used_holidays, Integer, null: true, value: -> { used_holidays unless root { @hide_financials } }
   field :remaining_holidays, Integer, null: true, value: -> { remaining_holidays unless root { @hide_financials } }
   field :api_token, String, null: true, value: -> { api_token if root { @user } == Current.user }
 end

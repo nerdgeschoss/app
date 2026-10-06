@@ -7,9 +7,11 @@ import 'flatpickr/dist/flatpickr.min.css';
 import { FormError } from '../form_error/form_error';
 import classnames from 'classnames';
 import { Text } from '../text/text';
+import { isoDate } from '../../util/date';
 
 interface Props extends FormField<Date[]> {
   label?: ReactNode;
+  disabledDates?: string[];
 }
 
 // workaround for the type error in the flatpickr package
@@ -26,6 +28,7 @@ export function CalendarField({
   inputId,
   name,
   onChange,
+  disabledDates = [],
 }: Props): JSX.Element {
   inputId = useInputId(inputId);
 
@@ -50,7 +53,12 @@ export function CalendarField({
         options={{
           inline: true,
           mode: 'multiple',
-          disable: [(date) => date.getDay() === 0 || date.getDay() === 6],
+          disable: [
+            (date) =>
+              date.getDay() === 0 ||
+              date.getDay() === 6 ||
+              disabledDates.includes(isoDate(date)),
+          ],
           weekNumbers: true,
           locale: {
             firstDayOfWeek: 1,

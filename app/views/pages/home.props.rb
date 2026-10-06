@@ -19,6 +19,8 @@ field :payslips, array: true, value: -> { @payslips } do
   field :url, value: -> { helpers.image_file_url(pdf) }
 end
 
+field :yearly_holidays, Integer, value: -> { current_user.yearly_holidays }
+field :used_holidays, Integer, value: -> { current_user.used_holidays }
 field :remaining_holidays, Integer, value: -> { current_user.remaining_holidays }
 
 field :daily_nerd_message, null: true, value: -> { @daily_nerd_message } do

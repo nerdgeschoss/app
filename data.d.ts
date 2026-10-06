@@ -80,6 +80,8 @@ export interface DataSchema {
       numberOfDays: string;
     }>;
     payslips: Array<{ id: string; month: string; url: string }>;
+    yearlyHolidays: number;
+    usedHolidays: number;
     remainingHolidays: number;
     dailyNerdMessage: {
       id: string | null;
@@ -448,6 +450,8 @@ export interface DataSchema {
     user: {
       id: string;
       fullName: string;
+      yearlyHolidays: number | null;
+      usedHolidays: number | null;
       remainingHolidays: number | null;
       apiToken: string | null;
     };
