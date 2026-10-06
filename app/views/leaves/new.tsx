@@ -14,11 +14,7 @@ import { Form } from '../../frontend/components/form/form';
 import { handleError } from '../../frontend/util/errors';
 import { Box } from '../../frontend/components/box/box';
 import { Stack } from '../../frontend/components/stack/stack';
-import {
-  TextList,
-  TextListItem,
-} from '../../frontend/components/text_list/text_list';
-import { isoDate, sameDay } from '../../frontend/util/date';
+import { isoDate } from '../../frontend/util/date';
 
 interface Form {
   userId: string;
@@ -74,32 +70,17 @@ export default function ({
   today.setHours(0, 0, 0, 0);
   const someDaysInPast = fields.days.value.some((date) => date < today);
 
-  const selectedHolidays = fields.days.value.flatMap((date) => {
-    return berlinHolidays.filter((berlinHoliday) => {
-      const berlinHolidayDate = new Date(berlinHoliday.date);
-      return sameDay(date, berlinHolidayDate);
-    });
-  });
-
   return (
     <Box size={24}>
       <Form onSubmit={onSubmit}>
         <Stack>
-          <CalendarField {...fields.days} label={t('leaves.new.days')} />
+          <CalendarField
+            {...fields.days}
+            label={t('leaves.new.days')}
+            disabledDates={berlinHolidays.map((holiday) => holiday.date)}
+          />
           {someDaysInPast && (
             <Text>{t('leaves.new.days_in_past_warning')}</Text>
-          )}
-          {selectedHolidays.length > 0 && (
-            <Text>
-              {t('leaves.new.selected_holidays_warning')}
-              <TextList>
-                {selectedHolidays.map((holiday) => (
-                  <TextListItem>
-                    {holiday.date}: {holiday.name}
-                  </TextListItem>
-                ))}
-              </TextList>
-            </Text>
           )}
           {permitUserSelect && (
             <SelectField
