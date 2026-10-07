@@ -41,20 +41,28 @@ export function Card({
   const header = hasHeader && (
     <div className="card__header" style={style}>
       <div className="card__header-content">
-        <div className="card__title">
-          {icon && <div className="card__icon">{icon}</div>}
-          <Text type="h5-bold" color="label-heading-primary">
-            {title}
-          </Text>
-        </div>
-        {subtitle && <div className="card__subtitle">{subtitle}</div>}
+        {(title || icon) && (
+          <div className="card__title">
+            {icon && <div className="card__icon">{icon}</div>}
+            <Text type="h5-bold" color="label-heading-primary">
+              {title}
+            </Text>
+          </div>
+        )}
+        {subtitle && (
+          <div className="card__subtitle">
+            <Text type="body-regular" block>
+              {subtitle}
+            </Text>
+          </div>
+        )}
       </div>
       {context && <div className="card__context">{context}</div>}
     </div>
   );
 
   const content = (
-    <Stack gap={24}>
+    <Stack gap={16}>
       {header}
       {withDivider && <div className="card__divider" />}
       {children && <div className="card__content">{children}</div>}
