@@ -6,7 +6,7 @@ if [ "$IS_REVIEW_APP" = "true" ]; then
 fi
 
 if [ "$IS_REVIEW_APP_CREATE" = "true" ]; then
-  ssh "$SSH_REMOTE" -- ps:scale "$APP_NAME" web=1 worker=1
+  ssh "$SSH_REMOTE" -- ps:scale "$APP_NAME" web=0 worker=0
   ssh "$SSH_REMOTE" -- config:unset "$APP_NAME" DATABASE_URL
   ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DEV_LOGIN=true
 
