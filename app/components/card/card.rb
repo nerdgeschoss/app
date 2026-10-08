@@ -21,7 +21,7 @@ class Components::Card < Components::Base
   private
 
   def inner(&block)
-    stack(size: 24) do
+    stack(size: 16) do
       card_header if @title || @subtitle || @context || @icon
       div(class: "card__divider") if @with_divider
       div(class: "card__content", &block) if block
@@ -31,11 +31,17 @@ class Components::Card < Components::Base
   def card_header
     div(class: "card__header", style: "--icon-size: #{@icon_size}px;") do
       div(class: "card__header-content") do
-        div(class: "card__title") do
-          div(class: "card__icon") { @icon.call } if @icon
-          text(type: "h5-bold", color: "label-heading-primary") { @title }
+        if @title || @icon
+          div(class: "card__title") do
+            div(class: "card__icon") { @icon.call } if @icon
+            text(type: "h5-bold", color: "label-heading-primary") { @title }
+          end
         end
-        div(class: "card__subtitle") { @subtitle.call } if @subtitle
+        if @subtitle
+          div(class: "card__subtitle") do
+            text(type: "body-regular", block: true) { @subtitle.call }
+          end
+        end
       end
       div(class: "card__context") { @context.call } if @context
     end

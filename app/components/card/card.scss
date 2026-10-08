@@ -17,16 +17,16 @@
 
   &__header-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    // Keep the spacing between title and subtitle in line with the spacing between header and content
+    gap: 16px;
   }
 
   &__title {
     display: flex;
     gap: 8px;
     align-items: center;
-  }
-
-  &__subtitle {
-    font-size: 14px;
   }
 
   &__icon {
