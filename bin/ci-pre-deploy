@@ -8,7 +8,10 @@ fi
 if [ "$IS_REVIEW_APP_CREATE" = "true" ]; then
   ssh "$SSH_REMOTE" -- ps:scale "$APP_NAME" web=1 worker=1
   ssh "$SSH_REMOTE" -- config:unset "$APP_NAME" DATABASE_URL
+  ssh "$SSH_REMOTE" -- config:set "$APP_NAME" DEV_LOGIN=true
 
-  ssh "$SSH_REMOTE" -- postgres:clone app-sandbox-db "$APP_NAME-db"
+  ssh "$SSH_REMOTE" -- postgres:create "$APP_NAME-db"
+  ssh "$SSH_REMOTE" -- postgres:unlink app-sandbox-db "$APP_NAME" --no-restart
   ssh "$SSH_REMOTE" -- postgres:link "$APP_NAME-db" "$APP_NAME" --no-restart
+  ssh "$SSH_REMOTE" -- postgres:promote "$APP_NAME-db" "$APP_NAME"
 fi
