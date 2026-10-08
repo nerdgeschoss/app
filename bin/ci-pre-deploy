@@ -13,5 +13,4 @@ if [ "$IS_REVIEW_APP_CREATE" = "true" ]; then
   ssh "$SSH_REMOTE" -- postgres:create "$APP_NAME-db"
   ssh "$SSH_REMOTE" -- postgres:unlink app-sandbox-db "$APP_NAME" --no-restart
   ssh "$SSH_REMOTE" -- postgres:link "$APP_NAME-db" "$APP_NAME" --no-restart
-  ssh "$SSH_REMOTE" -- postgres:promote "$APP_NAME-db" "$APP_NAME"
 fi
