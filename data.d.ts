@@ -8,6 +8,15 @@ export interface DataSchema {
       roles: Array<string>;
     };
   };
+  'components/_owning_user': {
+    user: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
+  };
   'inventories/edit': {
     inventory: {
       id: string;
@@ -22,6 +31,15 @@ export interface DataSchema {
       id: string;
     };
   };
+  'leaves/edit': {
+    leave: {
+      id: string;
+      title: string;
+      type: string;
+      days: Array<{ day: string }>;
+    };
+    berlinHolidays: Array<{ name: string; date: string }>;
+  };
   'leaves/index': {
     currentUser: {
       id: string;
@@ -30,10 +48,17 @@ export interface DataSchema {
       email: string;
       roles: Array<string>;
     };
+    user: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
     feedUrl: string;
     activeFilter: string;
-    permitUserSelect: boolean;
     users: Array<{ id: string; displayName: string }>;
+    years: Array<string>;
     leaves: Array<{
       id: string;
       unicodeEmoji: string;
@@ -49,18 +74,20 @@ export interface DataSchema {
       permitDestroy: boolean;
       permitApprove: boolean;
     }>;
+    date: string | null;
     nextPageUrl: string | null;
+    yearlyHolidays: number;
+    usedHolidays: number;
+    remainingHolidays: number;
   };
   'leaves/new': {
-    currentUser: {
+    user: {
       id: string;
       displayName: string;
       avatarUrl: string;
       email: string;
       roles: Array<string>;
     };
-    permitUserSelect: boolean;
-    users: Array<{ id: string; displayName: string }>;
     berlinHolidays: Array<{ name: string; date: string }>;
   };
   'pages/home': {
