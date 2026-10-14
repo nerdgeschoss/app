@@ -22,8 +22,26 @@ RSpec.describe LeavePolicy do
       is_expected.not_to permit_action(:destroy)
     end
 
-    it { is_expected.not_to permit_action(:update) }
-    it { is_expected.not_to permit_action(:show_all_users) }
+    context "when the leave ends in the past" do
+      it "does not permit updates" do
+        record.leave_during = (5.days.ago..1.day.ago)
+        is_expected.not_to permit_action(:update)
+      end
+    end
+
+    context "when the leave ends today" do
+      it "permits updates" do
+        record.leave_during = (5.days.ago..Time.zone.today)
+        is_expected.to permit_action(:update)
+      end
+    end
+
+    context "when the leave ends in the future" do
+      it "permits updates" do
+        record.leave_during = (5.days.ago..1.day.from_now)
+        is_expected.to permit_action(:update)
+      end
+    end
 
     describe "Scope" do
       it "includes only leave records belonging to the user" do
@@ -35,7 +53,7 @@ RSpec.describe LeavePolicy do
   describe "for an HR user" do
     let(:user) { users(:admin) } # HR user
 
-    it { is_expected.to permit_actions([:create, :destroy, :update, :show_all_users]) }
+    it { is_expected.to permit_actions([:create, :destroy, :update]) }
 
     describe "Scope" do
       it "includes all leave records" do
@@ -46,7 +64,7 @@ RSpec.describe LeavePolicy do
 
     describe "permitted_attributes" do
       it "returns all attributes" do
-        expect(subject.permitted_attributes).to contain_exactly(:title, :type, :user_id, :status, days: [])
+        expect(subject.permitted_attributes).to contain_exactly(:title, :type, :status, days: [])
       end
     end
   end
