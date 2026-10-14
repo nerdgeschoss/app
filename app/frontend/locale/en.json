@@ -145,8 +145,8 @@
   "performance_labels": {
     "hrs": "hrs",
     "billable": "Billable",
-    "tracked": "Tracked",
-    "goal": "Goal",
+    "total": "Total",
+    "tracked_target": "Tracked / target",
     "missing": "Missing"
   },
   "daily_nerd_card": {
