@@ -34,12 +34,12 @@ export default function ({
           <a href={feedUrl}>{t('leaves.index.subscribe')}</a>
           <Button
             title={t('leaves.index.request')}
-            onClick={() => modal.present('/leaves/new')}
+            onClick={() => modal.present(`/users/${user.id}/leaves/new`)}
           />
         </Stack>
         <Stack line="mobile">
           {Object.entries(translations).map(([key, label]) => (
-            <Link key={key} href={`/leaves?status=${key}`}>
+            <Link key={key} href={`/users/${user.id}/leaves?status=${key}`}>
               <Pill active={key === activeFilter}>{label}</Pill>
             </Link>
           ))}

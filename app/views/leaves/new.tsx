@@ -51,7 +51,7 @@ export default function ({
         },
       };
       await reaction.call({
-        path: '/leaves',
+        path: `/users/${user.id}/leaves`,
         method: 'POST',
         params,
         refresh: true,

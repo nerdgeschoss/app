@@ -10,9 +10,8 @@ Rails.application.routes.draw do
 
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     resources :payslips
-    resources :leaves do
-      get "team_overview/:team_hash", action: :team_overview, as: :team_overview, on: :collection
-    end
+    get "leaves/team_overview/:team_hash", to: "leaves#team_overview", as: :team_overview_leaves
+    get "leaves/hr", to: "leaves#hr"
     resources :sprints
     resources :sprint_feedbacks do
       get "edit_retro", on: :member
@@ -21,6 +20,7 @@ Rails.application.routes.draw do
     resources :users do
       get :unpaid_vacation, on: :member
       resources :inventories, only: :new
+      resources :leaves, shallow: true
     end
     resources :inventories, only: [:create, :destroy, :edit, :update, :destroy]
     namespace :feed do
