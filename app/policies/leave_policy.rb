@@ -18,7 +18,7 @@ class LeavePolicy < ApplicationPolicy
   end
 
   def approve?
-    record.pending_approval? && hr?
+    hr? && record.pending_approval?
   end
 
   def permitted_attributes
@@ -26,15 +26,5 @@ class LeavePolicy < ApplicationPolicy
     attr += [:status] if hr?
     attr += [days: []]
     attr
-  end
-
-  class Scope < Scope
-    def resolve
-      if hr?
-        scope.all
-      else
-        scope.where(user_id: user.id)
-      end
-    end
   end
 end

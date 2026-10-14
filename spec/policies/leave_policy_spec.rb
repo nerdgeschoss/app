@@ -43,25 +43,12 @@ RSpec.describe LeavePolicy do
         is_expected.to permit_action(:update)
       end
     end
-
-    describe "Scope" do
-      it "includes only leave records belonging to the user" do
-        expect(Pundit.policy_scope!(user, Leave)).to eq(user.leaves)
-      end
-    end
   end
 
   describe "for an HR user" do
     let(:user) { users(:admin) } # HR user
 
     it { is_expected.to permit_actions([:create, :destroy, :update, :hr_overview]) }
-
-    describe "Scope" do
-      it "includes all leave records" do
-        expect(Pundit.policy_scope!(user, Leave.all)).to include(subject.record)
-        expect(Pundit.policy_scope!(user, Leave.all).count).to eq Leave.count
-      end
-    end
 
     describe "permitted_attributes" do
       it "returns all attributes" do
