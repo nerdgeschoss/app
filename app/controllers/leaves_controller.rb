@@ -32,8 +32,15 @@ class LeavesController < ApplicationController
     @leave.handle_slack_status
   end
 
+  def edit
+    @leave = authorize Leave.find(params[:id])
+    @user = @leave.user
+  end
+
   def update
-    @leave.update!(permitted_attributes(Leave))
+    attributes = permitted_attributes(Leave)
+    attributes[:status] = :pending_approval if
+    @leave.update!
     @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
     @leave.handle_slack_status
   end

@@ -79,6 +79,17 @@
       "type": "Type",
       "request": "Request leave"
     },
+    "edit": {
+      "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
+      "sick": "Sick",
+      "paid": "Paid",
+      "not_working": "Not working",
+      "days": "Days",
+      "user": "User",
+      "title": "Title",
+      "type": "Type",
+      "request": "Request leave"
+    },
     "index": {
       "title": "Leaves",
       "subscribe": "Subscribe",

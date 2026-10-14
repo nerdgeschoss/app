@@ -46,6 +46,10 @@ class Leave < ApplicationRecord
     self.status = :approved if pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
   end
 
+  def self.years_range
+    Leave.minimum("EXTRACT(YEAR FROM LOWER(leave_during))").to_i..(Leave.maximum("EXTRACT(YEAR FROM UPPER(leave_during))").to_i + 1)
+  end
+
   def presenter
     @presenter ||= Leave::Presenter.new(self)
   end
