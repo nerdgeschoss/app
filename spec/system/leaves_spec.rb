@@ -5,10 +5,12 @@ require "system_helper"
 RSpec.describe "Leaves" do
   fixtures :all
 
+  let(:user) { users(:john) }
+
   it "requests a leave and notifies hr" do
     travel_to "2022-02-02"
-    login :john
-    visit leaves_path
+    login(user)
+    visit user_leaves_path(user)
     click_on "Request leave"
     within ".modal" do
       select("February")
@@ -30,8 +32,8 @@ RSpec.describe "Leaves" do
 
   it "approves a requested leave" do
     leave = users(:john).leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
-    login :admin
-    visit leaves_path
+    login(:admin)
+    visit user_leaves_path(user)
     expect(page).to have_content "John / Holiday"
     expect(page).to have_content "Pending"
     screenshot "leave approval"
@@ -45,10 +47,10 @@ RSpec.describe "Leaves" do
   end
 
   it "automatically approves a single day sick leave and changes the slack status" do
-    login :john
+    login(user)
     date = Date.new(2025, 10, 22)
     travel_to date
-    visit leaves_path
+    visit user_leaves_path(user)
     click_on "Request leave"
     within ".modal" do
       select(Time.zone.today.strftime("%B"))
@@ -64,8 +66,8 @@ RSpec.describe "Leaves" do
   end
 
   it "shows a warning if one of the leave days is in the past" do
-    login :john
-    visit leaves_path
+    login(user)
+    visit user_leaves_path(user)
     click_on "Request leave"
 
     expect(page).not_to have_content "Heads up: Some of the selected days are in the past."
