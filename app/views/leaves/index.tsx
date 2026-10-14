@@ -19,6 +19,7 @@ export default function ({
     leaves,
     activeFilter,
     feedUrl,
+    date,
     yearlyHolidays,
     usedHolidays,
     remainingHolidays,
@@ -56,7 +57,10 @@ export default function ({
         </Stack>
         <Stack line="mobile">
           {Object.entries(translations).map(([key, label]) => (
-            <Link key={key} href={`/users/${user.id}/leaves?status=${key}`}>
+            <Link
+              key={key}
+              href={`/users/${user.id}/leaves?status=${key}&year=${date ? new Date(date).getFullYear() : null}&month=${date ? new Date(date).getMonth() + 1 : null}`}
+            >
               <Pill active={key === activeFilter}>{label}</Pill>
             </Link>
           ))}

@@ -28,7 +28,7 @@ class Views::Leaves::HrOverview < Views::Base
 
         @users.each do |user|
           stack(line: "mobile") {
-            link_to(user.display_name, user_leaves_path(user))
+            link_to(user.display_name, user_leaves_path(user, params: {year: @date.year, month: @date.month}))
             Leave.types.keys.excluding("unpaid").each do |leave_type|
               text { leave_type }
               text { pluralize(@day_counts[user][leave_type].presence || 0, "day") }
