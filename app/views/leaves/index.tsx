@@ -42,7 +42,7 @@ export default function ({
         <Stack line="mobile" justify="space-between">
           <Text type="h1-bold">{t('leaves.index.title')}</Text>
           <a href={feedUrl}>{t('leaves.index.subscribe')}</a>
-          <a href={`/leaves/hr`}>{t('leaves.index.hr')}</a>
+          <a href={`/leaves/hr_overview`}>{t('leaves.index.hr')}</a>
           <Button
             title={t('leaves.index.request')}
             onClick={() => modal.present(`/users/${user.id}/leaves/new`)}
