@@ -12,6 +12,7 @@ RSpec.describe LeavePolicy do
     let(:user) { users(:john) } # regular user
 
     it { is_expected.to permit_action(:create) }
+    it { is_expected.not_to permit_action(:hr_overview) }
 
     it "permits destruction of their own leave record if the leave is more than one week away" do
       is_expected.to permit_action(:destroy)
@@ -53,7 +54,7 @@ RSpec.describe LeavePolicy do
   describe "for an HR user" do
     let(:user) { users(:admin) } # HR user
 
-    it { is_expected.to permit_actions([:create, :destroy, :update]) }
+    it { is_expected.to permit_actions([:create, :destroy, :update, :hr_overview]) }
 
     describe "Scope" do
       it "includes all leave records" do

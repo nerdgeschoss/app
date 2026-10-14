@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Leaves::Hr < Views::Base
+class Views::Leaves::HrOverview < Views::Base
   prop :date, _Date
   prop :month, _Range(_Date)
   prop :users, _Enumerable(User)

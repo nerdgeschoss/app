@@ -13,6 +13,10 @@ class LeavePolicy < ApplicationPolicy
     hr? || (record.user == user && record.leave_during.min > 1.week.from_now)
   end
 
+  def hr_overview?
+    hr?
+  end
+
   def approve?
     record.pending_approval? && hr?
   end
