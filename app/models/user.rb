@@ -86,6 +86,18 @@ class User < ApplicationRecord
     leaves_this_year.reject(&:rejected?).select(&:paid?).flat_map(&:days).count { it.year == year }
   end
 
+  def tally_leave_days(date_range)
+    relevant_leaves = leaves.not_rejected.during(date_range)
+
+    tally = relevant_leaves.group_by(&:type).to_h do |type, leaves|
+      days_count = leaves.sum { it.days.count { it.in?(date_range) } }
+      [type, days_count]
+    end
+
+    defaults = Leave.types.keys.index_with(0)
+    tally.reverse_merge(defaults)
+  end
+
   def notify!(message)
     User::SlackNotification.new(self).send_message message
   end

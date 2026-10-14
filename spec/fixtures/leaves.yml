@@ -16,7 +16,7 @@ john_sick_leave:
   title: Having the Flu
   type: sick
   status: approved
-  days: [2025-01-01]
+  days: [2025-01-06]
   leave_during: '[2025-01-01, 2025-01-02)'
   user: john
 
