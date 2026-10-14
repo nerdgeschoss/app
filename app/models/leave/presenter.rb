@@ -42,7 +42,7 @@ class Leave::Presenter
       event.dtend.ical_params = {"VALUE" => "DATE"}
       display_status = (leave.status == "pending_approval") ? " (#{I18n.t("leave.status.pending_approval")})" : ""
       event.summary = "#{leave.user.display_name}: #{leave.title} #{unicode_emoji} #{display_status}"
-      event.url = Rails.application.routes.url_helpers.leaves_url(id: leave.id)
+      event.url = Rails.application.routes.url_helpers.user_leaves_url(user_id: leave.user.id, id: leave.id)
       event
     end
   end
