@@ -3,12 +3,15 @@
 class LeavesController < ApplicationController
   before_action :authenticate_user!, except: :team_overview
   before_action :assign_leave, only: [:update, :destroy]
+  before_action :assign_user, only: [:index, :new, :create]
 
   def index
-    @user = if policy(Leave).show_all_users?
-      params[:user_id].present? ? User.find(params[:user_id]) : nil
-    else
-      current_user
+    @date, date_range = if params[:year].present? && params[:month].present?
+      date = Date.new(params[:year].to_i, params[:month].to_i)
+      [date, date.all_month]
+    elsif params[:year].present?
+      date = Date.new(params[:year].to_i)
+      [date, date.all_year]
     end
     @leaves = policy_scope(@user.present? ? Leave.where(user_id: @user) : Leave.all).reverse_chronologic
     @leaves = @leaves.with_status(params[:status]&.to_sym) if params[:status].present?
@@ -55,5 +58,9 @@ class LeavesController < ApplicationController
 
   def assign_leave
     @leave = authorize Leave.find(params[:id])
+  end
+
+  def assign_user
+    @user = User.find(params[:user_id])
   end
 end

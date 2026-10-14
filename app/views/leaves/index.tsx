@@ -12,7 +12,17 @@ import { Link } from '../../frontend/sprinkles/history';
 import { Pill } from '../../frontend/components/pill/pill';
 
 export default function ({
-  data: { nextPageUrl, currentUser, leaves, activeFilter, feedUrl },
+  data: {
+    nextPageUrl,
+    user,
+    currentUser,
+    leaves,
+    activeFilter,
+    feedUrl,
+    yearlyHolidays,
+    usedHolidays,
+    remainingHolidays,
+  },
 }: PageProps<'leaves/index'>): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
@@ -32,10 +42,17 @@ export default function ({
         <Stack line="mobile" justify="space-between">
           <Text type="h1-bold">{t('leaves.index.title')}</Text>
           <a href={feedUrl}>{t('leaves.index.subscribe')}</a>
+          <a href={`/leaves/hr`}>{t('leaves.index.hr')}</a>
           <Button
             title={t('leaves.index.request')}
             onClick={() => modal.present(`/users/${user.id}/leaves/new`)}
           />
+        </Stack>
+        {user.id !== currentUser.id && (
+          <Text>{`Here are ${user.displayName}'s leaves:`}</Text>
+        )}
+        <Stack>
+          <Text>{`Total vacation this year: ${yearlyHolidays}, total vacation remaining this year: ${remainingHolidays}, total vacation already taken or approved this year: ${usedHolidays}.`}</Text>
         </Stack>
         <Stack line="mobile">
           {Object.entries(translations).map(([key, label]) => (
@@ -68,7 +85,7 @@ export default function ({
                 </>
               }
               context={
-                <>
+                <Stack size={4} line="mobile">
                   {!!leave.permitApprove && (
                     <>
                       <Button
@@ -95,6 +112,12 @@ export default function ({
                       />
                     </>
                   )}
+                  {leave.permitUpdate && (
+                    <Button
+                      title="✏️"
+                      onClick={() => modal.present(`/leaves/${leave.id}/edit`)}
+                    />
+                  )}
                   {leave.permitDestroy && (
                     <Button
                       title="🗑️"
@@ -107,7 +130,7 @@ export default function ({
                       }
                     />
                   )}
-                </>
+                </Stack>
               }
             />
           ))}
