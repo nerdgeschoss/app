@@ -2,6 +2,18 @@
   display: flex;
   justify-content: center;
 
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
   &__list {
     list-style: none;
     display: inline-grid;
@@ -15,39 +27,20 @@
     grid-template-columns: auto 1fr;
     align-items: center;
     column-gap: 8px;
+  }
 
-    &--billable,
-    &--tracked,
-    &--missing {
-      .performance-labels__icon {
-        display: block;
-        width: 14px;
-        aspect-ratio: 1;
-        background-color: var(--chart-bg-billable);
-        border-radius: 50%;
-      }
+  &__icon {
+    display: block;
+    width: 14px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+
+    &--billable {
+      background-color: var(--chart-bg-billable);
     }
 
-    &--tracked {
-      .performance-labels__icon {
-        background-color: var(--chart-bg-non-billable);
-      }
-    }
-
-    &--goal {
-      .performance-labels__icon {
-        display: block;
-        height: 3px;
-        width: 14px;
-        background-color: var(--chart-bg-goal);
-        border-radius: 4px;
-      }
-    }
-
-    &--missing {
-      .performance-labels__icon {
-        background-color: var(--chart-bg-default);
-      }
+    &--total {
+      background-color: var(--chart-bg-non-billable);
     }
   }
 
