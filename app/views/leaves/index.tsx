@@ -19,7 +19,9 @@ export default function ({
     leaves,
     activeFilter,
     feedUrl,
-    date,
+    year,
+    month,
+    dayCounts,
     yearlyHolidays,
     usedHolidays,
     remainingHolidays,
@@ -36,6 +38,18 @@ export default function ({
     rejected: t('leaves.types.rejected'),
     approved: t('leaves.types.approved'),
   } as const;
+
+  const tabURL = (status: string) => {
+    const href = new URL(`${window.location.href}/users/${user.id}/leaves`);
+    href.searchParams.set('status', status);
+    if (year) {
+      href.searchParams.set('year', year);
+    }
+    if (month) {
+      href.searchParams.set('month', month);
+    }
+    return href.toString();
+  };
 
   return (
     <Layout user={currentUser} container>
@@ -57,14 +71,21 @@ export default function ({
         </Stack>
         <Stack line="mobile">
           {Object.entries(translations).map(([key, label]) => (
-            <Link
-              key={key}
-              href={`/users/${user.id}/leaves?status=${key}&year=${date ? new Date(date).getFullYear() : null}&month=${date ? new Date(date).getMonth() + 1 : null}`}
-            >
+            <Link key={key} href={tabURL(key)}>
               <Pill active={key === activeFilter}>{label}</Pill>
             </Link>
           ))}
         </Stack>
+        {!!(year || month) && (
+          <Stack>
+            {month && year && (
+              <Text>{`Month Stats: Vacation: ${dayCounts.paid} | Sick: ${dayCounts.sick} | Non-Working: ${dayCounts.nonWorking}`}</Text>
+            )}
+            {!month && year && (
+              <Text>{`Year Stats: Vacation: ${dayCounts.paid} | Sick: ${dayCounts.sick} | Non-Working: ${dayCounts.nonWorking}`}</Text>
+            )}
+          </Stack>
+        )}
         <Stack>
           {leaves.map((leave) => (
             <Card

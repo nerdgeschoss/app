@@ -27,7 +27,13 @@ field :leaves, array: true, value: -> { @leaves } do
   field :permit_destroy, Boolean, value: -> { helpers.policy(self).destroy? }
   field :permit_approve, Boolean, value: -> { helpers.policy(self).approve? }
 end
-field :date, null: true, value: -> { @date }
+field :year, null: true, value: -> { @year }
+field :month, null: true, value: -> { @month }
+field :day_counts, value: -> { @day_counts } do
+  field :paid, value: -> { self["paid"] || 0 }
+  field :sick, value: -> { self["sick"] || 0 }
+  field :non_working, value: -> { self["non_working"] || 0 }
+end
 field :next_page_url, null: true, value: -> { helpers.path_to_next_page @leaves }
 
 field :yearly_holidays, Integer, value: -> { @user.yearly_holidays }

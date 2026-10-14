@@ -74,7 +74,13 @@ export interface DataSchema {
       permitDestroy: boolean;
       permitApprove: boolean;
     }>;
-    date: string | null;
+    year: string | null;
+    month: string | null;
+    dayCounts: {
+      paid: string;
+      sick: string;
+      nonWorking: string;
+    };
     nextPageUrl: string | null;
     yearlyHolidays: number;
     usedHolidays: number;

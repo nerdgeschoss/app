@@ -6,19 +6,22 @@ class LeavesController < ApplicationController
   before_action :assign_user, only: [:index, :new, :create]
 
   def index
-    @date, date_range = if params[:year].present? && params[:month].present?
-      date = Date.new(params[:year].to_i, params[:month].to_i)
-      [date, date.all_month]
-    elsif params[:year].present?
-      date = Date.new(params[:year].to_i)
-      [date, date.all_year]
+    @year = params[:year].present? ? params[:year].to_i : nil
+    @month = params[:month].present? ? params[:month].to_i : nil
+
+    date_range = if @year.present? && @month.present?
+      Date.new(@year, @month).all_month
+    elsif @year.present?
+      Date.new(@year).all_year
     end
 
     @leaves = @user.leaves.reverse_chronologic
     @leaves = @leaves.during(date_range) if date_range.present?
     @leaves = @leaves.with_status(params[:status]&.to_sym) if params[:status].present?
     @leaves = @leaves.page(params[:page]).per(20)
+
     @status = Leave.statuses.value?(params[:status]&.to_s) ? params[:status].to_sym : :all
+    @day_counts = @user.tally_leave_days(date_range || Time.zone.today.all_year)
   end
 
   def new
