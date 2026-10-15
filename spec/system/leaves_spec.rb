@@ -9,7 +9,7 @@ RSpec.describe "Leaves" do
 
   it "requests a leave and notifies hr" do
     travel_to "2022-02-02"
-    login(user)
+    login user
     visit user_leaves_path(user)
     click_on "Request leave"
     within ".modal" do
@@ -32,7 +32,7 @@ RSpec.describe "Leaves" do
 
   it "approves a requested leave" do
     leave = users(:john).leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
-    login(:admin)
+    login :admin
     visit user_leaves_path(user)
     expect(page).to have_content "John / Holiday"
     expect(page).to have_content "Pending"
@@ -47,7 +47,7 @@ RSpec.describe "Leaves" do
   end
 
   it "automatically approves a single day sick leave and changes the slack status" do
-    login(user)
+    login user
     date = Date.new(2025, 10, 22)
     travel_to date
     visit user_leaves_path(user)
@@ -66,7 +66,7 @@ RSpec.describe "Leaves" do
   end
 
   it "shows a warning if one of the leave days is in the past" do
-    login(user)
+    login user
     visit user_leaves_path(user)
     click_on "Request leave"
 
@@ -90,7 +90,7 @@ RSpec.describe "Leaves" do
 
     travel_to "2025-01-01"
 
-    login(user)
+    login user
     visit user_leaves_path(user)
     expect(page).to have_content "John / Vacation!"
     expect(page).to have_content "February Leave"
@@ -104,7 +104,7 @@ RSpec.describe "Leaves" do
     it "shows day counts of the different leave types for the given month" do
       travel_to "2025-01-01"
 
-      login(:admin)
+      login :admin
       visit leaves_hr_overview_path
 
       expect(page).to have_content "🏖 4"
@@ -120,7 +120,7 @@ RSpec.describe "Leaves" do
     it "shows pending leaves" do
       travel_to "2025-01-01"
 
-      login(:admin)
+      login :admin
       visit leaves_hr_overview_path
 
       expect(page).to have_content "Vacation Pending!"
