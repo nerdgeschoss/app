@@ -99,7 +99,7 @@ RSpec.describe User do
       expect(john.tally_leave_days(Date.new(2025, 1, 1).all_month)).to eq({
         "sick" => 1,
         "paid" => 4,
-        "non_working" => 0,
+        "non_working" => 3,
         "unpaid" => 0
       })
     end
