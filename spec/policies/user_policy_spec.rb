@@ -19,9 +19,8 @@ RSpec.describe UserPolicy do
   context "for the owning user" do
     let(:user) { users(:john) }
 
-    it { is_expected.to permit_action(:show) }
+    it { is_expected.to permit_actions(:show, :update, :unpaid_vacation, :financial_details, :leaves) }
     it { is_expected.to forbid_actions(:create, :destroy) }
-    it { is_expected.to permit_actions(:update, :unpaid_vacation, :financial_details, :leaves) }
   end
 
   context "for an HR user" do
