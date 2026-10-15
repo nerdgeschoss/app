@@ -44,6 +44,23 @@ RSpec.describe Leave do
     end
   end
 
+  describe ".by_urgency" do
+    it "orders leaves chronologically and by user name" do
+      cigdem = users(:cigdem)
+      cigdem.leaves.delete_all
+      cigdem.leaves.create!(type: :paid, title: "A", days: ["2026-01-01"])
+      cigdem.leaves.create!(type: :paid, title: "C", days: ["2026-01-02"])
+
+      john = users(:john)
+      john.leaves.delete_all
+      john.leaves.create!(type: :paid, title: "B", days: ["2026-01-01"])
+      john.leaves.create!(type: :paid, title: "D", days: ["2026-01-02"])
+
+      leaves = Leave.where(user: [cigdem, john]).by_urgency
+      expect(leaves.map(&:title)).to eq(["A", "B", "C", "D"])
+    end
+  end
+
   describe "auto-approving" do
     it "works for single day sick leaves" do
       expect(holiday).to be_pending_approval
