@@ -40,7 +40,7 @@ export default function ({
   } as const;
 
   const tabURL = (status: string) => {
-    const href = new URL(`${window.location.href}/users/${user.id}/leaves`);
+    const href = new URL(window.location.href);
     href.searchParams.set('status', status);
     if (year) {
       href.searchParams.set('year', year);
