@@ -16,6 +16,7 @@ class Views::Leaves::HrOverview < Views::Base
         @pending_leaves.each do |pending_leave|
           stack(line: "mobile") {
             text { pending_leave.user.display_name }
+            text { pending_leave.title }
             text { pending_leave.type }
             text { l(pending_leave.leave_from.to_date) }
             text { l(pending_leave.leave_until.to_date) }

@@ -101,7 +101,7 @@ RSpec.describe "Leaves" do
   end
 
   describe "HR Overview" do
-    it "shows day counts of the different leave types" do
+    it "shows day counts of the different leave types for the given month" do
       travel_to "2025-01-01"
 
       login(:admin)
@@ -110,6 +110,20 @@ RSpec.describe "Leaves" do
       expect(page).to have_content "🏖 4"
       expect(page).to have_content "🤒 1"
       expect(page).to have_content "🧳 3"
+
+      visit leaves_hr_overview_path(year: 2024, month: 12)
+      expect(page).to have_content "🏖 2"
+      expect(page).to have_content "🤒 0"
+      expect(page).to have_content "🧳 0"
+    end
+
+    it "shows pending leaves" do
+      travel_to "2025-01-01"
+
+      login(:admin)
+      visit leaves_hr_overview_path
+
+      expect(page).to have_content "Vacation Pending!"
     end
   end
 
