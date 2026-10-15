@@ -58,7 +58,7 @@ class LeavesController < ApplicationController
     date = if params[:year].present? && params[:month].present?
       Date.new(params[:year].to_i, params[:month].to_i)
     else
-      Date.today
+      Time.zone.today
     end
     month = date.all_month
 
