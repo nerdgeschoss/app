@@ -58,21 +58,21 @@ class LeavesController < ApplicationController
   def hr_overview
     authorize Leave, :hr_overview?
 
-    users = User.currently_employed.alphabetically
+    @users = User.currently_employed.alphabetically
 
-    date = if params[:year].present? && params[:month].present?
+    @date = if params[:year].present? && params[:month].present?
       Date.new(params[:year].to_i, params[:month].to_i)
     else
       Time.zone.today
     end
-    month = date.all_month
+    @month = @date.all_month
 
-    leaves = Leave.not_rejected.during(month)
-    day_counts = users.index_with { it.tally_leave_days(month) }
+    @leaves = Leave.not_rejected.during(@month)
+    @day_counts = @users.index_with { it.tally_leave_days(@month) }
 
-    pending_leaves = Leave.includes(:user).pending_approval.by_urgency
+    @pending_leaves = Leave.includes(:user).pending_approval.by_urgency
 
-    render Views::Leaves::HrOverview.new(date:, month:, users:, leaves:, day_counts:, pending_leaves:)
+    render Views::Leaves::HrOverview.new(date: @date, month: @month, users: @users, leaves: @leaves, day_counts: @day_counts, pending_leaves: @pending_leaves)
   end
 
   # Generate the params[:team_hash] with e.g. `Rails.application.message_verifier(:team_name).generate("laic")`
