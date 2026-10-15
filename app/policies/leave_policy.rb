@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class LeavePolicy < ApplicationPolicy
-  def create?
-    hr? || record.user == user
-  end
-
   def update?
     hr? || (record.user == user && (record.leave_during.max >= Time.zone.today))
   end

@@ -25,6 +25,10 @@ class UserPolicy < ApplicationPolicy
     hr? || user == record
   end
 
+  def leaves?
+    hr? || user == record
+  end
+
   def permitted_attributes
     [:first_name, :last_name, :nick_name]
   end

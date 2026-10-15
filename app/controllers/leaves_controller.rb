@@ -2,10 +2,12 @@
 
 class LeavesController < ApplicationController
   before_action :authenticate_user!, except: :team_overview
-  before_action :assign_leave, only: [:update, :destroy]
+  before_action :assign_leave, only: [:edit, :update, :destroy]
   before_action :assign_user, only: [:index, :new, :create]
 
   def index
+    authorize @user, :leaves?
+
     @year = params[:year].present? ? params[:year].to_i : nil
     @month = params[:month].present? ? params[:month].to_i : nil
 
@@ -25,18 +27,21 @@ class LeavesController < ApplicationController
   end
 
   def new
-    @leave = authorize @user.leaves.new
+    authorize @user, :leaves?
+
+    @leave = @user.leaves.new
   end
 
   def create
-    @leave = authorize @user.leaves.new(permitted_attributes(Leave))
+    authorize @user, :leaves?
+
+    @leave = @user.leaves.new(permitted_attributes(Leave))
     @leave.save!
     @leave.handle_incoming_request
     @leave.handle_slack_status
   end
 
   def edit
-    @leave = authorize Leave.find(params[:id])
     @user = @leave.user
   end
 
