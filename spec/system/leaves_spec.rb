@@ -100,6 +100,19 @@ RSpec.describe "Leaves" do
     expect(page).not_to have_content "February Leave"
   end
 
+  describe "HR Overview" do
+    it "shows day counts of the different leave types" do
+      travel_to "2025-01-01"
+
+      login(:admin)
+      visit leaves_hr_overview_path
+
+      expect(page).to have_content "🏖 4"
+      expect(page).to have_content "🤒 1"
+      expect(page).to have_content "🧳 3"
+    end
+  end
+
   describe "Team Overview" do
     it "shows the leaves for a team" do
       travel_to "2025-01-01"
