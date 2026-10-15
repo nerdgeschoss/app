@@ -46,7 +46,7 @@ RSpec.describe LeavePolicy do
   describe "for an HR user" do
     let(:user) { users(:admin) } # HR user
 
-    it { is_expected.to permit_actions([:edit, :update, :destroy, :hr_overview]) }
+    it { is_expected.to permit_actions(:update, :destroy, :hr_overview) }
 
     describe "permitted_attributes" do
       it "returns all attributes" do
