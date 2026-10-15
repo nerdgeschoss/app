@@ -61,6 +61,12 @@ RSpec.describe Leave do
     end
   end
 
+  describe ".years_range" do
+    it "returns the range from the year of the first leave until one year after the year of the last leave" do
+      expect(Leave.years_range).to eq(2024..2026)
+    end
+  end
+
   describe "auto-approving" do
     it "works for single day sick leaves" do
       expect(holiday).to be_pending_approval
