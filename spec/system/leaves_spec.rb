@@ -84,6 +84,22 @@ RSpec.describe "Leaves" do
     expect(page).to have_content "Heads up: Some of the selected days are in the past."
   end
 
+  it "filters leaves by month" do
+    date_range = Date.new(2025, 2, 1)..Date.new(2025, 2, 2)
+    user.leaves.create(leave_during: date_range, days: date_range.to_a, title: "February Leave")
+
+    travel_to "2025-01-01"
+
+    login(user)
+    visit user_leaves_path(user)
+    expect(page).to have_content "John / Vacation!"
+    expect(page).to have_content "February Leave"
+
+    visit user_leaves_path(user, year: 2025, month: 1)
+    expect(page).to have_content "John / Vacation!"
+    expect(page).not_to have_content "February Leave"
+  end
+
   describe "Team Overview" do
     it "shows the leaves for a team" do
       travel_to "2025-01-01"
