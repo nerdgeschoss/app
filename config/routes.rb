@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     resources :users do
       get :unpaid_vacation, on: :member
       resources :inventories, only: :new
-      resources :leaves, shallow: true
+      resources :leaves, shallow: true, only: [:index, :new, :create, :edit, :update, :destroy]
     end
     resources :inventories, only: [:create, :destroy, :edit, :update, :destroy]
     namespace :feed do
