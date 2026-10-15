@@ -46,7 +46,7 @@ class LeavesController < ApplicationController
   end
 
   def update
-    @leave.update!(permitted_attributes(Leave))
+    @leave.handle_update(permitted_attributes(Leave))
     @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
     @leave.handle_slack_status
   end

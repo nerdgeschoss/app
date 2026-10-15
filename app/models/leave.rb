@@ -67,6 +67,14 @@ class Leave < ApplicationRecord
     end
   end
 
+  def handle_update(attributes)
+    assign_attributes(attributes)
+    unless status_changed?
+      self.status = :pending_approval if days_changed? || type_changed?
+    end
+    save!
+  end
+
   def handle_slack_status
     set_slack_status! if leave_during.include?(Time.zone.today) && (approved? || sick?)
   end

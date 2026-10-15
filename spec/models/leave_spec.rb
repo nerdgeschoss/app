@@ -188,6 +188,37 @@ RSpec.describe Leave do
     end
   end
 
+  describe "#handle_update" do
+    context "when status is unchanged" do
+      context "when days changed" do
+        it "sets status to pending_approval" do
+          leave = user.leaves.create!(title: "Leave", type: :paid, status: :approved, days: [Time.zone.today])
+          leave.handle_update(days: [Time.zone.tomorrow])
+
+          expect(leave.status).to eq("pending_approval")
+        end
+      end
+
+      context "when type changed" do
+        it "sets status to pending_approval" do
+          leave = user.leaves.create!(title: "Leave", type: :paid, status: :approved, days: [Time.zone.today])
+          leave.handle_update(type: :unpaid)
+
+          expect(leave.status).to eq("pending_approval")
+        end
+      end
+    end
+
+    context "when status is changed" do
+      it "does not change status again" do
+        leave = user.leaves.create!(title: "Leave", type: :paid, status: :rejected, days: [Time.zone.today])
+        leave.handle_update(status: :approved)
+
+        expect(leave.status).to eq("approved")
+      end
+    end
+  end
+
   describe "#handle_slack_status" do
     before do
       [single_day_sick_leave, holiday].each do |leave|
