@@ -70,7 +70,7 @@ class Components::Sidebar < Components::Base
     list = [
       Item.new(t(".dashboard"), root_path, "dashboard"),
       Item.new(t(".sprints"), sprints_path, "sprint"),
-      Item.new(t(".leaves"), leaves_path, "leave"),
+      Item.new(t(".leaves"), user_leaves_path(Current.user), "leave"),
       Item.new(t(".payslips"), payslips_path, "payslip"),
       Item.new(t(".projects"), projects_path, "project"),
       Item.new(t(".users"), users_path, "user")

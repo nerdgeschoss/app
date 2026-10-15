@@ -37,6 +37,8 @@ en:
     status:
       pending_approval: pending approval
   leaves:
+    hr_overview:
+      title: HR Leaves Overview
     notifications:
       here: here
       new_request_content: |-

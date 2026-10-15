@@ -12,7 +12,20 @@ import { Link } from '../../frontend/sprinkles/history';
 import { Pill } from '../../frontend/components/pill/pill';
 
 export default function ({
-  data: { nextPageUrl, currentUser, leaves, activeFilter, feedUrl },
+  data: {
+    nextPageUrl,
+    user,
+    currentUser,
+    leaves,
+    activeFilter,
+    feedUrl,
+    year,
+    month,
+    dayCounts,
+    yearlyHolidays,
+    usedHolidays,
+    remainingHolidays,
+  },
 }: PageProps<'leaves/index'>): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
@@ -26,24 +39,53 @@ export default function ({
     approved: t('leaves.types.approved'),
   } as const;
 
+  const tabURL = (status: string) => {
+    const href = new URL(window.location.href);
+    href.searchParams.set('status', status);
+    if (year) {
+      href.searchParams.set('year', year);
+    }
+    if (month) {
+      href.searchParams.set('month', month);
+    }
+    return href.toString();
+  };
+
   return (
     <Layout user={currentUser} container>
       <Stack>
         <Stack line="mobile" justify="space-between">
           <Text type="h1-bold">{t('leaves.index.title')}</Text>
           <a href={feedUrl}>{t('leaves.index.subscribe')}</a>
+          <a href={`/leaves/hr_overview`}>{t('leaves.index.hr')}</a>
           <Button
             title={t('leaves.index.request')}
-            onClick={() => modal.present('/leaves/new')}
+            onClick={() => modal.present(`/users/${user.id}/leaves/new`)}
           />
+        </Stack>
+        {user.id !== currentUser.id && (
+          <Text>{`Here are ${user.displayName}'s leaves:`}</Text>
+        )}
+        <Stack>
+          <Text>{`Total vacation this year: ${yearlyHolidays}, total vacation remaining this year: ${remainingHolidays}, total vacation already taken or approved this year: ${usedHolidays}.`}</Text>
         </Stack>
         <Stack line="mobile">
           {Object.entries(translations).map(([key, label]) => (
-            <Link key={key} href={`/leaves?status=${key}`}>
+            <Link key={key} href={tabURL(key)}>
               <Pill active={key === activeFilter}>{label}</Pill>
             </Link>
           ))}
         </Stack>
+        {!!(year || month) && (
+          <Stack>
+            {month && year && (
+              <Text>{`Month Stats: Vacation: ${dayCounts.paid} | Sick: ${dayCounts.sick} | Non-Working: ${dayCounts.nonWorking}`}</Text>
+            )}
+            {!month && year && (
+              <Text>{`Year Stats: Vacation: ${dayCounts.paid} | Sick: ${dayCounts.sick} | Non-Working: ${dayCounts.nonWorking}`}</Text>
+            )}
+          </Stack>
+        )}
         <Stack>
           {leaves.map((leave) => (
             <Card
@@ -68,7 +110,7 @@ export default function ({
                 </>
               }
               context={
-                <>
+                <Stack size={4} line="mobile">
                   {!!leave.permitApprove && (
                     <>
                       <Button
@@ -95,6 +137,12 @@ export default function ({
                       />
                     </>
                   )}
+                  {leave.permitUpdate && (
+                    <Button
+                      title="✏️"
+                      onClick={() => modal.present(`/leaves/${leave.id}/edit`)}
+                    />
+                  )}
                   {leave.permitDestroy && (
                     <Button
                       title="🗑️"
@@ -107,7 +155,7 @@ export default function ({
                       }
                     />
                   )}
-                </>
+                </Stack>
               }
             />
           ))}

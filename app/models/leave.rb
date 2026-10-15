@@ -31,6 +31,7 @@ class Leave < ApplicationRecord
   scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
   scope :not_rejected, -> { where.not(status: :rejected) }
   scope :of_team, ->(team_name) { where(user: User.in_team(team_name)) }
+  scope :by_urgency, -> { chronologic.joins(:user).merge(User.alphabetically).order(created_at: :asc) }
 
   enum :type, [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
   enum :status, [:pending_approval, :approved, :rejected].index_with(&:to_s)
@@ -43,6 +44,10 @@ class Leave < ApplicationRecord
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on
     self.status = :approved if pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
+  end
+
+  def self.years_range
+    Leave.minimum("EXTRACT(YEAR FROM LOWER(leave_during))").to_i..(Leave.maximum("EXTRACT(YEAR FROM UPPER(leave_during))").to_i + 1)
   end
 
   def presenter
@@ -60,6 +65,14 @@ class Leave < ApplicationRecord
     when "paid", "unpaid"
       notify_hr_on_slack_about_new_request
     end
+  end
+
+  def handle_update(attributes)
+    assign_attributes(attributes)
+    unless status_changed?
+      self.status = :pending_approval if days_changed? || type_changed?
+    end
+    save!
   end
 
   def handle_slack_status

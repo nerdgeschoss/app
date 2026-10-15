@@ -17,27 +17,24 @@ import { Stack } from '../../frontend/components/stack/stack';
 import { isoDate } from '../../frontend/util/date';
 
 interface Form {
-  userId: string;
   days: Date[];
   title: string;
   type: 'paid' | 'sick' | 'non_working';
 }
 
 export default function ({
-  data: { permitUserSelect, users, currentUser, berlinHolidays },
+  data: { user, berlinHolidays },
 }: PageProps<'leaves/new'>): JSX.Element {
   const t = useTranslate();
   const reaction = useReaction();
   const modal = useModalInfo();
   const { fields, onSubmit } = useForm<Form>({
     model: {
-      userId: currentUser.id,
       days: [],
       title: '',
       type: 'paid',
     },
     validations: {
-      userId: 'required',
       days: ({ model }) =>
         (model.days?.length ?? 0) === 0 ? ['required-field'] : [],
       title: 'required',
@@ -51,7 +48,7 @@ export default function ({
         },
       };
       await reaction.call({
-        path: '/leaves',
+        path: `/users/${user.id}/leaves`,
         method: 'POST',
         params,
         refresh: true,
@@ -81,16 +78,6 @@ export default function ({
           />
           {someDaysInPast && (
             <Text>{t('leaves.new.days_in_past_warning')}</Text>
-          )}
-          {permitUserSelect && (
-            <SelectField
-              {...fields.userId}
-              label={t('leaves.new.user')}
-              options={users.map((user) => ({
-                value: user.id,
-                label: user.displayName,
-              }))}
-            />
           )}
           <TextField {...fields.title} label={t('leaves.new.title')} />
           <SelectField

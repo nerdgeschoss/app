@@ -94,6 +94,17 @@ RSpec.describe User do
     end
   end
 
+  describe "#tally_leave_days" do
+    it "counts the number of leave days per type in a given date range" do
+      expect(john.tally_leave_days(Date.new(2025, 1, 1).all_month)).to eq({
+        "sick" => 1,
+        "paid" => 4,
+        "non_working" => 3,
+        "unpaid" => 0
+      })
+    end
+  end
+
   describe "#display_name" do
     it "returns the nick name if present" do
       john.nick_name = "Johnny Boy"

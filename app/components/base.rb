@@ -3,11 +3,13 @@
 class Components::Base < Phlex::HTML
   extend Literal::Properties
 
+  include Phlex::Rails::Helpers::L
+  include Phlex::Rails::Helpers::LinkTo
+  include Phlex::Rails::Helpers::NumberToCurrency
+  include Phlex::Rails::Helpers::Pluralize
+  include Phlex::Rails::Helpers::Request
   include Phlex::Rails::Helpers::Routes
   include Phlex::Rails::Helpers::T
-  include Phlex::Rails::Helpers::L
-  include Phlex::Rails::Helpers::NumberToCurrency
-  include Phlex::Rails::Helpers::Request
 
   register_value_helper :vite_asset_path
 

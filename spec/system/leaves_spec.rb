@@ -5,10 +5,12 @@ require "system_helper"
 RSpec.describe "Leaves" do
   fixtures :all
 
+  let(:user) { users(:john) }
+
   it "requests a leave and notifies hr" do
     travel_to "2022-02-02"
-    login :john
-    visit leaves_path
+    login user
+    visit user_leaves_path(user)
     click_on "Request leave"
     within ".modal" do
       select("February")
@@ -31,7 +33,7 @@ RSpec.describe "Leaves" do
   it "approves a requested leave" do
     leave = users(:john).leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
     login :admin
-    visit leaves_path
+    visit user_leaves_path(user)
     expect(page).to have_content "John / Holiday"
     expect(page).to have_content "Pending"
     screenshot "leave approval"
@@ -45,10 +47,10 @@ RSpec.describe "Leaves" do
   end
 
   it "automatically approves a single day sick leave and changes the slack status" do
-    login :john
+    login user
     date = Date.new(2025, 10, 22)
     travel_to date
-    visit leaves_path
+    visit user_leaves_path(user)
     click_on "Request leave"
     within ".modal" do
       select(Time.zone.today.strftime("%B"))
@@ -64,8 +66,8 @@ RSpec.describe "Leaves" do
   end
 
   it "shows a warning if one of the leave days is in the past" do
-    login :john
-    visit leaves_path
+    login user
+    visit user_leaves_path(user)
     click_on "Request leave"
 
     expect(page).not_to have_content "Heads up: Some of the selected days are in the past."
@@ -80,6 +82,49 @@ RSpec.describe "Leaves" do
     end
 
     expect(page).to have_content "Heads up: Some of the selected days are in the past."
+  end
+
+  it "filters leaves by month" do
+    date_range = Date.new(2025, 2, 1)..Date.new(2025, 2, 2)
+    user.leaves.create(leave_during: date_range, days: date_range.to_a, title: "February Leave")
+
+    travel_to "2025-01-01"
+
+    login user
+    visit user_leaves_path(user)
+    expect(page).to have_content "John / Vacation!"
+    expect(page).to have_content "February Leave"
+
+    visit user_leaves_path(user, year: 2025, month: 1)
+    expect(page).to have_content "John / Vacation!"
+    expect(page).not_to have_content "February Leave"
+  end
+
+  describe "HR Overview" do
+    it "shows day counts of the different leave types for the given month" do
+      travel_to "2025-01-01"
+
+      login :admin
+      visit leaves_hr_overview_path
+
+      expect(page).to have_content "🏖 4"
+      expect(page).to have_content "🤒 1"
+      expect(page).to have_content "🧳 3"
+
+      visit leaves_hr_overview_path(year: 2024, month: 12)
+      expect(page).to have_content "🏖 2"
+      expect(page).to have_content "🤒 0"
+      expect(page).to have_content "🧳 0"
+    end
+
+    it "shows pending leaves" do
+      travel_to "2025-01-01"
+
+      login :admin
+      visit leaves_hr_overview_path
+
+      expect(page).to have_content "Vacation Pending!"
+    end
   end
 
   describe "Team Overview" do
