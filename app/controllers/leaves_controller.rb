@@ -65,7 +65,7 @@ class LeavesController < ApplicationController
     leaves = Leave.not_rejected.during(month)
     day_counts = users.index_with { it.tally_leave_days(month) }
 
-    pending_leaves = Leave.pending_approval.by_urgency
+    pending_leaves = Leave.includes(:user).pending_approval.by_urgency
 
     render Views::Leaves::HrOverview.new(date:, month:, users:, leaves:, day_counts:, pending_leaves:)
   end
