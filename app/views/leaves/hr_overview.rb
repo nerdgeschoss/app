@@ -29,7 +29,7 @@ class Views::Leaves::HrOverview < Views::Base
 
         @users.each do |user|
           stack(line: "mobile") {
-            link_to(user.display_name, user_leaves_path(user, params: {year: @date.year, month: @date.month}))
+            link_to(user.display_name, user_leaves_path(user, year: @date.year, month: @date.month))
             Leave.types.keys.excluding("unpaid").each do |leave_type|
               emoji = Leave::Presenter.new(Leave.new(type: leave_type)).unicode_emoji
               count = @day_counts[user][leave_type].presence || 0
