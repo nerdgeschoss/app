@@ -31,7 +31,7 @@ class Leave < ApplicationRecord
   scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
   scope :not_rejected, -> { where.not(status: :rejected) }
   scope :of_team, ->(team_name) { where(user: User.in_team(team_name)) }
-  scope :by_urgency, -> { chronologic.joins(:user).merge(User.alphabetically).order(type: :asc) }
+  scope :by_urgency, -> { chronologic.joins(:user).merge(User.alphabetically).order(created_at: :asc) }
 
   enum :type, [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
   enum :status, [:pending_approval, :approved, :rejected].index_with(&:to_s)
