@@ -43,3 +43,11 @@ john_cross_year_vacation:
   days: [2024-12-30, 2024-12-31, 2025-01-01, 2025-01-02]
   leave_during: '[2024-12-30, 2025-01-03)'
   user: john
+
+john_not_working:
+  title: Not Working
+  type: non_working
+  status: approved
+  days: [2025-01-07, 2025-01-08, 2025-01-09]
+  leave_during: '[2025-01-07, 2025-01-09)'
+  user: john
