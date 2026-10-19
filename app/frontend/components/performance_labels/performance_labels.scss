@@ -17,7 +17,7 @@
   &__list {
     list-style: none;
     display: inline-grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(2, 1fr);
     column-gap: 24px;
     row-gap: 16px;
   }
@@ -46,5 +46,6 @@
 
   &__value {
     grid-column: 2 / 3;
+    white-space: nowrap;
   }
 }
