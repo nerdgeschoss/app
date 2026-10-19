@@ -113,7 +113,7 @@ export function PerformanceProgress({
                 type="chart-label-primary-regular"
                 color="label-body-secondary"
               >
-                hrs
+                h
               </Text>
             </Stack>
           </Stack>
