@@ -5,6 +5,9 @@ import { Text } from '../text/text';
 
 const PILL_STATUS = ['todo', 'in_progress', 'review', 'done'] as const;
 type PillStatus = (typeof PILL_STATUS)[number];
+// Leave approval states, kept out of PILL_STATUS so getPillType never gives a
+// GitHub task status named "Pending" or "Rejected" a leave colour.
+type LeavePillStatus = 'pending' | 'rejected';
 
 export function getPillType(type?: string): PillStatus | null {
   return (
@@ -15,7 +18,7 @@ export function getPillType(type?: string): PillStatus | null {
 
 interface Props {
   title: string;
-  type: PillStatus;
+  type: PillStatus | LeavePillStatus;
 }
 
 export function StatusPill({ title, type }: Props): ReactElement {
