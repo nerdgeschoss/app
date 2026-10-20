@@ -1,3 +1,8 @@
 .flatpickr-calendar.inline {
   margin: 0 auto;
 }
+
+// flatpickr writes the raw selection into its input; the form shows the days itself
+.calendar-field__input {
+  display: none;
+}

@@ -28,7 +28,10 @@ interface LinkInfo {
 
 export function Sidebar({ user }: Props): JSX.Element {
   const [expanded, setExpanded] = useState(false);
-  const path = usePath().split('?')[0];
+  // the routes carry an optional locale scope (/en/..., /de/...)
+  const path = usePath()
+    .split('?')[0]
+    .replace(/^\/(en|de)(?=\/|$)/, '');
   const links: LinkInfo[] = [
     {
       name: 'Dashboard',

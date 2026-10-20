@@ -173,6 +173,16 @@ RSpec.describe "Leaves" do
     expect(page).not_to have_content "Vacation!"
   end
 
+  it "highlights the leaves section in the sidebar" do
+    admin = users(:admin)
+    login admin
+    [user_leaves_path(user), leaves_hr_overview_path].each do |path|
+      visit path
+      expect(page).to have_css("a[href='/users/#{admin.id}/leaves'] .sidebar__link--active")
+      expect(page).not_to have_css("a[href='/users'] .sidebar__link--active")
+    end
+  end
+
   describe "HR Overview" do
     it "shows day counts of the different leave types for the given month" do
       travel_to "2025-01-01"

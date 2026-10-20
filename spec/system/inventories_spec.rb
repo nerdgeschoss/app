@@ -2,7 +2,7 @@
 
 require "system_helper"
 
-RSpec.describe "Leaves" do
+RSpec.describe "Inventories" do
   fixtures :all
   let(:user) { users(:john) }
 
