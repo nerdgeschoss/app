@@ -6,6 +6,7 @@ import { useFormatter, useTranslate } from '../../util/dependencies';
 import { isoDate } from '../../util/date';
 import { Link } from '../../sprinkles/history';
 import { Avatar } from '../avatar/avatar';
+import { Icon } from '../icon/icon';
 import { Text } from '../text/text';
 
 export interface LeaveCalendarRow {
@@ -129,13 +130,25 @@ export function LeaveCalendar({
     <div className="leave-calendar" ref={rootRef}>
       <div className="leave-calendar__aside">
         <div className="leave-calendar__nav">
-          <Link href={previousMonthUrl} className="leave-calendar__arrow">
-            ‹
-          </Link>
-          <Text type="h3-bold">{l.monthShortAndYear(dayDates[0])}</Text>
-          <Link href={nextMonthUrl} className="leave-calendar__arrow">
-            ›
-          </Link>
+          <a
+            href={previousMonthUrl}
+            className="leave-calendar__arrow leave-calendar__arrow--previous"
+            aria-label={t('leaves.hr_overview.previous_month')}
+          >
+            <Icon name="chevron-arrow" size={8} color="active" />
+          </a>
+          <div className="leave-calendar__title">
+            <Text type="h3-bold" align="center">
+              {l.monthShortAndYear(dayDates[0])}
+            </Text>
+          </div>
+          <a
+            href={nextMonthUrl}
+            className="leave-calendar__arrow leave-calendar__arrow--next"
+            aria-label={t('leaves.hr_overview.next_month')}
+          >
+            <Icon name="chevron-arrow" size={8} color="active" />
+          </a>
         </div>
         {rows.map(({ user, dayCounts }) => (
           <Link
@@ -150,9 +163,13 @@ export function LeaveCalendar({
             />
             <div className="leave-calendar__user-text">
               <Text noWrap>{user.displayName}</Text>
-              <Text type="body-bold" noWrap>
-                {`🏖 ${dayCounts.paid}  🤒 ${dayCounts.sick}  🧳 ${dayCounts.nonWorking}`}
-              </Text>
+              <div className="leave-calendar__counts">
+                <Text type="body-bold" noWrap>{`🏖 ${dayCounts.paid}`}</Text>
+                <Text type="body-bold" noWrap>{`🤒 ${dayCounts.sick}`}</Text>
+                <Text type="body-bold" noWrap>
+                  {`🧳 ${dayCounts.nonWorking}`}
+                </Text>
+              </div>
             </div>
           </Link>
         ))}
@@ -247,16 +264,16 @@ export function LeaveCalendar({
           className="leave-calendar__tooltip"
           style={{ top: tooltip.top, left: tooltip.left, right: tooltip.right }}
         >
-          <Text type="tooltip-primary" noWrap>
+          <Text type="tooltip-secondary" noWrap>
             {`${openRow.user.displayName}: ${typeLabels[openLeave.type] ?? openLeave.type}`}
           </Text>
-          <Text type="tooltip-primary" noWrap>
+          <Text type="tooltip-secondary" noWrap>
             {l.dateRange(
               openLeave.days[0],
               openLeave.days[openLeave.days.length - 1]
             )}
           </Text>
-          <Text type="tooltip-primary" noWrap>
+          <Text type="tooltip-secondary" noWrap>
             {openLeave.status === 'pending_approval'
               ? t('leaves.types.pending_approval')
               : t('leaves.types.approved')}

@@ -13,11 +13,24 @@
     }
   }
 
+  // the frame's spacing wraps the title and pushes the counts out of the
+  // 150px phone aside, so phones keep tighter values
   &__nav {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
     height: 64px;
+
+    @include layout.media-tablet {
+      gap: 8px;
+      padding: 0 8px;
+    }
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   &__arrow {
@@ -29,28 +42,49 @@
     height: 24px;
     border-radius: 50%;
     background: var(--arrow-button-bg-default);
-    box-shadow: 0 2px 8px rgba(43, 124, 138, 0.15);
-    color: var(--active);
-    font-size: 18px;
-    line-height: 1;
+    box-shadow: 0 0 8px rgba(43, 124, 138, 0.15);
     text-decoration: none;
+
+    // chevron-arrow points down
+    &--previous .icon {
+      transform: rotate(90deg);
+    }
+
+    &--next .icon {
+      transform: rotate(-90deg);
+    }
   }
 
   &__user {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     height: 64px;
-    padding: 0 8px;
+    padding: 8px;
     color: inherit;
     text-decoration: none;
+
+    @include layout.media-tablet {
+      gap: 12px;
+      padding: 8px 12px;
+    }
   }
 
   &__user-text {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
     gap: 4px;
     min-width: 0;
+  }
+
+  &__counts {
+    display: flex;
+    gap: 4px;
+
+    > * {
+      flex: 1 0 0;
+    }
   }
 
   &__scroll {
@@ -76,18 +110,15 @@
 
     // the weekday label has to fit the 22px weekend columns
     > :first-child {
-      font-size: 9px;
-    }
-
-    &--weekend {
-      color: var(--label-caption-secondary);
+      font-size: 8px;
     }
   }
 
   // the nav and the header come first in their columns, so both sides count
-  // from the same offset and stripe the same users
+  // from the same offset and stripe the same users; the grid stripes its
+  // cells so the weekend columns dim them too
   &__user:nth-child(even),
-  &__row:nth-child(even) {
+  &__row:nth-child(even) &__cell {
     background: var(--main-background);
   }
 
@@ -95,10 +126,16 @@
     border-right: 1px solid var(--div-default);
   }
 
+  &__day--weekend,
+  &__cell--weekend {
+    opacity: 0.5;
+  }
+
   &__bar {
     z-index: 1;
     align-self: center;
     height: 24px;
+    margin: 0 2px;
     padding: 0 4px;
     border: none;
     border-radius: 6px;
@@ -109,12 +146,15 @@
     white-space: nowrap;
     cursor: pointer;
 
+    // a leave that continues runs to the month edge
     &--continues-before {
+      margin-left: 0;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
 
     &--continues-after {
+      margin-right: 0;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
@@ -125,10 +165,13 @@
     position: absolute;
     z-index: 2;
     transform: translateY(calc(-100% - 4px));
-    padding: 8px 12px;
+    padding: 8px;
+    border: 1px solid var(--tooltip-hours-border-default);
     border-radius: 8px;
-    background: var(--tooltip-bg-default);
-    color: var(--tooltip-label-default);
+    background: var(--tooltip-hours-bg-active);
+    // frame value
+    box-shadow: -5px 1px 21px rgba(0, 71, 83, 0.2);
+    color: var(--tooltip-hours-label-default);
     text-align: left;
     white-space: nowrap;
   }
