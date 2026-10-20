@@ -123,7 +123,10 @@ RSpec.describe "Leaves" do
       login :admin
       visit leaves_hr_overview_path
 
-      expect(page).to have_content "Vacation Pending!"
+      within "#pending_requests" do
+        expect(page).to have_content "John"
+        expect(page).to have_button "👍"
+      end
     end
   end
 

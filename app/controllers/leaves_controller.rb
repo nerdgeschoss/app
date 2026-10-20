@@ -71,8 +71,6 @@ class LeavesController < ApplicationController
     @day_counts = @users.index_with { it.tally_leave_days(@month) }
 
     @pending_leaves = Leave.includes(:user).pending_approval.by_urgency
-
-    render Views::Leaves::HrOverview.new(date: @date, month: @month, users: @users, leaves: @leaves, day_counts: @day_counts, pending_leaves: @pending_leaves)
   end
 
   # Generate the params[:team_hash] with e.g. `Rails.application.message_verifier(:team_name).generate("laic")`
