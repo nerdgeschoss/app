@@ -46,8 +46,12 @@
     gap: 16px;
   }
 
-  &--highlight {
+  &--highlight-warning {
     border-color: var(--yellow-base);
+  }
+
+  &--highlight-danger {
+    border-color: var(--red-moderate);
   }
 
   &--login {

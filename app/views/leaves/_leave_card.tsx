@@ -56,7 +56,13 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
     <Card
       id={`leave_${leave.id}`}
       withDivider
-      highlight={leave.status === 'pending_approval'}
+      highlight={
+        leave.status === 'pending_approval'
+          ? 'warning'
+          : leave.status === 'rejected'
+            ? 'danger'
+            : undefined
+      }
       icon={
         showUser && leave.user ? (
           <Avatar

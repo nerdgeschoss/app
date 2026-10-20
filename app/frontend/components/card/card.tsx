@@ -15,7 +15,7 @@ interface Props {
   type?: 'login-card';
   iconSize?: number;
   withDivider?: boolean;
-  highlight?: boolean;
+  highlight?: 'warning' | 'danger';
 }
 
 export function Card({
@@ -33,7 +33,7 @@ export function Card({
 }: Props): JSX.Element {
   const cardClass = classnames('card', {
     'card--login': type === 'login-card',
-    'card--highlight': highlight,
+    [`card--highlight-${highlight}`]: highlight,
   });
   const style = {
     '--icon-size': `${iconSize}px`,
