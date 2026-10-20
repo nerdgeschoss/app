@@ -1,0 +1,135 @@
+@use '../layout';
+
+.leave-calendar {
+  position: relative;
+  display: flex;
+
+  &__aside {
+    flex: 0 0 150px;
+    min-width: 0;
+
+    @include layout.media-tablet {
+      flex-basis: 210px;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 64px;
+  }
+
+  &__arrow {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--arrow-button-bg-default);
+    box-shadow: 0 2px 8px rgba(43, 124, 138, 0.15);
+    color: var(--active);
+    font-size: 18px;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 64px;
+    padding: 0 8px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__user-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  &__scroll {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  // min-content keeps the stripes under every column while the grid scrolls
+  &__header,
+  &__row {
+    display: grid;
+    min-width: min-content;
+    height: 64px;
+  }
+
+  &__day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--label-caption-primary);
+
+    // the weekday label has to fit the 22px weekend columns
+    > :first-child {
+      font-size: 9px;
+    }
+
+    &--weekend {
+      color: var(--label-caption-secondary);
+    }
+  }
+
+  // the nav and the header come first in their columns, so both sides count
+  // from the same offset and stripe the same users
+  &__user:nth-child(even),
+  &__row:nth-child(even) {
+    background: var(--main-background);
+  }
+
+  &__cell {
+    border-right: 1px solid var(--div-default);
+  }
+
+  &__bar {
+    z-index: 1;
+    align-self: center;
+    height: 24px;
+    padding: 0 4px;
+    border: none;
+    border-radius: 6px;
+    background: var(--active);
+    color: white;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &--continues-before {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &--continues-after {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  // top/left/right are the bar's corner relative to the calendar, set on click
+  &__tooltip {
+    position: absolute;
+    z-index: 2;
+    transform: translateY(calc(-100% - 4px));
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--tooltip-bg-default);
+    color: var(--tooltip-label-default);
+    text-align: left;
+    white-space: nowrap;
+  }
+}
