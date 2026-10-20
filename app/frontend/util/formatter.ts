@@ -66,6 +66,16 @@ export class Formatter {
     }).format(date);
   }
 
+  monthName(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
+    }).format(date);
+  }
+
   time(value: Date | string): string | null {
     const date = this.parseDate(value);
     if (!date) {

@@ -58,8 +58,11 @@ export interface DataSchema {
     };
     feedUrl: string;
     activeFilter: string;
-    users: Array<{ id: string; displayName: string }>;
-    years: Array<string>;
+    permitHrOverview: boolean;
+    permitCreate: boolean;
+    years: Array<number>;
+    year: number | null;
+    month: number | null;
     leaves: Array<{
       id: string;
       unicodeEmoji: string;
@@ -75,16 +78,13 @@ export interface DataSchema {
       permitDestroy: boolean;
       permitApprove: boolean;
     }>;
-    year: string | null;
-    month: string | null;
     dayCounts: {
-      paid: string;
-      sick: string;
-      nonWorking: string;
+      paid: number;
+      sick: number;
+      nonWorking: number;
     };
     nextPageUrl: string | null;
     yearlyHolidays: number;
-    usedHolidays: number;
     remainingHolidays: number;
   };
   'leaves/new': {

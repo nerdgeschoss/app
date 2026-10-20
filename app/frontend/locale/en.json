@@ -93,9 +93,11 @@
       "request": "Request leave",
       "overview": "Overview",
       "more": "More",
-      "hr": "HR Overview",
       "all_months": "All Months",
-      "remaining_for": "Remaining for %{year}"
+      "remaining_for": "Remaining for %{year}",
+      "one_day": "1 day",
+      "days": "%{amount} days",
+      "remaining_days": "%{remaining}/%{total} days"
     },
     "types": {
       "all": "All",

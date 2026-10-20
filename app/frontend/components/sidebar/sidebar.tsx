@@ -46,7 +46,9 @@ export function Sidebar({ user }: Props): JSX.Element {
       name: 'Leaves',
       path: `/users/${user.id}/leaves`,
       icon: 'leave',
-      active: path === `/users/${user.id}/leaves`,
+      active:
+        /^\/users\/[^/]+\/leaves/.test(path) ||
+        path.startsWith('/leaves/hr_overview'),
     },
     {
       name: 'Payslips',
@@ -64,7 +66,7 @@ export function Sidebar({ user }: Props): JSX.Element {
       name: 'Users',
       path: '/users',
       icon: 'user',
-      active: path === '/users',
+      active: path.startsWith('/users') && !path.includes('/leaves'),
     },
   ];
 

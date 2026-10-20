@@ -24,7 +24,7 @@ RSpec.describe "Leaves" do
       click_on "Request"
     end
     expect(page).not_to have_selector ".modal"
-    expect(page).to have_content "John / My Holiday"
+    expect(page).to have_content "My Holiday"
     expect(page).to have_content "Pending"
     expect(page).not_to have_content "👍" # only admins can approve
     screenshot "user leaves"
@@ -34,7 +34,7 @@ RSpec.describe "Leaves" do
     leave = users(:john).leaves.create! title: "Holiday", type: :paid, days: ["2025-01-01"]
     login :admin
     visit user_leaves_path(user)
-    expect(page).to have_content "John / Holiday"
+    expect(page).to have_content "Holiday"
     expect(page).to have_content "Pending"
     screenshot "leave approval"
     within "#leave_#{leave.id}" do
@@ -60,7 +60,7 @@ RSpec.describe "Leaves" do
       screenshot "request sick leave"
       click_on "Request"
     end
-    expect(page).to have_content "John / Fever"
+    expect(page).to have_content "Fever"
     expect(page).to have_content "Approved"
     screenshot "sick leave approval"
   end
@@ -92,11 +92,11 @@ RSpec.describe "Leaves" do
 
     login user
     visit user_leaves_path(user)
-    expect(page).to have_content "John / Vacation!"
+    expect(page).to have_content "Vacation!"
     expect(page).to have_content "February Leave"
 
     visit user_leaves_path(user, year: 2025, month: 1)
-    expect(page).to have_content "John / Vacation!"
+    expect(page).to have_content "Vacation!"
     expect(page).not_to have_content "February Leave"
   end
 
