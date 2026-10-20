@@ -107,7 +107,7 @@ RSpec.describe "Leaves" do
     expect(page).to have_content "John's Leaves"
     expect(page).to have_button "Overview"
     expect(page).to have_button "Request leave"
-    %w[All Pending Approved Rejected].each { |label| expect(page).to have_link label }
+    ["All", "Pending", "Approved", "Rejected"].each { |label| expect(page).to have_link label }
     expect(page).to have_content(/🏖 Vacation\s+4 days/)
     expect(page).to have_content(/🤒 Sick leaves\s+1 day\b/)
     expect(page).to have_content(/🧳 Non-working\s+3 days/)
