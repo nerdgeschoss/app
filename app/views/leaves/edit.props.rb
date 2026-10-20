@@ -4,6 +4,7 @@ field :leave, value: -> { @leave } do
   field :id
   field :title
   field :type
+  field :status
   field :days, array: true, value: -> { days.sort } do
     field :day, Date, value: -> { self }
   end

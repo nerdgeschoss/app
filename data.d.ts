@@ -36,6 +36,7 @@ export interface DataSchema {
       id: string;
       title: string;
       type: string;
+      status: string;
       days: Array<{ day: string }>;
     };
     berlinHolidays: Array<{ name: string; date: string }>;

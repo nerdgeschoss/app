@@ -21,7 +21,7 @@ RSpec.describe "Leaves" do
       find("span", text: "21").click
       fill_in "Title", with: "My Holiday"
       screenshot "request leave"
-      click_on "Request leave"
+      click_on "Request"
     end
     expect(page).not_to have_selector ".modal"
     expect(page).to have_content "John / My Holiday"
@@ -58,7 +58,7 @@ RSpec.describe "Leaves" do
       fill_in "Title", with: "Fever"
       select("Sick")
       screenshot "request sick leave"
-      click_on "Request leave"
+      click_on "Request"
     end
     expect(page).to have_content "John / Fever"
     expect(page).to have_content "Approved"

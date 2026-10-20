@@ -68,32 +68,34 @@
     }
   },
   "leaves": {
-    "new": {
+    "form": {
+      "title": "Leaves",
+      "days": "Days:",
       "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
+      "leave_type": "Leave Type",
+      "pto": "PTO",
       "sick": "Sick",
-      "paid": "Paid",
       "not_working": "Not working",
-      "days": "Days",
-      "title": "Title",
-      "type": "Type",
-      "request": "Request leave"
+      "leave_title": "Title",
+      "request": "Request",
+      "save": "Save",
+      "approved_hint": "Saving sends this leave back to pending approval."
     },
-    "edit": {
-      "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
-      "sick": "Sick",
-      "paid": "Paid",
-      "not_working": "Not working",
-      "days": "Days",
-      "title": "Title",
-      "type": "Type",
-      "request": "Request leave"
+    "leave_types": {
+      "paid": "Vacation",
+      "sick": "Sick leaves",
+      "non_working": "Non-working"
     },
     "index": {
       "title": "Leaves",
+      "title_of": "%{name}'s Leaves",
       "subscribe": "Subscribe",
       "request": "Request leave",
+      "overview": "Overview",
       "more": "More",
-      "hr": "HR Overview"
+      "hr": "HR Overview",
+      "all_months": "All Months",
+      "remaining_for": "Remaining for %{year}"
     },
     "types": {
       "all": "All",
