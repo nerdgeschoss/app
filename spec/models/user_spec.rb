@@ -27,7 +27,7 @@ require "rails_helper"
 RSpec.describe User do
   fixtures :all
   let(:john) { users(:john) }
-  let(:slack_text) { Slack.instance.last_message.text }
+  let(:slack_text) { last_slack_message.text }
 
   around do |example|
     Config.stub(slack_announcement_channel_id: "slack-announcement-channel") do
@@ -79,7 +79,7 @@ RSpec.describe User do
 
     it "uses the persisted slack id" do
       users(:john).notify!("hello")
-      expect(Slack.instance.last_message).to have_attributes channel: "slack-john", text: "hello"
+      expect(last_slack_message).to have_attributes channel: "slack-john", text: "hello"
     end
   end
 

@@ -24,7 +24,7 @@ export default function ({
     users,
     leaves,
   },
-}: PageProps<'leaves_overview/index'>): JSX.Element {
+}: PageProps<'leaves_overviews/show'>): JSX.Element {
   const t = useTranslate();
   const modal = useModal();
 

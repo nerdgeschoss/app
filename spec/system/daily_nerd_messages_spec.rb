@@ -10,7 +10,7 @@ RSpec.describe "Daily Nerd messages" do
 
   before do
     allow(Slack.instance).to receive(:retrieve_users_profile_image_url_by_email).and_return("https://example.com/image.jpg")
-    allow(Slack.instance).to receive(:post_personalized_message_to_daily_nerd_channel)
+    allow(Slack.instance).to receive(:post_daily_nerd)
   end
 
   it "creates and edits daily nerd messages" do

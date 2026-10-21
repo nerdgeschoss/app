@@ -19,7 +19,14 @@ class Slack
     request http_method: :post, slack_method: "chat.postMessage", body: {channel:, text:}.to_json
   end
 
-  def post_personalized_message_to_daily_nerd_channel(user:, message:)
+  def set_status(slack_id:, emoji:, text:, until_time:)
+    return @last_slack_status_update = Status.new(slack_id:, text:, until_time:) if debug
+
+    body = {user: slack_id, profile: {status_text: text, status_emoji: emoji, status_expiration: until_time.to_i}}.to_json
+    request http_method: :post, slack_method: "users.profile.set", body:, token_type: :user
+  end
+
+  def post_daily_nerd(user:, message:)
     # This is the old way of posting to slack on behalf of a user using a webhook.
     # https://api.slack.com/legacy/custom-integrations/messaging/webhooks
     # It might be necessary to change this in the future to use the new Slack API.
@@ -34,13 +41,6 @@ class Slack
   def retrieve_users_profile_image_url_by_email(email)
     response = request http_method: :get, slack_method: "users.lookupByEmail", query: {email:}
     response.dig("user", "profile", "image_72")
-  end
-
-  def set_status(slack_id:, emoji:, text:, until_time:)
-    return @last_slack_status_update = Status.new(slack_id:, text:, until_time:) if debug
-
-    body = {user: slack_id, profile: {status_text: text, status_emoji: emoji, status_expiration: until_time.to_i}}.to_json
-    request http_method: :post, slack_method: "users.profile.set", body:, token_type: :user
   end
 
   private

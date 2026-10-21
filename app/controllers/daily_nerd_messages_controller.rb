@@ -7,7 +7,7 @@ class DailyNerdMessagesController < ApplicationController
   def create
     @daily_nerd_message = authorize DailyNerdMessage.new(daily_nerd_message_attributes.merge(sprint_feedback:))
     @daily_nerd_message.save!
-    SlackPostDailyNerdJob.perform_later(daily_nerd_message: @daily_nerd_message)
+    @daily_nerd_message.post_to_slack_later
     sprint_feedback.add_daily_nerd_entry(@daily_nerd_message.created_at)
   end
 

@@ -16,7 +16,7 @@ class DailyNerdMessage < ApplicationRecord
 
   validates :message, presence: true
 
-  def post_to_slack
+  performs def post_to_slack
     User::SlackNotification.new(sprint_feedback.user).post_daily_nerd_message(message)
   end
 end

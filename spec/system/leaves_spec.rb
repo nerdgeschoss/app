@@ -41,7 +41,7 @@ RSpec.describe "Leaves" do
       click_on "👍"
       expect(page).not_to have_content "👍"
     end
-    message = Slack.instance.last_message
+    message = last_slack_message
     expect(message.channel).to eq "slack-john"
     expect(message.text).to include "approved"
   end
@@ -176,7 +176,7 @@ RSpec.describe "Leaves" do
   it "highlights the leaves section in the sidebar" do
     admin = users(:admin)
     login admin
-    [user_leaves_path(user), leaves_hr_overview_path].each do |path|
+    [user_leaves_path(user), leaves_overview_path].each do |path|
       visit path
       expect(page).to have_css("a[href='/users/#{admin.id}/leaves'] .sidebar__link--active")
       expect(page).not_to have_css("a[href='/users'] .sidebar__link--active")
@@ -188,13 +188,13 @@ RSpec.describe "Leaves" do
       travel_to "2025-01-01"
 
       login :admin
-      visit leaves_hr_overview_path
+      visit leaves_overview_path
 
       expect(page).to have_content "🏖 4"
       expect(page).to have_content "🤒 1"
       expect(page).to have_content "🧳 3"
 
-      visit leaves_hr_overview_path(year: 2024, month: 12)
+      visit leaves_overview_path(year: 2024, month: 12)
       expect(page).to have_content "🏖 2"
       expect(page).to have_content "🤒 0"
       expect(page).to have_content "🧳 0"
@@ -204,7 +204,7 @@ RSpec.describe "Leaves" do
       travel_to "2025-01-01"
 
       login :admin
-      visit leaves_hr_overview_path
+      visit leaves_overview_path
 
       within "#pending_requests" do
         expect(page).to have_content "John"
@@ -214,7 +214,7 @@ RSpec.describe "Leaves" do
 
     it "is not available to regular users" do
       login user
-      visit leaves_hr_overview_path
+      visit leaves_overview_path
       # Capybara keeps the server error of the last request and raises it on the next visit or at teardown
       expect { page.raise_server_error! }.to raise_error(Pundit::NotAuthorizedError)
       expect(page).not_to have_content "Pending Requests"
@@ -223,7 +223,7 @@ RSpec.describe "Leaves" do
     it "rejects a pending leave from the overview" do
       travel_to "2025-01-01"
       login :admin
-      visit leaves_hr_overview_path
+      visit leaves_overview_path
       within("#pending_requests") { click_on "👎" }
       expect(page).to have_css "#pending_requests", text: "No leave requests are waiting for your approval."
       expect(leaves(:john_vacation_pending).reload).to be_rejected
@@ -232,7 +232,7 @@ RSpec.describe "Leaves" do
     it "paints the leaves of the month and clips a leave that continues" do
       travel_to "2025-01-01"
       login :admin
-      visit leaves_hr_overview_path
+      visit leaves_overview_path
       expect(page).to have_content "Jan 2025"
       expect(page).to have_css(".leave-calendar__day--weekend", count: 8)
       expect(page).to have_css(".leave-calendar__bar", count: 5)
@@ -242,7 +242,7 @@ RSpec.describe "Leaves" do
       expect(find(".leave-calendar__bar--continues-before").evaluate_script("this.style.gridColumn")).to eq "1 / 3"
       expect(find(".leave-calendar__bar", text: "🧳").evaluate_script("this.style.gridColumn")).to eq "7 / 10"
 
-      visit leaves_hr_overview_path(year: 2024, month: 12)
+      visit leaves_overview_path(year: 2024, month: 12)
       expect(page).to have_content "Dec 2024"
       expect(page).to have_css(".leave-calendar__bar", count: 1)
       expect(page).to have_css(".leave-calendar__bar--continues-after", count: 1)
@@ -253,7 +253,7 @@ RSpec.describe "Leaves" do
     it "shows a tooltip on click" do
       travel_to "2025-01-01"
       login :admin
-      visit leaves_hr_overview_path
+      visit leaves_overview_path
       bar = find(".leave-calendar__bar--continues-before")
       bar.click
       within ".leave-calendar__tooltip" do
@@ -273,7 +273,7 @@ RSpec.describe "Leaves" do
     it "navigates between months and to the employee page" do
       travel_to "2025-01-01"
       login :admin
-      visit leaves_hr_overview_path
+      visit leaves_overview_path
       find(".leave-calendar__arrow--previous").click
       expect(page).to have_current_path("/leaves_overview?year=2024&month=12")
       expect(page).to have_content "Dec 2024"

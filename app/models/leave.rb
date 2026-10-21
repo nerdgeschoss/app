@@ -40,6 +40,11 @@ class Leave < ApplicationRecord
 
   validates :title, :days, presence: true
 
+  performs :sync_slack_status
+  performs :notify_user_on_slack_about_status_change
+  performs :notify_slack_about_sick_leave
+  performs :notify_hr_on_slack_about_new_request
+
   before_validation do
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on
@@ -61,22 +66,28 @@ class Leave < ApplicationRecord
   def handle_incoming_request
     case type
     when "sick"
-      notify_slack_about_sick_leave
+      notify_slack_about_sick_leave_later
     when "paid", "unpaid"
-      notify_hr_on_slack_about_new_request
+      notify_hr_on_slack_about_new_request_later
     end
   end
 
   def handle_update(attributes)
     assign_attributes(attributes)
-    unless status_changed?
-      self.status = :pending_approval if days_changed? || type_changed?
+    if status_changed?
+      if approved? || rejected?
+        notify_user_on_slack_about_status_change_later
+      end
+    elsif days_changed? || type_changed?
+      self.status = :pending_approval
     end
     save!
   end
 
-  def handle_slack_status
-    set_slack_status! if leave_during.include?(Time.zone.today) && (approved? || sick?)
+  def sync_slack_status
+    if leave_during.include?(Time.zone.today) && (approved? || sick?)
+      set_slack_status!
+    end
   end
 
   def notify_slack_about_sick_leave

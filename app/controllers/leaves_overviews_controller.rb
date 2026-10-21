@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class LeavesOverviewController < ApplicationController
+class LeavesOverviewsController < ApplicationController
   before_action :authenticate_user!
 
-  def index
+  def show
     authorize Leave, :hr_overview?
 
     @users = User.currently_employed.alphabetically

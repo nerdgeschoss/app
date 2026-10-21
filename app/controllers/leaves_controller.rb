@@ -38,7 +38,7 @@ class LeavesController < ApplicationController
     @leave = @user.leaves.new(permitted_attributes(Leave))
     @leave.save!
     @leave.handle_incoming_request
-    @leave.handle_slack_status
+    @leave.sync_slack_status_later
   end
 
   def edit
@@ -47,8 +47,7 @@ class LeavesController < ApplicationController
 
   def update
     @leave.handle_update(permitted_attributes(Leave))
-    # @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
-    @leave.handle_slack_status
+    @leave.sync_slack_status_later
   end
 
   def destroy

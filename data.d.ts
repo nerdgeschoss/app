@@ -97,7 +97,7 @@ export interface DataSchema {
     };
     berlinHolidays: Array<{ name: string; date: string }>;
   };
-  'leaves_overview/index': {
+  'leaves_overviews/show': {
     currentUser: {
       id: string;
       displayName: string;

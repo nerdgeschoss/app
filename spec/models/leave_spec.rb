@@ -159,23 +159,23 @@ RSpec.describe Leave do
   describe "#handle_incoming_request" do
     before do
       [single_day_sick_leave, holiday].each do |leave|
-        allow(leave).to receive(:notify_slack_about_sick_leave)
-        allow(leave).to receive(:notify_hr_on_slack_about_new_request)
+        allow(leave).to receive(:notify_slack_about_sick_leave_later)
+        allow(leave).to receive(:notify_hr_on_slack_about_new_request_later)
       end
     end
 
     it "notifies slack about sick leave for sick type" do
       single_day_sick_leave.handle_incoming_request
 
-      expect(single_day_sick_leave).to have_received(:notify_slack_about_sick_leave)
-      expect(single_day_sick_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
+      expect(single_day_sick_leave).to have_received(:notify_slack_about_sick_leave_later)
+      expect(single_day_sick_leave).not_to have_received(:notify_hr_on_slack_about_new_request_later)
     end
 
     it "notifies HR on slack about new request for paid type" do
       holiday.handle_incoming_request
 
-      expect(holiday).to have_received(:notify_hr_on_slack_about_new_request)
-      expect(holiday).not_to have_received(:notify_slack_about_sick_leave)
+      expect(holiday).to have_received(:notify_hr_on_slack_about_new_request_later)
+      expect(holiday).not_to have_received(:notify_slack_about_sick_leave_later)
     end
 
     it "notifies HR on slack about new request for unpaid type" do
@@ -183,8 +183,8 @@ RSpec.describe Leave do
 
       unpaid_holiday.handle_incoming_request
 
-      expect(unpaid_holiday).to have_received(:notify_hr_on_slack_about_new_request)
-      expect(unpaid_holiday).not_to have_received(:notify_slack_about_sick_leave)
+      expect(unpaid_holiday).to have_received(:notify_hr_on_slack_about_new_request_later)
+      expect(unpaid_holiday).not_to have_received(:notify_slack_about_sick_leave_later)
     end
   end
 
@@ -219,7 +219,7 @@ RSpec.describe Leave do
     end
   end
 
-  describe "#handle_slack_status" do
+  describe "#sync_slack_status" do
     before do
       [single_day_sick_leave, holiday].each do |leave|
         allow(leave).to receive(:set_slack_status!)
@@ -230,7 +230,7 @@ RSpec.describe Leave do
       holiday.approved!
       travel_to holiday.leave_during.min
 
-      holiday.handle_slack_status
+      holiday.sync_slack_status
 
       expect(holiday).to have_received(:set_slack_status!)
     end
@@ -239,7 +239,7 @@ RSpec.describe Leave do
       holiday.approved!
       travel_to holiday.leave_during.max + 1.day
 
-      holiday.handle_slack_status
+      holiday.sync_slack_status
 
       expect(holiday).not_to have_received(:set_slack_status!)
     end
@@ -248,7 +248,7 @@ RSpec.describe Leave do
       holiday.pending_approval!
       travel_to holiday.leave_during.min
 
-      holiday.handle_slack_status
+      holiday.sync_slack_status
 
       expect(holiday).not_to have_received(:set_slack_status!)
     end
