@@ -112,7 +112,7 @@ export default function ({
               <Button
                 variant="secondary"
                 title={t('leaves.index.overview')}
-                onClick={() => reaction.history.navigate('/leaves/hr_overview')}
+                onClick={() => reaction.history.navigate('/leaves_overview')}
               />
             )}
           </Stack>

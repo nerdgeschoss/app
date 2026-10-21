@@ -47,30 +47,12 @@ class LeavesController < ApplicationController
 
   def update
     @leave.handle_update(permitted_attributes(Leave))
-    @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
+    # @leave.notify_user_on_slack_about_status_change if @leave.status_previously_changed?
     @leave.handle_slack_status
   end
 
   def destroy
     @leave.destroy!
-  end
-
-  def hr_overview
-    authorize Leave, :hr_overview?
-
-    @users = User.currently_employed.alphabetically
-
-    @date = if params[:year].present? && params[:month].present?
-      Date.new(params[:year].to_i, params[:month].to_i)
-    else
-      Time.zone.today
-    end
-    @month = @date.all_month
-
-    @leaves = Leave.not_rejected.during(@month)
-    @day_counts = @users.index_with { it.tally_leave_days(@month) }
-
-    @pending_leaves = Leave.includes(:user).pending_approval.by_urgency
   end
 
   # Generate the params[:team_hash] with e.g. `Rails.application.message_verifier(:team_name).generate("laic")`

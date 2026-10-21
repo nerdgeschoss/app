@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { PageProps } from '../../../data.d';
+import { PageProps } from '../../../data';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { Layout } from '../../frontend/components/layout/layout';
 import { Stack } from '../../frontend/components/stack/stack';
@@ -12,11 +12,11 @@ import {
   LeaveCalendar,
   LeaveCalendarRow,
 } from '../../frontend/components/leave_calendar/leave_calendar';
-import { LeaveCard } from './_leave_card';
+import { LeaveCard } from '../leaves/_leave_card';
 
 export default function ({
   data: { currentUser, date, feedUrl, pendingLeaves, users, leaves },
-}: PageProps<'leaves/hr_overview'>): JSX.Element {
+}: PageProps<'leaves_overview/index'>): JSX.Element {
   const t = useTranslate();
   const modal = useModal();
 
@@ -26,7 +26,7 @@ export default function ({
 
   const monthUrl = (delta: -1 | 1): string => {
     const target = new Date(year, month - 1 + delta, 1);
-    return `/leaves/hr_overview?year=${target.getFullYear()}&month=${target.getMonth() + 1}`;
+    return `/leaves_overview?year=${target.getFullYear()}&month=${target.getMonth() + 1}`;
   };
 
   const rowUrl = (userId: string): string =>

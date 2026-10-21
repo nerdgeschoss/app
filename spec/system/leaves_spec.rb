@@ -275,10 +275,10 @@ RSpec.describe "Leaves" do
       login :admin
       visit leaves_hr_overview_path
       find(".leave-calendar__arrow--previous").click
-      expect(page).to have_current_path("/leaves/hr_overview?year=2024&month=12")
+      expect(page).to have_current_path("/leaves_overview?year=2024&month=12")
       expect(page).to have_content "Dec 2024"
       find(".leave-calendar__arrow--next").click
-      expect(page).to have_current_path("/leaves/hr_overview?year=2025&month=1")
+      expect(page).to have_current_path("/leaves_overview?year=2025&month=1")
       find(".leave-calendar__user", text: "🏖 4").click
       expect(page).to have_current_path("/users/#{user.id}/leaves?year=2025&month=1")
       expect(page).to have_content "John's Leaves"

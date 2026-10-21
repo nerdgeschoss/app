@@ -41,54 +41,6 @@ export interface DataSchema {
     };
     berlinHolidays: Array<{ name: string; date: string }>;
   };
-  'leaves/hr_overview': {
-    currentUser: {
-      id: string;
-      displayName: string;
-      avatarUrl: string;
-      email: string;
-      roles: Array<string>;
-    };
-    date: string;
-    feedUrl: string;
-    pendingLeaves: Array<{
-      id: string;
-      type: string;
-      status: string;
-      unicodeEmoji: string;
-      numberOfDays: string;
-      days: Array<{ day: string }>;
-      user: {
-        id: string;
-        displayName: string;
-        avatarUrl: string;
-        email: string;
-      };
-      permitUpdate: boolean;
-      permitDestroy: boolean;
-      permitApprove: boolean;
-    }>;
-    users: Array<{
-      id: string;
-      displayName: string;
-      avatarUrl: string;
-      email: string;
-      dayCounts: {
-        paid: number;
-        sick: number;
-        nonWorking: number;
-      };
-    }>;
-    leaves: Array<{
-      id: string;
-      userId: string;
-      type: string;
-      status: string;
-      unicodeEmoji: string;
-      numberOfDays: string;
-      days: Array<{ day: string }>;
-    }>;
-  };
   'leaves/index': {
     currentUser: {
       id: string;
@@ -144,6 +96,54 @@ export interface DataSchema {
       roles: Array<string>;
     };
     berlinHolidays: Array<{ name: string; date: string }>;
+  };
+  'leaves_overview/index': {
+    currentUser: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
+    date: string;
+    feedUrl: string;
+    pendingLeaves: Array<{
+      id: string;
+      type: string;
+      status: string;
+      unicodeEmoji: string;
+      numberOfDays: string;
+      days: Array<{ day: string }>;
+      user: {
+        id: string;
+        displayName: string;
+        avatarUrl: string;
+        email: string;
+      };
+      permitUpdate: boolean;
+      permitDestroy: boolean;
+      permitApprove: boolean;
+    }>;
+    users: Array<{
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      dayCounts: {
+        paid: number;
+        sick: number;
+        nonWorking: number;
+      };
+    }>;
+    leaves: Array<{
+      id: string;
+      userId: string;
+      type: string;
+      status: string;
+      unicodeEmoji: string;
+      numberOfDays: string;
+      days: Array<{ day: string }>;
+    }>;
   };
   'pages/home': {
     currentUser: {

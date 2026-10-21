@@ -51,7 +51,7 @@ export function Sidebar({ user }: Props): JSX.Element {
       icon: 'leave',
       active:
         /^\/users\/[^/]+\/leaves/.test(path) ||
-        path.startsWith('/leaves/hr_overview'),
+        path.startsWith('/leaves_overview'),
     },
     {
       name: 'Payslips',
