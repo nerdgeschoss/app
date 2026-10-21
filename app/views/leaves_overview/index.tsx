@@ -15,7 +15,15 @@ import {
 import { LeaveCard } from '../leaves/_leave_card';
 
 export default function ({
-  data: { currentUser, date, feedUrl, pendingLeaves, users, leaves },
+  data: {
+    currentUser,
+    date,
+    feedUrl,
+    pendingLeaves,
+    pendingLeavesCounts,
+    users,
+    leaves,
+  },
 }: PageProps<'leaves_overview/index'>): JSX.Element {
   const t = useTranslate();
   const modal = useModal();
@@ -63,6 +71,25 @@ export default function ({
           </Stack>
         </Stack>
         <Text type="h3-bold">{`⏳ ${t('leaves.hr_overview.pending_requests')}`}</Text>
+
+        <Stack line="mobile">
+          {!!pendingLeavesCounts.paid && (
+            <a href="?pending_leave_type=paid">
+              Paid ({pendingLeavesCounts.paid})
+            </a>
+          )}
+          {!!pendingLeavesCounts.sick && (
+            <a href="?pending_leave_type=sick">
+              Sick ({pendingLeavesCounts.sick})
+            </a>
+          )}
+          {!!pendingLeavesCounts.nonWorking && (
+            <a href="?pending_leave_type=non_working">
+              Non Working ({pendingLeavesCounts.nonWorking})
+            </a>
+          )}
+        </Stack>
+
         <div id="pending_requests">
           {pendingLeaves.length > 0 ? (
             <Grid

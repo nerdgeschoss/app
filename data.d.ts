@@ -124,6 +124,11 @@ export interface DataSchema {
       permitDestroy: boolean;
       permitApprove: boolean;
     }>;
+    pendingLeavesCounts: {
+      paid: number;
+      sick: number;
+      nonWorking: number;
+    };
     users: Array<{
       id: string;
       displayName: string;

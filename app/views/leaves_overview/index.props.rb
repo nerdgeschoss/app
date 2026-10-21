@@ -25,15 +25,21 @@ field :pending_leaves, array: true, value: -> { @pending_leaves } do
   field :permit_approve, Boolean, value: -> { helpers.policy(self).approve? }
 end
 
+field :pending_leaves_counts, value: -> { @pending_leaves_counts } do
+  field :paid, Integer, value: -> { fetch("paid", 0) }
+  field :sick, Integer, value: -> { fetch("sick", 0) }
+  field :non_working, Integer, value: -> { fetch("non_working", 0) }
+end
+
 field :users, array: true, value: -> { @users } do
   field :id
   field :display_name
   field :avatar_url, value: -> { avatar_image(size: 200) }
   field :email
   field :day_counts, value: -> { root { @day_counts }[__getobj__] } do
-    field :paid, Integer, value: -> { self["paid"] || 0 }
-    field :sick, Integer, value: -> { self["sick"] || 0 }
-    field :non_working, Integer, value: -> { self["non_working"] || 0 }
+    field :paid, Integer, value: -> { fetch("paid", 0) }
+    field :sick, Integer, value: -> { fetch("sick", 0) }
+    field :non_working, Integer, value: -> { fetch("non_working", 0) }
   end
 end
 

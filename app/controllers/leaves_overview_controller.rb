@@ -18,6 +18,10 @@ class LeavesOverviewController < ApplicationController
     @leaves = Leave.not_rejected.during(@month)
     @day_counts = @users.index_with { it.tally_leave_days(@month) }
 
-    @pending_leaves = Leave.includes(:user).pending_approval.by_urgency
+    @pending_leaves = Leave.includes(:user)
+      .pending_approval
+      .by_urgency
+      .where(type: params.fetch(:pending_leave_type, "paid"))
+    @pending_leaves_counts = Leave.pending_approval.group(:type).count
   end
 end
