@@ -79,7 +79,7 @@
       "leave_title": "Title",
       "request": "Request",
       "save": "Save",
-      "approved_hint": "Saving sends this leave back to pending approval."
+      "approved_hint": "Saving might update this leave to need approval."
     },
     "leave_types": {
       "paid": "Vacation",

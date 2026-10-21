@@ -23,7 +23,9 @@ export default function ({
       berlinHolidays={berlinHolidays}
       submitLabel={t('leaves.form.save')}
       hint={
-        leave.status === 'approved' ? t('leaves.form.approved_hint') : undefined
+        leave.status === 'approved' && leave.type !== 'non_working'
+          ? t('leaves.form.approved_hint')
+          : undefined
       }
       onSubmit={async (model) => {
         await reaction.call({
