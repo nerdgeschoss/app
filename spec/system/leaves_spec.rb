@@ -173,6 +173,19 @@ RSpec.describe "Leaves" do
     expect(page).not_to have_content "Vacation!"
   end
 
+  it "shows the exact days of a leave on its card" do
+    travel_to "2025-01-01"
+    login :admin
+    visit user_leaves_path(user, year: 2025)
+    within("#leave_#{leaves(:john_not_working).id}") { find(".click-tooltip__trigger", text: "3 days").click }
+    expect(page).to have_css(".click-tooltip__card", text: "Jan 7, 8, 9")
+    within("#leave_#{leaves(:john_cross_year_vacation).id}") { find(".click-tooltip__trigger", text: "4 days").click }
+    expect(page).to have_css(".click-tooltip__card", text: "Dec 30, 31, Jan 1, 2")
+    expect(page).to have_css(".click-tooltip__card", count: 1) # opening one tooltip closes the other
+    find(".text--h1-bold").click
+    expect(page).not_to have_css ".click-tooltip__card"
+  end
+
   it "highlights the leaves section in the sidebar" do
     admin = users(:admin)
     login admin
@@ -287,6 +300,143 @@ RSpec.describe "Leaves" do
       find(".leave-calendar__user", text: "🏖 4").click
       expect(page).to have_current_path("/users/#{user.id}/leaves?year=2025&month=1")
       expect(page).to have_content "John's Leaves"
+    end
+
+    it "switches the pending list by leave type and keeps the month" do
+      travel_to "2025-01-01"
+      login :admin
+      visit leaves_overview_path
+      expect(page).to have_css(".pill--active", text: "Vacations (1)")
+      expect(page).to have_link "Sick Leaves (0)"
+      expect(page).to have_link "Non-working (0)"
+      expect(page).to have_css("#pending_requests", text: "John")
+
+      click_on "Sick Leaves (0)"
+      expect(page).to have_current_path("/leaves_overview?year=2025&month=1&pending_leave_type=sick")
+      expect(page).to have_css(".pill--active", text: "Sick Leaves (0)")
+      expect(page).to have_css("#pending_requests", text: "No leave requests are waiting for your approval.")
+      expect(page).to have_content "Jan 2025"
+
+      find(".leave-calendar__arrow--previous").click
+      expect(page).to have_current_path("/leaves_overview?year=2024&month=12&pending_leave_type=sick")
+      expect(page).to have_css(".pill--active", text: "Sick Leaves (0)")
+
+      click_on "Vacations (1)"
+      # paid is the default type, so its URL leaves the type out
+      expect(page).to have_current_path("/leaves_overview?year=2024&month=12")
+      expect(page).to have_css("#pending_requests", text: "John")
+    end
+
+    it "counts and lists pending leaves per type" do
+      travel_to "2025-01-01"
+      flu = user.leaves.create!(type: :sick, title: "Long flu", days: ["2025-01-13", "2025-01-14"])
+      vacation = leaves(:john_vacation_pending)
+      login :admin
+      visit leaves_overview_path
+      expect(page).to have_link "Vacations (1)"
+      expect(page).to have_link "Sick Leaves (1)"
+      within "#pending_requests" do
+        expect(page).to have_css "#leave_#{vacation.id}"
+        expect(page).not_to have_css "#leave_#{flu.id}"
+      end
+
+      click_on "Sick Leaves (1)"
+      within "#pending_requests" do
+        expect(page).not_to have_css "#leave_#{vacation.id}"
+        within("#leave_#{flu.id}") { expect(page).to have_button "👍" }
+      end
+    end
+
+    it "shows the exact days of a pending request" do
+      travel_to "2025-01-01"
+      login :admin
+      visit leaves_overview_path
+      within("#pending_requests") { find(".click-tooltip__trigger", text: "1 day").click }
+      expect(page).to have_css(".click-tooltip__card", text: "Jan 5")
+      expect(page).to have_css(".click-tooltip__trigger[aria-expanded='true']", text: "1 day")
+      find(".text--h1-bold", text: "Leaves Overview").click
+      expect(page).not_to have_css ".click-tooltip__card"
+    end
+
+    it "paints gap days and non-working days inside a range" do
+      travel_to "2025-01-01"
+      # Thursday and Monday, with a working Friday and a weekend in between
+      bridge = user.leaves.create!(type: :paid, title: "Bridge", days: ["2025-01-16", "2025-01-20"])
+      login :admin
+      visit leaves_overview_path
+      segments = all(".leave-calendar__segment[data-leave-id='#{bridge.id}']", count: 5)
+      expect(segments.map { |segment| segment["data-day"] }).to eq ["2025-01-16", "2025-01-17", "2025-01-18", "2025-01-19", "2025-01-20"]
+      expect(segments.map { |segment| segment.evaluate_script("this.style.gridColumn") }).to eq ["16", "17", "18", "19", "20"]
+      thursday, friday, saturday, sunday, monday = segments
+      expect(thursday).to match_css(".leave-calendar__segment--leave.leave-calendar__segment--start")
+      expect(thursday).not_to match_css(".leave-calendar__segment--end")
+      expect(friday).to match_css(".leave-calendar__segment--gap")
+      expect(friday).not_to match_css(".leave-calendar__segment--leave, .leave-calendar__segment--off")
+      expect([saturday, sunday]).to all(match_css(".leave-calendar__segment--off"))
+      expect(monday).to match_css(".leave-calendar__segment--leave.leave-calendar__segment--end")
+      expect(segments).to all(match_css(".leave-calendar__segment--pending"))
+
+      # a public holiday that is a leave day is painted as a leave day
+      new_year = find(".leave-calendar__segment[data-day='2025-01-01']")
+      expect(new_year).to match_css(".leave-calendar__segment--leave")
+      expect(new_year).not_to match_css(".leave-calendar__segment--off")
+    end
+
+    it "stacks sick leaves in the bottom lane when a row mixes types" do
+      travel_to "2025-01-01"
+      login :admin
+      visit leaves_overview_path
+      expect(page).to have_css(".leave-calendar__segment--lane-bottom", count: 1)
+      expect(find(".leave-calendar__segment--lane-bottom")["data-leave-id"]).to eq leaves(:john_sick_leave).id
+      expect(page).to have_css(".leave-calendar__segment--lane-top", count: 7)
+
+      visit leaves_overview_path(year: 2024, month: 12)
+      expect(page).to have_content "Dec 2024"
+      expect(page).not_to have_css ".leave-calendar__segment--lane-top, .leave-calendar__segment--lane-bottom"
+      expect(find(".leave-calendar__segment--start").evaluate_script("this.style.alignSelf")).to eq "center"
+    end
+
+    it "shows a single date and the status for a one-day leave" do
+      travel_to "2025-01-01"
+      login :admin
+      visit leaves_overview_path
+      find(".leave-calendar__segment[data-leave-id='#{leaves(:john_sick_leave).id}']").click
+      within ".leave-calendar__tooltip" do
+        expect(page).to have_content "John: Sick leaves"
+        expect(page).to have_content "6 Jan"
+        expect(page).not_to have_content " to "
+        expect(page).to have_content "Approved"
+      end
+      find(".text--h1-bold", text: "Leaves Overview").click
+      expect(page).not_to have_css ".leave-calendar__tooltip"
+
+      find(".leave-calendar__segment[data-leave-id='#{leaves(:john_vacation_pending).id}']").click
+      within ".leave-calendar__tooltip" do
+        expect(page).to have_content "John: Vacation"
+        expect(page).to have_content "5 Jan"
+        expect(page).to have_content "Pending"
+      end
+    end
+
+    it "edits a leave from the calendar tooltip" do
+      travel_to "2025-01-01"
+      leave = leaves(:john_cross_year_vacation)
+      login :admin
+      visit leaves_overview_path
+      find(".leave-calendar__segment--continues-before").click
+      within(".leave-calendar__tooltip") { click_on "✏️" }
+      expect(page).not_to have_css ".leave-calendar__tooltip"
+      within ".modal" do
+        expect(page).to have_field("Title", with: "New Year Vacation")
+        expect(page).to have_content "Saving sends this leave back to pending approval."
+        fill_in "Title", with: "New Year trip"
+        click_on "Save"
+      end
+      expect(page).not_to have_css ".modal"
+      expect(page).to have_content "Jan 2025"
+      leave.reload
+      expect(leave.title).to eq "New Year trip"
+      expect(leave).to be_approved
     end
   end
 
