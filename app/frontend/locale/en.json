@@ -108,7 +108,8 @@
       "no_pending": "No leave requests are waiting for your approval. New ones will show up here.",
       "monthly_overview": "Monthly Overview",
       "previous_month": "Previous month",
-      "next_month": "Next month"
+      "next_month": "Next month",
+      "tooltip_range": "%{from} to %{to}"
     },
     "types": {
       "all": "All",

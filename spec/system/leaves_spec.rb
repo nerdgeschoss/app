@@ -234,19 +234,23 @@ RSpec.describe "Leaves" do
       login :admin
       visit leaves_overview_path
       expect(page).to have_content "Jan 2025"
-      expect(page).to have_css(".leave-calendar__day--weekend", count: 8)
-      expect(page).to have_css(".leave-calendar__bar", count: 5)
-      expect(page).to have_css(".leave-calendar__bar--continues-before", count: 1)
-      expect(page).not_to have_css(".leave-calendar__bar--continues-after")
+      expect(page).to have_css(".leave-calendar__day--non-working", count: 9)
+      expect(page).to have_css(".leave-calendar__segment--start", count: 5)
+      expect(page).to have_css(".leave-calendar__segment--continues-before", count: 1)
+      expect(page).not_to have_css(".leave-calendar__segment--continues-after")
       # the browser serializes the inline grid placement as grid-area, so read the column from the style
-      expect(find(".leave-calendar__bar--continues-before").evaluate_script("this.style.gridColumn")).to eq "1 / 3"
-      expect(find(".leave-calendar__bar", text: "🧳").evaluate_script("this.style.gridColumn")).to eq "7 / 10"
+      expect(find(".leave-calendar__segment--continues-before").evaluate_script("this.style.gridColumn")).to eq "1"
+      not_working = all(".leave-calendar__segment[data-leave-id='#{leaves(:john_not_working).id}']")
+      expect(not_working.map { |segment| segment.evaluate_script("this.style.gridColumn") }).to eq ["7", "8", "9"]
 
       visit leaves_overview_path(year: 2024, month: 12)
       expect(page).to have_content "Dec 2024"
-      expect(page).to have_css(".leave-calendar__bar", count: 1)
-      expect(page).to have_css(".leave-calendar__bar--continues-after", count: 1)
-      expect(find(".leave-calendar__bar--continues-after").evaluate_script("this.style.gridColumn")).to eq "30 / 32"
+      expect(page).to have_css(".leave-calendar__segment--start", count: 1)
+      expect(find(".leave-calendar__segment--start").evaluate_script("this.style.gridColumn")).to eq "30"
+      expect(page).to have_css(".leave-calendar__segment--continues-after", count: 1)
+      continues_after = find(".leave-calendar__segment--continues-after")
+      expect(continues_after.evaluate_script("this.style.gridColumn")).to eq "31"
+      expect(continues_after["data-day"]).to eq "2024-12-31"
       expect(page).to have_css(".leave-calendar__user", text: "🏖 2")
     end
 
@@ -254,12 +258,13 @@ RSpec.describe "Leaves" do
       travel_to "2025-01-01"
       login :admin
       visit leaves_overview_path
-      bar = find(".leave-calendar__bar--continues-before")
+      bar = find(".leave-calendar__segment--continues-before")
       bar.click
       within ".leave-calendar__tooltip" do
         expect(page).to have_content "John: Vacation"
-        expect(page).to have_content "30/12/2024 - 02/01/2025"
+        expect(page).to have_content "30 Dec to 2 Jan"
         expect(page).to have_content "Approved"
+        expect(page).to have_button "✏️"
       end
       find(".text--h1-bold", text: "Leaves Overview").click
       expect(page).not_to have_css ".leave-calendar__tooltip"

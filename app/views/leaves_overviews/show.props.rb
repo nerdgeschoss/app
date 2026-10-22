@@ -3,6 +3,7 @@
 render "components/current_user"
 
 field :date, Date, value: -> { @date }
+field :non_working_days, Date, array: true, value: -> { @month.reject { |day| BerlinHolidays.working_day?(day) } }
 field :feed_url, value: -> { helpers.feed_leaves_url(auth: current_user.id, format: :ics, protocol: :webcal) }
 
 field :pending_leaves, array: true, value: -> { @pending_leaves } do

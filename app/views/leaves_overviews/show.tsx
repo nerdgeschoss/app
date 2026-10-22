@@ -20,6 +20,7 @@ export default function ({
   data: {
     currentUser,
     date,
+    nonWorkingDays,
     feedUrl,
     pendingLeaves,
     pendingLeavesCounts,
@@ -151,9 +152,11 @@ export default function ({
             year={year}
             month={month}
             rows={rows}
+            nonWorkingDays={nonWorkingDays}
             previousMonthUrl={monthUrl(-1)}
             nextMonthUrl={monthUrl(1)}
             rowUrl={rowUrl}
+            onEdit={(leaveId) => modal.present(`/leaves/${leaveId}/edit`)}
           />
         </Card>
       </Stack>

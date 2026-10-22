@@ -106,6 +106,7 @@ export interface DataSchema {
       roles: Array<string>;
     };
     date: string;
+    nonWorkingDays: Array<string>;
     feedUrl: string;
     pendingLeaves: Array<{
       id: string;

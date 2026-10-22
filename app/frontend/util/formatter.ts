@@ -97,6 +97,17 @@ export class Formatter {
     }).format(date);
   }
 
+  dayAndShortMonth(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(NUMERIC_DATE_LOCALE, {
+      day: 'numeric',
+      month: 'short',
+    }).format(date);
+  }
+
   monthName(value: Date | string): string | null {
     const date = this.parseDate(value);
     if (!date) {

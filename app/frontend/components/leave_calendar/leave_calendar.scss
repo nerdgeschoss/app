@@ -126,27 +126,56 @@
     border-right: 1px solid var(--div-default);
   }
 
-  &__day--weekend,
-  &__cell--weekend {
+  &__day--non-working,
+  &__cell--non-working {
     opacity: 0.5;
   }
 
-  &__bar {
+  // one segment per day of a leave's range; the base look is a working day
+  // inside the range that is not a leave day
+  &__segment {
     z-index: 1;
     align-self: center;
     height: 24px;
-    margin: 0 2px;
-    padding: 0 4px;
+    padding: 0;
     border: none;
-    border-radius: 6px;
-    background: var(--active);
+    background: var(--blue-weak);
     color: white;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;
 
-    // a leave that continues runs to the month edge
+    &--leave {
+      padding: 0 4px;
+      background: var(--active);
+
+      &.leave-calendar__segment--pending {
+        background: var(--yellow-base);
+      }
+    }
+
+    &--off {
+      border: 1px solid var(--active);
+      background: var(--main-background);
+
+      &.leave-calendar__segment--pending {
+        border-color: var(--yellow-base);
+      }
+    }
+
+    &--start {
+      margin-left: 2px;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
+    &--end {
+      margin-right: 2px;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
     &--continues-before {
       margin-left: 0;
       border-top-left-radius: 0;
@@ -157,6 +186,14 @@
       margin-right: 0;
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
+    }
+
+    &--lane-top {
+      margin-top: 4px;
+    }
+
+    &--lane-bottom {
+      margin-bottom: 4px;
     }
   }
 
@@ -174,5 +211,11 @@
     color: var(--tooltip-hours-label-default);
     text-align: left;
     white-space: nowrap;
+  }
+
+  &__tooltip-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 }

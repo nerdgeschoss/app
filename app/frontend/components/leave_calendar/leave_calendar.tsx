@@ -6,6 +6,7 @@ import { useFormatter, useTranslate } from '../../util/dependencies';
 import { isoDate } from '../../util/date';
 import { Link } from '../../sprinkles/history';
 import { Avatar } from '../avatar/avatar';
+import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
 import { Text } from '../text/text';
 
@@ -25,9 +26,12 @@ interface Props {
   year: number;
   month: number; // 1-based
   rows: LeaveCalendarRow[];
+  // ISO days that are weekends or Berlin public holidays
+  nonWorkingDays: string[];
   previousMonthUrl: string;
   nextMonthUrl: string;
   rowUrl: (userId: string) => string;
+  onEdit: (leaveId: string) => void;
 }
 
 interface OpenTooltip {
@@ -37,21 +41,28 @@ interface OpenTooltip {
   right?: number;
 }
 
-const isWeekend = (date: Date): boolean =>
-  date.getDay() === 0 || date.getDay() === 6;
+const localDate = (iso: string): Date =>
+  new Date(
+    Number(iso.slice(0, 4)),
+    Number(iso.slice(5, 7)) - 1,
+    Number(iso.slice(8, 10))
+  );
 
 export function LeaveCalendar({
   year,
   month,
   rows,
+  nonWorkingDays,
   previousMonthUrl,
   nextMonthUrl,
   rowUrl,
+  onEdit,
 }: Props): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const openBar = useRef<{ leaveId: string; element: HTMLElement } | null>(
     null
   );
@@ -88,12 +99,23 @@ export function LeaveCalendar({
     );
   }, [closeTooltip]);
 
-  // click only: any click outside a bar closes the tooltip
+  // click only: any click outside the open bar and the tooltip closes it; bar
+  // clicks keep bubbling so they also close the other tooltips on the page
   useEffect(() => {
-    document.addEventListener('click', closeTooltip);
+    const close = (event: MouseEvent): void => {
+      const target = event.target as Node;
+      if (
+        openBar.current?.element.contains(target) ||
+        tooltipRef.current?.contains(target)
+      ) {
+        return;
+      }
+      closeTooltip();
+    };
+    document.addEventListener('click', close);
     window.addEventListener('resize', placeTooltip);
     return () => {
-      document.removeEventListener('click', closeTooltip);
+      document.removeEventListener('click', close);
       window.removeEventListener('resize', placeTooltip);
     };
   }, [closeTooltip, placeTooltip]);
@@ -107,10 +129,12 @@ export function LeaveCalendar({
   );
   const monthStart = isoDate(dayDates[0]);
   const monthEnd = isoDate(dayDates[daysInMonth - 1]);
-  // weekdays share the card width, so a month fits on a desktop and only
-  // scrolls once the weekdays would get narrower than 28px
+  const offDays = new Set(nonWorkingDays);
+  const isOff = (iso: string): boolean => offDays.has(iso);
+  // working days share the card width, so a month fits on a desktop and only
+  // scrolls once they would get narrower than 28px
   const gridTemplateColumns = dayDates
-    .map((date) => (isWeekend(date) ? '22px' : 'minmax(28px, 1fr)'))
+    .map((date) => (isOff(isoDate(date)) ? '22px' : 'minmax(28px, 1fr)'))
     .join(' ');
 
   const typeLabels: Record<string, string> = {
@@ -184,7 +208,7 @@ export function LeaveCalendar({
             <div
               key={date.getDate()}
               className={classnames('leave-calendar__day', {
-                'leave-calendar__day--weekend': isWeekend(date),
+                'leave-calendar__day--non-working': isOff(isoDate(date)),
               })}
             >
               <Text
@@ -198,86 +222,144 @@ export function LeaveCalendar({
             </div>
           ))}
         </div>
-        {rows.map(({ user, leaves }) => (
-          <div
-            key={user.id}
-            className="leave-calendar__row"
-            style={{ gridTemplateColumns }}
-          >
-            {dayDates.map((date, i) => (
-              <div
-                key={date.getDate()}
-                className={classnames('leave-calendar__cell', {
-                  'leave-calendar__cell--weekend': isWeekend(date),
-                })}
-                style={{ gridColumn: i + 1, gridRow: 1 }}
-              />
-            ))}
-            {leaves.map((leave) => {
-              // ISO day strings compare in date order
-              const first = leave.days[0];
-              const last = leave.days[leave.days.length - 1];
-              if (!first || last < monthStart || first > monthEnd) {
-                return null;
-              }
-              const continuesBefore = first < monthStart;
-              const continuesAfter = last > monthEnd;
-              const startDay = continuesBefore ? 1 : Number(first.slice(8, 10));
-              const endDay = continuesAfter
-                ? daysInMonth
-                : Number(last.slice(8, 10));
-              return (
-                <button
-                  key={leave.id}
-                  type="button"
-                  className={classnames('leave-calendar__bar', {
-                    'leave-calendar__bar--continues-before': continuesBefore,
-                    'leave-calendar__bar--continues-after': continuesAfter,
+        {rows.map(({ user, leaves }) => {
+          // sick leaves overlap the others, so a row holding both gets two
+          // lanes: sick at the bottom, everything else at the top
+          const lanes =
+            new Set(
+              leaves.map((leave) => (leave.type === 'sick' ? 'sick' : 'other'))
+            ).size > 1;
+          return (
+            <div
+              key={user.id}
+              className="leave-calendar__row"
+              style={{ gridTemplateColumns }}
+            >
+              {dayDates.map((date, i) => (
+                <div
+                  key={date.getDate()}
+                  className={classnames('leave-calendar__cell', {
+                    'leave-calendar__cell--non-working': isOff(isoDate(date)),
                   })}
-                  style={{
-                    gridColumn: `${startDay} / ${endDay + 1}`,
-                    gridRow: 1,
-                  }}
-                  aria-expanded={tooltip?.leaveId === leave.id}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    if (openBar.current?.leaveId === leave.id) {
-                      closeTooltip();
-                      return;
-                    }
-                    openBar.current = {
-                      leaveId: leave.id,
-                      element: event.currentTarget,
-                    };
-                    placeTooltip();
-                  }}
-                >
-                  {leave.unicodeEmoji}
-                </button>
-              );
-            })}
-          </div>
-        ))}
+                  style={{ gridColumn: i + 1, gridRow: 1 }}
+                />
+              ))}
+              {leaves.flatMap((leave) => {
+                // ISO day strings compare in date order
+                const first = leave.days[0];
+                const last = leave.days[leave.days.length - 1];
+                if (!first || last < monthStart || first > monthEnd) {
+                  return [];
+                }
+                const continuesBefore = first < monthStart;
+                const continuesAfter = last > monthEnd;
+                const startDay = continuesBefore
+                  ? 1
+                  : Number(first.slice(8, 10));
+                const endDay = continuesAfter
+                  ? daysInMonth
+                  : Number(last.slice(8, 10));
+                const leaveDays = new Set(leave.days);
+                const sick = leave.type === 'sick';
+                // every segment toggles the leave's tooltip and anchors it
+                const toggleTooltip = (element: HTMLElement): void => {
+                  if (openBar.current?.leaveId === leave.id) {
+                    closeTooltip();
+                    return;
+                  }
+                  openBar.current = { leaveId: leave.id, element };
+                  placeTooltip();
+                };
+                // one segment per day of the range, so leave days, non-working
+                // days and working days off the leave can look different
+                return Array.from(
+                  { length: endDay - startDay + 1 },
+                  (_, i) => startDay + i
+                ).map((d) => {
+                  const iso = isoDate(new Date(year, month - 1, d));
+                  const isLeaveDay = leaveDays.has(iso);
+                  return (
+                    <button
+                      key={`${leave.id}-${d}`}
+                      type="button"
+                      className={classnames('leave-calendar__segment', {
+                        'leave-calendar__segment--leave': isLeaveDay,
+                        'leave-calendar__segment--off':
+                          !isLeaveDay && isOff(iso),
+                        'leave-calendar__segment--gap':
+                          !isLeaveDay && !isOff(iso),
+                        'leave-calendar__segment--pending':
+                          leave.status === 'pending_approval',
+                        'leave-calendar__segment--start': d === startDay,
+                        'leave-calendar__segment--end': d === endDay,
+                        'leave-calendar__segment--continues-before':
+                          continuesBefore && d === startDay,
+                        'leave-calendar__segment--continues-after':
+                          continuesAfter && d === endDay,
+                        'leave-calendar__segment--lane-top': lanes && !sick,
+                        'leave-calendar__segment--lane-bottom': lanes && sick,
+                      })}
+                      style={{
+                        gridColumn: d,
+                        gridRow: 1,
+                        alignSelf: lanes ? (sick ? 'end' : 'start') : 'center',
+                      }}
+                      data-leave-id={leave.id}
+                      data-day={iso}
+                      aria-label={
+                        d === startDay ? undefined : leave.unicodeEmoji
+                      }
+                      aria-expanded={tooltip?.leaveId === leave.id}
+                      onClick={(event) => toggleTooltip(event.currentTarget)}
+                    >
+                      {d === startDay && leave.unicodeEmoji}
+                    </button>
+                  );
+                });
+              })}
+            </div>
+          );
+        })}
       </div>
       {tooltip && openRow && openLeave && (
         <div
           className="leave-calendar__tooltip"
+          ref={tooltipRef}
           style={{ top: tooltip.top, left: tooltip.left, right: tooltip.right }}
         >
-          <Text type="tooltip-secondary" noWrap>
-            {`${openRow.user.displayName}: ${typeLabels[openLeave.type] ?? openLeave.type}`}
-          </Text>
-          <Text type="tooltip-secondary" noWrap>
-            {l.dateRange(
-              openLeave.days[0],
-              openLeave.days[openLeave.days.length - 1]
-            )}
-          </Text>
-          <Text type="tooltip-secondary" noWrap>
-            {openLeave.status === 'pending_approval'
-              ? t('leaves.types.pending_approval')
-              : t('leaves.types.approved')}
-          </Text>
+          <div className="leave-calendar__tooltip-content">
+            <div>
+              <Text type="tooltip-secondary" noWrap>
+                {`${openRow.user.displayName}: ${typeLabels[openLeave.type] ?? openLeave.type}`}
+              </Text>
+              <Text type="tooltip-secondary" noWrap>
+                {/* a one-day leave shows only its day */}
+                {openLeave.days.length > 1
+                  ? t('leaves.hr_overview.tooltip_range', {
+                      from:
+                        l.dayAndShortMonth(localDate(openLeave.days[0])) ?? '',
+                      to:
+                        l.dayAndShortMonth(
+                          localDate(openLeave.days[openLeave.days.length - 1])
+                        ) ?? '',
+                    })
+                  : l.dayAndShortMonth(localDate(openLeave.days[0]))}
+              </Text>
+              <Text type="tooltip-secondary" noWrap>
+                {openLeave.status === 'pending_approval'
+                  ? t('leaves.types.pending_approval')
+                  : t('leaves.types.approved')}
+              </Text>
+            </div>
+            <Button
+              variant="icon"
+              title="✏️"
+              onClick={() => {
+                closeTooltip();
+                onEdit(openLeave.id);
+              }}
+            />
+          </div>
         </div>
       )}
     </div>
