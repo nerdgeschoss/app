@@ -1,0 +1,7 @@
+.leave-card {
+  // two date lines are 48px tall; a one-day leave keeps the same height so
+  // the buttons sit at the same spot on every card
+  &__footer {
+    min-height: 48px;
+  }
+}

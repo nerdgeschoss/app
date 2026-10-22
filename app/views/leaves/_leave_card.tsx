@@ -1,3 +1,5 @@
+import './_leave_card.scss';
+
 import { JSX } from 'react';
 import { useFormatter, useTranslate } from '../../frontend/util/dependencies';
 import { Card } from '../../frontend/components/card/card';
@@ -117,7 +119,12 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
         </Stack>
       }
     >
-      <Stack line="mobile" justify="space-between" align="center">
+      <Stack
+        line="mobile"
+        justify="space-between"
+        align="center"
+        className="leave-card__footer"
+      >
         <Stack size={4}>
           <Text>{l.date(firstDay)}</Text>
           {lastDay && lastDay !== firstDay && <Text>{l.date(lastDay)}</Text>}

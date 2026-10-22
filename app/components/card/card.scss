@@ -10,6 +10,12 @@
   &__header {
     display: flex;
     gap: 16px;
+
+    // a header without a subtitle is one line: the context sits on it,
+    // vertically centred with the icon and the title
+    &:not(:has(.card__subtitle)) {
+      align-items: center;
+    }
   }
 
   &__divider {
