@@ -6,6 +6,7 @@ import { Stack } from '../../frontend/components/stack/stack';
 import { Text } from '../../frontend/components/text/text';
 import { Button } from '../../frontend/components/button/button';
 import { StatusPill } from '../../frontend/components/status_pill/status_pill';
+import { ClickTooltip } from '../../frontend/components/click_tooltip/click_tooltip';
 import { useModal } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 
@@ -44,6 +45,28 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
   const firstDay = leave.days[0]?.day;
   const lastDay = leave.days[leave.days.length - 1]?.day;
 
+  // exact days grouped by month, "Dec 30, 31, Jan 1, 2"; the month name comes
+  // from a local date, new Date(isoDay) is UTC midnight and shifts the 1st to
+  // the previous month west of UTC
+  const dayGroups: string[][] = [];
+  leave.days.forEach(({ day }) => {
+    const group = dayGroups[dayGroups.length - 1];
+    if (group && group[0].slice(0, 7) === day.slice(0, 7)) {
+      group.push(day);
+    } else {
+      dayGroups.push([day]);
+    }
+  });
+  const daysLabel = dayGroups
+    .map((group) => {
+      const month = l.monthShort(
+        new Date(Number(group[0].slice(0, 4)), Number(group[0].slice(5, 7)) - 1)
+      );
+      const numbers = group.map((day) => Number(day.slice(8, 10)));
+      return `${month ?? ''} ${numbers.join(', ')}`;
+    })
+    .join(', ');
+
   const patchStatus = (status: 'approved' | 'rejected') =>
     reaction.call({
       path: `/leaves/${leave.id}`,
@@ -78,7 +101,13 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
       context={
         <Stack line="mobile" size={16} align="center">
           {showUser && <span>{leave.unicodeEmoji}</span>}
-          <Text type="body-bold">{leave.numberOfDays}</Text>
+          <ClickTooltip
+            trigger={<Text type="body-bold">{leave.numberOfDays}</Text>}
+          >
+            <Text type="tooltip-secondary" noWrap>
+              {daysLabel}
+            </Text>
+          </ClickTooltip>
           {showStatus && leave.status === 'pending_approval' && (
             <StatusPill
               type="pending"

@@ -129,6 +129,7 @@ export interface DataSchema {
       sick: number;
       nonWorking: number;
     };
+    pendingLeaveType: string;
     users: Array<{
       id: string;
       displayName: string;

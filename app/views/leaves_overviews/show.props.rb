@@ -30,6 +30,7 @@ field :pending_leaves_counts, value: -> { @pending_leaves_counts } do
   field :sick, Integer, value: -> { fetch("sick", 0) }
   field :non_working, Integer, value: -> { fetch("non_working", 0) }
 end
+field :pending_leave_type, value: -> { helpers.params.fetch(:pending_leave_type, "paid") }
 
 field :users, array: true, value: -> { @users } do
   field :id

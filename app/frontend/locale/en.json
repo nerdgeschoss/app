@@ -102,6 +102,9 @@
     "hr_overview": {
       "title": "Leaves Overview",
       "pending_requests": "Pending Requests",
+      "pending_paid": "Vacations (%{amount})",
+      "pending_sick": "Sick Leaves (%{amount})",
+      "pending_non_working": "Non-working (%{amount})",
       "no_pending": "No leave requests are waiting for your approval. New ones will show up here.",
       "monthly_overview": "Monthly Overview",
       "previous_month": "Previous month",
