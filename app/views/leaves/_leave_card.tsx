@@ -9,6 +9,7 @@ import { StatusPill } from '../../frontend/components/status_pill/status_pill';
 import { ClickTooltip } from '../../frontend/components/click_tooltip/click_tooltip';
 import { useModal } from '../../frontend/components/modal/modal';
 import { useReaction } from '../../frontend/sprinkles/reaction';
+import { parseIsoDate } from '../../frontend/util/date';
 
 // Structural subset of the serialized leave, so the employee page can pass its
 // leaves unchanged and the HR page its pending leaves, which carry no title.
@@ -45,9 +46,7 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
   const firstDay = leave.days[0]?.day;
   const lastDay = leave.days[leave.days.length - 1]?.day;
 
-  // exact days grouped by month, "Dec 30, 31, Jan 1, 2"; the month name comes
-  // from a local date, new Date(isoDay) is UTC midnight and shifts the 1st to
-  // the previous month west of UTC
+  // exact days grouped by month, "Dec 30, 31, Jan 1, 2"
   const dayGroups: string[][] = [];
   leave.days.forEach(({ day }) => {
     const group = dayGroups[dayGroups.length - 1];
@@ -59,9 +58,7 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
   });
   const daysLabel = dayGroups
     .map((group) => {
-      const month = l.monthShort(
-        new Date(Number(group[0].slice(0, 4)), Number(group[0].slice(5, 7)) - 1)
-      );
+      const month = l.monthShort(parseIsoDate(group[0]));
       const numbers = group.map((day) => Number(day.slice(8, 10)));
       return `${month ?? ''} ${numbers.join(', ')}`;
     })
@@ -104,9 +101,7 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
           <ClickTooltip
             trigger={<Text type="body-bold">{leave.numberOfDays}</Text>}
           >
-            <Text type="tooltip-secondary" noWrap>
-              {daysLabel}
-            </Text>
+            <Text type="tooltip-secondary">{daysLabel}</Text>
           </ClickTooltip>
           {showStatus && leave.status === 'pending_approval' && (
             <StatusPill

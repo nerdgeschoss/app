@@ -9,3 +9,11 @@ export function sameDay(date1: Date, date2: Date): boolean {
     date1.getDate() === date2.getDate()
   );
 }
+
+export function parseIsoDate(iso: string): Date {
+  return new Date(
+    Number(iso.slice(0, 4)),
+    Number(iso.slice(5, 7)) - 1,
+    Number(iso.slice(8, 10))
+  );
+}

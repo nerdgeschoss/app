@@ -3,7 +3,7 @@ import './leave_calendar.scss';
 import classnames from 'classnames';
 import { JSX, useCallback, useEffect, useRef, useState } from 'react';
 import { useFormatter, useTranslate } from '../../util/dependencies';
-import { isoDate } from '../../util/date';
+import { isoDate, parseIsoDate } from '../../util/date';
 import { Link } from '../../sprinkles/history';
 import { Avatar } from '../avatar/avatar';
 import { Button } from '../button/button';
@@ -40,13 +40,6 @@ interface OpenTooltip {
   left?: number;
   right?: number;
 }
-
-const localDate = (iso: string): Date =>
-  new Date(
-    Number(iso.slice(0, 4)),
-    Number(iso.slice(5, 7)) - 1,
-    Number(iso.slice(8, 10))
-  );
 
 export function LeaveCalendar({
   year,
@@ -337,13 +330,16 @@ export function LeaveCalendar({
                 {openLeave.days.length > 1
                   ? t('leaves.hr_overview.tooltip_range', {
                       from:
-                        l.dayAndShortMonth(localDate(openLeave.days[0])) ?? '',
+                        l.dayAndShortMonth(parseIsoDate(openLeave.days[0])) ??
+                        '',
                       to:
                         l.dayAndShortMonth(
-                          localDate(openLeave.days[openLeave.days.length - 1])
+                          parseIsoDate(
+                            openLeave.days[openLeave.days.length - 1]
+                          )
                         ) ?? '',
                     })
-                  : l.dayAndShortMonth(localDate(openLeave.days[0]))}
+                  : l.dayAndShortMonth(parseIsoDate(openLeave.days[0]))}
               </Text>
               <Text type="tooltip-secondary" noWrap>
                 {openLeave.status === 'pending_approval'

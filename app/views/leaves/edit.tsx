@@ -3,7 +3,7 @@ import { PageProps } from '../../../data.d';
 import { useTranslate } from '../../frontend/util/dependencies';
 import { useReaction } from '../../frontend/sprinkles/reaction';
 import { useModalInfo } from '../../frontend/components/modal/modal';
-import { isoDate } from '../../frontend/util/date';
+import { isoDate, parseIsoDate } from '../../frontend/util/date';
 import { LeaveForm, LeaveType } from './_leave_form';
 
 export default function ({
@@ -16,7 +16,7 @@ export default function ({
   return (
     <LeaveForm
       initialValues={{
-        days: leave.days.map((day) => new Date(day.day)),
+        days: leave.days.map((day) => parseIsoDate(day.day)),
         title: leave.title,
         type: leave.type as LeaveType,
       }}
