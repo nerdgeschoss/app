@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=4.0.5
+ARG RUBY_VERSION=4.0.7
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim
 
 # Rails app lives here
@@ -17,14 +17,15 @@ ENV RAILS_ENV="production" \
 RUN apt-get update -qq && \
   apt-get install --no-install-recommends -y build-essential curl git libpq-dev \
   libvips node-gyp pkg-config libyaml-dev postgresql-client \
-  python3-pip python3-venv libcairo2 libpango-1.0-0 libgdk-pixbuf-xlib-2.0-0 libjemalloc2 && \
+  python3-pip python3-venv libcairo2 libpango-1.0-0 libgdk-pixbuf-xlib-2.0-0 libjemalloc2 \
+  ca-certificates && \
   rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Make sure all executables use jemalloc
 ENV LD_PRELOAD="libjemalloc.so.2"
 
 # Install JavaScript dependencies
-ARG NODE_VERSION=24.15.0
+ARG NODE_VERSION=24.22.1
 ARG YARN_VERSION=1.22.22
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
