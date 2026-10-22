@@ -124,6 +124,7 @@ export function EmployeeCard({
           <PerformanceLabels
             billableHours={billableHours}
             trackedHours={trackedHours}
+            targetBillableHours={targetBillableHours}
             targetTotalHours={targetTotalHours}
           />
           <div className="employee-card__horizontal-divider">
