@@ -43,7 +43,8 @@ export default function ({
 
   const translations = {
     all: t('leaves.types.all'),
-    pending_approval: t('leaves.types.pending_approval'),
+    // the tab reads "Pending approval", the pill and the tooltip "Pending"
+    pending_approval: t('leaves.index.pending_tab'),
     approved: t('leaves.types.approved'),
     rejected: t('leaves.types.rejected'),
   } as const;

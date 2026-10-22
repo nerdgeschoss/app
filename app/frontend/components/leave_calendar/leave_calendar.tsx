@@ -1,8 +1,17 @@
 import './leave_calendar.scss';
 
 import classnames from 'classnames';
-import { JSX, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  JSX,
+  MouseEvent as ReactMouseEvent,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useFormatter, useTranslate } from '../../util/dependencies';
+import { useReaction } from '../../sprinkles/reaction';
 import { isoDate, parseIsoDate } from '../../util/date';
 import { Link } from '../../sprinkles/history';
 import { Avatar } from '../avatar/avatar';
@@ -41,6 +50,35 @@ interface OpenTooltip {
   right?: number;
 }
 
+// Switching the month is a full Turbo visit, which scrolls to the top. The
+// scroll position is kept for the target URL and restored once the new
+// calendar has mounted.
+const SCROLL_KEY = 'leave-calendar-scroll';
+
+const rememberScroll = (url: string): void => {
+  try {
+    sessionStorage.setItem(
+      SCROLL_KEY,
+      JSON.stringify({ url, top: window.scrollY })
+    );
+  } catch {
+    // storage unavailable: the visit simply starts at the top
+  }
+};
+
+const takeRememberedScroll = (): number | null => {
+  try {
+    const raw = sessionStorage.getItem(SCROLL_KEY);
+    if (!raw) return null;
+    sessionStorage.removeItem(SCROLL_KEY);
+    const { url, top } = JSON.parse(raw) as { url: string; top: number };
+    const current = window.location.pathname + window.location.search;
+    return url === current ? top : null;
+  } catch {
+    return null;
+  }
+};
+
 export function LeaveCalendar({
   year,
   month,
@@ -53,6 +91,7 @@ export function LeaveCalendar({
 }: Props): JSX.Element {
   const t = useTranslate();
   const l = useFormatter();
+  const reaction = useReaction();
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -113,6 +152,23 @@ export function LeaveCalendar({
     };
   }, [closeTooltip, placeTooltip]);
 
+  // Turbo scrolls to the top after the visit; restoring here and again on
+  // turbo:load covers both orders of mount and scroll
+  useLayoutEffect(() => {
+    const top = takeRememberedScroll();
+    if (top === null) return;
+    const restore = (): void => window.scrollTo(0, top);
+    restore();
+    document.addEventListener('turbo:load', restore, { once: true });
+    return () => document.removeEventListener('turbo:load', restore);
+  }, []);
+
+  const visitMonth = (event: ReactMouseEvent, url: string): void => {
+    event.preventDefault();
+    rememberScroll(url);
+    void reaction.history.navigate(url);
+  };
+
   // local dates only: new Date(isoString) is UTC midnight and lands on the
   // previous day west of UTC
   const daysInMonth = new Date(year, month, 0).getDate();
@@ -151,6 +207,7 @@ export function LeaveCalendar({
             href={previousMonthUrl}
             className="leave-calendar__arrow leave-calendar__arrow--previous"
             aria-label={t('leaves.hr_overview.previous_month')}
+            onClick={(event) => visitMonth(event, previousMonthUrl)}
           >
             <Icon name="chevron-arrow" size={8} color="active" />
           </a>
@@ -163,6 +220,7 @@ export function LeaveCalendar({
             href={nextMonthUrl}
             className="leave-calendar__arrow leave-calendar__arrow--next"
             aria-label={t('leaves.hr_overview.next_month')}
+            onClick={(event) => visitMonth(event, nextMonthUrl)}
           >
             <Icon name="chevron-arrow" size={8} color="active" />
           </a>
@@ -181,11 +239,23 @@ export function LeaveCalendar({
             <div className="leave-calendar__user-text">
               <Text noWrap>{user.displayName}</Text>
               <div className="leave-calendar__counts">
-                <Text type="body-bold" noWrap>{`🏖 ${dayCounts.paid}`}</Text>
-                <Text type="body-bold" noWrap>{`🤒 ${dayCounts.sick}`}</Text>
-                <Text type="body-bold" noWrap>
-                  {`🧳 ${dayCounts.nonWorking}`}
-                </Text>
+                {(
+                  [
+                    ['🏖', dayCounts.paid],
+                    ['🤒', dayCounts.sick],
+                    ['🧳', dayCounts.nonWorking],
+                  ] as const
+                ).map(([emoji, count]) => (
+                  // a zero count is dimmed
+                  <span
+                    key={emoji}
+                    className={classnames('leave-calendar__count', {
+                      'leave-calendar__count--zero': count === 0,
+                    })}
+                  >
+                    <Text type="body-bold" noWrap>{`${emoji} ${count}`}</Text>
+                  </span>
+                ))}
               </div>
             </div>
           </Link>
@@ -254,6 +324,13 @@ export function LeaveCalendar({
                   : Number(last.slice(8, 10));
                 const leaveDays = new Set(leave.days);
                 const sick = leave.type === 'sick';
+                // what a day of the range looks like: a leave day, a
+                // non-working day off the leave, or a working day off it
+                const kindOf = (day: number): 'leave' | 'off' | 'gap' => {
+                  const dayIso = isoDate(new Date(year, month - 1, day));
+                  if (leaveDays.has(dayIso)) return 'leave';
+                  return isOff(dayIso) ? 'off' : 'gap';
+                };
                 // every segment toggles the leave's tooltip and anchors it
                 const toggleTooltip = (element: HTMLElement): void => {
                   if (openBar.current?.leaveId === leave.id) {
@@ -270,17 +347,22 @@ export function LeaveCalendar({
                   (_, i) => startDay + i
                 ).map((d) => {
                   const iso = isoDate(new Date(year, month - 1, d));
-                  const isLeaveDay = leaveDays.has(iso);
+                  const kind = kindOf(d);
+                  // consecutive non-working days share one frame
+                  const joinBefore =
+                    kind === 'off' && d > startDay && kindOf(d - 1) === 'off';
+                  const joinAfter =
+                    kind === 'off' && d < endDay && kindOf(d + 1) === 'off';
                   return (
                     <button
                       key={`${leave.id}-${d}`}
                       type="button"
                       className={classnames('leave-calendar__segment', {
-                        'leave-calendar__segment--leave': isLeaveDay,
-                        'leave-calendar__segment--off':
-                          !isLeaveDay && isOff(iso),
-                        'leave-calendar__segment--gap':
-                          !isLeaveDay && !isOff(iso),
+                        'leave-calendar__segment--leave': kind === 'leave',
+                        'leave-calendar__segment--off': kind === 'off',
+                        'leave-calendar__segment--gap': kind === 'gap',
+                        'leave-calendar__segment--join-before': joinBefore,
+                        'leave-calendar__segment--join-after': joinAfter,
                         'leave-calendar__segment--pending':
                           leave.status === 'pending_approval',
                         'leave-calendar__segment--start': d === startDay,

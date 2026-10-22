@@ -97,12 +97,14 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
       title={showUser ? leave.user?.displayName : leave.title}
       context={
         <Stack line="mobile" size={16} align="center">
-          {showUser && <span>{leave.unicodeEmoji}</span>}
-          <ClickTooltip
-            trigger={<Text type="body-bold">{leave.numberOfDays}</Text>}
-          >
-            <Text type="tooltip-secondary">{daysLabel}</Text>
-          </ClickTooltip>
+          <Stack line="mobile" size={4} align="center" fullWidth="none">
+            {showUser && <span>{leave.unicodeEmoji}</span>}
+            <ClickTooltip
+              trigger={<Text type="body-bold">{leave.numberOfDays}</Text>}
+            >
+              <Text type="tooltip-secondary">{daysLabel}</Text>
+            </ClickTooltip>
+          </Stack>
           {showStatus && leave.status === 'pending_approval' && (
             <StatusPill
               type="pending"
@@ -120,7 +122,8 @@ export function LeaveCard({ leave, showUser, showStatus }: Props): JSX.Element {
           <Text>{l.date(firstDay)}</Text>
           {lastDay && lastDay !== firstDay && <Text>{l.date(lastDay)}</Text>}
         </Stack>
-        <Stack line="mobile" size={8}>
+        {/* the button group hugs its content, so it sits at the right edge */}
+        <Stack line="mobile" size={8} fullWidth="none" noShrink>
           {leave.permitApprove && (
             <>
               <Button

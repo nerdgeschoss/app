@@ -107,7 +107,7 @@ RSpec.describe "Leaves" do
     expect(page).to have_content "John's Leaves"
     expect(page).to have_button "Overview"
     expect(page).to have_button "Request leave"
-    ["All", "Pending", "Approved", "Rejected"].each { |label| expect(page).to have_link label }
+    ["All", "Pending approval", "Approved", "Rejected"].each { |label| expect(page).to have_link label }
     expect(page).to have_content(/🏖 Vacation\s+4 days/)
     expect(page).to have_content(/🤒 Sick leaves\s+1 day\b/)
     expect(page).to have_content(/🧳 Non-working\s+3 days/)
@@ -133,7 +133,7 @@ RSpec.describe "Leaves" do
     visit user_leaves_path(user, year: 2025, status: "pending_approval")
     all("select")[0].select("January")
     expect(page).to have_current_path("/users/#{user.id}/leaves?status=pending_approval&year=2025&month=1")
-    expect(page).to have_css(".pill--active", text: "Pending")
+    expect(page).to have_css(".pill--active", text: "Pending approval")
     expect(page).to have_content "Vacation Pending!"
     expect(page).not_to have_content "Sick leaves" # the summary cards only show on All
 
@@ -292,9 +292,15 @@ RSpec.describe "Leaves" do
       travel_to "2025-01-01"
       login :admin
       visit leaves_overview_path
+      # a short window, so the fixture page has room to scroll
+      page.current_window.resize_to(1280, 400)
+      page.execute_script("window.scrollTo(0, 100)")
+      expect(page.evaluate_script("window.scrollY")).to eq 100
       find(".leave-calendar__arrow--previous").click
       expect(page).to have_current_path("/leaves_overview?year=2024&month=12")
       expect(page).to have_content "Dec 2024"
+      # switching the month keeps the scroll position
+      expect(page.evaluate_script("window.scrollY")).to eq 100
       find(".leave-calendar__arrow--next").click
       expect(page).to have_current_path("/leaves_overview?year=2025&month=1")
       find(".leave-calendar__user", text: "🏖 4").click
@@ -373,6 +379,9 @@ RSpec.describe "Leaves" do
       expect(friday).to match_css(".leave-calendar__segment--gap")
       expect(friday).not_to match_css(".leave-calendar__segment--leave, .leave-calendar__segment--off")
       expect([saturday, sunday]).to all(match_css(".leave-calendar__segment--off"))
+      # the weekend is one framed block: no border between its two days
+      expect(saturday).to match_css(".leave-calendar__segment--join-after")
+      expect(sunday).to match_css(".leave-calendar__segment--join-before")
       expect(monday).to match_css(".leave-calendar__segment--leave.leave-calendar__segment--end")
       expect(segments).to all(match_css(".leave-calendar__segment--pending"))
 

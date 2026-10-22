@@ -87,6 +87,10 @@
     }
   }
 
+  &__count--zero {
+    opacity: 0.5;
+  }
+
   &__scroll {
     flex: 1 1 auto;
     min-width: 0;
@@ -155,6 +159,10 @@
       }
     }
 
+    &--gap.leave-calendar__segment--pending {
+      background: var(--yellow-weak);
+    }
+
     &--off {
       border: 1px solid var(--active);
       background: var(--main-background);
@@ -162,6 +170,16 @@
       &.leave-calendar__segment--pending {
         border-color: var(--yellow-base);
       }
+    }
+
+    // consecutive non-working days (a weekend, a holiday next to it) share
+    // one frame, so the borders between them are dropped
+    &--join-before {
+      border-left: 0;
+    }
+
+    &--join-after {
+      border-right: 0;
     }
 
     &--start {
@@ -174,6 +192,12 @@
       margin-right: 2px;
       border-top-right-radius: 6px;
       border-bottom-right-radius: 6px;
+    }
+
+    // a one-day leave is a square with the emoji in its centre
+    &--start.leave-calendar__segment--end {
+      padding: 0;
+      text-align: center;
     }
 
     &--continues-before {

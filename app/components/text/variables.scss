@@ -128,6 +128,8 @@
   --pill-status-bg-rejected: #fff3f3;
   --yellow-base: #ffc822;
   --blue-weak: #d5eeff;
+  // 20% of --yellow-base on white, like --blue-weak is 20% of --active
+  --yellow-weak: #fff4d3;
   --red-moderate: #f53f3f;
   --button-success-border-default: #00bd35;
   --button-error-border-default: #de0000;

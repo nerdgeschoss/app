@@ -97,7 +97,8 @@
       "remaining_for": "Remaining for %{year}",
       "one_day": "1 day",
       "days": "%{amount} days",
-      "remaining_days": "%{remaining}/%{total} days"
+      "remaining_days": "%{remaining}/%{total} days",
+      "pending_tab": "Pending approval"
     },
     "hr_overview": {
       "title": "Leaves Overview",
