@@ -31,6 +31,7 @@ class Leave < ApplicationRecord
   scope :starts_today, -> { where("LOWER(leaves.leave_during) = ?", Time.zone.today) }
   scope :not_rejected, -> { where.not(status: :rejected) }
   scope :of_team, ->(team_name) { where(user: User.in_team(team_name)) }
+  scope :by_urgency, -> { chronologic.joins(:user).merge(User.alphabetically).order(created_at: :asc) }
 
   enum :type, [:paid, :unpaid, :sick, :non_working].index_with(&:to_s)
   enum :status, [:pending_approval, :approved, :rejected].index_with(&:to_s)
@@ -39,10 +40,19 @@ class Leave < ApplicationRecord
 
   validates :title, :days, presence: true
 
+  performs :sync_slack_status
+  performs :notify_user_on_slack_about_status_change
+  performs :notify_slack_about_sick_leave
+  performs :notify_hr_on_slack_about_new_request
+
   before_validation do
     start_on, end_on = days.minmax
     self.leave_during = start_on..end_on
     self.status = :approved if pending_approval? && ((type == "sick" && days.length == 1) || type == "non_working")
+  end
+
+  def self.years_range
+    Leave.minimum("EXTRACT(YEAR FROM LOWER(leave_during))").to_i..(Leave.maximum("EXTRACT(YEAR FROM UPPER(leave_during))").to_i + 1)
   end
 
   def presenter
@@ -56,14 +66,28 @@ class Leave < ApplicationRecord
   def handle_incoming_request
     case type
     when "sick"
-      notify_slack_about_sick_leave
+      notify_slack_about_sick_leave_later
     when "paid", "unpaid"
-      notify_hr_on_slack_about_new_request
+      notify_hr_on_slack_about_new_request_later
     end
   end
 
-  def handle_slack_status
-    set_slack_status! if leave_during.include?(Time.zone.today) && (approved? || sick?)
+  def handle_update(attributes)
+    assign_attributes(attributes)
+    if status_changed?
+      if approved? || rejected?
+        notify_user_on_slack_about_status_change_later
+      end
+    elsif days_changed? || type_changed?
+      self.status = :pending_approval
+    end
+    save!
+  end
+
+  def sync_slack_status
+    if leave_during.include?(Time.zone.today) && (approved? || sick?)
+      set_slack_status!
+    end
   end
 
   def notify_slack_about_sick_leave

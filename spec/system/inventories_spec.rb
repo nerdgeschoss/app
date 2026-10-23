@@ -2,7 +2,7 @@
 
 require "system_helper"
 
-RSpec.describe "Leaves" do
+RSpec.describe "Inventories" do
   fixtures :all
   let(:user) { users(:john) }
 
@@ -31,7 +31,7 @@ RSpec.describe "Leaves" do
     end
 
     expect(page).not_to have_selector ".modal"
-    expect(page).to have_content "02/05/2022"
+    expect(page).to have_content "02/02 - 05/02/2022"
 
     find("a", text: "MacBook Pro M3").click
     click_on "Delete"

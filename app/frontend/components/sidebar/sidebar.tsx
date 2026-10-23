@@ -28,7 +28,10 @@ interface LinkInfo {
 
 export function Sidebar({ user }: Props): JSX.Element {
   const [expanded, setExpanded] = useState(false);
-  const path = usePath().split('?')[0];
+  // the routes carry an optional locale scope (/en/..., /de/...)
+  const path = usePath()
+    .split('?')[0]
+    .replace(/^\/(en|de)(?=\/|$)/, '');
   const links: LinkInfo[] = [
     {
       name: 'Dashboard',
@@ -44,9 +47,11 @@ export function Sidebar({ user }: Props): JSX.Element {
     },
     {
       name: 'Leaves',
-      path: '/leaves',
+      path: `/users/${user.id}/leaves`,
       icon: 'leave',
-      active: path.startsWith('/leaves'),
+      active:
+        /^\/users\/[^/]+\/leaves/.test(path) ||
+        path.startsWith('/leaves_overview'),
     },
     {
       name: 'Payslips',
@@ -64,7 +69,7 @@ export function Sidebar({ user }: Props): JSX.Element {
       name: 'Users',
       path: '/users',
       icon: 'user',
-      active: path.startsWith('/users'),
+      active: path.startsWith('/users') && !path.includes('/leaves'),
     },
   ];
 

@@ -2,6 +2,7 @@
 
 .card {
   background: #ffffff;
+  border: 1px solid transparent;
   border-radius: 24px;
   box-shadow: 6px 12px 44px 0px rgba(43, 124, 138, 0.1);
   padding: 16px 24px;
@@ -9,6 +10,12 @@
   &__header {
     display: flex;
     gap: 16px;
+
+    // a header without a subtitle is one line: the context sits on it,
+    // vertically centred with the icon and the title
+    &:not(:has(.card__subtitle)) {
+      align-items: center;
+    }
   }
 
   &__divider {
@@ -43,6 +50,14 @@
     display: flex;
     justify-content: flex-end;
     gap: 16px;
+  }
+
+  &--highlight-warning {
+    border-color: var(--yellow-base);
+  }
+
+  &--highlight-danger {
+    border-color: var(--red-moderate);
   }
 
   &--login {

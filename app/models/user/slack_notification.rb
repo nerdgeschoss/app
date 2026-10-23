@@ -19,7 +19,7 @@ class User
     end
 
     def post_daily_nerd_message(message)
-      Slack.instance.post_personalized_message_to_daily_nerd_channel(user:, message:)
+      Slack.instance.post_daily_nerd(user:, message:)
     end
 
     private

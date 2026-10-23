@@ -68,22 +68,49 @@
     }
   },
   "leaves": {
-    "new": {
+    "form": {
+      "title": "Leaves",
+      "days": "Days:",
       "days_in_past_warning": "Heads up: Some of the selected days are in the past.",
+      "leave_type": "Leave Type",
+      "pto": "PTO",
       "sick": "Sick",
-      "paid": "Paid",
       "not_working": "Not working",
-      "days": "Days",
-      "user": "User",
-      "title": "Title",
-      "type": "Type",
-      "request": "Request leave"
+      "leave_title": "Title",
+      "request": "Request",
+      "save": "Save",
+      "approved_hint": "Saving might update this leave to need approval."
+    },
+    "leave_types": {
+      "paid": "Vacation",
+      "sick": "Sick leaves",
+      "non_working": "Non-working"
     },
     "index": {
       "title": "Leaves",
+      "title_of": "%{name}'s Leaves",
       "subscribe": "Subscribe",
       "request": "Request leave",
-      "more": "More"
+      "overview": "Overview",
+      "more": "More",
+      "all_months": "All Months",
+      "remaining_for": "Remaining for %{year}",
+      "one_day": "1 day",
+      "days": "%{amount} days",
+      "remaining_days": "%{remaining}/%{total} days",
+      "pending_tab": "Pending approval"
+    },
+    "hr_overview": {
+      "title": "Leaves Overview",
+      "pending_requests": "Pending Requests",
+      "pending_paid": "Vacations (%{amount})",
+      "pending_sick": "Sick Leaves (%{amount})",
+      "pending_non_working": "Non-working (%{amount})",
+      "no_pending": "No leave requests are waiting for your approval. New ones will show up here.",
+      "monthly_overview": "Monthly Overview",
+      "previous_month": "Previous month",
+      "next_month": "Next month",
+      "tooltip_range": "%{from} to %{to}"
     },
     "types": {
       "all": "All",

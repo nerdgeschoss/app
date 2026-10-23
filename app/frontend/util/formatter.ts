@@ -1,6 +1,9 @@
 import { sameDay } from './date';
 import type { Locale } from './i18n';
 
+// numeric dates are shown day/month/year regardless of the UI language
+const NUMERIC_DATE_LOCALE = 'en-GB';
+
 export class Formatter {
   readonly locale: Locale;
 
@@ -35,7 +38,7 @@ export class Formatter {
     if (!date) {
       return null;
     }
-    return new Intl.DateTimeFormat(this.locale, {
+    return new Intl.DateTimeFormat(NUMERIC_DATE_LOCALE, {
       month: '2-digit',
       day: '2-digit',
       year: 'numeric',
@@ -52,6 +55,16 @@ export class Formatter {
     }).format(date);
   }
 
+  weekdayShort(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      weekday: 'short',
+    }).format(date);
+  }
+
   monthAndYear(value: Date | string): string | null {
     const date = this.parseDate(value);
     if (!date) {
@@ -60,6 +73,48 @@ export class Formatter {
     return new Intl.DateTimeFormat(this.locale, {
       month: 'long',
       year: 'numeric',
+    }).format(date);
+  }
+
+  monthShortAndYear(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'short',
+      year: 'numeric',
+    }).format(date);
+  }
+
+  monthShort(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'short',
+    }).format(date);
+  }
+
+  dayAndShortMonth(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(NUMERIC_DATE_LOCALE, {
+      day: 'numeric',
+      month: 'short',
+    }).format(date);
+  }
+
+  monthName(value: Date | string): string | null {
+    const date = this.parseDate(value);
+    if (!date) {
+      return null;
+    }
+    return new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
     }).format(date);
   }
 
@@ -137,9 +192,9 @@ export class Formatter {
     if (!date) {
       return null;
     }
-    return new Intl.DateTimeFormat(this.locale, {
+    return new Intl.DateTimeFormat(NUMERIC_DATE_LOCALE, {
       month: '2-digit',
-      day: 'numeric',
+      day: '2-digit',
     }).format(date);
   }
 

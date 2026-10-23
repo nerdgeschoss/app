@@ -1,8 +1,51 @@
 .button {
-  color: white;
-  background-color: #2da9ff;
+  color: var(--button-primary-label-default);
+  background-color: var(--button-primary-bg-default);
+  border: 1px solid transparent;
   padding: 8px 16px;
   border-radius: 60px;
   width: fit-content;
   cursor: pointer;
+
+  &--disabled {
+    background-color: var(--button-primary-bg-disabled);
+    cursor: default;
+  }
+
+  &--secondary,
+  &--icon {
+    background-color: var(--button-secondary-bg-default);
+    border-color: var(--button-secondary-border-default);
+    color: var(--button-secondary-label-default);
+  }
+
+  &--secondary:hover {
+    background-color: var(--button-secondary-bg-hover);
+  }
+
+  // A 32px circle with the emoji centred in it; the label's text style sets
+  // its own line-height, so the box is sized and centred with flex instead.
+  &--icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    .text {
+      line-height: 1;
+    }
+  }
+
+  &--tone-success {
+    border-color: var(--button-success-border-default);
+    color: var(--button-success-border-default);
+  }
+
+  &--tone-error {
+    border-color: var(--button-error-border-default);
+    color: var(--button-error-border-default);
+  }
 }

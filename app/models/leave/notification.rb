@@ -37,7 +37,7 @@ class Leave
     private
 
     def user_request_link_markdown
-      url = leaves_url(user_id: user, status: :pending_approval)
+      url = user_leaves_url(user, status: :pending_approval)
       "<#{url}|#{I18n.t("leaves.notifications.here")}>"
     end
 

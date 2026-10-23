@@ -27,7 +27,7 @@ require "rails_helper"
 RSpec.describe User do
   fixtures :all
   let(:john) { users(:john) }
-  let(:slack_text) { Slack.instance.last_message.text }
+  let(:slack_text) { last_slack_message.text }
 
   around do |example|
     Config.stub(slack_announcement_channel_id: "slack-announcement-channel") do
@@ -79,7 +79,7 @@ RSpec.describe User do
 
     it "uses the persisted slack id" do
       users(:john).notify!("hello")
-      expect(Slack.instance.last_message).to have_attributes channel: "slack-john", text: "hello"
+      expect(last_slack_message).to have_attributes channel: "slack-john", text: "hello"
     end
   end
 
@@ -91,6 +91,17 @@ RSpec.describe User do
         # Plus john_vacation (1 day) and john_vacation_pending (1 day) = 4 days in 2025.
         expect(john.used_holidays).to eq 4
       end
+    end
+  end
+
+  describe "#tally_leave_days" do
+    it "counts the number of leave days per type in a given date range" do
+      expect(john.tally_leave_days(Date.new(2025, 1, 1).all_month)).to eq({
+        "sick" => 1,
+        "paid" => 4,
+        "non_working" => 3,
+        "unpaid" => 0
+      })
     end
   end
 

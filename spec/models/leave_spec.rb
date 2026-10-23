@@ -44,6 +44,29 @@ RSpec.describe Leave do
     end
   end
 
+  describe ".by_urgency" do
+    it "orders leaves chronologically and by user name" do
+      cigdem = users(:cigdem)
+      cigdem.leaves.delete_all
+      cigdem.leaves.create!(type: :paid, title: "A", days: ["2026-01-01"])
+      cigdem.leaves.create!(type: :paid, title: "C", days: ["2026-01-02"])
+
+      john = users(:john)
+      john.leaves.delete_all
+      john.leaves.create!(type: :paid, title: "B", days: ["2026-01-01"])
+      john.leaves.create!(type: :paid, title: "D", days: ["2026-01-02"])
+
+      leaves = Leave.where(user: [cigdem, john]).by_urgency
+      expect(leaves.map(&:title)).to eq(["A", "B", "C", "D"])
+    end
+  end
+
+  describe ".years_range" do
+    it "returns the range from the year of the first leave until one year after the year of the last leave" do
+      expect(Leave.years_range).to eq(2024..2026)
+    end
+  end
+
   describe "auto-approving" do
     it "works for single day sick leaves" do
       expect(holiday).to be_pending_approval
@@ -61,7 +84,7 @@ RSpec.describe Leave do
       holiday.notify_hr_on_slack_about_new_request
       text = <<~TEXT
         *<@slack-john>* requested a new paid leave for January 2 — 3, 2023
-        You can approve or reject this request <http://example.com/en/leaves?status=pending_approval&user_id=d6f57eaa-da8a-5c59-a1a1-8ebe34034b8a|here>
+        You can approve or reject this request <http://example.com/en/users/d6f57eaa-da8a-5c59-a1a1-8ebe34034b8a/leaves?status=pending_approval|here>
       TEXT
       expect(Slack.instance.last_message.text).to eq text.strip
     end
@@ -136,23 +159,23 @@ RSpec.describe Leave do
   describe "#handle_incoming_request" do
     before do
       [single_day_sick_leave, holiday].each do |leave|
-        allow(leave).to receive(:notify_slack_about_sick_leave)
-        allow(leave).to receive(:notify_hr_on_slack_about_new_request)
+        allow(leave).to receive(:notify_slack_about_sick_leave_later)
+        allow(leave).to receive(:notify_hr_on_slack_about_new_request_later)
       end
     end
 
     it "notifies slack about sick leave for sick type" do
       single_day_sick_leave.handle_incoming_request
 
-      expect(single_day_sick_leave).to have_received(:notify_slack_about_sick_leave)
-      expect(single_day_sick_leave).not_to have_received(:notify_hr_on_slack_about_new_request)
+      expect(single_day_sick_leave).to have_received(:notify_slack_about_sick_leave_later)
+      expect(single_day_sick_leave).not_to have_received(:notify_hr_on_slack_about_new_request_later)
     end
 
     it "notifies HR on slack about new request for paid type" do
       holiday.handle_incoming_request
 
-      expect(holiday).to have_received(:notify_hr_on_slack_about_new_request)
-      expect(holiday).not_to have_received(:notify_slack_about_sick_leave)
+      expect(holiday).to have_received(:notify_hr_on_slack_about_new_request_later)
+      expect(holiday).not_to have_received(:notify_slack_about_sick_leave_later)
     end
 
     it "notifies HR on slack about new request for unpaid type" do
@@ -160,12 +183,43 @@ RSpec.describe Leave do
 
       unpaid_holiday.handle_incoming_request
 
-      expect(unpaid_holiday).to have_received(:notify_hr_on_slack_about_new_request)
-      expect(unpaid_holiday).not_to have_received(:notify_slack_about_sick_leave)
+      expect(unpaid_holiday).to have_received(:notify_hr_on_slack_about_new_request_later)
+      expect(unpaid_holiday).not_to have_received(:notify_slack_about_sick_leave_later)
     end
   end
 
-  describe "#handle_slack_status" do
+  describe "#handle_update" do
+    context "when status is unchanged" do
+      context "when days changed" do
+        it "sets status to pending_approval" do
+          leave = user.leaves.create!(title: "Leave", type: :paid, status: :approved, days: [Time.zone.today])
+          leave.handle_update(days: [Time.zone.tomorrow])
+
+          expect(leave.status).to eq("pending_approval")
+        end
+      end
+
+      context "when type changed" do
+        it "sets status to pending_approval" do
+          leave = user.leaves.create!(title: "Leave", type: :paid, status: :approved, days: [Time.zone.today])
+          leave.handle_update(type: :unpaid)
+
+          expect(leave.status).to eq("pending_approval")
+        end
+      end
+    end
+
+    context "when status is changed" do
+      it "does not change status again" do
+        leave = user.leaves.create!(title: "Leave", type: :paid, status: :rejected, days: [Time.zone.today])
+        leave.handle_update(status: :approved)
+
+        expect(leave.status).to eq("approved")
+      end
+    end
+  end
+
+  describe "#sync_slack_status" do
     before do
       [single_day_sick_leave, holiday].each do |leave|
         allow(leave).to receive(:set_slack_status!)
@@ -176,7 +230,7 @@ RSpec.describe Leave do
       holiday.approved!
       travel_to holiday.leave_during.min
 
-      holiday.handle_slack_status
+      holiday.sync_slack_status
 
       expect(holiday).to have_received(:set_slack_status!)
     end
@@ -185,7 +239,7 @@ RSpec.describe Leave do
       holiday.approved!
       travel_to holiday.leave_during.max + 1.day
 
-      holiday.handle_slack_status
+      holiday.sync_slack_status
 
       expect(holiday).not_to have_received(:set_slack_status!)
     end
@@ -194,7 +248,7 @@ RSpec.describe Leave do
       holiday.pending_approval!
       travel_to holiday.leave_during.min
 
-      holiday.handle_slack_status
+      holiday.sync_slack_status
 
       expect(holiday).not_to have_received(:set_slack_status!)
     end

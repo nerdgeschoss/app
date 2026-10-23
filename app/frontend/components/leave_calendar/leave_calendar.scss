@@ -1,0 +1,245 @@
+@use '../layout';
+
+.leave-calendar {
+  position: relative;
+  display: flex;
+
+  &__aside {
+    flex: 0 0 150px;
+    min-width: 0;
+
+    @include layout.media-tablet {
+      flex-basis: 210px;
+    }
+  }
+
+  // the frame's spacing wraps the title and pushes the counts out of the
+  // 150px phone aside, so phones keep tighter values
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 64px;
+
+    @include layout.media-tablet {
+      gap: 8px;
+      padding: 0 8px;
+    }
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__arrow {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--arrow-button-bg-default);
+    box-shadow: 0 0 8px rgba(43, 124, 138, 0.15);
+    text-decoration: none;
+
+    // chevron-arrow points down
+    &--previous .icon {
+      transform: rotate(90deg);
+    }
+
+    &--next .icon {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 64px;
+    padding: 8px;
+    color: inherit;
+    text-decoration: none;
+
+    @include layout.media-tablet {
+      gap: 12px;
+      padding: 8px 12px;
+    }
+  }
+
+  &__user-text {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  &__counts {
+    display: flex;
+    gap: 4px;
+
+    > * {
+      flex: 1 0 0;
+    }
+  }
+
+  &__count--zero {
+    opacity: 0.5;
+  }
+
+  &__scroll {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  // min-content keeps the stripes under every column while the grid scrolls
+  &__header,
+  &__row {
+    display: grid;
+    min-width: min-content;
+    height: 64px;
+  }
+
+  &__day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--label-caption-primary);
+
+    // the weekday label has to fit the 22px weekend columns
+    > :first-child {
+      font-size: 8px;
+    }
+  }
+
+  // the nav and the header come first in their columns, so both sides count
+  // from the same offset and stripe the same users; the grid stripes its
+  // cells so the weekend columns dim them too
+  &__user:nth-child(even),
+  &__row:nth-child(even) &__cell {
+    background: var(--main-background);
+  }
+
+  &__cell {
+    border-right: 1px solid var(--div-default);
+  }
+
+  &__day--non-working,
+  &__cell--non-working {
+    opacity: 0.5;
+  }
+
+  // one segment per day of a leave's range; the base look is a working day
+  // inside the range that is not a leave day
+  &__segment {
+    z-index: 1;
+    align-self: center;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: var(--blue-weak);
+    color: white;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &--leave {
+      padding: 0 4px;
+      background: var(--active);
+
+      &.leave-calendar__segment--pending {
+        background: var(--yellow-base);
+      }
+    }
+
+    &--gap.leave-calendar__segment--pending {
+      background: var(--yellow-weak);
+    }
+
+    &--off {
+      border: 1px solid var(--active);
+      background: var(--main-background);
+
+      &.leave-calendar__segment--pending {
+        border-color: var(--yellow-base);
+      }
+    }
+
+    // consecutive non-working days (a weekend, a holiday next to it) share
+    // one frame, so the borders between them are dropped
+    &--join-before {
+      border-left: 0;
+    }
+
+    &--join-after {
+      border-right: 0;
+    }
+
+    &--start {
+      margin-left: 2px;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+    }
+
+    &--end {
+      margin-right: 2px;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+
+    // a one-day leave is a square with the emoji in its centre
+    &--start.leave-calendar__segment--end {
+      padding: 0;
+      text-align: center;
+    }
+
+    &--continues-before {
+      margin-left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &--continues-after {
+      margin-right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &--lane-top {
+      margin-top: 4px;
+    }
+
+    &--lane-bottom {
+      margin-bottom: 4px;
+    }
+  }
+
+  // top/left/right are the bar's corner relative to the calendar, set on click
+  &__tooltip {
+    position: absolute;
+    z-index: 2;
+    transform: translateY(calc(-100% - 4px));
+    padding: 8px;
+    border: 1px solid var(--tooltip-hours-border-default);
+    border-radius: 8px;
+    background: var(--tooltip-hours-bg-active);
+    // frame value
+    box-shadow: -5px 1px 21px rgba(0, 71, 83, 0.2);
+    color: var(--tooltip-hours-label-default);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  &__tooltip-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

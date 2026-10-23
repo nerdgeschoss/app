@@ -1,40 +1,26 @@
 # frozen_string_literal: true
 
 class LeavePolicy < ApplicationPolicy
-  def create?
-    true
+  def update?
+    hr? || (record.user == user && (record.leave_during.max >= Time.zone.today))
   end
 
   def destroy?
     hr? || (record.user == user && record.leave_during.min > 1.week.from_now)
   end
 
-  def update?
+  def hr_overview?
     hr?
   end
 
-  def show_all_users?
-    hr?
+  def approve?
+    hr? && record.pending_approval?
   end
 
   def permitted_attributes
     attr = [:title, :type]
-    attr += [:user_id, :status] if hr?
+    attr += [:status] if hr?
     attr += [days: []]
     attr
-  end
-
-  def approve?
-    record.pending_approval? && hr?
-  end
-
-  class Scope < Scope
-    def resolve
-      if hr?
-        scope.all
-      else
-        scope.where(user_id: user.id)
-      end
-    end
   end
 end

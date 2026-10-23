@@ -1,0 +1,32 @@
+.click-tooltip {
+  position: relative;
+  display: inline-flex;
+
+  &__trigger {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  &__card {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 2;
+    background: var(--tooltip-hours-bg-active);
+    border: 1px solid var(--tooltip-hours-border-default);
+    color: var(--tooltip-hours-label-default);
+    border-radius: 8px;
+    padding: 8px;
+    white-space: normal;
+    width: max-content;
+    max-width: min(280px, calc(100vw - 32px));
+    text-align: left;
+    // frame value, as in the calendar tooltip
+    box-shadow: -5px 1px 21px rgba(0, 71, 83, 0.2);
+  }
+}

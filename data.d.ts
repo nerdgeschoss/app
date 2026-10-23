@@ -8,6 +8,15 @@ export interface DataSchema {
       roles: Array<string>;
     };
   };
+  'components/_owning_user': {
+    user: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
+  };
   'inventories/edit': {
     inventory: {
       id: string;
@@ -22,6 +31,16 @@ export interface DataSchema {
       id: string;
     };
   };
+  'leaves/edit': {
+    leave: {
+      id: string;
+      title: string;
+      type: string;
+      status: string;
+      days: Array<{ day: string }>;
+    };
+    berlinHolidays: Array<{ name: string; date: string }>;
+  };
   'leaves/index': {
     currentUser: {
       id: string;
@@ -30,10 +49,20 @@ export interface DataSchema {
       email: string;
       roles: Array<string>;
     };
+    user: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
     feedUrl: string;
     activeFilter: string;
-    permitUserSelect: boolean;
-    users: Array<{ id: string; displayName: string }>;
+    permitHrOverview: boolean;
+    permitCreate: boolean;
+    years: Array<number>;
+    year: number | null;
+    month: number | null;
     leaves: Array<{
       id: string;
       unicodeEmoji: string;
@@ -49,9 +78,26 @@ export interface DataSchema {
       permitDestroy: boolean;
       permitApprove: boolean;
     }>;
+    dayCounts: {
+      paid: number;
+      sick: number;
+      nonWorking: number;
+    };
     nextPageUrl: string | null;
+    yearlyHolidays: number;
+    remainingHolidays: number;
   };
   'leaves/new': {
+    user: {
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      roles: Array<string>;
+    };
+    berlinHolidays: Array<{ name: string; date: string }>;
+  };
+  'leaves_overviews/show': {
     currentUser: {
       id: string;
       displayName: string;
@@ -59,9 +105,52 @@ export interface DataSchema {
       email: string;
       roles: Array<string>;
     };
-    permitUserSelect: boolean;
-    users: Array<{ id: string; displayName: string }>;
-    berlinHolidays: Array<{ name: string; date: string }>;
+    date: string;
+    nonWorkingDays: Array<string>;
+    feedUrl: string;
+    pendingLeaves: Array<{
+      id: string;
+      type: string;
+      status: string;
+      unicodeEmoji: string;
+      numberOfDays: string;
+      days: Array<{ day: string }>;
+      user: {
+        id: string;
+        displayName: string;
+        avatarUrl: string;
+        email: string;
+      };
+      permitUpdate: boolean;
+      permitDestroy: boolean;
+      permitApprove: boolean;
+    }>;
+    pendingLeavesCounts: {
+      paid: number;
+      sick: number;
+      nonWorking: number;
+    };
+    pendingLeaveType: string;
+    users: Array<{
+      id: string;
+      displayName: string;
+      avatarUrl: string;
+      email: string;
+      dayCounts: {
+        paid: number;
+        sick: number;
+        nonWorking: number;
+      };
+    }>;
+    leaves: Array<{
+      id: string;
+      userId: string;
+      type: string;
+      status: string;
+      unicodeEmoji: string;
+      numberOfDays: string;
+      days: Array<{ day: string }>;
+    }>;
   };
   'pages/home': {
     currentUser: {
